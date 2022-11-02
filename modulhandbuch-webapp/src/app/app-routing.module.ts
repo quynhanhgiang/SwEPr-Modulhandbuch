@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DummyComponent } from './dummy/dummy.component';
+import { GetModulesComponent } from './get-modules/get-modules.component';
 
 const routes: Routes = [
   { path: 'home', component: DummyComponent },
   { path: 'module-manuals', component: DummyComponent },
-  { path: 'module-management', component: DummyComponent },
+  { path: 'module-management', component: GetModulesComponent },
   { path: 'user-management', component: DummyComponent },
   { path: 'placeholder1', component: DummyComponent },
   { path: 'placeholder2', component: DummyComponent },
