@@ -6,6 +6,10 @@ export interface sladModule {//Dummy Modul
 }
 
 export class Module {//richties Modul 
+    public constructor(init?: Partial<Module>) {
+        Object.assign(this, init);
+    }
+  
     public id!:number;
     public moduleName!:string;
     public publicabbreviation!:string;
