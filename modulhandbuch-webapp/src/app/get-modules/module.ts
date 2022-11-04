@@ -1,66 +1,36 @@
 export interface Module {//Dummy Modul
+
     id:number;
     name:string;
     prof:string;
     semester:number;
 }
 
-export interface Module1 {//richties Modul 
-    id:number;
-    moduleName:string;
-    abbreviation:string;
-    sws:number;
-    ects:number;
-    workLoad:string;
-    semester:number;
-    cycle:Cycle;
-    duration:Duration;
-    moduleOwner:string;
-    prof:string;
-    language: Language;
-    usage:string;
-    admissionRequirements:AdmissionRequirements;
-    knowledgeRequirements:string;
-    skills:string;
-    content:string;
-    examType:string;
-    certificates:string;
-    mediaType:MediaType[];
-    literature:string;
-    maternityProtection:MaternityProtection;
-}
+export class Module1 {//richties Modul
+    public constructor(init?: Partial<Module1>) {
+        Object.assign(this, init);
+    }
 
-enum Cycle {
-    Yearly="Jährlich",
-    Half="Halbjährlich"
-}
-
-enum Duration{
-    One="Einsemestrig",
-    Two="Zweisemestrig"
-}
-
-enum Language{
-    German="Deutsch",
-    English="Englisch",
-}
-
-enum AdmissionRequirements{
-    If="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)",
-    Vc="Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)",
-    El="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)",
-    Au="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)",
-}
-
-enum MediaType{
-    Skript,
-    Tafel,
-    Beamer,
-    PowerPoint,
-}
-
-enum MaternityProtection{
-    Green="Grün",
-    Yellow="Gelb",
-    Red="Rot"
+    id!:number;
+    moduleName!:string;
+    abbreviation!:string;
+    sws!:number;
+    ects!:number;
+    workLoad!:string;
+    semester!:number;
+    cycle!:string;
+    duration!:string;
+    moduleOwner!:string;
+    prof!:string;
+    language!: string;
+    usage!:string;
+    admissionRequirements!:string;
+    knowledgeRequirements!:string;
+    skills!:string;
+    content!:string;
+    examType!:string;
+    certificates!:string;
+    mediaType!:string;
+    literature!:string;
+    maternityProtection!:String;
 }

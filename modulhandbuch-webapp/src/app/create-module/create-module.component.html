@@ -1,0 +1,182 @@
+<p-dialog header="Neues Modul erstellen" [(visible)]="display" [transitionOptions]="'150ms'">
+    <form  (ngSubmit)="onSubmit()" [formGroup]="moduleFormGroup" ngNativeValidate>
+       <table id="table-create-module">
+            <tr>
+                <td class="td-row-left" ><label>Modulbezeichnung</label></td>
+                <td  class="td-row-right"><input type="text" required autofocus formControlName="moduleName"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Kürzel</label></td>
+                <td  class="td-row-right"><input type="text" required formControlName="abbreviation"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Lehrform / SWS</label></td>
+                <td  class="td-row-right"><input type="number" required min="1" formControlName="sws"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Leistungspunkte</label></td>
+                <td  class="td-row-right"><input type="number" required min="1" max="30" formControlName="ects"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
+                <td  class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="workLoad">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                            </span> 
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>        
+                            </span> 
+                        </p-header>
+                      </p-editor>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Fachsemester</label></td>
+                <td class="td-row-right"><input type="number" required min="1" max="7" formControlName="semester"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Angebotsturnus</label></td>
+                <td  class="td-row-right">
+                    <select name="1" id="1" required formControlName="cycle">
+                        <option value="half">Halbjährlich</option>
+                        <option value="yearly">Jährlich</option>
+                  </select>
+                </td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Dauer des Moduls</label></td>
+                <td  class="td-row-right">
+                    <select name="2" id="2" required formControlName="duration">
+                        <option value="one">Einsemestrich</option>
+                        <option value="two">Zweinsemestrich</option>
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Modulverantowrtliche(r)</label></td>
+                <td  class="td-row-right"><input type="text" required formControlName="moduleOwner"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Dozent(in)</label></td>
+                <td  class="td-row-right"><input type="text" required formControlName="prof"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Sprache</label></td>
+                <td  class="td-row-right">
+                    <select name="3" id="3" required formControlName="language">
+                        <option value="german">Deutsch</option>
+                        <option value="english">Englisch</option>
+                        <option value="spanisch">Spanisch</option>
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Nutzung in anderen Studiengängen</label></td>
+                <td  class="td-row-right"><input type="text" formControlName="usage"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
+                <td  class="td-row-right">
+                    <select name="4" id="4" required formControlName="admissionRequirements">
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)">Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Inhaltliche Voraussetzung</label></td>
+                <td  class="td-row-right"><input type="text" formControlName="knowledgeRequirements"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
+                <td  class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="skills">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                            </span> 
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>        
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Lehrinhalte</label></td>
+                <td  class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="content">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                            </span> 
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>        
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
+                <td  class="td-row-right"><input type="text" formControlName="examType"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
+                <td  class="td-row-right"><input type="text" formControlName="certificates"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Medienform</label></td>
+                <td  class="td-row-right"><input type="text" formControlName="mediaType"></td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Literatur</label></td>
+                <td class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="literature">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                            </span> 
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>        
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Mutterschutz</label></td>
+                <td class="td-row-right">
+                    <select name="4" id="4" required formControlName="maternityProtection">
+                        <option value="green">Grün</option>
+                        <option value="yellow">Gelb</option>
+                        <option value="red">Rot</option>
+                    </select>
+                </td>
+            </tr>
+       </table> 
+       <button type="submit">Speichern</button>
+       <button type="submit">Speichern und öffnen</button>
+       <button type="submit">Speichern und Neu</button>
+    </form>
+</p-dialog>
+
+<div id="div-create-module">
+    <button id="bt-create-module" class="btn btn-outline-secondary btn-lg" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
+</div>

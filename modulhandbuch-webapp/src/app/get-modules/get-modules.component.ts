@@ -11,14 +11,18 @@ import { ModuleService } from './moduleService';
 })
 
 export class GetModulesComponent implements OnInit {
-
+  
   matchModeOptions!: SelectItem[];
   
-  constructor(private moduleService: ModuleService) { }
-
+  constructor(
+    private moduleService: ModuleService,
+  ) { }
+  
   selectedModule!:Module;
-
+  
   modules!: Module[];
+
+
 
   ngOnInit(): void {
     this.modules = this.moduleService.getModules();
@@ -30,5 +34,7 @@ export class GetModulesComponent implements OnInit {
       { label: "entspricht nicht", value: FilterMatchMode.NOT_EQUALS },
       { label: "beinhaltet nicht", value: FilterMatchMode.NOT_CONTAINS },
     ];
+
   }
+
 }
