@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
-import { Module } from './module';
+import { sladModule } from './module';
 
 import { ModuleService } from './moduleService';
 
@@ -16,9 +16,9 @@ export class GetModulesComponent implements OnInit {
   
   constructor(private moduleService: ModuleService) { }
 
-  selectedModule!:Module;
+  selectedModule!:sladModule;
 
-  modules!: Module[];
+  modules!: sladModule[];
 
   ngOnInit(): void {
     this.modules = this.moduleService.getModules();

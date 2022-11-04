@@ -1,66 +1,31 @@
-export interface Module {//Dummy Modul
+export interface sladModule {//Dummy Modul
     id:number;
-    name:string;
-    prof:string;
-    semester:number;
-}
-
-export interface Module1 {//richties Modul 
-    id:number;
-    moduleName:string;
     abbreviation:string;
-    sws:number;
-    ects:number;
-    workLoad:string;
-    semester:number;
-    cycle:Cycle;
-    duration:Duration;
-    moduleOwner:string;
-    prof:string;
-    language: Language;
-    usage:string;
-    admissionRequirements:AdmissionRequirements;
-    knowledgeRequirements:string;
-    skills:string;
-    content:string;
-    examType:string;
-    certificates:string;
-    mediaType:MediaType[];
-    literature:string;
-    maternityProtection:MaternityProtection;
+    moduleName:string;
+    moduleOwner:string; 
 }
 
-enum Cycle {
-    Yearly="Jährlich",
-    Half="Halbjährlich"
-}
-
-enum Duration{
-    One="Einsemestrig",
-    Two="Zweisemestrig"
-}
-
-enum Language{
-    German="Deutsch",
-    English="Englisch",
-}
-
-enum AdmissionRequirements{
-    If="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)",
-    Vc="Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)",
-    El="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)",
-    Au="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)",
-}
-
-enum MediaType{
-    Skript,
-    Tafel,
-    Beamer,
-    PowerPoint,
-}
-
-enum MaternityProtection{
-    Green="Grün",
-    Yellow="Gelb",
-    Red="Rot"
+export class Module {//richties Modul 
+    public id!:number;
+    public moduleName!:string;
+    public publicabbreviation!:string;
+    public publicsws!:number;
+    public ects!:number;
+    public workLoad!:string;
+    public semester!:number;
+    public cycle!:string;
+    public duration!:string;
+    public moduleOwner!:string;
+    public prof!:string;
+    public language!: string;
+    public  usage!:string;
+    public admissionRequirements!:string;
+    public knowledgeRequirements!:string;
+    public skills!:string;
+    public content!:string;
+    public examType!:string;
+    public certificates!:string;
+    public  mediaType!:string;
+    public literature!:string;
+    public maternityProtection!:string;
 }

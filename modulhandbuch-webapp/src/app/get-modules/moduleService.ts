@@ -3,23 +3,21 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ModuleService {
 
-    getModules() {//Dummy Methode später Zugriff auf REST-API um die realen Daten abzufragen
+    getModules() {
         return [
-            {id:0,name:"analysis",prof:"geisler",semester:1},
-            {id:1,name:"prog1",prof:"Pfeifer",semester:1},
-            {id:2,name:"prog2",prof:"Pfeifer",semester:2},
-            {id:3,name:"fprog",prof:"Wieland",semester:3},
-            {id:4,name:"SAT",prof:"Pfeifer",semester:4},
-            {id:5,name:"SPI",prof:"Wieland",semester:6},
-            {id:6,name:"CN",prof:"Wieland",semester:3},
-
-            {id:7,name:"ITS",prof:"Wieland",semester:3},
-            {id:8,name:"SAM",prof:"Landes",semester:4},
-            {id:9,name:"Datenbanken",prof:"Terpin",semester:4},
-            {id:10,name:"Grundlagen der Informatik",prof:"Landes",semester:1},
-            {id:11,name:"Rechnerarchitektur",prof:"Meier",semester:1},
-            {id:12,name:"Informatik-Seminar",prof:"Grubert",semester:4},
-            {id:13,name:"Prog1",prof:"Pfeifer",semester:1}
+            {id: 0, abbreviation: "Ana", moduleName: "Analysis", moduleOwner: "Prof. Dr. Ada Bäumner"},
+            {id: 1, abbreviation: "Prog1", moduleName: "Programmieren 1", moduleOwner: "Prof. Volkhard Pfeiffer"},
+            {id: 2, abbreviation: "Prog2", moduleName: "Programmieren 2", moduleOwner: "Prof. Volkhard Pfeiffer"},
+            {id: 3, abbreviation: "FProg", moduleName: "Fortgeschrittene Programmierung", moduleOwner: "Prof. Dr. Thomas Wieland"},
+            {id: 4, abbreviation: "SAT", moduleName: "Software-Architekturen und -Testen", moduleOwner: "Prof. Volkhard Pfeiffer"},
+            {id: 5, abbreviation: "SpI", moduleName: "Studienprojekt praktische Informatik", moduleOwner: "Prof. Dr. Thomas Wieland"},
+            {id: 6, abbreviation: "CN", moduleName: "Computernetze", moduleOwner: "Prof. Dr. Thomas Wieland"},
+            {id: 7, abbreviation: "ITS", moduleName: "IT-Sicherheit", moduleOwner: "Prof. Dr. Thomas Wieland"},
+            {id: 8, abbreviation: "SAM", moduleName: "Softwaren-Anforderungen und -Modellierung", moduleOwner: "Prof. Dr. Landes"},
+            {id: 9, abbreviation: "Db", moduleName: "Datenbanksysteme", moduleOwner:" Prof. Dr. Jürgen Terpin"},
+            {id: 10, abbreviation: "GI", moduleName: "Grundlagen der Informatik", moduleOwner: "Prof. Dr. Dieter Landes"},
+            {id: 11, abbreviation: "RA", moduleName: "Rechnerarchitekturen", moduleOwner: "Prof. Dr. Quirin Meyer"},
+            {id: 12, abbreviation: "ISem", moduleName: "Informatik-Seminar", moduleOwner: "Prof. Volkhard Pfeiffer"}
           ];
     }
 }
