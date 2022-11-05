@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
-import { Module } from './module';
+import { FilterMatchMode, SelectItem } from 'primeng/api';
+import { flatModule, Module } from './module';
 
 import { ModuleService } from './moduleService';
 
@@ -20,14 +20,13 @@ export class GetModulesComponent implements OnInit {
   
   selectedModule!:Module;
   
-  modules!: Module[];
-
+  modules!: flatModule[];
 
 
   ngOnInit(): void {
     this.modules = this.moduleService.getModules();
 
-    this.matchModeOptions = [
+    this.matchModeOptions = [//translate column filter-names to german
       { label: "beginnt mit", value: FilterMatchMode.STARTS_WITH },
       { label: "beinhaltet", value: FilterMatchMode.CONTAINS },
       { label: "endet mit", value: FilterMatchMode.ENDS_WITH },

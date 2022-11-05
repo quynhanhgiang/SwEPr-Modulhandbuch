@@ -31,6 +31,7 @@
  input{
      width: 100%;
      border: 1px solid black;
+     border-radius: 5px;
  }
  
  input:focus{
@@ -44,4 +45,13 @@
 
 #div-create-module{
     margin-top: 1vh;
+}
+
+#bt-submit-close, #bt-submit-open, #bt-submit-new{
+    width: 20%;
+    margin-top: 2vh;
+}
+
+#bt-submit-close, #bt-submit-open{
+    margin-right: 20%;
 }

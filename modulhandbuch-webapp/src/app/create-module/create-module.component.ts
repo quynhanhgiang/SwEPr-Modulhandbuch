@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Module1 } from '../get-modules/module';
+import { Module } from '../get-modules/module';
 
 @Component({
   selector: 'app-create-module',
@@ -9,8 +9,8 @@ import { Module1 } from '../get-modules/module';
 })
 export class CreateModuleComponent implements OnInit {
   
-  display: boolean = false;
-  newModule!:Module1;
+  display: boolean = false;//false == form hidden | true == form visible
+  newModule!:Module;
   moduleFormGroup: FormGroup;
   
   constructor(private fb: FormBuilder) {
@@ -40,18 +40,23 @@ export class CreateModuleComponent implements OnInit {
     });
   }
 
-  showDialog() {
+  showDialog() {//make form visible
     this.display = true;
   }
 
-  onSubmit(): void {
+  hideDialog() {//hide form
+    this.display = false;
+  }
+
+  onSubmit(): void {//create new Module with form data
     console.log("submit");
-    this.newModule = new Module1(this.moduleFormGroup.value);
-    console.log("new Module ",this.newModule.moduleName,  " has been created", );
+    this.newModule = new Module(this.moduleFormGroup.value);
     //send new module to backend
+    this.hideDialog();
   }
 
   ngOnInit(): void {
     
   }
+
 }

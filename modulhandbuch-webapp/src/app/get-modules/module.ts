@@ -1,17 +1,16 @@
-export interface Module {//Dummy Modul
-
+export interface flatModule {//flatModule for ModuleList
     id:number;
     name:string;
     prof:string;
     semester:number;
 }
 
-export class Module1 {//richties Modul
-    public constructor(init?: Partial<Module1>) {
+export class Module {//Module class for creating new Modules or datailed module view
+    public constructor(init?: Partial<Module>) {
         Object.assign(this, init);
     }
 
-    id!:number;
+    id=-1;
     moduleName!:string;
     abbreviation!:string;
     sws!:number;

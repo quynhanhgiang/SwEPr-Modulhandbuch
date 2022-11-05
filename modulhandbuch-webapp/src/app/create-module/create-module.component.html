@@ -1,4 +1,4 @@
-<p-dialog header="Neues Modul erstellen" [(visible)]="display" [transitionOptions]="'150ms'">
+<p-dialog header="Neues Modul erstellen" [(visible)]="display" [transitionOptions]="'150ms'"><!--Pop-up dialog for form-->
     <form  (ngSubmit)="onSubmit()" [formGroup]="moduleFormGroup" ngNativeValidate>
        <table id="table-create-module">
             <tr>
@@ -20,7 +20,7 @@
             <tr>
                 <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="workLoad">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -97,7 +97,7 @@
             <tr>
                 <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="skills">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="skills">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -115,7 +115,7 @@
             <tr>
                 <td class="td-row-left" ><label>Lehrinhalte</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="content">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="content">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -145,7 +145,7 @@
             <tr >
                 <td class="td-row-left" ><label>Literatur</label></td>
                 <td class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" name="1" formControlName="literature">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="literature">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -171,12 +171,16 @@
                 </td>
             </tr>
        </table> 
-       <button type="submit">Speichern</button>
-       <button type="submit">Speichern und öffnen</button>
-       <button type="submit">Speichern und Neu</button>
+
+       <div>
+        <button id="bt-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+        <button id="bt-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
+        <button id="bt-submit-new" class="btn btn-outline-secondary" type="submit">Speichern und Neu</button>
+       </div>
+
     </form>
 </p-dialog>
 
-<div id="div-create-module">
+<div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
     <button id="bt-create-module" class="btn btn-outline-secondary btn-lg" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
 </div>

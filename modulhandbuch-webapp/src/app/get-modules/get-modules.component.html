@@ -3,18 +3,18 @@
 <div id="div-module-list">
     <p-table [value]="modules" [rows]="10" [paginator]="true" id="table-module-list">
         <ng-template pTemplate="header">
-            <tr>
+            <tr><!--Sortable Columnms-->
                 <th id="th-name" pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                 <th id="th-prof" pSortableColumn="prof">Modulverantwortliche <p-sortIcon field="prof"></p-sortIcon></th>
                 <th id="th-semester" pSortableColumn="semester">Semester <p-sortIcon field="semester"></p-sortIcon></th>
             </tr>
-            <tr>
+            <tr><!--Filter Columnms-->
                 <th id="th-name-filter" ><p-columnFilter id="7" type="text" field="name" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
                 <th id="th-prof-filter" ><p-columnFilter id="8" type="text" field="prof" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
                 <th id="th-semester-filter" ><p-columnFilter id="9" type="text" field="semester" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-module>
+        <ng-template pTemplate="body" let-module><!--Data Columnms-->
             <tr id="tr-module-liste">
                 <td id="td-name">{{module.name}}</td>
                 <td id="td-prof"> {{module.prof}}</td>
