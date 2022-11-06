@@ -21,10 +21,15 @@ export class RestApiService {
     }),
   };
 
-  getModules(): Observable<FlatModule[]> {
-    return this.http.get<FlatModule[]>(this.devURL + '/modules').pipe(retry(1), catchError(this.handleError));
+
+  getModulesOverview(): Observable<FlatModule[]> {
+    return this.http.get<FlatModule[]>(this.devURL + '/modules?flat=true').pipe(retry(1), catchError(this.handleError));
   }
 
+  getModules(): Observable<Module[]> {
+    return this.http.get<Module[]>(this.devURL + '/modules').pipe(retry(1), catchError(this.handleError));
+  }
+  
   getModule(id: number): Observable<Module> {
     return this.http.get<Module>(this.devURL + '/modules/' + id).pipe(retry(1), catchError(this.handleError));
   }
