@@ -1,5 +1,8 @@
-<p-dialog header="Neues Modul erstellen" [(visible)]="display" [transitionOptions]="'150ms'"><!--Pop-up dialog for form-->
-    <form  (ngSubmit)="onSubmit()" [formGroup]="moduleFormGroup" ngNativeValidate>
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()"><!--Pop-up dialog for form-->
+    <ng-template pTemplate="header">
+        <h3>Neues Modul erstellen</h3> 
+    </ng-template>
+    <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
        <table id="table-create-module">
             <tr>
                 <td class="td-row-left" ><label>Modulbezeichnung</label></td>
@@ -42,8 +45,8 @@
             <tr>
                 <td class="td-row-left" ><label>Angebotsturnus</label></td>
                 <td  class="td-row-right">
-                    <select name="1" id="1" required formControlName="cycle">
-                        <option value="half">Halbjährlich</option>
+                    <select required formControlName="cycle">
+                        <option value="half" selected>Halbjährlich</option>
                         <option value="yearly">Jährlich</option>
                   </select>
                 </td>
@@ -51,7 +54,7 @@
             <tr >
                 <td class="td-row-left" ><label>Dauer des Moduls</label></td>
                 <td  class="td-row-right">
-                    <select name="2" id="2" required formControlName="duration">
+                    <select required formControlName="duration">
                         <option value="one">Einsemestrich</option>
                         <option value="two">Zweinsemestrich</option>
                   </select>
@@ -68,7 +71,7 @@
             <tr>
                 <td class="td-row-left" ><label>Sprache</label></td>
                 <td  class="td-row-right">
-                    <select name="3" id="3" required formControlName="language">
+                    <select required formControlName="language">
                         <option value="german">Deutsch</option>
                         <option value="english">Englisch</option>
                         <option value="spanisch">Spanisch</option>
@@ -82,7 +85,7 @@
             <tr>
                 <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
                 <td  class="td-row-right">
-                    <select name="4" id="4" required formControlName="admissionRequirements">
+                    <select required formControlName="admissionRequirements">
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
@@ -163,7 +166,7 @@
             <tr >
                 <td class="td-row-left" ><label>Mutterschutz</label></td>
                 <td class="td-row-right">
-                    <select name="4" id="4" required formControlName="maternityProtection">
+                    <select required formControlName="maternityProtection">
                         <option value="green">Grün</option>
                         <option value="yellow">Gelb</option>
                         <option value="red">Rot</option>

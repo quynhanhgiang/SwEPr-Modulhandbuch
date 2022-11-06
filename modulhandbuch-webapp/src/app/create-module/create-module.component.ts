@@ -12,7 +12,7 @@ export class CreateModuleComponent implements OnInit {
   display: boolean = false;//false == form hidden | true == form visible
   newModule!:Module;
   moduleFormGroup: FormGroup;
-  
+
   constructor(private fb: FormBuilder) {
     this.moduleFormGroup = this.fb.group({
       id:null,
@@ -48,15 +48,24 @@ export class CreateModuleComponent implements OnInit {
     this.display = false;
   }
 
-  onSubmit(): void {//create new Module with form data
-    console.log("submit");
-    this.newModule = new Module(this.moduleFormGroup.value);
-    //send new module to backend
-    this.hideDialog();
+  resetForm(){
+    this.moduleFormGroup.reset();
   }
 
-  ngOnInit(): void {
+  onSubmit(event: {submitter:any }): void {//create new Module with form data
+    console.log("submit");
+    this.newModule = new Module(this.moduleFormGroup.value);
     
+    //send new module to backend
+    
+    this.hideDialog();
+    this.resetForm();
+
+    if(event.submitter.id=="bt-submit-new"){
+      this.showDialog();
+    }
   }
+
+  ngOnInit(): void {}
 
 }
