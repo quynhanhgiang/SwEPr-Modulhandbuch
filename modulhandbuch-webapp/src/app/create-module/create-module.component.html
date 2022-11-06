@@ -6,24 +6,25 @@
        <table id="table-create-module">
             <tr>
                 <td class="td-row-left" ><label>Modulbezeichnung</label></td>
-                <td class="td-row-right"><input type="text" required autofocus formControlName="moduleName"></td>
+                <td class="td-row-right"><input type="text" class="form-control" required autofocus formControlName="moduleName"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Kürzel</label></td>
-                <td class="td-row-right"><input type="text" required formControlName="abbreviation"></td>
+                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                <td class="td-row-right"><input type="number" required min="1" formControlName="sws"></td>
+                <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Leistungspunkte</label></td>
-                <td class="td-row-right"><input type="number" required min="1" max="30" formControlName="ects"></td>
+                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
                 <td class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
+                    <div class="testHover">
+<p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -34,16 +35,18 @@
                             </span> 
                         </p-header>
                       </p-editor>
+                    </div>
+                    
                 </td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Fachsemester</label></td>
-                <td class="td-row-right"><input type="number" required min="1" max="7" formControlName="semester"></td>
+                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="7" formControlName="semester"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Angebotsturnus</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="cycle">
+                    <select required formControlName="cycle"  class="form-select" >
                         <option value="half" selected>Halbjährlich</option>
                         <option value="yearly">Jährlich</option>
                   </select>
@@ -52,7 +55,7 @@
             <tr >
                 <td class="td-row-left" ><label>Dauer des Moduls</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="duration">
+                    <select required formControlName="duration" class="form-select">
                         <option value="one">Einsemestrich</option>
                         <option value="two">Zweinsemestrich</option>
                   </select>
@@ -60,16 +63,16 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Modulverantowrtliche(r)</label></td>
-                <td  class="td-row-right"><input type="text" required formControlName="moduleOwner"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" required formControlName="moduleOwner"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Dozent(in)</label></td>
-                <td  class="td-row-right"><input type="text" required formControlName="prof"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" required formControlName="prof"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Sprache</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="language">
+                    <select required formControlName="language" class="form-select">
                         <option value="german">Deutsch</option>
                         <option value="english">Englisch</option>
                         <option value="spanisch">Spanisch</option>
@@ -78,12 +81,12 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Nutzung in anderen Studiengängen</label></td>
-                <td  class="td-row-right"><input type="text" formControlName="usage"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="usage"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="admissionRequirements">
+                    <select required formControlName="admissionRequirements" class="form-select">
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
@@ -93,7 +96,7 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Inhaltliche Voraussetzung</label></td>
-                <td  class="td-row-right"><input type="text" formControlName="knowledgeRequirements"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="knowledgeRequirements"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
@@ -129,15 +132,15 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
-                <td  class="td-row-right"><input type="text" formControlName="examType"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="examType"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
-                <td  class="td-row-right"><input type="text" formControlName="certificates"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="certificates"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Medienform</label></td>
-                <td  class="td-row-right"><input type="text" formControlName="mediaType"></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="mediaType"></td>
             </tr>
             <tr >
                 <td class="td-row-left" ><label>Literatur</label></td>
@@ -158,7 +161,7 @@
             <tr >
                 <td class="td-row-left" ><label>Mutterschutz</label></td>
                 <td class="td-row-right">
-                    <select required formControlName="maternityProtection">
+                    <select required formControlName="maternityProtection" class="form-select">
                         <option value="green">Grün</option>
                         <option value="yellow">Gelb</option>
                         <option value="red">Rot</option>

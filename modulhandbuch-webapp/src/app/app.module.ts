@@ -10,14 +10,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { DummyComponent } from './dummy/dummy.component';
 import { GetModulesComponent } from './get-modules/get-modules.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
 
-import {TableModule} from 'primeng/table';
-import {FilterService} from 'primeng/api';
-import {RestApiService } from './services/rest-api.service';
-import {DialogModule} from 'primeng/dialog';
-import {EditorModule} from 'primeng/editor';
-import {CreateModuleComponent } from './create-module/create-module.component';
+import { TableModule } from 'primeng/table';
+import { FilterService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { EditorModule } from 'primeng/editor';
 
+import { RestApiService } from './services/rest-api.service';
 @NgModule({
   declarations: [
     AppComponent,

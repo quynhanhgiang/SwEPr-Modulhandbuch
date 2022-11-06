@@ -30,13 +30,11 @@
  
  input, select {
      width: 100%;
-     border: 1px solid black;
-     border-radius: 5px;
  }
  
- input:focus, select:focus{
-     outline: none !important;
-     box-shadow: 0 0 4px rgb(255, 200, 0);
+ input:focus, select:focus, .ql-editor:hover {
+     box-shadow: 0 0 4px rgb(255, 200, 0)!important;
+     border: 1px solid rgb(255, 200, 0)!important;
  }
  
  input:hover, select:hover{
