@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
-import { sladModule } from './module';
-
-import { ModuleService } from './moduleService';
+import { RestApiService } from '../services/rest-api.service';
+import { FlatModule } from '../shared/module';
 
 @Component({
   selector: 'app-get-modules',
@@ -14,14 +13,16 @@ export class GetModulesComponent implements OnInit {
 
   matchModeOptions!: SelectItem[];
   
-  constructor(private moduleService: ModuleService) { }
+  constructor(private restAPI: RestApiService) { }
 
-  selectedModule!:sladModule;
+  selectedModule!:FlatModule;
 
-  modules!: sladModule[];
+  modules!: FlatModule[];
 
   ngOnInit(): void {
-    this.modules = this.moduleService.getModules();
+    this.restAPI.getModules().subscribe(modules => {
+      this.modules = modules;
+    });
 
     this.matchModeOptions = [
       { label: "beginnt mit", value: FilterMatchMode.STARTS_WITH },

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,8 +11,8 @@ import { DummyComponent } from './dummy/dummy.component';
 import { GetModulesComponent } from './get-modules/get-modules.component';
 
 import {TableModule} from 'primeng/table';
-import { ModuleService } from './get-modules/moduleService';
 import {FilterService} from 'primeng/api';
+import { RestApiService } from './services/rest-api.service';
 
 @NgModule({
   declarations: [
@@ -25,11 +26,12 @@ import {FilterService} from 'primeng/api';
     BrowserModule,
     AppRoutingModule,
     TableModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
-    ModuleService,
-    FilterService
+    FilterService,
+    RestApiService
   ],
   bootstrap: [AppComponent]
 })

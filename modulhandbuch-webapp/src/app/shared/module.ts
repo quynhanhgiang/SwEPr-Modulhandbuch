@@ -1,4 +1,4 @@
-export interface sladModule {//Dummy Modul
+export interface FlatModule {//Dummy Modul
     id:number;
     abbreviation:string;
     moduleName:string;
