@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS swepr_test /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ;
 
+USE swepr_test;
+
 
 CREATE TABLE IF NOT EXISTS college_employee (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
@@ -49,9 +51,6 @@ CREATE TABLE IF NOT EXISTS module (
 	fk_college_employee_pk_unique_id INT NOT NULL,
 	module_name VARCHAR(255) NOT NULL,
 	abbreviation VARCHAR(255) NOT NULL,
-	sws INT NOT NULL,
-	ects INT NOT NULL,
-	workload BLOB NOT NULL,
 	cycle ENUM('Jährlich','Halbjährlich') NOT NULL DEFAULT 'Jährlich',
 	duration ENUM('Einsemestrig') NOT NULL DEFAULT 'Einsemestrig',
 	language ENUM('Deutsch','Englisch','Französisch','Spanisch','Chinesisch','Russisch') NOT NULL DEFAULT 'Deutsch',
@@ -63,7 +62,7 @@ CREATE TABLE IF NOT EXISTS module (
 	exam_type VARCHAR(255) NOT NULL,
 	certificates VARCHAR(255) NULL,
 	media_type BLOB NULL,
-	literatur BLOB NULL,
+	literature BLOB NULL,
 	maternity_protection ENUM('R','G','Y') NULL DEFAULT 'G',
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_fk_college_employee_pk_unique_id FOREIGN KEY (fk_college_employee_pk_unique_id) REFERENCES college_employee (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -72,16 +71,12 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module VALUES
-	(1, 1, 'Programmieren 1', 'Prog1', 4, 5, 
-	'150 h, davon
-	• 60 h Präsenz (30 h Seminaristischer Unterricht, 30 h Übung)
-	• 90 h Eigenarbeit (30h Vor- und Nachbereitung des Lehrstoffs, 30h Lösung von Übungsaufgaben, 30h Prüfungsvorbereitung)', 
+	(1, 1, 'Programmieren 1', 'Prog1', 
 	'Jährlich', 
 	'Einsemestrig', 
 	'Deutsch', 
 	'Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik
 	Bachelor Visual Computing',
-	'Beamer, Tafel, Overheadprojektor, E-Learning Medien',
 	NULL,
 	NULL,
 	'Fachlich-methodische Kompetenzen:
@@ -99,6 +94,7 @@ INSERT IGNORE INTO module VALUES
 	• Exception Handling',
 	'Schriftliche Prüfung (90 min) als computergestützte Präsenzprüfung',
 	NULL,
+	'Beamer, Tafel, Overheadprojektor, E-Learning Medien',
 	'Ullenboom, Christian "Java ist auch eine Insel" Galileo
 	Computing jeweils in der neusten Auflage
 	Krüger, Guido "Handbuch der Java Programmierung"
@@ -110,10 +106,7 @@ INSERT IGNORE INTO module VALUES
 	'G'
 	),
 	
-	(2, 5, 'Rechnerarchitekturen', 'Ra', 6, 7, 
-	'210 h, davon
-	• 90 h Präsenz (60 h Seminaristischer Unterricht, 30 h Übungen)
-	• 120 h Eigenarbeit (60 h Nachbereitung des Lehrstoffs, 30 h Bearbeitung von Übungsaufgaben, 30 h Prüfungsvorbereitung)', 
+	(2, 5, 'Rechnerarchitekturen', 'Ra',
 	'Jährlich', 
 	'Einsemestrig', 
 	'Deutsch', 
