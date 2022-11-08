@@ -1,4 +1,4 @@
-package de.hscoburg.modulhandbuchbackend;
+package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
 
@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
+import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
@@ -25,10 +27,18 @@ public class ModuleController {
 	private final ModuleRepository repository;
 	private final ModelMapper modelMapper = new ModelMapper();
 
+	// TODO better representation of enums in DTOs
+
+	// TODO better return type?
 	@GetMapping("")
-	List<ModuleDTO> allModules() {
+	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
+		if (!flat.equals("true")) {
+			List<ModuleEntity> result = this.repository.findAll();
+			return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).toList();
+		}
+
 		List<ModuleEntity> result = this.repository.findAll();
-		return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).toList();
+		return result.stream().map((module) -> modelMapper.map(module, ModuleFlatDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")
@@ -42,7 +52,7 @@ public class ModuleController {
 	ModuleDTO newModule(@RequestBody ModuleDTO newModule) {
 		if (newModule.getId() != null) {
 			// TODO own exception and advice
-			throw new RuntimeException("Please do not send IDs");
+			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
 		}
 
 		ModuleEntity moduleEntity = modelMapper.map(newModule, ModuleEntity.class);

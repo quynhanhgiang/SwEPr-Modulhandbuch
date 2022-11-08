@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -17,33 +18,38 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "CollegeEmployee")
+@Table(name = "college_employee")
 public class CollegeEmployeeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PK_uniqueId")
+	@Column(name = "pk_unique_id")
 	private Integer id;
 
-	@Column(name = "FirstName")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "LastName")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Column(name = "Title")
+	@Column(name = "title")
 	private String title;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "Gender", columnDefinition = "ENUM('M', 'F', 'D')")
+	@Column(name = "gender", columnDefinition = "ENUM('M', 'F', 'D')")
 	private Gender gender;
 
+	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "Profs")
+	@JoinTable(
+		name = "prof",
+		joinColumns = @JoinColumn(name = "pk_college_employee_pk_unique_id", nullable = false),
+		inverseJoinColumns = @JoinColumn(name = "pk_module_pk_unique_id", nullable = false))
     private List<ModuleEntity> modules;
 
 	public CollegeEmployeeEntity(String firstName, String lastName, String title, Gender gender) {

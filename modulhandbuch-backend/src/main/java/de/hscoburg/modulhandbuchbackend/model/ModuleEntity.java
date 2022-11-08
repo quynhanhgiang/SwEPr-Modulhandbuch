@@ -2,6 +2,7 @@ package de.hscoburg.modulhandbuchbackend.model;
 
 import java.sql.Blob;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,13 +15,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityCycleConverter;
+import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityDurationConverter;
+import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityLanguageConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,85 +33,89 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "Module")
+@Table(name = "module")
 public class ModuleEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PK_uniqueId")
+	@Column(name = "pk_unique_id")
 	private Integer id;
 
-	@Column(name = "ModuleName")
+	@Column(name = "module_name", nullable = false)
 	private String moduleName;
 
-	@Column(name = "Abbreviation")
+	@Column(name = "abbreviation", nullable = false)
 	private String abbreviation;
 
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "module")
-    private List<VariationEntity> variations;
+	// TODO implementation of VariationEntity
+	@Transient
+	// @OneToMany(cascade = CascadeType.MERGE, mappedBy = "module")
+    private List<VariationEntity> variations = Collections.emptyList();
 
 	@Convert(converter = ModuleEntityCycleConverter.class)
-	@Column(name = "Cycle", columnDefinition = "ENUM('Jährlich', 'Halbjährlich')")
+	@Column(name = "cycle", nullable = false, columnDefinition = "ENUM('Jährlich', 'Halbjährlich') DEFAULT 'Jährlich'")
 	private Cycle cycle;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "Duration", columnDefinition = "ENUM('ONESEMESTER')")
+	@Convert(converter = ModuleEntityDurationConverter.class)
+	@Column(name = "duration", nullable = false, columnDefinition = "ENUM('Einsemestrig') DEFAULT 'Einsemestrig'")
 	private Duration duration;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "FK_CollegeEmployee_PK_uniqueId")
+	// TODO revert to MERGE because at the moment every moduleOwner gets a new entry even if it already exists
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_college_employee_pk_unique_id", nullable = false)
 	private CollegeEmployeeEntity moduleOwner;
 
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "Profs")
+	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "modules")
     private List<CollegeEmployeeEntity> profs;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "Language", columnDefinition = "ENUM('GERMAN', 'ENGLISH')")
+	@Convert(converter = ModuleEntityLanguageConverter.class)
+	@Column(name = "language", nullable = false, columnDefinition = "ENUM('Deutsch', 'Englisch', 'Französisch', 'Spanisch', 'Chinesisch', 'Russisch') DEFAULT 'Deutsch'")
 	private Language language;
 
-	// TODO rename column
-	@Column(name = "Usage2")
-	private String usage;
+	// TODO convert Blob to String and vice versa
+	@Column(name = "course_usage")
+	private Blob usage;
 
-	@Column(name = "AdmissionRequirements")
+	@Column(name = "admission_requirements")
 	private Blob admissionRequirements;
 
-	@Column(name = "KnowledgeRequirements")
+	@Column(name = "knowledge_requirements")
 	private Blob knowledgeRequirements;
 
-	@Column(name = "Skills")
+	@Column(name = "skills")
 	private Blob skills;
 
-	@Column(name = "Content")
+	@Column(name = "content")
 	private Blob content;
 
-	@Column(name = "ExamType")
+	@Column(name = "exam_type", nullable = false)
 	private String examType;
 
-	@Column(name = "Certificates")
+	@Column(name = "certificates")
 	private String certificates;
 
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "Module_has_MediaType")
-    private List<MediaTypeEntity> mediaTypes;
+	@Column(name = "media_type")
+    private Blob mediaTypes;
 
-	@Column(name = "Literature")
+	@Column(name = "literature")
 	private Blob literature;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "MaternityProtection")
+	@Column(name = "maternity_protection", columnDefinition = "ENUM('R', 'G', 'Y') DEFAULT 'G'")
 	private MaternityProtection maternityProtection;
 
-	public ModuleEntity(CollegeEmployeeEntity collegeEmployee, String name, String abbreviation, Integer sws, Integer ects, Blob workload,
-			Cycle cycle, Duration duration, Language language, String usage, Blob admissionRequirements,
-			Blob knowledgeRequirements, Blob skills, Blob content, String examType, String certificates,
-			Blob literature, MaternityProtection maternityProtection) {
-		this.moduleOwner = collegeEmployee;
-		this.moduleName = name;
+	public ModuleEntity(String moduleName, String abbreviation, List<VariationEntity> variations, Cycle cycle,
+			Duration duration, CollegeEmployeeEntity moduleOwner, List<CollegeEmployeeEntity> profs, Language language,
+			Blob usage, Blob admissionRequirements, Blob knowledgeRequirements, Blob skills, Blob content,
+			String examType, String certificates, Blob mediaTypes, Blob literature,
+			MaternityProtection maternityProtection) {
+		this.moduleName = moduleName;
 		this.abbreviation = abbreviation;
+		this.variations = variations;
 		this.cycle = cycle;
 		this.duration = duration;
+		this.moduleOwner = moduleOwner;
+		this.profs = profs;
 		this.language = language;
 		this.usage = usage;
 		this.admissionRequirements = admissionRequirements;
@@ -117,9 +124,10 @@ public class ModuleEntity {
 		this.content = content;
 		this.examType = examType;
 		this.certificates = certificates;
+		this.mediaTypes = mediaTypes;
 		this.literature = literature;
 		this.maternityProtection = maternityProtection;
-	}
+	}	
 
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	@Getter
@@ -138,15 +146,41 @@ public class ModuleEntity {
 		}
 	}
 
-	// TODO converter
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
+	@Getter
 	public enum Duration {
-		ONESEMESTER,
+		ONESEMESTER("Einsemestrig"),
+		;
+
+		private final String text;
+
+		public static Duration get(String text) {
+			return Arrays.stream(Duration.values())
+				.filter(duration -> duration.text.equals(text))
+				.findAny()
+				.orElse(null);
+		}
 	}
 	
-	// TODO converter
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
+	@Getter
 	public enum Language {
-		GERMAN,
-		ENGLISH,
+		GERMAN("Deutsch"),
+		ENGLISH("English"),
+		FRENCH("Französisch"),
+		SPANISH("Spanisch"),
+		CHINESE("Chinesisch"),
+		RUSSIAN("Russisch"),
+		;
+
+		private final String text;
+
+		public static Language get(String text) {
+			return Arrays.stream(Language.values())
+				.filter(language -> language.text.equals(text))
+				.findAny()
+				.orElse(null);
+		}
 	}
 	
 	public enum MaternityProtection {

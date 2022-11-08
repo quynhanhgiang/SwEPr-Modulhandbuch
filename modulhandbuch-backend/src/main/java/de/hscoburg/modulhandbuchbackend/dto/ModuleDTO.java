@@ -2,6 +2,7 @@ package de.hscoburg.modulhandbuchbackend.dto;
 
 import java.util.List;
 
+import de.hscoburg.modulhandbuchbackend.model.CollegeEmployeeEntity;
 import lombok.Data;
 
 @Data
@@ -9,10 +10,11 @@ public class ModuleDTO {
 	private Integer id;
 	private String moduleName;
 	private String abbreviation;
-	private List<VariationDTO> variations;
+	// TODO change to VariationDTO
+	private List<String> variations;
 	private String cycle;
 	private String duration;
-	private String moduleOwner;
+	private CollegeEmployeeDTO moduleOwner;
 	private List<String> profs;
 	private String language;
 	private String usage;
@@ -22,7 +24,7 @@ public class ModuleDTO {
 	private String content;
 	private String examType;
 	private String certificates;
-	private List<String> mediaTypes;
+	private String mediaTypes;
 	private String literature;
 	private String maternityProtection;
 }

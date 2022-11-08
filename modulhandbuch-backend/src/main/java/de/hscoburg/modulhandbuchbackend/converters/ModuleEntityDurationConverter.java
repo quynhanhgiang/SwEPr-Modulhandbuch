@@ -7,16 +7,16 @@ import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;
 
 // TODO reduce redundancy with inheritance
 @Converter
-public class ModuleEntityCycleConverter implements AttributeConverter<ModuleEntity.Cycle, String> {
+public class ModuleEntityDurationConverter implements AttributeConverter<ModuleEntity.Duration, String> {
 
 	@Override
-	public String convertToDatabaseColumn(ModuleEntity.Cycle attribute) {
+	public String convertToDatabaseColumn(ModuleEntity.Duration attribute) {
 		// TODO maybe remove check and make field notnull?
 		return (attribute != null) ? attribute.getText() : null;
 	}
 
 	@Override
-	public ModuleEntity.Cycle convertToEntityAttribute(String dbData) {
-		return ModuleEntity.Cycle.get(dbData);
+	public ModuleEntity.Duration convertToEntityAttribute(String dbData) {
+		return ModuleEntity.Duration.get(dbData);
 	}
 }
