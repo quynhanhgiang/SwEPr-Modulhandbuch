@@ -2,11 +2,10 @@ package de.hscoburg.modulhandbuchbackend.dto;
 
 import java.util.List;
 
-import de.hscoburg.modulhandbuchbackend.model.CollegeEmployeeEntity;
 import lombok.Data;
 
 @Data
-public class ModuleDTO {
+public class ModulePostDTO {
 	private Integer id;
 	private String moduleName;
 	private String abbreviation;

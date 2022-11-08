@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
+import de.hscoburg.modulhandbuchbackend.dto.ModuleGetDTO;
+import de.hscoburg.modulhandbuchbackend.dto.ModulePostDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
@@ -34,7 +35,7 @@ public class ModuleController {
 	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.repository.findAll();
-			return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).toList();
+			return result.stream().map((module) -> modelMapper.map(module, ModuleGetDTO.class)).toList();
 		}
 
 		List<ModuleEntity> result = this.repository.findAll();
@@ -42,14 +43,14 @@ public class ModuleController {
 	}
 	
 	@GetMapping("/{id}")
-	ModuleDTO oneModule(@PathVariable Integer id) {
+	ModulePostDTO oneModule(@PathVariable Integer id) {
 		ModuleEntity result = this.repository.findById(id)
 			.orElseThrow(() -> new ModuleNotFoundException(id));
-		return modelMapper.map(result, ModuleDTO.class);
+		return modelMapper.map(result, ModulePostDTO.class);
 	}
 
 	@PostMapping("")
-	ModuleDTO newModule(@RequestBody ModuleDTO newModule) {
+	ModulePostDTO newModule(@RequestBody ModulePostDTO newModule) {
 		if (newModule.getId() != null) {
 			// TODO own exception and advice
 			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
@@ -57,7 +58,7 @@ public class ModuleController {
 
 		ModuleEntity moduleEntity = modelMapper.map(newModule, ModuleEntity.class);
 		ModuleEntity result = this.repository.save(moduleEntity);
-		return modelMapper.map(result, ModuleDTO.class);
+		return modelMapper.map(result, ModulePostDTO.class);
 	}
 
 	// TODO

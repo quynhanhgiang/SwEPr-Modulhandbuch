@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import de.hscoburg.modulhandbuchbackend.model.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;

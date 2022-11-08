@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -144,6 +143,11 @@ public class ModuleEntity {
 				.findAny()
 				.orElse(null);
 		}
+
+		@Override
+		public String toString() {
+			return this.text;
+		}
 	}
 
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -159,6 +163,11 @@ public class ModuleEntity {
 				.filter(duration -> duration.text.equals(text))
 				.findAny()
 				.orElse(null);
+		}
+
+		@Override
+		public String toString() {
+			return this.text;
 		}
 	}
 	
@@ -180,6 +189,11 @@ public class ModuleEntity {
 				.filter(language -> language.text.equals(text))
 				.findAny()
 				.orElse(null);
+		}
+
+		@Override
+		public String toString() {
+			return this.text;
 		}
 	}
 	

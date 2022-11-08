@@ -1,6 +1,7 @@
 package de.hscoburg.modulhandbuchbackend.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,6 +58,11 @@ public class CollegeEmployeeEntity {
 		this.lastName = lastName;
 		this.title = title;
 		this.gender = gender;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %s", Objects.toString(this.title, ""), this.firstName, this.lastName).trim();
 	}
 
 	public enum Gender {
