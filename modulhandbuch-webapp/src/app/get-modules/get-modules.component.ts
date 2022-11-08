@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
 import { RestApiService } from '../services/rest-api.service';
-import { FlatModule } from '../shared/module';
+import { FlatModule } from '../shared/FlatModule';
 
 @Component({
   selector: 'app-get-modules',

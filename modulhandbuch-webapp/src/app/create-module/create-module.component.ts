@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
-import { Module } from '../shared/module';
+import { Module } from '../shared/Module';
 
 @Component({
   selector: 'app-create-module',
@@ -16,28 +16,28 @@ export class CreateModuleComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
-      id:null,
-      moduleName:new FormControl(''),
-      abbreviation:new FormControl(''),
-      sws:new FormControl(''),
-      ects:new FormControl(''),
-      workLoad:new FormControl(''),
-      semester:new FormControl(''),
-      cycle:new FormControl(''),
-      duration:new FormControl(''),
-      moduleOwner:new FormControl(''),
-      prof:new FormControl(''),
+      id: null,
+      moduleName: new FormControl(''),
+      abbreviation: new FormControl(''),
+      sws: new FormControl(''),
+      ects: new FormControl(''),
+      workLoad: new FormControl(''),
+      semester: new FormControl(''),
+      cycle: new FormControl(''),
+      duration: new FormControl(''),
+      moduleOwner: new FormControl(''),
+      prof: new FormControl(''),
       language: new FormControl(''),
-      usage:new FormControl(''),
-      admissionRequirements:new FormControl(''),
-      knowledgeRequirements:new FormControl(''),
-      skills:new FormControl(''),
-      content:new FormControl(''),
-      examType:new FormControl(''),
-      certificates:new FormControl(''),
-      mediaType:new FormControl(''),
-      literature:new FormControl(''),
-      maternityProtection:new FormControl(''),
+      usage: new FormControl(''),
+      admissionRequirements: new FormControl(''),
+      knowledgeRequirements: new FormControl(''),
+      skills: new FormControl(''),
+      content: new FormControl(''),
+      examType: new FormControl(''),
+      certificates: new FormControl(''),
+      mediaType: new FormControl(''),
+      literature: new FormControl(''),
+      maternityProtection: new FormControl(''),
     });
   } 
   
@@ -61,9 +61,9 @@ export class CreateModuleComponent implements OnInit {
     console.log("submit");
     this.newModule = new Module(this.moduleFormGroup.value);
     
-    this.restAPI.createModule(this.newModule).subscribe(resp => {
+    /*this.restAPI.createModule(this.newModule).subscribe(resp => {
       console.log(resp);
-    });
+    });*/
     
     this.hideDialog();
     this.resetForm();
