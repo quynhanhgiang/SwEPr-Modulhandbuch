@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS college_employee (
 	last_name VARCHAR(255) NOT NULL,
 	title VARCHAR(255) NULL,
 	gender ENUM('M','F','D') NULL,
+	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pk_unique_id)
 )
 COMMENT='This table holds all required employees of Hochschule Coburg. Both profs and ModuleOwners.\r\nTitle are the academic titles of that employee, like Pro. Dr. habil., etc.\r\nGender is an ENUM with (\'m\', \'f\', \'d\') for male, female and diverse.'
@@ -17,12 +18,12 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO college_employee VALUES
-	(1, 'Volkhard', 'Pfeiffer', 'Prof.', 'M'),
-	(2, 'Dieter', 'Landes', 'Prof. Dr.', 'M'),
-	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 'M'),
-	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 'M'),
-	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 'M'),
-	(6, 'Michaela', 'Ihlau', NULL, 'F')
+	(1, 'Volkhard', 'Pfeiffer', 'Prof.', 'M', 'Volkhard.Pfeiffer@hs-coburg.de'),
+	(2, 'Dieter', 'Landes', 'Prof. Dr.', 'M', 'Dieter.Landes@hs-coburg.de'),
+	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 'M', 'Dieter.Wissmann@hs-coburg.de'),
+	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 'M', 'Thomas.Wieland@hs-coburg.de'),
+	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 'M', 'Quirin.Meyer@hs-coburg.de'),
+	(6, 'Michaela', 'Ihlau', NULL, 'F', 'Michaela.Ihlau@hs-coburg.de')
 ;
 
 
