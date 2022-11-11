@@ -9,4 +9,5 @@ public class CollegeEmployeeDTO {
 	private String lastName;
 	private String title;
 	private String gender;
+	private String email;
 }

@@ -3,11 +3,11 @@ package de.hscoburg.modulhandbuchbackend.converters;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 
 // TODO reduce redundancy with inheritance
 @Converter
-public class ModuleEntityLanguageConverter implements AttributeConverter<ModuleEntity.Language, String> {
+public class ModuleEntityLanguageDatabaseConverter implements AttributeConverter<ModuleEntity.Language, String> {
 
 	@Override
 	public String convertToDatabaseColumn(ModuleEntity.Language attribute) {
@@ -17,6 +17,6 @@ public class ModuleEntityLanguageConverter implements AttributeConverter<ModuleE
 
 	@Override
 	public ModuleEntity.Language convertToEntityAttribute(String dbData) {
-		return ModuleEntity.Language.get(dbData);
+		return ModuleEntity.Language.fromString(dbData);
 	}
 }

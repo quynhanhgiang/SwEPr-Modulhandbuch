@@ -1,4 +1,4 @@
-package de.hscoburg.modulhandbuchbackend.model;
+package de.hscoburg.modulhandbuchbackend.model.entities;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +44,9 @@ public class CollegeEmployeeEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "gender", columnDefinition = "ENUM('M', 'F', 'D')")
 	private Gender gender;
+
+	@Column(name = "email")
+	private String email;
 
 	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.MERGE)

@@ -3,7 +3,7 @@ package de.hscoburg.modulhandbuchbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import de.hscoburg.modulhandbuchbackend.model.ModuleEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 
 @SpringBootTest
 public class ModulhandbuchBackendApplicationTests {

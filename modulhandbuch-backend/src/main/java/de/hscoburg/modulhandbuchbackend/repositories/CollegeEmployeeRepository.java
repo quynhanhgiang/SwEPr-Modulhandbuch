@@ -2,7 +2,7 @@ package de.hscoburg.modulhandbuchbackend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hscoburg.modulhandbuchbackend.model.CollegeEmployeeEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 
 public interface CollegeEmployeeRepository extends JpaRepository<CollegeEmployeeEntity, Integer> {
 }

@@ -7,5 +7,5 @@ public class ModuleFlatDTO {
 	private Integer id;
 	private String abbreviation;
 	private String moduleName;
-	private CollegeEmployeeDTO moduleOwner;
+	private String moduleOwner;
 }

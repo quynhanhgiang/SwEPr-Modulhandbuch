@@ -5,16 +5,15 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ModulePostDTO {
+public class ModuleDTO {
 	private Integer id;
 	private String moduleName;
 	private String abbreviation;
-	// TODO change to VariationDTO
-	private List<String> variations;
+	private List<VariationDTO> variations;
 	private String cycle;
 	private String duration;
 	private CollegeEmployeeDTO moduleOwner;
-	private List<String> profs;
+	private List<CollegeEmployeeDTO> profs;
 	private String language;
 	private String usage;
 	private String admissionRequirements;
@@ -23,7 +22,7 @@ public class ModulePostDTO {
 	private String content;
 	private String examType;
 	private String certificates;
-	private String mediaTypes;
+	private String mediaType;
 	private String literature;
 	private String maternityProtection;
 }
