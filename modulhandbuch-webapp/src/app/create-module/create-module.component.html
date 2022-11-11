@@ -27,6 +27,16 @@
                                 <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo"></p-dropdown></td>
                             </tr>
                             <tr>
+                                <td class="td-row-left" ><label>Kategorie</label></td>
+                                <td  class="td-row-right">
+                                    <select required formControlName="cycle"  class="form-select" formControlName="category">
+                                        <option value="Pflichtfach">Pflichtfach</option>
+                                        <option value="Jährlich">Jährlich</option>
+                                        <option value="Schlüsselqualifikation">Schlüsselqualifikation</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class="td-row-left" ><label>Lehrform / SWS</label></td>
                                 <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
                             </tr>
