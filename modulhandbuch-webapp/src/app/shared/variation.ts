@@ -1,7 +1,9 @@
+import { Spo } from "./spo";
+
 export interface Variation {
-    spo: String;
+    spo: Spo;
     semester: number;
     sws: number;
-    ects: number; 
+    ects: number;
     workload: String;
 }

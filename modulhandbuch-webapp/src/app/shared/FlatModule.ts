@@ -5,5 +5,5 @@
     id: number;
     abbreviation: string;
     moduleName: string;
-    moduleOwner: string; 
+    moduleOwner: string;
 }

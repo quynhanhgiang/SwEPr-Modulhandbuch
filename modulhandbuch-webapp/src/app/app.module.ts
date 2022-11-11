@@ -16,6 +16,8 @@ import { TableModule } from 'primeng/table';
 import { FilterService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { EditorModule } from 'primeng/editor';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {DropdownModule} from 'primeng/dropdown';
 
 import { RestApiService } from './services/rest-api.service';
 @NgModule({
@@ -36,11 +38,13 @@ import { RestApiService } from './services/rest-api.service';
     DialogModule,
     EditorModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MultiSelectModule,
+    DropdownModule,
   ],
   providers: [
     FilterService,
-    RestApiService
+    RestApiService,
   ],
   bootstrap: [AppComponent]
 })

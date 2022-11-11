@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FlatModule } from '../shared/FlatModule';
-import { Module }from  '../shared/Module';
+import { Module }from  '../shared/module';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ export class RestApiService {
 
   mockURL: String = 'https://495f8ce0-71e5-4622-9d7d-e4c01d0143c1.mock.pstmn.io';
   devURL: String  = 'https://localhost/dev/api';
-//prodURL: String = '';
+  //prodURL: String = '';
 
   constructor(private http: HttpClient) {}
 

@@ -13,36 +13,67 @@
                 <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation"></td>
             </tr>
             <tr>
-                <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
-            </tr>
-            <tr>
-                <td class="td-row-left" ><label>Leistungspunkte</label></td>
-                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
-            </tr>
-            <tr>
-                <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
-                <td class="td-row-right">
-                    <div class="testHover">
-                      <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
-                        <p-header>
-                            <span class="ql-formats">
-                                <button class="ql-bold" aria-label="Bold"></button>
-                                <button class="ql-italic" aria-label="Italic"></button>
-                                <button class="ql-underline" aria-label="Underline"></button>
-                                <button class="ql-list" value="ordered"></button>
-                                <button class="ql-list" value="bullet"></button>      
-                            </span> 
-                        </p-header>
-                      </p-editor>
-                    </div>
-                    
+                <td colspan="2">
+                    <hr>
                 </td>
             </tr>
             <tr>
-                <td class="td-row-left" ><label>Fachsemester</label></td>
-                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="7" formControlName="semester"></td>
+            <tr>
+                <td colspan="2">
+                    <ul formGroupName="variations" class="list-group" style="width: 100%;">
+                        <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
+                            <tr > 
+                                <td class="td-row-left" ><label>SPO</label></td>
+                                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo"></p-dropdown></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Lehrform / SWS</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Leistungspunkte</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
+                                <td class="td-row-right">
+                                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
+                                        <p-header>
+                                            <span class="ql-formats">
+                                                <button class="ql-bold" aria-label="Bold"></button>
+                                                <button class="ql-italic" aria-label="Italic"></button>
+                                                <button class="ql-underline" aria-label="Underline"></button>
+                                                <button class="ql-list" value="ordered"></button>
+                                                <button class="ql-list" value="bullet"></button>      
+                                            </span> 
+                                        </p-header>
+                                    </p-editor>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Fachsemester</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="7" formControlName="semester"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Neue SPO entfernen</button>
+                                </td>
+                            </tr>
+                        </li>
+                    </ul>
+                </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neue SPO hinzufügen</button>
+                </td>
+            </tr>
+            
+
+
+
+
+
             <tr>
                 <td class="td-row-left" ><label>Angebotsturnus</label></td>
                 <td  class="td-row-right">
@@ -63,11 +94,13 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Modulverantwortliche(r)</label></td>
-                <td  class="td-row-right"><input type="text" class="form-control" required formControlName="moduleOwner"></td>
+                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner"></p-dropdown></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Dozent(in)</label></td>
-                <td  class="td-row-right"><input type="text" class="form-control" required formControlName="prof"></td>
+                <td  class="td-row-right">
+                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="prof"></p-multiSelect>
+                </td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Sprache</label></td>
