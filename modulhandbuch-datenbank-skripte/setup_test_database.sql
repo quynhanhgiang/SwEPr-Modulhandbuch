@@ -169,6 +169,7 @@ CREATE TABLE IF NOT EXISTS module_has_spo (
 	pk_semester INT NOT NULL,
 	sws INT NOT NULL,
 	ects INT NOT NULL,
+	workload TEXT NULL,
 	category ENUM('Pflichtfach','Wahlfach','Schlüsselqualifikation') NULL DEFAULT NULL,
 	PRIMARY KEY (pk_module_pk_unique_id, pk_spo_pk_unique_id, pk_semester),
 	CONSTRAINT module_has_spo_fk_module_pk_unique_id FOREIGN KEY (pk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -178,7 +179,7 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_has_spo VALUES
-	(1, 1, 1, 5, 2, 'Pflichtfach'),
-	(1, 2, 1, 7, 3, 'Pflichtfach'),
-	(1, 3, 1, 2, 1, 'Pflichtfach')
+	(1, 1, 1, 5, 2, '150h', 'Pflichtfach'),
+	(1, 2, 1, 7, 3, '150h', 'Pflichtfach'),
+	(1, 3, 1, 2, 1, '150h', 'Pflichtfach')
 ;
