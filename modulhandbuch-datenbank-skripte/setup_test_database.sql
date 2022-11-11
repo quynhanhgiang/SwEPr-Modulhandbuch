@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS spo (
 	link VARCHAR(255) NOT NULL,
 	start_date DATETIME NULL,
 	end_date DATETIME NULL,
+	course VARCHAR NULL
 	PRIMARY KEY (pk_unique_id)
 )
 COMMENT='SPO is a table that references SPOs.\r\nLink contains an URL to the SPO on myCampus.\r\nStartDate and EndDate is the time frame in which this SPO is valid.'
@@ -40,9 +41,9 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO spo VALUES
-	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL),
-	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30'),
-	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30')
+	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF'),
+	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF'),
+	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF')
 ;
 
 
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS module (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	fk_college_employee_pk_unique_id INT NOT NULL,
 	module_name VARCHAR(255) NOT NULL,
-	abbreviation VARCHAR(255) NOT NULL,
+	abbreviation VARCHAR(255) NULL,
 	cycle ENUM('Jährlich','Halbjährlich') NOT NULL DEFAULT 'Jährlich',
 	duration ENUM('Einsemestrig') NOT NULL DEFAULT 'Einsemestrig',
 	language ENUM('Deutsch','Englisch','Französisch','Spanisch','Chinesisch','Russisch') NOT NULL DEFAULT 'Deutsch',
