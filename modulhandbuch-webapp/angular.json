@@ -33,10 +33,13 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/saga-orange/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/quill/dist/quill.core.css", 
+              "node_modules/quill/dist/quill.snow.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/quill/dist/quill.js"
             ]
           },
           "configurations": {
@@ -110,5 +113,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

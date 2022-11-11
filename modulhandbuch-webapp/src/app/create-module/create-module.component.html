@@ -1,0 +1,217 @@
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()"><!--Pop-up dialog for form-->
+    <ng-template pTemplate="header">
+        <h3>Neues Modul erstellen</h3> 
+    </ng-template>
+    <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
+       <table id="table-create-module">
+            <tr>
+                <td class="td-row-left" ><label>Modulbezeichnung</label></td>
+                <td class="td-row-right"><input type="text" class="form-control" required autofocus formControlName="moduleName"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Kürzel</label></td>
+                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td colspan="2">
+                    <ul formGroupName="variations" class="list-group" style="width: 100%;">
+                        <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
+                            <tr > 
+                                <td class="td-row-left" ><label>SPO</label></td>
+                                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo"></p-dropdown></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Lehrform / SWS</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Leistungspunkte</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
+                                <td class="td-row-right">
+                                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
+                                        <p-header>
+                                            <span class="ql-formats">
+                                                <button class="ql-bold" aria-label="Bold"></button>
+                                                <button class="ql-italic" aria-label="Italic"></button>
+                                                <button class="ql-underline" aria-label="Underline"></button>
+                                                <button class="ql-list" value="ordered"></button>
+                                                <button class="ql-list" value="bullet"></button>      
+                                            </span> 
+                                        </p-header>
+                                    </p-editor>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-row-left" ><label>Fachsemester</label></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="1" max="7" formControlName="semester"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Neue SPO entfernen</button>
+                                </td>
+                            </tr>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neue SPO hinzufügen</button>
+                </td>
+            </tr>
+            
+
+
+
+
+
+            <tr>
+                <td class="td-row-left" ><label>Angebotsturnus</label></td>
+                <td  class="td-row-right">
+                    <select required formControlName="cycle"  class="form-select" >
+                        <option value="half" selected>Halbjährlich</option>
+                        <option value="yearly">Jährlich</option>
+                  </select>
+                </td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Dauer des Moduls</label></td>
+                <td  class="td-row-right">
+                    <select required formControlName="duration" class="form-select">
+                        <option value="one">Einsemestrig</option>
+                        <option value="two">Zweisemestrig</option>
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Modulverantwortliche(r)</label></td>
+                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner"></p-dropdown></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Dozent(in)</label></td>
+                <td  class="td-row-right">
+                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="prof"></p-multiSelect>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Sprache</label></td>
+                <td  class="td-row-right">
+                    <select required formControlName="language" class="form-select">
+                        <option value="german">Deutsch</option>
+                        <option value="english">Englisch</option>
+                        <option value="spanisch">Spanisch</option>
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Nutzung in anderen Studiengängen</label></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="usage"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
+                <td  class="td-row-right">
+                    <select required formControlName="admissionRequirements" class="form-select">
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
+                        <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)">Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Inhaltliche Voraussetzung</label></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="knowledgeRequirements"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
+                <td  class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="skills">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>      
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Lehrinhalte</label></td>
+                <td  class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="content">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>      
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="examType"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="certificates"></td>
+            </tr>
+            <tr>
+                <td class="td-row-left" ><label>Medienform</label></td>
+                <td  class="td-row-right"><input type="text" class="form-control" formControlName="mediaType"></td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Literatur</label></td>
+                <td class="td-row-right">
+                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="literature">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>      
+                            </span> 
+                        </p-header>
+                    </p-editor>
+                </td>
+            </tr>
+            <tr >
+                <td class="td-row-left" ><label>Mutterschutz</label></td>
+                <td class="td-row-right">
+                    <select required formControlName="maternityProtection" class="form-select">
+                        <option value="green">Grün</option>
+                        <option value="yellow">Gelb</option>
+                        <option value="red">Rot</option>
+                    </select>
+                </td>
+            </tr>
+       </table> 
+
+       <div>
+        <button id="bt-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+        <button id="bt-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
+        <button id="bt-submit-new" class="btn btn-outline-secondary" type="submit">Speichern und Neu</button>
+       </div>
+
+    </form>
+</p-dialog>
+
+<div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
+    <button id="bt-create-module" class="btn btn-outline-secondary btn-lg" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
+</div>
