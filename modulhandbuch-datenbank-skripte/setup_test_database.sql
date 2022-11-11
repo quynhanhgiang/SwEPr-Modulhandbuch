@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS spo (
 	link VARCHAR(255) NOT NULL,
 	start_date DATETIME NULL,
 	end_date DATETIME NULL,
-	course VARCHAR NULL
+	course VARCHAR(255) NULL,
 	PRIMARY KEY (pk_unique_id)
 )
 COMMENT='SPO is a table that references SPOs.\r\nLink contains an URL to the SPO on myCampus.\r\nStartDate and EndDate is the time frame in which this SPO is valid.'
@@ -167,6 +167,8 @@ CREATE TABLE IF NOT EXISTS module_has_spo (
 	pk_module_pk_unique_id INT NOT NULL,
 	pk_spo_pk_unique_id INT NOT NULL,
 	pk_semester INT NOT NULL,
+	sws INT NOT NULL,
+	ects INT NOT NULL,
 	category ENUM('Pflichtfach','Wahlfach','Schlüsselqualifikation') NULL DEFAULT NULL,
 	PRIMARY KEY (pk_module_pk_unique_id, pk_spo_pk_unique_id, pk_semester),
 	CONSTRAINT module_has_spo_fk_module_pk_unique_id FOREIGN KEY (pk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -176,7 +178,7 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_has_spo VALUES
-	(1, 1, 1, 'Pflichtfach'),
-	(1, 2, 1, 'Pflichtfach'),
-	(1, 3, 1, 'Pflichtfach')
+	(1, 1, 1, 5, 2, 'Pflichtfach'),
+	(1, 2, 1, 7, 3, 'Pflichtfach'),
+	(1, 3, 1, 2, 1, 'Pflichtfach')
 ;
