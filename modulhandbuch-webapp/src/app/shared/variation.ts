@@ -6,4 +6,5 @@ export interface Variation {
     sws: number;
     ects: number;
     workload: String;
+    category:string;
 }

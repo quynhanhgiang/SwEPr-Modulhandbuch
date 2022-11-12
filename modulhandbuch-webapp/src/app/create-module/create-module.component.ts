@@ -124,7 +124,7 @@ export class CreateModuleComponent implements OnInit {
         sws: new FormControl('', [Validators.required]),
         workLoad: new FormControl('', [Validators.required]),
         semester: new FormControl('', [Validators.required]),
-        
+        category: new FormControl('', [Validators.required]),
       })
     );
   }
