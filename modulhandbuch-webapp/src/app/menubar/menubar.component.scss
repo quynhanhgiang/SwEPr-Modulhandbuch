@@ -12,15 +12,15 @@ nav {
 }
 
 /* nav-icon-4 */
-.nav-icon-4{
+.nav-icon-4 {
     width: 70px;
     height: 60px;
-    margin: 20px 20px;
+    margin-left: 20px;
     position: relative;
     cursor: pointer;
     display: inline-block;
   }
-  .nav-icon-4 span{
+  .nav-icon-4 span {
     background-color:#FFF;
     position: absolute;
     border-radius: 2px;
@@ -52,7 +52,7 @@ nav {
   }
   .nav-icon-4.open span:nth-child(1){
     left:4px;
-    top: 12px;
+    top: 22px;
     width: 60px;
     transition: .3s cubic-bezier(.8, .5, .2, 1.4);
     transform: rotate(90deg);
@@ -60,7 +60,7 @@ nav {
   }
   .nav-icon-4.open span:nth-child(2){
     left:3px;
-    top: 28px;
+    top: 43px;
     width: 40px;
     transition: .3s cubic-bezier(.8, .5, .2, 1.4);
     transform: rotate(45deg);
@@ -68,7 +68,7 @@ nav {
   }
   .nav-icon-4.open span:nth-child(3){
     left:25px;
-    top: 28px;
+    top: 43px;
     width: 40px;
     transition: .3s cubic-bezier(.8, .5, .2, 1.4);
     transform: rotate(-45deg);
