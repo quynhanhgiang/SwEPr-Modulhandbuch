@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-body > app-root > main > div > app-get-modules{
+html, body {
+    height: 100%;
+}
+
+body > app-root > main > div > app-get-modules {
     width: 100%;
 }
 
-body{
+body {
     font-family: 'Roboto', sans-serif;
 }
