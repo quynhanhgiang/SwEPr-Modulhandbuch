@@ -8,8 +8,6 @@ const routes: Routes = [
   { path: 'module-manuals', component: DummyComponent },
   { path: 'module-management', component: GetModulesComponent },
   { path: 'user-management', component: DummyComponent },
-  { path: 'placeholder1', component: DummyComponent },
-  { path: 'placeholder2', component: DummyComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
