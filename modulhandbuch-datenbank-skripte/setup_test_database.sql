@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS spo (
 	start_date DATETIME NULL,
 	end_date DATETIME NULL,
 	course VARCHAR(255) NULL,
+	module_plan BLOB NULL,
 	PRIMARY KEY (pk_unique_id)
 )
 COMMENT='SPO is a table that references SPOs.\r\nLink contains an URL to the SPO on myCampus.\r\nStartDate and EndDate is the time frame in which this SPO is valid.'
@@ -41,9 +42,9 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO spo VALUES
-	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF'),
-	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF'),
-	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF')
+	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', NULL),
+	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', NULL),
+	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', NULL)
 ;
 
 
