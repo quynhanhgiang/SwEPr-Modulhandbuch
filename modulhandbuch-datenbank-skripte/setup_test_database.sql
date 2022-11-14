@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS swepr_test /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
+CREATE DATABASE IF NOT EXISTS swepr_test_a8 /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ;
 
-USE swepr_test;
+USE swepr_test_a8;
 
 
 CREATE TABLE IF NOT EXISTS college_employee (
@@ -166,12 +166,12 @@ INSERT IGNORE INTO prof VALUES
 CREATE TABLE IF NOT EXISTS module_has_spo (
 	pk_module_pk_unique_id INT NOT NULL,
 	pk_spo_pk_unique_id INT NOT NULL,
-	pk_semester INT NOT NULL,
+	semester INT NOT NULL,
 	sws INT NOT NULL,
 	ects INT NOT NULL,
 	workload TEXT NULL,
 	category ENUM('Pflichtfach','Wahlfach','Schlüsselqualifikation') NULL DEFAULT NULL,
-	PRIMARY KEY (pk_module_pk_unique_id, pk_spo_pk_unique_id, pk_semester),
+	PRIMARY KEY (pk_module_pk_unique_id, pk_spo_pk_unique_id),
 	CONSTRAINT module_has_spo_fk_module_pk_unique_id FOREIGN KEY (pk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_has_spo_fk_spo_pk_unique_id FOREIGN KEY (pk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -182,4 +182,25 @@ INSERT IGNORE INTO module_has_spo VALUES
 	(1, 1, 1, 5, 2, '150h', 'Pflichtfach'),
 	(1, 2, 1, 7, 3, '150h', 'Pflichtfach'),
 	(1, 3, 1, 2, 1, '150h', 'Pflichtfach')
+;
+
+
+
+CREATE TABLE IF NOT EXISTS module_manual (
+	pk_unique_id INT NOT NULL,
+	fk_spo_pk_unique_id INT NOT NULL,
+	semester VARCHAR(255) NULL,
+	first_page BLOB NULL,
+	preliminary_note TEXT NULL,
+	generated_pdf BLOB NULL,
+	PRIMARY KEY (pk_unique_id),
+	CONSTRAINT module_manual_fk_spo_pk_unique_id FOREIGN KEY (fk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_unicode_520_ci'
+;
+
+INSERT IGNORE INTO module_manual VALUES
+	(1, 1, "Informatik", NULL, NULL, NULL),
+	(2, 2, "Informatik", NULL, NULL, NULL),
+	(3, 3, "Informatik", NULL, NULL, NULL)
 ;
