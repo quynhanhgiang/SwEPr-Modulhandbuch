@@ -6,7 +6,7 @@
        <table id="table-create-module">
             <tr>
                 <td class="td-row-left" ><label>Modulbezeichnung</label></td>
-                <td class="td-row-right"><input type="text" class="form-control" required autofocus formControlName="moduleName"></td>
+                <td class="td-row-right"><input type="text" class="form-control" required formControlName="moduleName"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Kürzel</label></td>
@@ -78,10 +78,6 @@
                     <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neue SPO hinzufügen</button>
                 </td>
             </tr>
-            
-
-
-
 
 
             <tr>
@@ -109,7 +105,7 @@
             <tr>
                 <td class="td-row-left" ><label>Dozent(in)</label></td>
                 <td  class="td-row-right">
-                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="prof"></p-multiSelect>
+                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="profs"></p-multiSelect>
                 </td>
             </tr>
             <tr>
@@ -129,7 +125,7 @@
             <tr>
                 <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="admissionRequirements" class="form-select">
+                    <select formControlName="admissionRequirements" class="form-select">
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
                         <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
