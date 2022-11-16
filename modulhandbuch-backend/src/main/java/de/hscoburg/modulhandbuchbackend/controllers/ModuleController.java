@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,6 +131,53 @@ public class ModuleController {
 	// 		return this.repository.save(newModule);
 	// 	});
 	// }
+
+	@PutMapping("/{id}")
+	ModuleDTO replaceModule(@RequestBody ModuleDTO updatedModule, @PathVariable Integer id) {
+		this.moduleRepository.findById(id).orElseThrow(() -> {
+			// TODO own exception and advice
+			throw new RuntimeException(String.format("ID %d is not mapped for any module. For creating a new module please use a POST request.", id));
+		});
+
+		ModuleEntity moduleEntity = modelMapper.map(updatedModule, ModuleEntity.class);
+
+		// TODO extract doubled contents in method (next three blocks)
+		// extract only id from spo and replace other contents of spo with data from database
+		if (moduleEntity.getVariations() != null) {
+			moduleEntity.setVariations(
+				moduleEntity.getVariations().stream()
+					.filter(variation -> variation.getSpo() != null)
+					.filter(variation -> variation.getSpo().getId() != null)
+					.peek(variation -> variation.setSpo(
+						// TODO own exception
+						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
+					))
+					.toList()
+			);
+		}
+
+		// extract only id from moduleOwner and replace other contents of moduleOwner with data from database
+		if ((moduleEntity.getModuleOwner() != null) && (moduleEntity.getModuleOwner().getId() != null)) {
+			moduleEntity.setModuleOwner(
+				// TODO own exception
+				this.collegeEmployeeRepository.findById(moduleEntity.getModuleOwner().getId()).orElseThrow(() -> new RuntimeException("Id for college employee not found"))
+			);
+		}
+
+		// extract only id from profs and replace other contents of profs with data from database
+		if (moduleEntity.getProfs() != null) {
+			moduleEntity.setProfs(
+				moduleEntity.getProfs().stream()
+					.filter(prof -> prof.getId() != null)
+					// TODO own Exception
+					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
+					.toList()
+			);
+		}
+
+		ModuleEntity result = this.moduleRepository.save(moduleEntity);
+		return modelMapper.map(result, ModuleDTO.class);
+	}
 
 	// TODO
 	// @DeleteMapping("/{id}")
