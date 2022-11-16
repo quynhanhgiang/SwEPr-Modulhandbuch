@@ -2,32 +2,32 @@
 <testng-results ignored="0" total="4" passed="4" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-11-16T16:21:44 CET" name="Default suite" finished-at="2022-11-16T16:21:50 CET" duration-ms="5794">
+  <suite started-at="2022-11-16T17:01:15 CET" name="Suite" finished-at="2022-11-16T17:01:20 CET" duration-ms="5011">
     <groups>
     </groups>
-    <test started-at="2022-11-16T16:21:44 CET" name="Default test" finished-at="2022-11-16T16:21:50 CET" duration-ms="5794">
+    <test started-at="2022-11-16T17:01:15 CET" name="Test" finished-at="2022-11-16T17:01:20 CET" duration-ms="5011">
       <class name="a2.a2_systemtest">
-        <test-method is-config="true" signature="openWebsite()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T16:21:44 CET" name="openWebsite" finished-at="2022-11-16T16:21:47 CET" duration-ms="2713" status="PASS">
+        <test-method is-config="true" signature="openWebsite()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T17:01:15 CET" name="openWebsite" finished-at="2022-11-16T17:01:19 CET" duration-ms="3400" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- openWebsite -->
-        <test-method signature="A2T01()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T16:21:47 CET" name="A2T01" finished-at="2022-11-16T16:21:50 CET" duration-ms="2935" status="PASS">
+        <test-method signature="A2T01()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T17:01:19 CET" name="A2T01" finished-at="2022-11-16T17:01:20 CET" duration-ms="1455" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- A2T01 -->
-        <test-method signature="A2T02()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T16:21:50 CET" name="A2T02" finished-at="2022-11-16T16:21:50 CET" duration-ms="35" status="PASS">
+        <test-method signature="A2T02()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T17:01:20 CET" name="A2T02" finished-at="2022-11-16T17:01:20 CET" duration-ms="33" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- A2T02 -->
-        <test-method signature="A2T03()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T16:21:50 CET" name="A2T03" finished-at="2022-11-16T16:21:50 CET" duration-ms="23" status="PASS">
+        <test-method signature="A2T03()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T17:01:20 CET" name="A2T03" finished-at="2022-11-16T17:01:20 CET" duration-ms="25" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- A2T03 -->
-        <test-method signature="A2T04()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T16:21:50 CET" name="A2T04" finished-at="2022-11-16T16:21:50 CET" duration-ms="25" status="PASS">
+        <test-method signature="A2T04()[pri:0, instance:a2.a2_systemtest@644baf4a]" started-at="2022-11-16T17:01:20 CET" name="A2T04" finished-at="2022-11-16T17:01:20 CET" duration-ms="24" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- A2T04 -->
       </class> <!-- a2.a2_systemtest -->
-    </test> <!-- Default test -->
-  </suite> <!-- Default suite -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
 </testng-results>

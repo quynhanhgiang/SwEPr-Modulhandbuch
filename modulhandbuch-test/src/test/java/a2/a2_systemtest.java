@@ -5,17 +5,26 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class a2_systemtest {
 	private WebDriver driver;
 	@BeforeTest
 	public void openWebsite() {
-		driver = new ChromeDriver();
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("--no-sandbox");
+		chromeOptions.addArguments("--headless");
+		chromeOptions.addArguments("disable-gpu");
+		driver = new ChromeDriver(chromeOptions);
+		
 		driver.get("https://85.214.225.164/dev");
-		driver.manage().window().maximize();
+		//driver.manage().window().maximize();
 		driver.findElement(By.id("details-button")).click();
 		driver.findElement(By.id("proceed-link")).click();
 	}
