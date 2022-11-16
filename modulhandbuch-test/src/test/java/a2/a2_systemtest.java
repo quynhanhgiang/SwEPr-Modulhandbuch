@@ -1,0 +1,53 @@
+package a2;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class a2_systemtest {
+	private WebDriver driver;
+	@BeforeTest
+	public void openWebsite() {
+		driver = new ChromeDriver();
+		driver.get("https://85.214.225.164/dev");
+		driver.manage().window().maximize();
+		driver.findElement(By.id("details-button")).click();
+		driver.findElement(By.id("proceed-link")).click();
+	}
+	
+	@Test
+	public void A2T01() {
+		String expectedUrl = "https://85.214.225.164/dev";
+		
+		try{
+		  Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
+		  System.out.println("Navigated to correct webpage");
+		}
+		catch(Throwable pageNavigationError){
+		  System.out.println("Didn't navigate to correct webpage");
+		}
+	}
+	
+	@Test
+	public void A2T02() {
+		boolean hamburgerMenuExist = !driver.findElements(By.id("btn-hamburger")).isEmpty();
+		Assert.assertEquals(hamburgerMenuExist, true);
+	}
+	
+	@Test
+	public void A2T03() {
+		WebElement modulhandbuecher = driver.findElement(By.xpath("//a[text()=' Modulhandbücher ']"));
+		Assert.assertNotNull(modulhandbuecher);
+	}
+	
+	@Test
+	public void A2T04() {
+		WebElement modulverwaltung = driver.findElement(By.xpath("//a[text()=' Modulverwaltung ']"));
+		Assert.assertNotNull(modulverwaltung);
+	}
+}
