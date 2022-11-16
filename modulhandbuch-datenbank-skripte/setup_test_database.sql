@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS college_employee (
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
 	title VARCHAR(255) NULL,
-	gender ENUM('M','F','D') NULL,
+	gender ENUM('Herr','Frau', NULL) NULL,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pk_unique_id)
 )
@@ -18,12 +18,12 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO college_employee VALUES
-	(1, 'Volkhard', 'Pfeiffer', 'Prof.', 'M', 'Volkhard.Pfeiffer@hs-coburg.de'),
-	(2, 'Dieter', 'Landes', 'Prof. Dr.', 'M', 'Dieter.Landes@hs-coburg.de'),
-	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 'M', 'Dieter.Wissmann@hs-coburg.de'),
-	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 'M', 'Thomas.Wieland@hs-coburg.de'),
-	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 'M', 'Quirin.Meyer@hs-coburg.de'),
-	(6, 'Michaela', 'Ihlau', NULL, 'F', 'Michaela.Ihlau@hs-coburg.de')
+	(1, 'Volkhard', 'Pfeiffer', 'Prof.', 'Herr', 'Volkhard.Pfeiffer@hs-coburg.de'),
+	(2, 'Dieter', 'Landes', 'Prof. Dr.', 'Herr', 'Dieter.Landes@hs-coburg.de'),
+	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 'Herr', 'Dieter.Wissmann@hs-coburg.de'),
+	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 'Herr', 'Thomas.Wieland@hs-coburg.de'),
+	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 'Herr', 'Quirin.Meyer@hs-coburg.de'),
+	(6, 'Michaela', 'Ihlau', NULL, 'Frau', 'Michaela.Ihlau@hs-coburg.de')
 ;
 
 
@@ -56,17 +56,17 @@ CREATE TABLE IF NOT EXISTS module (
 	abbreviation VARCHAR(255) NULL,
 	cycle ENUM('Jährlich','Halbjährlich') NOT NULL DEFAULT 'Jährlich',
 	duration ENUM('Einsemestrig') NOT NULL DEFAULT 'Einsemestrig',
-	language ENUM('Deutsch','Englisch','Französisch','Spanisch','Chinesisch','Russisch') NOT NULL DEFAULT 'Deutsch',
+	language ENUM('Deutsch','Englisch','Französisch','Spanisch','Chinesisch','Russisch') NULL DEFAULT 'Deutsch',
 	course_usage TEXT NULL,
 	admission_requirements TEXT NULL,
 	knowledge_requirements TEXT NULL,
 	skills TEXT NULL,
 	content TEXT NULL,
-	exam_type VARCHAR(255) NOT NULL,
+	exam_type VARCHAR(255) NULL,
 	certificates VARCHAR(255) NULL,
 	media_type TEXT NULL,
 	literature TEXT NULL,
-	maternity_protection ENUM('R','G','Y') NULL DEFAULT 'G',
+	maternity_protection ENUM('Rot','Grün','Gelb') NULL DEFAULT 'Grün',
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_fk_college_employee_pk_unique_id FOREIGN KEY (fk_college_employee_pk_unique_id) REFERENCES college_employee (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -106,7 +106,7 @@ INSERT IGNORE INTO module VALUES
 	jeweils in der neusten Auflage
 	Schiedermeier R. "Programmieren mit Java" Pearson
 	Studium jeweils in der neusten Auflage',
-	'G'
+	'Grün'
 	),
 	
 	(2, 5, 'Rechnerarchitekturen', 'Ra',
@@ -142,7 +142,7 @@ INSERT IGNORE INTO module VALUES
 	Tanenbaum / Goodman: Computerarchitektur (Pearson Studium)
 	Obermann / Schelp: Rechneraufbau und Rechnerstrukturen (Oldenbourg)
 	Floyd: Digital Fundamentals (Prentice Hall)',
-	'G'
+	'Grün'
 	)
 ;
 
