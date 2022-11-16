@@ -22,15 +22,8 @@ public class a2_systemtest {
 	
 	@Test
 	public void A2T01() {
-		String expectedUrl = "https://85.214.225.164/dev";
-		
-		try{
-		  Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
-		  System.out.println("Navigated to correct webpage");
-		}
-		catch(Throwable pageNavigationError){
-		  System.out.println("Didn't navigate to correct webpage");
-		}
+		String expectedUrl = "https://85.214.225.164/dev/home";
+		Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
 	}
 	
 	@Test

@@ -5,8 +5,8 @@
     <classes>
       <class name="a2.a2_systemtest">
         <methods>
-          <include name="A2T03"/>
           <include name="openWebsite"/>
+          <include name="A2T01"/>
         </methods>
       </class> <!-- a2.a2_systemtest -->
     </classes>
