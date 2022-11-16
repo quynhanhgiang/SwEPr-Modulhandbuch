@@ -31,7 +31,5 @@ export class GetModulesComponent implements OnInit {
       { label: "entspricht nicht", value: FilterMatchMode.NOT_EQUALS },
       { label: "beinhaltet nicht", value: FilterMatchMode.NOT_CONTAINS },
     ];
-
   }
-
 }
