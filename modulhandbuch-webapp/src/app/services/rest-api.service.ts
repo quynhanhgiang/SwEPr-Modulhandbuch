@@ -11,7 +11,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class RestApiService {
 
   mockURL: String = 'https://495f8ce0-71e5-4622-9d7d-e4c01d0143c1.mock.pstmn.io';
-  devURL: String  = 'https://localhost/dev/api';
+  devURL: String  = 'https://localhost/dev-api';
   //prodURL: String = '';
 
   constructor(private http: HttpClient) {}
