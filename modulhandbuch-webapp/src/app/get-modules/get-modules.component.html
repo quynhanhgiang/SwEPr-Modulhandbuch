@@ -1,3 +1,5 @@
+<app-create-module></app-create-module>
+
 <div id="div-module-list">
     <p-table [value]="modules" [rows]="10" [paginator]="true" id="table-module-list">
         <ng-template pTemplate="header">
@@ -12,7 +14,7 @@
                 <th id="th-moduleOwner-filter" ><p-columnFilter type="text" field="moduleOwner" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-module>
+        <ng-template pTemplate="body" let-module><!--Data Columnms-->
             <tr id="tr-module-liste">
                 <td id="td-moduleName">{{module.moduleName}}</td>
                 <td id="td-abbreviation"> {{module.abbreviation}}</td>
