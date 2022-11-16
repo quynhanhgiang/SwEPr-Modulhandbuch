@@ -15,11 +15,11 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-module><!--Data Columnms-->
-            <tr id="tr-module-liste">
-                <td id="td-moduleName">{{module.moduleName}}</td>
-                <td id="td-abbreviation"> {{module.abbreviation}}</td>
-                <td id="td-moduleOwner" >{{module.moduleOwner}}</td>
-            </tr>
+                <tr id="tr-module-liste" class="clickable" [routerLink]="['/module-detail-view', module.id]">
+                    <td id="td-moduleName">{{module.moduleName}}</td>
+                    <td id="td-abbreviation"> {{module.abbreviation}}</td>
+                    <td id="td-moduleOwner" >{{module.moduleOwner}}</td>
+                </tr>
         </ng-template>
     </p-table>
 </div>
