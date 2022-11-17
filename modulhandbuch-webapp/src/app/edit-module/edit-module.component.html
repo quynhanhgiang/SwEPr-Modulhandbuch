@@ -42,10 +42,10 @@
                                 </tr>
                                 <tr>
                                     <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                                    <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
+                                    <td class="td-row-right"><input type="number" class="form-control" required min="0" formControlName="sws"></td>
                                 </tr>
                                 <tr>
-                                    <td class="td-row-left" ><label>Leistungspunkte</label></td>
+                                    <td class="td-row-left" ><label>Leistungspunkte / ECTS</label></td>
                                     <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
                                 </tr>
                                 <tr>
@@ -70,7 +70,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Neue SPO entfernen</button>
+                                        <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">SPO entfernen</button>
                                     </td>
                                 </tr>
                             </li>
@@ -117,7 +117,7 @@
                 <tr>
                     <td class="td-row-left" ><label>Sprache</label></td>
                     <td  class="td-row-right">
-                        <select required formControlName="language" class="form-select">
+                        <select formControlName="language" class="form-select">
                             <option value="Deutsch">Deutsch</option>
                             <option value="Englisch">Englisch</option>
                             <option value="Spanisch">Spanisch</option>
@@ -177,7 +177,7 @@
                 </tr>
                 <tr>
                     <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="examType"></td>
+                    <td  class="td-row-right"><input required type="text" class="form-control" formControlName="examType"></td>
                 </tr>
                 <tr>
                     <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
