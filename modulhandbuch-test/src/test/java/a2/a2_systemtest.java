@@ -23,9 +23,9 @@ public class a2_systemtest {
 		chromeOptions.addArguments("disable-gpu");
 		driver = new ChromeDriver(chromeOptions);
 		
-		//driver = new ChromeDriver();
+//		driver = new ChromeDriver();
 		driver.get("https://85.214.225.164/dev");
-		//driver.manage().window().maximize();
+//		driver.manage().window().maximize();
 		driver.findElement(By.id("details-button")).click();
 		driver.findElement(By.id("proceed-link")).click();
 	}
