@@ -2,6 +2,7 @@
 .target
 target
 test-output
+.test-output
 
 #Maven
 /target/
