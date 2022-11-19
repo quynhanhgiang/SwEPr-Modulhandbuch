@@ -10,7 +10,7 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Kürzel</label></td>
-                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation"></td>
+                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10"></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -47,7 +47,7 @@
                             <tr>
                                 <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
                                 <td class="td-row-right">
-                                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
+                                    <p-editor required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
                                         <p-header>
                                             <span class="ql-formats">
                                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -105,7 +105,7 @@
             <tr>
                 <td class="td-row-left" ><label>Dozent(in)</label></td>
                 <td  class="td-row-right">
-                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="profs"></p-multiSelect>
+                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" formControlName="profs" optionLabel="lastName"></p-multiSelect>
                 </td>
             </tr>
             <tr>
@@ -140,7 +140,7 @@
             <tr>
                 <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="skills">
+                    <p-editor required="true" formControlName="skills">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -156,7 +156,7 @@
             <tr>
                 <td class="td-row-left" ><label>Lehrinhalte</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="content">
+                    <p-editor required="true" formControlName="content">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -184,7 +184,7 @@
             <tr >
                 <td class="td-row-left" ><label>Literatur</label></td>
                 <td class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="literature">
+                    <p-editor required="true" formControlName="literature">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
