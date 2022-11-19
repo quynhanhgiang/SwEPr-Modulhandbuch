@@ -2,9 +2,6 @@ package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityCycleStringConverter;
-import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityDurationStringConverter;
-import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityLanguageStringConverter;
-import de.hscoburg.modulhandbuchbackend.converters.VariationEntityCategoryStringConverter;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
+import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
@@ -37,33 +31,25 @@ public class ModuleController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
 	private final SpoRepository spoRepository;
 	private final VariationRepository variationRepository;
-	private final ModelMapper modelMapper = new ModelMapper();
-
-	@PostConstruct
-	public void init() {
-		this.modelMapper.addConverter(new ModuleEntityCycleStringConverter());
-		this.modelMapper.addConverter(new ModuleEntityDurationStringConverter());
-		this.modelMapper.addConverter(new ModuleEntityLanguageStringConverter());
-		this.modelMapper.addConverter(new VariationEntityCategoryStringConverter());
-	}
+	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper();
 
 	// TODO better return type?
 	@GetMapping("")
 	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.moduleRepository.findAll();
-			return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).toList();
+			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleDTO.class)).toList();
 		}
 
 		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modelMapper.map(module, ModuleFlatDTO.class)).toList();
+		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")
 	ModuleDTO oneModule(@PathVariable Integer id) {
 		ModuleEntity result = this.moduleRepository.findById(id)
 			.orElseThrow(() -> new ModuleNotFoundException(id));
-		return modelMapper.map(result, ModuleDTO.class);
+		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
 	}
 
 	@PostMapping("")
@@ -73,7 +59,7 @@ public class ModuleController {
 			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
 		}
 
-		ModuleEntity moduleEntity = modelMapper.map(newModule, ModuleEntity.class);
+		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(newModule, ModuleEntity.class);
 
 		// TODO extract doubled contents in method (next three blocks)
 		// extract only id from spo and replace other contents of spo with data from database
@@ -110,7 +96,7 @@ public class ModuleController {
 		}
 
 		ModuleEntity result = this.moduleRepository.save(moduleEntity);
-		return modelMapper.map(result, ModuleDTO.class);
+		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
 	}
 
 	// TODO

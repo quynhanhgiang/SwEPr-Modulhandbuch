@@ -41,14 +41,17 @@ public class VariationEntity {
 	@Column(name = "pk_semester", nullable = false)
 	private Integer semester;
 
-	@Column(name = "sws", nullable = false)
+	@Column(name = "sws")
 	private Integer sws;
 
-	@Column(name = "ects", nullable = false)
+	@Column(name = "ects")
 	private Integer ects;
 
 	@Column(name = "workload")
 	private String workLoad;
+
+	@Column(name = "admission_requirements")
+	private String admissionRequirements;
 
 	@Convert(converter = VariationEntityCategoryDatabaseConverter.class)
 	@Column(name = "category", columnDefinition = "ENUM('Pflichtfach', 'Wahlpflichtfach', 'Schlüsselqualifikation' DEFAULT NULL")
