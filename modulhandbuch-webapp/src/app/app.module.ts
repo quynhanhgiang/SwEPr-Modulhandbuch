@@ -16,10 +16,13 @@ import { TableModule } from 'primeng/table';
 import { FilterService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { EditorModule } from 'primeng/editor';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {DropdownModule} from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { DataViewModule } from 'primeng/dataview';
+import {InputTextModule} from 'primeng/inputtext';
 
 import { RestApiService } from './services/rest-api.service';
+import { GetModuleManualsComponent } from './get-module-manuals/get-module-manuals.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +31,7 @@ import { RestApiService } from './services/rest-api.service';
     DummyComponent,
     GetModulesComponent,
     CreateModuleComponent,
+    GetModuleManualsComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +45,8 @@ import { RestApiService } from './services/rest-api.service';
     ReactiveFormsModule,
     MultiSelectModule,
     DropdownModule,
+    DataViewModule,
+    InputTextModule
   ],
   providers: [
     FilterService,
