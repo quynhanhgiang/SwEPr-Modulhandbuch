@@ -10,7 +10,7 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Kürzel</label></td>
-                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation"></td>
+                <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10"></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -24,7 +24,7 @@
                         <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
                             <tr > 
                                 <td class="td-row-left" ><label>SPO</label></td>
-                                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo"></p-dropdown></td>
+                                <td class="td-row-right"><p-dropdown aria-required="true" [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo"></p-dropdown></td>
                             </tr>
                             <tr>
                                 <td class="td-row-left" ><label>Kategorie</label></td>
@@ -38,16 +38,16 @@
                             </tr>
                             <tr>
                                 <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                                <td class="td-row-right"><input type="number" class="form-control" required min="1" formControlName="sws"></td>
+                                <td class="td-row-right"><input type="number" class="form-control" required min="0" max="40" formControlName="sws"></td>
                             </tr>
                             <tr>
-                                <td class="td-row-left" ><label>Leistungspunkte</label></td>
+                                <td class="td-row-left" ><label>Leistungspunkte / ECTS</label></td>
                                 <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects"></td>
                             </tr>
                             <tr>
                                 <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
                                 <td class="td-row-right">
-                                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
+                                    <p-editor required="true" formControlName="workLoad"><!--Texteditor based on Quill-->
                                         <p-header>
                                             <span class="ql-formats">
                                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -66,7 +66,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Neue SPO entfernen</button>
+                                    <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">SPO entfernen</button>
                                 </td>
                             </tr>
                         </li>
@@ -100,18 +100,18 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Modulverantwortliche(r)</label></td>
-                <td class="td-row-right"><p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner"></p-dropdown></td>
+                <td class="td-row-right"><p-dropdown aria-required="true" [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner"></p-dropdown></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Dozent(in)</label></td>
                 <td  class="td-row-right">
-                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" optionLabel="lastName" formControlName="profs"></p-multiSelect>
+                    <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" [(ngModel)]="selectedProfs" formControlName="profs" optionLabel="lastName"></p-multiSelect>
                 </td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Sprache</label></td>
                 <td  class="td-row-right">
-                    <select required formControlName="language" class="form-select">
+                    <select formControlName="language" class="form-select">
                         <option value="german">Deutsch</option>
                         <option value="english">Englisch</option>
                         <option value="spanisch">Spanisch</option>
@@ -140,7 +140,7 @@
             <tr>
                 <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="skills">
+                    <p-editor required="true" formControlName="skills">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -156,7 +156,7 @@
             <tr>
                 <td class="td-row-left" ><label>Lehrinhalte</label></td>
                 <td  class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="content">
+                    <p-editor required="true" formControlName="content">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -171,7 +171,7 @@
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
-                <td  class="td-row-right"><input type="text" class="form-control" formControlName="examType"></td>
+                <td  class="td-row-right"><input required type="text" class="form-control" formControlName="examType"></td>
             </tr>
             <tr>
                 <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
@@ -184,7 +184,7 @@
             <tr >
                 <td class="td-row-left" ><label>Literatur</label></td>
                 <td class="td-row-right">
-                    <p-editor [style]="{'height':'200px'}" required="true" formControlName="literature">
+                    <p-editor required="true" formControlName="literature">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -218,6 +218,6 @@
     </form>
 </p-dialog>
 
-<div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
-    <button id="bt-create-module" class="btn btn-outline-secondary btn-lg mt-3 mb-3" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
+<div id="div-create-module" class=" pb-2 mt-3 mb-3"><!--Triggers the function showDialog() wich makes the form visible-->
+    <button id="bt-create-module" class="btn btn-outline-secondary btn-lg" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
 </div>
