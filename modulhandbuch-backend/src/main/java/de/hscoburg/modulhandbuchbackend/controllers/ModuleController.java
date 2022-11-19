@@ -1,6 +1,7 @@
 package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +39,11 @@ public class ModuleController {
 	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.moduleRepository.findAll();
-			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleDTO.class)).toList();
+			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleDTO.class)).collect(Collectors.toList());
 		}
 
 		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).toList();
+		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
@@ -72,7 +73,7 @@ public class ModuleController {
 						// TODO own exception
 						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 					))
-					.toList()
+					.collect(Collectors.toList())
 			);
 		}
 
@@ -91,7 +92,7 @@ public class ModuleController {
 					.filter(prof -> prof.getId() != null)
 					// TODO own Exception
 					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.toList()
+					.collect(Collectors.toList())
 			);
 		}
 
