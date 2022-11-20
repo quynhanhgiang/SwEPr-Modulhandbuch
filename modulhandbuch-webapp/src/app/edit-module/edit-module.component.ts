@@ -78,13 +78,13 @@ export class EditModuleComponent implements OnInit {
     ]
 
     this.spos=[
-      {id:0, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2014/SPO_B_BW_6.pdf",startDate:new Date("2014-08-01"), endDate:new Date("2020-08-01"), course:"B BW" },
-      {id:1, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_IW_3.pdf",startDate:new Date("2021-11-25"), endDate:new Date("2022-12-31"), course:"B IW" },
-      {id:2, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_SA_9.pdf",startDate:new Date("2014-12-23"), endDate:new Date("2022-12-31"), course:"B SA" },
-      {id:3, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2022/SPO__B__ADT_2022.pdf",startDate:new Date("2022-05-24"), endDate:new Date("2022-08-01"), course:" B ADT" },
-      {id:4, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_ZT.pdf",startDate:new Date("2021-05-06"), endDate:new Date("2022-01-01"), course:"B ZT" },
-      {id:5,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: new Date("2009-07-22"),endDate: new Date(),course: "IF Bachelor"},
-      {id:6,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: new Date("2009-07-22"),endDate: new Date(),course: "VC Bachelor"},
+      {id:0, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2014/SPO_B_BW_6.pdf",startDate:"2014-08-01", endDate:"2020-08-01", course:"BW", degree:"Bachelor" },
+      {id:1, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_IW_3.pdf",startDate:"2021-11-25", endDate:"2022-12-31", course:"IW",degree:"Bachelor" },
+      {id:2, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_SA_9.pdf",startDate:"2014-12-23", endDate:"2022-12-31", course:"SA",degree:"Bachelor" },
+      {id:3, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2022/SPO__B__ADT_2022.pdf",startDate:"2022-05-24", endDate:"2022-08-01", course:"ADT",degree:"Bachelor" },
+      {id:4, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_ZT.pdf",startDate:"2021-05-06", endDate:"2022-01-01", course:"ZT",degree:"Bachelor" },
+      {id:5,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: "2009-07-22",endDate:null ,course: "IF",degree:"Bachelor"},
+      {id:6,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: "2009-07-22",endDate:null ,course: "VC",degree:"Bachelor"},
     ]
 
     let id=0;
