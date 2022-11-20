@@ -1,6 +1,7 @@
 package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -139,6 +140,7 @@ public class ModuleController {
 			throw new RuntimeException(String.format("ID %d is not mapped for any module. For creating a new module please use a POST request.", id));
 		});
 
+		updatedModule.setId(id);
 		ModuleEntity moduleEntity = modelMapper.map(updatedModule, ModuleEntity.class);
 
 		// TODO extract doubled contents in method (next three blocks)
@@ -152,7 +154,7 @@ public class ModuleController {
 						// TODO own exception
 						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 					))
-					.toList()
+					.collect(Collectors.toList());
 			);
 		}
 
@@ -171,7 +173,7 @@ public class ModuleController {
 					.filter(prof -> prof.getId() != null)
 					// TODO own Exception
 					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.toList()
+					.collect(Collectors.toList());
 			);
 		}
 
