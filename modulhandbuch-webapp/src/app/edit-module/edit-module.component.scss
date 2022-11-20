@@ -1,7 +1,14 @@
 #div-create-module{
     width: auto !important;
     margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 1.5%;
+    height: 10vh;
     border-bottom: 1px solid gray;
+ }
+ 
+ #bt-create-module{
+     margin-top: 3vh;
  }
  
  #i-plus-symbol{
@@ -16,6 +23,7 @@
  .td-row-left{
     width: 40%;
  }
+
  .td-row-right{
     width: 60%;
  }
@@ -41,14 +49,14 @@
      border: 1px solid rgb(255, 200, 0);
 }
 
-
-#bt-submit-close, #bt-submit-open, #bt-submit-new{
-    width: 20%;
-    margin-top: 2vh;
+#div-create-module{
+    margin-top: 1vh;
 }
 
-#bt-submit-close, #bt-submit-open{
-    margin-right: 20%;
+#bt-submit-close{
+    width: 30%;
+    margin-top: 2vh;
+    margin-left: 35%;
 }
 
 #btn-add-variations,#btn-remove-variations {

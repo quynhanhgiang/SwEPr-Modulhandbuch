@@ -1,28 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { Spo } from '../shared/spo';
 
 @Component({
-  selector: 'app-create-module',
-  templateUrl: './create-module.component.html',
-  styleUrls: ['./create-module.component.scss']
+  selector: 'app-edit-module',
+  templateUrl: './edit-module.component.html',
+  styleUrls: ['./edit-module.component.scss']
 })
-export class CreateModuleComponent implements OnInit {
-  
+export class EditModuleComponent implements OnInit {
+
+  moduleName!:string;
+
   display: boolean = false;//false == form hidden | true == form visible
-  newModule!:Module;
+  rendered:boolean=false;
 
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
-  selectedProfs!:[];
+  selectedProfs!:CollegeEmployee[];
   spos!:Spo[];
   moduleOwners!:CollegeEmployee[];
 
-  constructor(private fb: FormBuilder, private restAPI: RestApiService) {
+  private routeSub!: Subscription;
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private restAPI: RestApiService) { 
     this.moduleFormGroup = this.fb.group({
       id: null,
       moduleName: new FormControl(),
@@ -46,8 +51,8 @@ export class CreateModuleComponent implements OnInit {
       maternityProtection: new FormControl(),
     });
   }
-  
-  ngOnInit(): void {
+
+  ngOnInit():void {
     this.profs=[
       {id:0, firstName:"Volkhard", lastName:"Pfeiffer", title:"Prof.", gender:"Herr", email:"volkhard.pfeiffer@hs-coburg.de"},
       {id:1, firstName:"Dieter", lastName:"Landes", title:"Prof. Dr.", gender:"Herr", email:"dieter.landes@hs-coburg.de"},
@@ -73,27 +78,75 @@ export class CreateModuleComponent implements OnInit {
     ]
 
     this.spos=[
-      {id:0, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2014/SPO_B_BW_6.pdf",startDate:"2014-08-01", endDate:"2020-08-01", course:"B BW", degree:"Bachelor" },
-      {id:1, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_IW_3.pdf",startDate:"2021-11-25", endDate:"2022-12-31", course:"B IW", degree:"Bachelor"  },
-      {id:2, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_SA_9.pdf",startDate:"2014-12-23", endDate:"2022-12-31", course:"B SA", degree:"Bachelor"  },
-      {id:3, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2022/SPO__B__ADT_2022.pdf",startDate:"2022-05-24", endDate:"2022-08-01", course:" B ADT", degree:"Bachelor"  },
-      {id:4, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_ZT.pdf",startDate:"2021-05-06", endDate:"2022-01-01", course:"B ZT", degree:"Bachelor"  },
+      {id:0, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2014/SPO_B_BW_6.pdf",startDate:new Date("2014-08-01"), endDate:new Date("2020-08-01"), course:"B BW" },
+      {id:1, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_IW_3.pdf",startDate:new Date("2021-11-25"), endDate:new Date("2022-12-31"), course:"B IW" },
+      {id:2, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_SA_9.pdf",startDate:new Date("2014-12-23"), endDate:new Date("2022-12-31"), course:"B SA" },
+      {id:3, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2022/SPO__B__ADT_2022.pdf",startDate:new Date("2022-05-24"), endDate:new Date("2022-08-01"), course:" B ADT" },
+      {id:4, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_ZT.pdf",startDate:new Date("2021-05-06"), endDate:new Date("2022-01-01"), course:"B ZT" },
+      {id:5,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: new Date("2009-07-22"),endDate: new Date(),course: "IF Bachelor"},
+      {id:6,link: "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",startDate: new Date("2009-07-22"),endDate: new Date(),course: "VC Bachelor"},
     ]
 
-    this.addVariation();
+    let id=0;
+    this.routeSub = this.route.params.subscribe(params => {
+      id =params['id'];
+    });
+
+    this.restAPI.getModule(id).subscribe(module => {
+      this.moduleName = module.moduleName;
+      this.selectedProfs = module.profs;
+
+      this.moduleFormGroup.patchValue({
+        id: module.id,
+        moduleName: module.moduleName,
+        abbreviation: module.abbreviation,
+        cycle: module.cycle,
+        duration: module.duration,
+        moduleOwner: module.moduleOwner,
+        profs: module.profs,
+        language: module.language,
+        usage: module.usage,
+        admissionRequirements: module.admissionRequirements,
+        knowledgeRequirements: module.knowledgeRequirements,
+        skills: module.skills,
+        content: module.content,
+        examType: module.examType,
+        certificates: module.certificates,
+        mediaType: module.mediaType,
+        literature: module.literature,
+        maternityProtection: module.maternityProtection,
+      });
+
+      for(let i=0;i<module.variations.length;i++){
+        this.variations.push(
+          this.fb.group({
+            spo:module.variations[i].spo,
+            ects: module.variations[i].ects,
+            sws: module.variations[i].sws,
+            workLoad: module.variations[i].workLoad,
+            semester: module.variations[i].semester,
+            category: module.variations[i].category,
+          })
+        );
+        
+      }
+      this.rendered = true;
+    });
+      
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 
   onSubmit(event: {submitter:any }): void {//create new Module with form data
     console.log("submit");
 
-    this.newModule = this.moduleFormGroup.value;
-    
-    this.restAPI.createModule(this.newModule).subscribe(resp => {
+    this.restAPI.createModule(this.moduleFormGroup.value).subscribe(resp => {
       console.log(resp);
     });
     
     this.hideDialog();
-    this.resetForm();
 
     if(event.submitter.id=="bt-submit-new"){
       this.showDialog();
@@ -106,10 +159,6 @@ export class CreateModuleComponent implements OnInit {
 
   hideDialog() {//hide form
     this.display = false;
-  }
-
-  resetForm(){
-    this.moduleFormGroup.reset();
   }
 
   get variations(){
@@ -136,4 +185,5 @@ export class CreateModuleComponent implements OnInit {
       alert("Es muss mindestens eine Variation geben")
     }
   }
+
 }
