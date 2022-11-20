@@ -1,4 +1,6 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 
 import { CreateModuleComponent } from './create-module.component';
 
@@ -8,7 +10,15 @@ describe('CreateModuleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateModuleComponent ]
+      imports: [],
+      providers: [
+        FormBuilder,
+        HttpClient,
+        HttpHandler
+      ],
+      declarations: [
+        CreateModuleComponent
+      ]
     })
     .compileComponents();
 

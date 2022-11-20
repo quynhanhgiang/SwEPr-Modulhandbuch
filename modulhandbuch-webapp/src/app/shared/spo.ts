@@ -1,7 +1,9 @@
 export interface Spo{
-    id:number;
-    link:string;
-    startDate:Date;
-    endDate:Date;
-    course:string;
+    id: number;
+    link: string;
+    startDate: string;
+    endDate: string | null;
+    course: string;
+    degree: string;
+   // modulePlan: ;
 }
