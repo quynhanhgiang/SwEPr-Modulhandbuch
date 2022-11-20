@@ -1,13 +1,13 @@
 package de.hscoburg.modulhandbuchbackend.model.entities;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +16,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import de.hscoburg.modulhandbuchbackend.converters.CollegeEmployeeEntityGenderDatabaseConverter;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -41,8 +44,8 @@ public class CollegeEmployeeEntity {
 	@Column(name = "title")
 	private String title;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "gender", columnDefinition = "ENUM('M', 'F', 'D')")
+	@Convert(converter = CollegeEmployeeEntityGenderDatabaseConverter.class)
+	@Column(name = "gender", columnDefinition = "ENUM('Herr', 'Frau', NULL) DEFAULT NULL")
 	private Gender gender;
 
 	@Column(name = "email")
@@ -68,9 +71,26 @@ public class CollegeEmployeeEntity {
 		return String.format("%s %s %s", Objects.toString(this.title, ""), this.firstName, this.lastName).trim();
 	}
 
+	@AllArgsConstructor
+	@Getter
 	public enum Gender {
-		M,
-		F,
-		D,
+		M("Herr"),
+		F("Frau"),
+		D(""),
+		;
+
+		private String text;
+
+		public static Gender fromString(String text) {
+			return Arrays.stream(Gender.values())
+				.filter(gender -> gender.text.equals(text))
+				.findAny()
+				.orElse(null);
+		}
+
+		@Override
+		public String toString() {
+			return this.text;
+		}
 	}
 }

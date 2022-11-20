@@ -11,4 +11,5 @@ public class SpoDTO {
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private String course;
+	private String degree;
 }

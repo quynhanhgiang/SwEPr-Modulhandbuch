@@ -12,17 +12,20 @@ import { DummyComponent } from './dummy/dummy.component';
 import { GetModulesComponent } from './get-modules/get-modules.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { SanitizeHtmlPipe } from './module-detail/SanitizeHtmlPipe';
+import { GetModuleManualsComponent } from './get-module-manuals/get-module-manuals.component';
+import { ModuleDetailComponent } from './module-detail/module-detail.component';
+import { EditModuleComponent } from './edit-module/edit-module.component';
 
 import { TableModule } from 'primeng/table';
 import { FilterService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { EditorModule } from 'primeng/editor';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {DropdownModule} from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { DataViewModule } from 'primeng/dataview';
+import {InputTextModule} from 'primeng/inputtext';
 
 import { RestApiService } from './services/rest-api.service';
-import { ModuleDetailComponent } from './module-detail/module-detail.component';
-import { EditModuleComponent } from './edit-module/edit-module.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { EditModuleComponent } from './edit-module/edit-module.component';
     DummyComponent,
     GetModulesComponent,
     CreateModuleComponent,
+    GetModuleManualsComponent,
     ModuleDetailComponent,
     EditModuleComponent,
     SanitizeHtmlPipe
@@ -48,6 +52,8 @@ import { EditModuleComponent } from './edit-module/edit-module.component';
     ReactiveFormsModule,
     MultiSelectModule,
     DropdownModule,
+    DataViewModule,
+    InputTextModule
   ],
   providers: [
     FilterService,
