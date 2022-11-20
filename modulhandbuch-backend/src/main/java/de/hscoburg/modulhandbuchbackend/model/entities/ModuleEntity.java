@@ -63,7 +63,7 @@ public class ModuleEntity {
     private List<CollegeEmployeeEntity> profs;
 
 	@Convert(converter = ModuleEntityLanguageDatabaseConverter.class)
-	@Column(name = "language", columnDefinition = "ENUM('Deutsch', 'Englisch', 'Französisch', 'Spanisch', 'Chinesisch', 'Russisch') DEFAULT 'NULL'")
+	@Column(name = "language", columnDefinition = "ENUM('Deutsch', 'Englisch', 'Französisch', 'Spanisch', 'Chinesisch', 'Russisch') DEFAULT 'Deutsch'")
 	private Language language;
 
 	@Column(name = "course_usage")

@@ -16,7 +16,6 @@ public class ModuleDTO {
 	private List<CollegeEmployeeDTO> profs;
 	private String language;
 	private String usage;
-	private String admissionRequirements;
 	private String knowledgeRequirements;
 	private String skills;
 	private String content;
