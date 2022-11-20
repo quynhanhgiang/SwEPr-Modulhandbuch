@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Pipe } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { MenubarComponent } from './menubar/menubar.component';
 import { DummyComponent } from './dummy/dummy.component';
 import { GetModulesComponent } from './get-modules/get-modules.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
+import { SanitizeHtmlPipe } from './module-detail/SanitizeHtmlPipe';
 
 import { TableModule } from 'primeng/table';
 import { FilterService } from 'primeng/api';
@@ -20,6 +21,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {DropdownModule} from 'primeng/dropdown';
 
 import { RestApiService } from './services/rest-api.service';
+import { ModuleDetailComponent } from './module-detail/module-detail.component';
+import { EditModuleComponent } from './edit-module/edit-module.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +32,9 @@ import { RestApiService } from './services/rest-api.service';
     DummyComponent,
     GetModulesComponent,
     CreateModuleComponent,
+    ModuleDetailComponent,
+    EditModuleComponent,
+    SanitizeHtmlPipe
   ],
   imports: [
     BrowserModule,
