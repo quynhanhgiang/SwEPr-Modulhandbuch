@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
@@ -27,5 +29,12 @@ public class ModuleManualController {
 	public List<ModuleManualDTO> allModuleManuals() {
 		List<ModuleManualEntity> result = this.moduleManualRepository.findAll();
 		return result.stream().map(moduleManual -> modulhandbuchBackendMapper.map(moduleManual, ModuleManualDTO.class)).collect(Collectors.toList());
+	}
+
+	@GetMapping("/{id}")
+	ModuleManualDTO oneModuleManual(@PathVariable Integer id) {
+		ModuleManualEntity result = this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleNotFoundException(id));
+		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
 	}
 }
