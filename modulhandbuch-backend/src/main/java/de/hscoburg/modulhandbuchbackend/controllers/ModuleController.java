@@ -127,7 +127,7 @@ public class ModuleController {
 		});
 
 		updatedModule.setId(id);
-		ModuleEntity moduleEntity = modelMapper.map(updatedModule, ModuleEntity.class);
+		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(updatedModule, ModuleEntity.class);
 
 		// TODO extract doubled contents in method (next three blocks)
 		// extract only id from spo and replace other contents of spo with data from database
@@ -140,7 +140,7 @@ public class ModuleController {
 						// TODO own exception
 						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 					))
-					.collect(Collectors.toList());
+					.collect(Collectors.toList())
 			);
 		}
 
@@ -159,12 +159,12 @@ public class ModuleController {
 					.filter(prof -> prof.getId() != null)
 					// TODO own Exception
 					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.collect(Collectors.toList());
+					.collect(Collectors.toList())
 			);
 		}
 
 		ModuleEntity result = this.moduleRepository.save(moduleEntity);
-		return modelMapper.map(result, ModuleDTO.class);
+		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
 	}
 
 	// TODO
