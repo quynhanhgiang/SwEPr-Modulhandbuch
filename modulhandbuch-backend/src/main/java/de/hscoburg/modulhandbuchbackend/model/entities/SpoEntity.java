@@ -1,7 +1,7 @@
 package de.hscoburg.modulhandbuchbackend.model.entities;
 
 import java.sql.Blob;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import javax.persistence.Column;
@@ -34,10 +34,10 @@ public class SpoEntity {
 	private String link;
 
 	@Column(name = "start_date", nullable = false)
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 
 	@Column(name = "end_date")
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 
 	@Column(name = "course", nullable = false)
 	private String course;
@@ -49,7 +49,7 @@ public class SpoEntity {
 	@Column(name = "module_plan")
 	private Blob module_plan;
 
-	public SpoEntity(String link, LocalDateTime startDate, LocalDateTime endDate, String course, Degree degree, Blob module_plan) {
+	public SpoEntity(String link, LocalDate startDate, LocalDate endDate, String course, Degree degree, Blob module_plan) {
 		this.link = link;
 		this.startDate = startDate;
 		this.endDate = endDate;
