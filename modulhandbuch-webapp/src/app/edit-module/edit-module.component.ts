@@ -142,7 +142,7 @@ export class EditModuleComponent implements OnInit {
   onSubmit(event: {submitter:any }): void {//create new Module with form data
     console.log("submit");
 
-    this.restAPI.createModule(this.moduleFormGroup.value).subscribe(resp => {
+    this.restAPI.updateModule(this.moduleFormGroup.value).subscribe(resp => {
       console.log(resp);
     });
     
