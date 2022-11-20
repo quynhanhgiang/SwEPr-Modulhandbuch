@@ -54,11 +54,11 @@ public class ModuleController {
 	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.moduleRepository.findAll();
-			return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).toList();
+			return result.stream().map((module) -> modelMapper.map(module, ModuleDTO.class)).collect(Collectors.toList());
 		}
 
 		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modelMapper.map(module, ModuleFlatDTO.class)).toList();
+		return result.stream().map((module) -> modelMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
@@ -88,7 +88,7 @@ public class ModuleController {
 						// TODO own exception
 						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 					))
-					.toList()
+					.collect(Collectors.toList())
 			);
 		}
 
@@ -107,7 +107,7 @@ public class ModuleController {
 					.filter(prof -> prof.getId() != null)
 					// TODO own Exception
 					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.toList()
+					.collect(Collectors.toList())
 			);
 		}
 
