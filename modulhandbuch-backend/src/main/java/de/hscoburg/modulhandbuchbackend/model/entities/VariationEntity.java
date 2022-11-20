@@ -44,7 +44,7 @@ public class VariationEntity {
 	@Column(name = "sws")
 	private Integer sws;
 
-	@Column(name = "ects")
+	@Column(name = "ects", nullable = false)
 	private Integer ects;
 
 	@Column(name = "workload")
