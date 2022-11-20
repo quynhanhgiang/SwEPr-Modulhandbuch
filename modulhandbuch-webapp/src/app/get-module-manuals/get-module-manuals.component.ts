@@ -11,7 +11,7 @@ import { moduleManuals } from './mock-module-manuals';
 })
 export class GetModuleManualsComponent implements OnInit {
 
-  moduleManuals: ModuleManual[] = moduleManuals;
+  moduleManuals: ModuleManual[] = [];
 
   sortOptions: SelectItem[] = [];
   sortKey: string = "";
@@ -23,8 +23,8 @@ export class GetModuleManualsComponent implements OnInit {
   constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
-    this.restAPI.getModuleManuals().subscribe(moduleManuals => {
-      this.moduleManuals = moduleManuals;
+    this.restAPI.getModuleManuals().subscribe(resp => {
+      this.moduleManuals = resp;
 
       if (moduleManuals.length === 0) {
         this.emptyMessage = "Es wurden noch keine Modulhandbücher angelegt. Zum Anlegen bitte auf 'Neues Modulhandbuch' klicken."
