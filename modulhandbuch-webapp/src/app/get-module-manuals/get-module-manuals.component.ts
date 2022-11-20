@@ -11,27 +11,27 @@ import { moduleManuals } from './mock-module-manuals';
 })
 export class GetModuleManualsComponent implements OnInit {
 
-  moduleManuals: ModuleManual[] = [];
+  moduleManuals: ModuleManual[] = moduleManuals;
 
   sortOptions: SelectItem[] = [];
   sortKey: string = "";
   sortField: string = "";
   sortOrder: number = 1;
 
-  emptyMessage = "Keine Ergebnisse gefunden. Bitte überprüfen Sie die Korrektheit der Eingabe und stellen Sie sicher, dass lediglich das Studienfach gesucht wurde (z.B. 'Visual Computing')."
+  emptyMessage = "Modulhandbücher werden geladen..."
 
   constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
-    this.moduleManuals = moduleManuals;
+    this.restAPI.getModuleManuals().subscribe(moduleManuals => {
+      this.moduleManuals = moduleManuals;
 
-    if (this.moduleManuals.length == 0) {
-      this.emptyMessage = "Es wurden noch keine Modulhandbücher angelegt. Zum Anlegen bitte auf 'Neues Modulhandbuch' klicken."
-    }
-
-//  this.restAPI.getModuleManuals().subscribe(moduleManuals => {
-//     this.moduleManuals = moduleManuals;
-//  });
+      if (moduleManuals.length === 0) {
+        this.emptyMessage = "Es wurden noch keine Modulhandbücher angelegt. Zum Anlegen bitte auf 'Neues Modulhandbuch' klicken."
+      } else {
+        this.emptyMessage = "Keine Ergebnisse gefunden. Bitte überprüfen Sie die Korrektheit der Eingabe und stellen Sie sicher, dass lediglich das Studienfach gesucht wurde (z.B. 'Visual Computing')."
+      }
+    });
 
     this.sortOptions = [
       {label: 'Gültigkeit aufsteigend', value: 'spo.startDate'},
@@ -44,11 +44,10 @@ export class GetModuleManualsComponent implements OnInit {
     return d.toLocaleDateString("de", {timeZone:'Europe/Berlin', year: 'numeric', month: 'long', day: 'numeric' })
   }
 
-
   onSortChange(select: HTMLInputElement) {
     let value = select.value;
 
-console.log(value);
+    console.log(value);
 
     if (value.indexOf('!') === 0) {
         this.sortOrder = -1;

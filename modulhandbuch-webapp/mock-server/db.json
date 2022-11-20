@@ -1,0 +1,401 @@
+{
+  "flatModules": [
+    {
+      "id": 0,
+      "abbreviation": "Ana",
+      "moduleName": "Analysis",
+      "moduleOwner": "Prof. Dr. Ada Bäumner"
+    },
+    {
+      "id": 1,
+      "abbreviation": "Prog1",
+      "moduleName": "Programmieren 1",
+      "moduleOwner": "Prof. Volkhard Pfeiffer"
+    },
+    {
+      "id": 2,
+      "abbreviation": "Prog2",
+      "moduleName": "Programmieren 2",
+      "moduleOwner": "Prof. Volkhard Pfeiffer"
+    },
+    {
+      "id": 3,
+      "abbreviation": "FProg",
+      "moduleName": "Fortgeschrittene Programmierung",
+      "moduleOwner": "Prof. Dr. Thomas Wieland"
+    },
+    {
+      "id": 4,
+      "abbreviation": "SAT",
+      "moduleName": "Software-Architekturen und -Testen",
+      "moduleOwner": "Prof. Volkhard Pfeiffer"
+    },
+    {
+      "id": 5,
+      "abbreviation": "SpI",
+      "moduleName": "Studienprojekt praktische Informatik",
+      "moduleOwner": "Prof. Dr. Thomas Wieland"
+    },
+    {
+      "id": 6,
+      "abbreviation": "CN",
+      "moduleName": "Computernetze",
+      "moduleOwner": "Prof. Dr. Thomas Wieland"
+    },
+    {
+      "id": 7,
+      "abbreviation": "ITS",
+      "moduleName": "IT-Sicherheit",
+      "moduleOwner": "Prof. Dr. Thomas Wieland"
+    },
+    {
+      "id": 8,
+      "abbreviation": "SAM",
+      "moduleName": "Softwaren-Anforderungen und -Modellierung",
+      "moduleOwner": "Prof. Dr. Landes"
+    },
+    {
+      "id": 9,
+      "abbreviation": "Db",
+      "moduleName": "Datenbanksysteme",
+      "moduleOwner": " Prof. Dr. Jürgen Terpin"
+    },
+    {
+      "id": 10,
+      "abbreviation": "GI",
+      "moduleName": "Grundlagen der Informatik",
+      "moduleOwner": "Prof. Dr. Dieter Landes"
+    },
+    {
+      "id": 11,
+      "abbreviation": "RA",
+      "moduleName": "Rechnerarchitekturen",
+      "moduleOwner": "Prof. Dr. Quirin Meyer"
+    },
+    {
+      "id": 12,
+      "abbreviation": "ISem",
+      "moduleName": "Informatik-Seminar",
+      "moduleOwner": "Prof. Volkhard Pfeiffer"
+    }
+  ],
+  "modules": [
+    {
+      "id": 0,
+      "moduleName": "Analysis",
+      "abbreviation": "Ana",
+      "variations": [
+        {
+          "spo": {
+            "id": 5,
+            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
+            "startDate": "22.07.2009",
+            "endDate": "-",
+            "course": "IF Bachelor"
+          },
+          "semester": 1,
+          "sws": 6,
+          "ects": 7,
+          "workLoad": "90h Präsenz, 120 Eigenarbeit",
+          "category": "Pflichtfach"
+        }
+      ],
+      "cycle": "jährlich",
+      "duration": "einsemestrig",
+      "moduleOwner": {
+        "id": 3,
+        "firstName": "Ada",
+        "lastName": "Bäumner",
+        "title": "Prof. Dr",
+        "gender": "Sehr geehrte",
+        "email": "Ada.Baeumner@hs-coburg.de"
+      },
+      "profs": [
+        {
+          "id": 3,
+          "firstName": "Ada",
+          "lastName": "Bäumner",
+          "title": "Prof. Dr",
+          "gender": "Sehr geehrte",
+          "email": "Ada.Baeumner@hs-coburg.de"
+        }
+      ],
+      "language": "Deutsch",
+      "usage": "-",
+      "admissionRequirements": "-",
+      "knowledgeRequirements": "-",
+      "skills": "Studierende sollen wesentliche Grundlagen der Analysis bis hin zur Differentialrechnung kennen und anwenden können.",
+      "content": "Logik, Mengenlehre, Vollständige Induktion, Kombinatorik, rationale und reelle Zahlen, komplexe Zahlen, Folgen und Grenzwerte, Reihen, Funktionen und Stetigkeit,Differenzierbarkeit, Sätze der Differenzialrechnung Extremwerte, Taylorentwicklung",
+      "examType": "Schriftliche Prüfung (120 Minuten)",
+      "certificates": "-",
+      "mediaType": "Tafel, Skript",
+      "literature": "T. Arens et al., „Mathematik“, Spektrum, Heidelberg, 2008\nG. Teschl, S. Teschl, „Mathematik für Informatiker“, Band 1 und 2, Springer Spektrum Berlin, Heidelberg, 2013\nW. Struckmann, D. Wätjen, „Mathematik für Informatiker“, Springer Vieweg Berlin, Heidelberg, 2016\nR. Berghammer, „Mathematik für Informatiker“, Springer Vieweg Wiesbaden, 2014\nE. Weitz, „Konkrete Mathematik (nicht nur) für Informatiker“, Springer Spektrum Wiesbaden, 2018\nO. Forster, „Analysis 1“, Vieweg, Wiesbaden, 2004",
+      "maternityProtection": "Grün"
+    },
+    {
+      "id": 1,
+      "moduleName": "Programmieren 1",
+      "abbreviation": "Prog1",
+      "variations": [
+        {
+          "spo": {
+            "id": 5,
+            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
+            "startDate": "22.07.2009",
+            "endDate": "-",
+            "course": "IF Bachelor"
+          },
+          "semester": 1,
+          "sws": 4,
+          "ects": 5,
+          "workLoad": "60h Präsenz, 90h Eigenarbeit",
+          "category": "Pflichtfach"
+        }
+      ],
+      "cycle": "jährlich",
+      "duration": "einsemestrig",
+      "moduleOwner": {
+        "id": 2,
+        "firstName": "Volkard",
+        "lastName": "Pfeiffer",
+        "title": "Prof.",
+        "gender": "Sehr geehrter",
+        "email": "Volkard.Pfeiffer@hs-coburg.de"
+      },
+      "profs": [
+        {
+          "id": 2,
+          "firstName": "Volkard",
+          "lastName": "Pfeiffer",
+          "title": "Prof.",
+          "gender": "Sehr geehrter",
+          "email": "Volkard.Pfeiffer@hs-coburg.de"
+        }
+      ],
+      "language": "Deutsch",
+      "usage": "Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik\nBachelor Visual Computing",
+      "admissionRequirements": "-",
+      "knowledgeRequirements": "-",
+      "skills": "Fachlich-methodische Kompetenzen:\nStudierende sollen\n\t• die zentralen Konzepte von Programmiersprachen(z.B. Variablen, Prozeduren, Kontrollstrukturen, Zeiger) kennen, verstehen und auf Problemstellungen anwenden können\n\t• die Grundlagen der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können",
+      "content": "Einführung, Datentypen und Ausdrücke, Kontrollstrukturen, Arrays und Zeiger, Prozedurale Programmierung, Rekursion, Objektorientierte Programmierung – Teil 1, Strings, Exception Handling",
+      "examType": "Schriftliche Prüfung (120 Minuten) als computergestützte Präsenzprüfung",
+      "certificates": "-",
+      "mediaType": "Beamer, Tafel, Overheadprojektor, E-Learning Medien",
+      "literature": "Ullenboom, Christian \"Java ist auch eine Insel\" Galileo Computing jeweils in der neusten Auflage\nKrüger, Guido \"Handbuch der Java Programmierung\"\nAddison Wesley jeweils in der neusten Auflage\nKathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage\nSchiedermeier R. \"Programmieren mit Java\" Pearson Studium jeweils in der neusten Auflage ",
+      "maternityProtection": "Grün"
+    },
+    {
+      "id": 2,
+      "moduleName": "Programmieren 2",
+      "abbreviation": "Prog2",
+      "variations": [
+        {
+          "spo": {
+            "id": 5,
+            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
+            "startDate": "22.07.2009",
+            "endDate": "-",
+            "course": "IF Bachelor"
+          },
+          "semester": 2,
+          "sws": 6,
+          "ects": 7,
+          "workLoad": "90h Präsenz, 120 Eigenarbeit",
+          "category": "Pflichtfach"
+        }
+      ],
+      "cycle": "jährlich",
+      "duration": "einsemestrig",
+      "moduleOwner": {
+        "id": 2,
+        "firstName": "Volkard",
+        "lastName": "Pfeiffer",
+        "title": "Prof.",
+        "gender": "Sehr geehrter",
+        "email": "Volkard.Pfeiffer@hs-coburg.de"
+      },
+      "profs": [
+        {
+          "id": 2,
+          "firstName": "Volkard",
+          "lastName": "Pfeiffer",
+          "title": "Prof.",
+          "gender": "Sehr geehrter",
+          "email": "Volkard.Pfeiffer@hs-coburg.de"
+        }
+      ],
+      "language": "Deutsch",
+      "usage": "Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik\nBachelor Visual Computing",
+      "admissionRequirements": "-",
+      "knowledgeRequirements": "Grundlagen der imperativen Programmierung",
+      "skills": "Fachlich-methodische Kompetenzen:\nStudierende sollen\n\t• weiterführende Konzepte der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können,\n\t• die Grundlagen der Programmierung von Bedienoberflächen und Ein/Ausgabe-Handling kennen, verstehen und auf Problemstellungen anwenden können,\n\t• verschiedene Datenstrukturen kennen, verstehen und anwenden können,\n\t• die Grundlagen der funktionalen Programmierung im Rahmen einer objekt-funktionalen Sprache kennen,verstehen und anwenden können",
+      "content": "Objektorientierte Programmierung - Vertiefung, Collection Datenstrukturen, Utility Klassen, Generics, Lambda und Streams, Graphik 2D Grundlagen, User Interface Komponenten, Swing / Java FX Komponenten, I/O - Ein- und Ausgabe",
+      "examType": "Schriftliche Prüfung (90 min)",
+      "certificates": "-",
+      "mediaType": "Beamer, Tafel, Overheadprojektor, E-Learning Medien",
+      "literature": "Ullenboom, Christian \"Java ist auch eine Insel\" Galileo Computing jeweils in der neusten Auflage\nKrüger, Guido \"Handbuch der Java Programmierung\"\nAddison Wesley jeweils in der neusten Auflage\nKathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage\nSchiedermeier R. \"Programmieren mit Java\" Pearson Studium jeweils in der neusten Auflage ",
+      "maternityProtection": "Grün"
+    },
+    {
+      "id": 3,
+      "moduleName": "Alol",
+      "abbreviation": "Al",
+      "variations": [
+        {
+          "spo": "",
+          "ects": 2,
+          "sws": 1,
+          "workLoad": "<p>3</p>",
+          "semester": 7,
+          "category": "Jährlich"
+        }
+      ],
+      "cycle": "Halbjärlich",
+      "duration": "Einsemestrig",
+      "moduleOwner": null,
+      "prof": [
+        {
+          "id": 1,
+          "firstName": "Dieter",
+          "lastName": "Landes",
+          "title": "Prof. Dr.",
+          "gender": "Herr",
+          "email": "dieter.landes@hs-coburg.de"
+        }
+      ],
+      "language": "english",
+      "usage": "test",
+      "admissionRequirements": "Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)",
+      "knowledgeRequirements": "test",
+      "skills": "<p>tesrt</p>",
+      "content": "<p>testr</p>",
+      "examType": "test",
+      "certificates": "test",
+      "mediaType": "test",
+      "literature": "<p>test</p>",
+      "maternityProtection": "g"
+    }
+  ],
+  "module-manuals": [
+    {
+      "id": 1,
+      "spo": {
+        "id": 1,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
+        "startDate": "2020-10-01",
+        "endDate": null,
+        "course": "Informatik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 2,
+      "spo": {
+        "id": 2,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf",
+        "startDate": "2014-10-01",
+        "endDate": "2020-09-30",
+        "course": "Informatik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 3,
+      "spo": {
+        "id": 3,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf",
+        "startDate": "2009-07-22",
+        "endDate": "2014-09-30",
+        "course": "Informatik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 4,
+      "spo": {
+        "id": 4,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20EL%201_0.pdf",
+        "startDate": "2020-10-01",
+        "endDate": null,
+        "course": "Elektro- und Informationstechnik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 5,
+      "spo": {
+        "id": 5,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_EL_neu.pdf",
+        "startDate": "2017-10-01",
+        "endDate": "2020-09-30",
+        "course": "Elektro- und Informationstechnik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 6,
+      "spo": {
+        "id": 6,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf",
+        "startDate": "2020-10-01",
+        "endDate": null,
+        "course": "Visual Computing",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 7,
+      "spo": {
+        "id": 7,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20EN%201.pdf",
+        "startDate": "2020-10-01",
+        "endDate": null,
+        "course": "Energietechnik und Erneuerbare Energien",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 8,
+      "spo": {
+        "id": 8,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_EN.pdf",
+        "startDate": "2017-10-01",
+        "endDate": "2020-09-30",
+        "course": "Energietechnik und Erneuerbare Energien",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 9,
+      "spo": {
+        "id": 9,
+        "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20AU%202_0.pdf",
+        "startDate": "2020-10-01",
+        "endDate": null,
+        "course": "Automatisierungstechnik und Robotik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    },
+    {
+      "id": 10,
+      "spo": {
+        "id": 10,
+        "link": "",
+        "startDate": "2017-10-01",
+        "endDate": "2020-09-30",
+        "course": "Automatisierungstechnik und Robotik",
+        "degree": "Bachelor"
+      },
+      "semester": "WiSe 22/23"
+    }
+  ]
+}
