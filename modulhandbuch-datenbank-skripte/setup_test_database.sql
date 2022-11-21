@@ -32,8 +32,8 @@ INSERT IGNORE INTO college_employee VALUES
 CREATE TABLE IF NOT EXISTS spo (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	link VARCHAR(255) NOT NULL,
-	start_date DATETIME NOT NULL,
-	end_date DATETIME NULL,
+	start_date DATE NOT NULL,
+	end_date DATE NULL,
 	course VARCHAR(255) NOT NULL,
 	degree ENUM('Bachelor', 'Master') NOT NULL DEFAULT 'Bachelor',
 	module_plan BLOB NULL,
