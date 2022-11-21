@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS swepr_test_a8 /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
+CREATE DATABASE IF NOT EXISTS swepr_test /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ;
 
-USE swepr_test_a8;
+USE swepr_test;
 
 
 CREATE TABLE IF NOT EXISTS college_employee (
@@ -23,7 +23,8 @@ INSERT IGNORE INTO college_employee VALUES
 	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 'Herr', 'Dieter.Wissmann@hs-coburg.de'),
 	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 'Herr', 'Thomas.Wieland@hs-coburg.de'),
 	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 'Herr', 'Quirin.Meyer@hs-coburg.de'),
-	(6, 'Michaela', 'Ihlau', NULL, 'Frau', 'Michaela.Ihlau@hs-coburg.de')
+	(6, 'Michaela', 'Ihlau', NULL, 'Frau', 'Michaela.Ihlau@hs-coburg.de'),
+	(7, 'Missing', 'NO', NULL, 'TEST', 'example@mail.com')
 ;
 
 
@@ -31,8 +32,8 @@ INSERT IGNORE INTO college_employee VALUES
 CREATE TABLE IF NOT EXISTS spo (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	link VARCHAR(255) NOT NULL,
-	start_date DATETIME NULL,
-	end_date DATETIME NULL,
+	start_date DATE NOT NULL,
+	end_date DATE NULL,
 	course VARCHAR(255) NOT NULL,
 	degree ENUM('Bachelor', 'Master') NOT NULL DEFAULT 'Bachelor',
 	module_plan BLOB NULL,
@@ -75,7 +76,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module VALUES
-	(1, 1, 'Programmieren 1', 'Prog1', 'Jährlich', 'Einsemestrig', 'Deutsch', 
+	(1, 1, 'Programmieren 1', 'Prog1', 
+	'Jährlich', 
+	'Einsemestrig', 
+	'Deutsch', 
 	'<p>Betriebswirtschaft - Schwerpunkt Wirtschaftsinformatik, Bachelor Visual Computing</p>',
 	NULL,
 	'<p><span style=\'color: rgb(0, 0, 0);\'>Fachlich-methodische Kompetenzen:</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Studierende sollen </span></p><ul><li><span style=\'color: rgb(0, 0, 0);\'>die zentralen Konzepte von Programmiersprachen (z.B. Variablen, Prozeduren, Kontrollstrukturen, Zeiger) kennen, verstehen und auf Problemstellungen anwenden können</span></li><li><span style=\'color: rgb(0, 0, 0);\'>die Grundlagen der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können</span></li></ul><p><br></p>',
@@ -87,7 +91,10 @@ INSERT IGNORE INTO module VALUES
 	'Grün'
 	),
 
-	(2, 5, 'Rechnerarchitekturen', 'Ra', 'Jährlich', 'Einsemestrig', 'Deutsch', 
+	(2, 5, 'Rechnerarchitekturen', 'Ra',
+	'Jährlich', 
+	'Einsemestrig', 
+	'Deutsch', 
 	NULL,
 	NULL,
 	'<p><span style=\'color: rgb(0, 0, 0);\'>DUMMY_TEXT: Fachlich-methodische Kompetenzen:</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Studierende sollen </span></p><ul><li><span style=\'color: rgb(0, 0, 0);\'>die zentralen Konzepte von Programmiersprachen (z.B. Variablen, Prozeduren, Kontrollstrukturen, Zeiger) kennen, verstehen und auf Problemstellungen anwenden können</span></li><li><span style=\'color: rgb(0, 0, 0);\'>die Grundlagen der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können</span></li></ul><p><br></p>',
@@ -159,6 +166,7 @@ COLLATE='utf8mb4_unicode_520_ci'
 INSERT IGNORE INTO module_manual VALUES
 	(1, 1, "Sommersemester 23", NULL, NULL, NULL),
 	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL),
-	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL)
+	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL),
+	(4, 4, "Wintersemester 22/23", NULL, NULL, NULL)
 ;
 
