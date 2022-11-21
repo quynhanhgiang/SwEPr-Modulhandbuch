@@ -1,8 +1,5 @@
 <div class="container pt-4 pb-4">
-    <button type="button" class="btn btn-lg btn-outline-secondary" >
-        <i class="bi bi-plus-lg fs-5"></i>
-        Neues Modulhandbuch
-    </button>
+    <app-create-module-manual></app-create-module-manual>
     <hr>
     <p-dataView #dv [value]="moduleManuals" [paginator]="true" [rows]="5" [sortField]="sortField" [sortOrder]="sortOrder"
     [emptyMessage]="emptyMessage" filterBy="spo.course">

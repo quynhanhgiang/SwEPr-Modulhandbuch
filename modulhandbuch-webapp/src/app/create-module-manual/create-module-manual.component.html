@@ -1,0 +1,97 @@
+<!--Triggers the function showDialog() wich makes the form visible-->
+<button id="btn-create-module-manual" type="button" class="btn btn-lg btn-outline-secondary" (click)="showDialog()">
+  <i class="bi bi-plus-lg fs-5"></i>
+  Neues Modulhandbuch
+</button>
+
+<!--Pop-up dialog for form-->
+<p-dialog [(visible)]="visible" [transitionOptions]="'150ms'" (onHide)="resetForm()" >
+
+  <ng-template pTemplate="header">
+    <h3>Neues Modulhandbuch hinzufügen</h3>
+  </ng-template>
+
+  <div class="card p-3 mt-2">
+    <h6>Modulhandbuch</h6>
+
+    <form class="row g-3" [formGroup]="manualFormGroup" ngNativeValidate>
+      <div class="col-md-12">
+        <div class="input-group">
+          <span class="input-group-text">Gültig für das</span>
+          <select class="form-select" id="select-semester-type" formControlName="semesterType">
+            <option value="Wintersemester" selected>Wintersemester</option>
+            <option value="Sommersemester">Sommersemester</option>
+          </select>
+          <input type="text" class="form-control" id="input-semester-year" placeholder="2022/2023" formControlName="semesterYears"/>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="check-new-spo" (click)="toggleSpoForm()" formControlName="givenSPO"/>
+          <label class="form-check-label" for="check-new-spo">
+            SPO aus bereits hinzugefügten SPOs wählen
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-8" [ngStyle]="{'visibility': spoDisabled? 'visible' : 'hidden'}">
+        <div class="input-group">
+          <span class="input-group-text">SPO:</span>
+          <select class="form-select" id="select-spo" (change)="updateSpoForm()" formControlName="spo">
+            <option *ngFor="let spo of spos" value="{{spo.id}}">{{spo.degree}} {{spo.course}} [{{getSpoTimespan(spo)}}]</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="card p-3 mt-2">
+    <h6>Studien- und Prüfungsordnung (SPO)</h6>
+
+    <form class="row g-3" [formGroup]="spoFormGroup" ngNativeValidate>
+
+      <div class="col-md-12">
+        <label for="input-spo-link" class="form-label">Link zur SPO:</label>
+        <div class="input-group">
+          <span class="input-group-text">https://</span>
+          <input type="text" class="form-control" id="input-spo-link" placeholder="mycampus.hs-coburg.de/sites/default/files/..." formControlName="link"/>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label for="select-degree" class="form-label">Abschluss:</label>
+        <select class="form-select" id="select-degree" formControlName="degree">
+          <option value="Bachelor" selected>Bachelor</option>
+          <option value="Master">Master</option>
+        </select>
+      </div>
+
+      <div class="col-md-9">
+        <label for="select-course" class="form-label">Studiengang:</label>
+        <select class="form-select" id="select-course" formControlName="course">
+          <option value="Automatisierungstechnik und Robotik" selected>Automatisierungstechnik und Robotik</option>
+          <option value="Elektro- und Informationstechnik">Elektro- und Informationstechnik</option>
+          <option value="Energietechnik und Erneuerbare Energien">Energietechnik und Erneuerbare Energien</option>
+          <option value="Informatik">Informatik</option>
+          <option value="Visual Computing">Visual Computing</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="date-start" class="form-label">Für Studienanfänger ab:</label>
+        <input type="date" class="form-control" id="date-start" formControlName="startDate"/>
+      </div>
+
+      <div class="col-md-6">
+        <label for="date-end" class="form-label">Für Studienanfänger bis:</label>
+        <div class="input-group">
+          <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" [value]="endDateEnabled" [disabled]="spoDisabled" (change)="toggleEndDate()"/>
+          </div>
+          <input type="date" class="form-control" id="date-end" formControlName="endDate"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
