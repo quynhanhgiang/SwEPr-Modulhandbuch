@@ -3,5 +3,13 @@
     width: 100%;
     padding-left: 10%;
     padding-right: 10%;
-    display: inline-block;
+    display: inline-block; 
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.clickable:hover{
+    background-color: rgb(248,249,250);
 }

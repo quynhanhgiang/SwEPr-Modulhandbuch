@@ -5,6 +5,6 @@ export interface Variation {
     semester: number;
     sws: number;
     ects: number;
-    workload: String;
+    workLoad: string;
     category:string;
 }

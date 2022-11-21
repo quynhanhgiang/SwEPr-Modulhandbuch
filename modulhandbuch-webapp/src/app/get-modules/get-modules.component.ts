@@ -12,12 +12,12 @@ import { FlatModule } from '../shared/FlatModule';
 export class GetModulesComponent implements OnInit {
   
   matchModeOptions!: SelectItem[];
-  
-  constructor(private restAPI: RestApiService) { }
 
   selectedModule!:FlatModule;
 
   modules!: FlatModule[];
+  
+  constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
     this.restAPI.getModulesOverview().subscribe(modules => {
@@ -31,7 +31,5 @@ export class GetModulesComponent implements OnInit {
       { label: "entspricht nicht", value: FilterMatchMode.NOT_EQUALS },
       { label: "beinhaltet nicht", value: FilterMatchMode.NOT_CONTAINS },
     ];
-
   }
-
 }

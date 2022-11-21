@@ -8,8 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +20,7 @@ import javax.persistence.Table;
 import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityCycleDatabaseConverter;
 import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityDurationDatabaseConverter;
 import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityLanguageDatabaseConverter;
+import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityMaternityProtectionDatabaseConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,14 +63,11 @@ public class ModuleEntity {
     private List<CollegeEmployeeEntity> profs;
 
 	@Convert(converter = ModuleEntityLanguageDatabaseConverter.class)
-	@Column(name = "language", nullable = false, columnDefinition = "ENUM('Deutsch', 'Englisch', 'Französisch', 'Spanisch', 'Chinesisch', 'Russisch') DEFAULT 'Deutsch'")
+	@Column(name = "language", columnDefinition = "ENUM('Deutsch', 'Englisch', 'Französisch', 'Spanisch', 'Italienisch', 'Chinesisch', 'Russisch') DEFAULT 'Deutsch'")
 	private Language language;
 
 	@Column(name = "course_usage")
 	private String usage;
-
-	@Column(name = "admission_requirements")
-	private String admissionRequirements;
 
 	@Column(name = "knowledge_requirements")
 	private String knowledgeRequirements;
@@ -94,15 +90,11 @@ public class ModuleEntity {
 	@Column(name = "literature")
 	private String literature;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "maternity_protection", columnDefinition = "ENUM('R', 'G', 'Y') DEFAULT 'G'")
+	@Convert(converter = ModuleEntityMaternityProtectionDatabaseConverter.class)
+	@Column(name = "maternity_protection", nullable = false, columnDefinition = "ENUM('Rot', 'Grün', 'Gelb') DEFAULT 'Grün'")
 	private MaternityProtection maternityProtection;
 
-	public ModuleEntity(String moduleName, String abbreviation, List<VariationEntity> variations, Cycle cycle,
-			Duration duration, CollegeEmployeeEntity moduleOwner, List<CollegeEmployeeEntity> profs, Language language,
-			String usage, String admissionRequirements, String knowledgeRequirements, String skills, String content,
-			String examType, String certificates, String mediaType, String literature,
-			MaternityProtection maternityProtection) {
+	public ModuleEntity(String moduleName, String abbreviation, List<VariationEntity> variations, Cycle cycle, Duration duration, CollegeEmployeeEntity moduleOwner, List<CollegeEmployeeEntity> profs, Language language, String usage, String knowledgeRequirements, String skills, String content, String examType, String certificates, String mediaType, String literature, MaternityProtection maternityProtection) {
 		this.moduleName = moduleName;
 		this.abbreviation = abbreviation;
 		this.variations = variations;
@@ -112,7 +104,6 @@ public class ModuleEntity {
 		this.profs = profs;
 		this.language = language;
 		this.usage = usage;
-		this.admissionRequirements = admissionRequirements;
 		this.knowledgeRequirements = knowledgeRequirements;
 		this.skills = skills;
 		this.content = content;
@@ -121,7 +112,7 @@ public class ModuleEntity {
 		this.mediaType = mediaType;
 		this.literature = literature;
 		this.maternityProtection = maternityProtection;
-	}	
+	}
 
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	@Getter
@@ -173,6 +164,7 @@ public class ModuleEntity {
 		ENGLISH("English"),
 		FRENCH("Französisch"),
 		SPANISH("Spanisch"),
+		ITALIAN("Italienisch"),
 		CHINESE("Chinesisch"),
 		RUSSIAN("Russisch"),
 		;
@@ -192,9 +184,26 @@ public class ModuleEntity {
 		}
 	}
 	
+	@AllArgsConstructor
+	@Getter
 	public enum MaternityProtection {
-		R,
-		G,
-		Y,
+		RED("Rot"),
+		GREEN("Grün"),
+		YELLOW("Gelb"),
+		;
+
+		private final String text;
+
+		public static MaternityProtection fromString(String text) {
+			return Arrays.stream(MaternityProtection.values())
+				.filter(maternityProtection -> maternityProtection.text.equals(text))
+				.findAny()
+				.orElse(null);
+		}
+
+		@Override
+		public String toString() {
+			return this.text;
+		}
 	}
 }
