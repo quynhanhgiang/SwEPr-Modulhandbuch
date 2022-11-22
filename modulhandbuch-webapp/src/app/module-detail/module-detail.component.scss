@@ -1,0 +1,26 @@
+#div-detail-module{
+      margin: auto !important;
+      width: 100%;
+      padding-left: 10%;
+      padding-right: 10%;
+      display: inline-block; 
+ }
+
+ #table-detail-module{
+    width: 100% !important;
+ }
+
+ th, td{
+   border: 1px solid lightgray;
+ }
+
+ .td-row-left{
+    width: 40%;
+ }
+ .td-row-right{
+    width: 60%;
+ }
+ 
+ .td-row-left, .td-row-right{
+     padding: 0.6vh 0.5vh;
+ }
