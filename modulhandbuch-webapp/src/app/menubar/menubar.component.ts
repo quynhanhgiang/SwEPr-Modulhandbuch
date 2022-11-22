@@ -23,6 +23,6 @@ export class MenubarComponent implements OnInit {
     hamburger.disabled = true;
     this.showSidebar = !this.showSidebar;
 
-    setTimeout(function() {hamburger.disabled = false;}, 500);
+    setTimeout(() => hamburger.disabled = false, 500);
   }
 }
