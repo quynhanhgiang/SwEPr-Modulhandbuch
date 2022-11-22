@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
 import { ModuleManual } from '../shared/module-manual';
 import { Spo } from '../shared/spo';
@@ -10,6 +11,7 @@ import { Spo } from '../shared/spo';
   styleUrls: ['./create-module-manual.component.scss']
 })
 export class CreateModuleManualComponent implements OnInit {
+  @ViewChild('spo-form') spoFormElement!: ElementRef;
 
   visible: boolean = false; //false == form hidden | true == form visible
   spoDisabled: boolean = false;
@@ -18,12 +20,14 @@ export class CreateModuleManualComponent implements OnInit {
   manualFormGroup!: FormGroup;
   spoFormGroup!: FormGroup;
 
+  selectedSpo: number = 1;
+
   newManual!: ModuleManual;
   newSPO!: Spo;
 
   spos: Spo[] = [];
 
-  constructor(private fb: FormBuilder, private restAPI: RestApiService) {
+  constructor(private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
     this.initSpoForm();
     this.initManualForm();
   }
@@ -36,41 +40,87 @@ export class CreateModuleManualComponent implements OnInit {
 
   initManualForm() {
     this.manualFormGroup = this.fb.group({
-      semesterType:  new FormControl('Wintersemester'),
-      semesterYears: new FormControl(''),
-      spo: new FormControl('1')
+      semesterType:  new FormControl('Wintersemester', [Validators.required]),
+      semesterYears: new FormControl('', [Validators.required]),
+      spo: this.fb.group({})
     });
   }
 
   initSpoForm() {
     this.spoFormGroup = this.fb.group({
       id: null,
-      link: new FormControl(''),
-      degree: new FormControl('Bachelor'),
-      course: new FormControl('Automatisierungstechnik und Robotik'),
-      startDate: new FormControl(new Date(0).toISOString().split("T")[0]),
+      link: new FormControl('', [Validators.required]),
+      degree: new FormControl('Bachelor', [Validators.required]),
+      course: new FormControl('Automatisierungstechnik und Robotik', [Validators.required]),
+      startDate: new FormControl(new Date(0).toISOString().split("T")[0], [Validators.required]),
       endDate: new FormControl(new Date().toISOString().split("T")[0])
     });
   }
 
-  onSubmit(event: {submitter:any }): void {//create new Module with form data
-    /*console.log("submit");
+  formsValid(): boolean {
+    return (this.spoFormGroup.valid || this.spoDisabled) && this.manualFormGroup.valid;
+  }
 
-    this.newModule = this.moduleFormGroup.value;
+  save(reset: boolean, open: boolean) {
+    if (this.formsValid()) {
+      if (!this.spoDisabled) {
+        console.log(this.spoFormGroup.getRawValue());
 
-    this.restAPI.createModule(this.newModule).subscribe(resp => {
-      console.log(resp);
-    });
+        this.restAPI.createSPO(this.spoFormGroup.getRawValue()).subscribe(resp => {
+          let newMan: ModuleManual = {
+            id: null,
+            semester: this.manualFormGroup.controls["semesterType"].value + " " + this.manualFormGroup.controls["semesterYears"].value,
+            spo: resp
+          }
 
-    this.hideDialog();
-    this.resetForm();
+          console.log(newMan);
+          this.restAPI.createModuleManual(newMan).subscribe(resp => {
+            if (reset) {
+              this.resetForm();
+              return;
+            }
 
-    if(event.submitter.id=="bt-submit-new"){
-      this.showDialog();
-    } */
+            if (open) {
+              this.router.navigate(['/module-manual-detail-view', resp.id]);
+              return;
+            }
+
+            this.hideDialog();
+          });
+        });
+      }
+      else {
+        let newMan: ModuleManual = {
+          id: null,
+          semester: this.manualFormGroup.controls["semesterType"].value + " " + this.manualFormGroup.controls["semesterYears"].value,
+          spo: this.spos.find(spo => {
+            return spo.id === this.selectedSpo;
+          })!
+        }
+
+        console.log(newMan);
+        this.restAPI.createModuleManual(newMan).subscribe(resp => {
+          if (reset) {
+            this.resetForm();
+            return;
+          }
+
+          if (open) {
+            this.router.navigate(['/module-manual-detail-view', resp.id]);
+            return;
+          }
+
+          this.hideDialog();
+        });
+      }
+    } else {
+      alert("Bitte füllen Sie alle Felder (ggf. mit Ausnahme des Gültigkeits-Endes) aus!");
+    }
   }
 
   showDialog() {  //make form visible
+    this.spoFormGroup.enable();
+    this.initSpoForm();
     this.visible = true;
   }
 
@@ -103,16 +153,20 @@ export class CreateModuleManualComponent implements OnInit {
 
     if (this.spoDisabled) {
       this.spoFormGroup.disable();
-      this.updateSpoForm();
+      this.updateSpoForm("-1");
     } else {
       this.spoFormGroup.enable();
       this.initSpoForm();
     }
   }
 
-  updateSpoForm() {
+  updateSpoForm(id: string) {
+    if (parseInt(id) > 0) {
+      this.selectedSpo = parseInt(id);
+    }
+
     let selectedSPO: Spo | undefined = this.spos.find(spo => {
-      return spo.id === parseInt(this.manualFormGroup.controls["spo"].value)
+      return spo.id === this.selectedSpo;
     });
 
     this.spoFormGroup.controls["id"].setValue(selectedSPO!.id);
@@ -124,6 +178,10 @@ export class CreateModuleManualComponent implements OnInit {
   }
 
   resetForm() {
+    this.initManualForm();
+    this.initSpoForm();
 
+    this.spoDisabled = false;
+    this.endDateEnabled = false;
   }
 }
