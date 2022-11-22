@@ -1,7 +1,6 @@
 package de.hscoburg.modulhandbuchbackend.configuration;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.naming.InitialContext;
@@ -31,8 +30,12 @@ public class DataSourceConfig {
 			context = new InitialContext();
 			dataSource = (DataSource) context.lookup(this.jndi);
 			DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-			System.out.println(dataSource.getConnection().getMetaData().getURL() + this.suffix);
-			dataSourceBuilder.url(dataSource.getConnection().getMetaData().getURL() + this.suffix);
+			String[] splittedUrl = dataSource.getConnection().getMetaData().getURL().split("\\?");;
+			// extend database name
+			// splittedUrl[0] += this.suffix;
+			String newUrl = String.join("?", splittedUrl);
+			System.out.println(newUrl);
+			dataSourceBuilder.url(newUrl);
 			return dataSourceBuilder.build();
 		} catch (NamingException exception) {
 			System.out.println("In catch");
