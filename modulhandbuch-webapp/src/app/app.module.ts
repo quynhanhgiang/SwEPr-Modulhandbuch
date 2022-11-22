@@ -26,6 +26,7 @@ import { DataViewModule } from 'primeng/dataview';
 import {InputTextModule} from 'primeng/inputtext';
 
 import { RestApiService } from './services/rest-api.service';
+import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { RestApiService } from './services/rest-api.service';
     GetModuleManualsComponent,
     ModuleDetailComponent,
     EditModuleComponent,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    CreateModuleManualComponent
   ],
   imports: [
     BrowserModule,

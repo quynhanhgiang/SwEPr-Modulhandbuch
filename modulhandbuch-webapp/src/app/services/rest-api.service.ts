@@ -6,6 +6,8 @@ import { ModuleManual } from '../shared/module-manual';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Spo } from '../shared/spo';
+import { CollegeEmployee } from '../shared/CollegeEmployee';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,7 @@ export class RestApiService {
       'Content-Type': 'application/json',
     }),
   };
+
 
   // ########## Modules-API ##########
 
@@ -74,6 +77,7 @@ export class RestApiService {
     return this.http.put<Module>(this.apiURL + '/modules/' + module.id, JSON.stringify(module), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
+
   // ########## Module-Manuals-API ##########
 
   /**
@@ -98,7 +102,7 @@ export class RestApiService {
   /**
    * Method for requesting the "{{url}}/module-manuals"-api-endpoint per POST.
    * Creates a new module-manual.
-   * @param module a ModuleManual-object to create
+   * @param moduleManual a ModuleManual-object to create
    * @returns the created ModuleManual-object
    */
   createModuleManual(moduleManual: ModuleManual): Observable<ModuleManual>  {
@@ -108,14 +112,59 @@ export class RestApiService {
   /**
    * Method for requesting the "{{url}}/module-manuals/{{module_manual_id}}"-api-endpoint per PUT.
    * Updates an existing module-manual, specified by its id.
-   * @param module a ModuleManual-object to update
+   * @param moduleManual a ModuleManual-object to update
    * @returns the updated ModuleManual-object
    */
   updateModuleManual(moduleManual: ModuleManual): Observable<ModuleManual>  {
     return this.http.put<ModuleManual>(this.apiURL + '/module-manuals/' + moduleManual.id, JSON.stringify(module), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
- // ########## Error-Handling ##########
+
+  // ########## SPO-API ##########
+
+  /**
+   * Method for requesting the "{{url}}/spos"-api-endpoint per GET
+   * Returns a list of all known spos.
+   * @returns list of Spo-objects
+   */
+  getSPOs(): Observable<Spo[]> {
+    return this.http.get<Spo[]>(this.apiURL + '/spos').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "{{url}}/spos"-api-endpoint per POST.
+   * Adds a new Spo.
+   * @param spo a Spo-object to create
+   * @returns the created Spo-object
+   */
+  createSPO(spo: Spo): Observable<Spo>  {
+    return this.http.post<Spo>(this.apiURL + '/spos', JSON.stringify(spo), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+
+  // ########## College-Employee-API ##########
+
+  /**
+   * Method for requesting the "{{url}}/college-employees"-api-endpoint per GET
+   * Returns a list of all known college-employees.
+   * @returns list of CollegeEmployee-objects
+   */
+  getCollegeEmployees(): Observable<CollegeEmployee[]> {
+    return this.http.get<CollegeEmployee[]>(this.apiURL + '/college-employees').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "{{url}}/college-employees"-api-endpoint per POST.
+   * Adds a new college-employee.
+   * @param collegeEmployee a CollegeEmployee-object to create
+   * @returns the created CollegeEmployee-object
+   */
+  createCollegeEmployee(collegeEmployee: CollegeEmployee): Observable<CollegeEmployee>  {
+    return this.http.post<CollegeEmployee>(this.apiURL + '/college-employees', JSON.stringify(collegeEmployee), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+
+  // ########## Error-Handling ##########
 
   handleError(error: any) {
     let errorMessage = '';
