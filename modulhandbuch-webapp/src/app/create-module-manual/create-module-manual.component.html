@@ -1,20 +1,23 @@
-<!--Triggers the function showDialog() wich makes the form visible-->
+<!-- Triggers the function showDialog() wich makes the pop-up-dialog visible -->
 <button id="btn-create-module-manual" type="button" class="btn btn-lg btn-outline-secondary" (click)="showDialog()">
   <i class="bi bi-plus-lg fs-5"></i>
   Neues Modulhandbuch
 </button>
 
-<!--Pop-up dialog for form-->
+<!-- pop-up-dialog for form -->
 <p-dialog [(visible)]="visible" [transitionOptions]="'150ms'" (onHide)="resetForm()" >
 
+  <!-- dialog-header -->
   <ng-template pTemplate="header">
     <h3>Neues Modulhandbuch hinzufügen</h3>
   </ng-template>
 
+  <!-- first form: module-manual -->
   <div class="card p-3 mt-2">
     <h6>Modulhandbuch</h6>
-
     <form class="row g-3" [formGroup]="manualFormGroup" ngNativeValidate>
+
+      <!-- input-group: semester-select and semester-years -->
       <div class="col-md-12">
         <div class="input-group">
           <span class="input-group-text">Gültig für das</span>
@@ -27,6 +30,7 @@
         </div>
       </div>
 
+      <!-- spo-select-checkbox and -label, checkbox is disabled if there are no spos -->
       <div class="col-md-5">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="check-new-spo" [checked]="spoDisabled"
@@ -37,6 +41,7 @@
         </div>
       </div>
 
+      <!-- spo-select, only visible if spo-select-checkbox is checked -->
       <div class="col-md-7" [ngStyle]="{'visibility': spoDisabled? 'visible' : 'hidden'}">
         <div class="input-group">
           <span class="input-group-text">SPO:</span>
@@ -48,20 +53,19 @@
     </form>
   </div>
 
+  <!-- second form: spo; the whole form is disabled, if a spo is selected  -->
   <div class="card p-3 mt-2">
     <h6>Studien- und Prüfungsordnung (SPO)</h6>
-
     <form class="row g-3" [formGroup]="spoFormGroup" id="spo-form"  ngNativeValidate>
 
+      <!-- link-input -->
       <div class="col-md-12">
         <label for="input-spo-link" class="form-label">Link zur SPO:</label>
-        <div class="input-group">
-          <span class="input-group-text">https://</span>
-          <input type="text" class="form-control" id="input-spo-link"
-          placeholder="mycampus.hs-coburg.de/sites/default/files/..." formControlName="link" required/>
-        </div>
+        <input type="text" class="form-control" id="input-spo-link"
+          placeholder="https://mycampus.hs-coburg.de/sites/default/files/..." formControlName="link" required/>
       </div>
 
+      <!-- degree-select -->
       <div class="col-md-3">
         <label for="select-degree" class="form-label">Abschluss:</label>
         <select class="form-select" id="select-degree" formControlName="degree" required>
@@ -70,27 +74,26 @@
         </select>
       </div>
 
+      <!-- course-name-input -->
       <div class="col-md-9">
-        <label for="select-course" class="form-label">Studiengang:</label>
-        <select class="form-select" id="select-course" formControlName="course" required>
-          <option value="Automatisierungstechnik und Robotik" selected>Automatisierungstechnik und Robotik</option>
-          <option value="Elektro- und Informationstechnik">Elektro- und Informationstechnik</option>
-          <option value="Energietechnik und Erneuerbare Energien">Energietechnik und Erneuerbare Energien</option>
-          <option value="Informatik">Informatik</option>
-          <option value="Visual Computing">Visual Computing</option>
-        </select>
+        <label for="input-course" class="form-label">Studiengang:</label>
+        <input class="form-control" id="input-course" formControlName="course"
+        placeholder="Informatik" required/>
       </div>
 
+      <!-- start-date-datepicker -->
       <div class="col-md-6">
         <label for="date-start" class="form-label">Für Studienanfänger ab:</label>
         <input type="date" class="form-control" id="date-start" formControlName="startDate" required/>
       </div>
 
+      <!-- end-date-checkbox and datepicker; datepicker is disabled if checkbox is unchecked -> endDate is null -->
       <div class="col-md-6">
         <label for="date-end" class="form-label">Für Studienanfänger bis:</label>
         <div class="input-group">
           <div class="input-group-text">
-            <input class="form-check-input mt-0" type="checkbox" [checked]="endDateEnabled" [disabled]="spoDisabled" (change)="toggleEndDate()"/>
+            <input class="form-check-input mt-0" type="checkbox" id="check-end-date"
+            [checked]="endDateEnabled" [disabled]="spoDisabled" (change)="toggleEndDate()"/>
           </div>
           <input type="date" class="form-control" id="date-end" formControlName="endDate"/>
         </div>
@@ -98,9 +101,10 @@
     </form>
   </div>
 
+  <!-- submit-buttons -->
   <div class="row mt-3">
     <div class="col">
-      <button id="bt-submit-close" class="btn btn-outline-secondary" type="submit" (click)="save(false, false)">
+      <button id="bt-submit-close" class="btn btn-outline-secondary" type="submit" form="spo-form" (click)="save(false, false)">
         Speichern
       </button>
     </div>

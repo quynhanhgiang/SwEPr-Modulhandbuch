@@ -51,7 +51,7 @@ export class CreateModuleManualComponent implements OnInit {
       id: null,
       link: new FormControl('', [Validators.required]),
       degree: new FormControl('Bachelor', [Validators.required]),
-      course: new FormControl('Automatisierungstechnik und Robotik', [Validators.required]),
+      course: new FormControl('', [Validators.required]),
       startDate: new FormControl(new Date(0).toISOString().split("T")[0], [Validators.required]),
       endDate: new FormControl(new Date().toISOString().split("T")[0])
     });
