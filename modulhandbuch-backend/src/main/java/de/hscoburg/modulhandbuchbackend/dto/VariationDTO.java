@@ -9,5 +9,6 @@ public class VariationDTO {
 	private Integer sws;
 	private Integer ects;
 	private String workLoad;
+	private String admissionRequirements;
 	private String category;
 }

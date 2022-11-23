@@ -12,7 +12,7 @@ export interface Module {
   cycle: string,
   duration: string,
   moduleOwner: CollegeEmployee,   // Bei GET: Namen als String -> keine weiteren Abfragen nötig
-  profs: CollegeEmployee,      // Bei POST: ID der Dozenten wird überegeben -> Verweis auf Objekt
+  profs: CollegeEmployee[],      // Bei POST: ID der Dozenten wird überegeben -> Verweis auf Objekt
   language: string,
   usage: string,
   admissionRequirements: string,
