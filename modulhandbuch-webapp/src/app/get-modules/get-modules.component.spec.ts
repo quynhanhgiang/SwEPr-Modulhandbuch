@@ -46,6 +46,9 @@ describe('GetModulesComponent', () => {
   * Testfall A5.2:UT3 Testen, ob bei nicht-leeren Datensatz die entsprechende Nachricht gesetzt ist.
   */
   it("should show 'filter-message' if module-manual-list is not empty", () => {
+    fixture = TestBed.createComponent(GetModulesComponent);
+    component = fixture.componentInstance;
+
     const restApiService = TestBed.inject(RestApiService);
     const testData: FlatModule[] = flatModules;
     spyOn(restApiService, 'getModulesOverview').and.returnValue(of(testData));
@@ -60,6 +63,9 @@ describe('GetModulesComponent', () => {
   * Testfall A5.3:UT4 Testen, ob bei leerem Datensatz die entsprechende Nachricht gesetzt ist.
   */
    it("should show 'filter-message' if module-manual-list is empty", () => {
+    fixture = TestBed.createComponent(GetModulesComponent);
+    component = fixture.componentInstance;
+    
     const restApiService = TestBed.inject(RestApiService);
     const testData: FlatModule[] = [];
     spyOn(restApiService, 'getModulesOverview').and.returnValue(of(testData));
