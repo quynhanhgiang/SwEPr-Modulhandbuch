@@ -6,7 +6,8 @@
     "start": "ng serve --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --branch-coverage"
+    "test": "ng test --branch-coverage",
+    "mock-server":"npx json-server --watch ./mock-server/db.json"
   },
   "private": true,
   "dependencies": {

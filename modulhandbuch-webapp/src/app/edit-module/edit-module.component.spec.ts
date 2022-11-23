@@ -17,6 +17,9 @@ describe('EditModuleComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+  * Testfall A6.2.B:UT1 Testen, ob Komponente erzeugt wird.
+  */
   it('should create', () => {
     expect(component).toBeTruthy();
   });
