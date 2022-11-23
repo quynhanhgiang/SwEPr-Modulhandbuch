@@ -15,7 +15,7 @@ export class CreateModuleManualComponent implements OnInit {
 
   visible: boolean = false; //false == form hidden | true == form visible
   spoDisabled: boolean = false;
-  endDateEnabled: boolean = false;
+  endDateEnabled: boolean = true;
 
   manualFormGroup!: FormGroup;
   spoFormGroup!: FormGroup;
@@ -57,6 +57,16 @@ export class CreateModuleManualComponent implements OnInit {
     });
   }
 
+  showDialog() {  //make form visible
+    this.spoFormGroup.enable();
+    this.initSpoForm();
+    this.visible = true;
+  }
+
+  hideDialog() {  //hide form
+    this.visible = false;
+  }
+
   formsValid(): boolean {
     return (this.spoFormGroup.valid || this.spoDisabled) && this.manualFormGroup.valid;
   }
@@ -64,7 +74,6 @@ export class CreateModuleManualComponent implements OnInit {
   save(reset: boolean, open: boolean) {
     if (this.formsValid()) {
       if (!this.spoDisabled) {
-        console.log(this.spoFormGroup.getRawValue());
 
         this.restAPI.createSPO(this.spoFormGroup.getRawValue()).subscribe(resp => {
           let newMan: ModuleManual = {
@@ -73,7 +82,6 @@ export class CreateModuleManualComponent implements OnInit {
             spo: resp
           }
 
-          console.log(newMan);
           this.restAPI.createModuleManual(newMan).subscribe(resp => {
             if (reset) {
               this.resetForm();
@@ -98,7 +106,6 @@ export class CreateModuleManualComponent implements OnInit {
           })!
         }
 
-        console.log(newMan);
         this.restAPI.createModuleManual(newMan).subscribe(resp => {
           if (reset) {
             this.resetForm();
@@ -118,16 +125,6 @@ export class CreateModuleManualComponent implements OnInit {
     }
   }
 
-  showDialog() {  //make form visible
-    this.spoFormGroup.enable();
-    this.initSpoForm();
-    this.visible = true;
-  }
-
-  hideDialog() {  //hide form
-    this.visible = false;
-  }
-
   getSpoTimespan(spo: Spo) {
     if (spo.endDate == null) {
       return "ab " + new Date(spo.startDate).getFullYear()
@@ -140,11 +137,11 @@ export class CreateModuleManualComponent implements OnInit {
     this.endDateEnabled = !this.endDateEnabled;
 
     if (this.endDateEnabled) {
-      this.spoFormGroup.controls["endDate"].disable();
-      this.spoFormGroup.controls["endDate"].reset();
-    } else {
       this.spoFormGroup.controls["endDate"].enable();
       this.spoFormGroup.controls["endDate"].setValue(new Date().toISOString().split("T")[0]);
+    } else {
+      this.spoFormGroup.controls["endDate"].disable();
+      this.spoFormGroup.controls["endDate"].reset();
     }
   }
 
@@ -154,9 +151,11 @@ export class CreateModuleManualComponent implements OnInit {
     if (this.spoDisabled) {
       this.spoFormGroup.disable();
       this.updateSpoForm("-1");
+      this.endDateEnabled = false;
     } else {
       this.spoFormGroup.enable();
       this.initSpoForm();
+      this.endDateEnabled = true;
     }
   }
 
