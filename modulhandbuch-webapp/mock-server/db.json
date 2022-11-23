@@ -398,152 +398,112 @@
       "semester": "WiSe 22/23"
     }
   ],
-  "profs":[
+  "college-employees": [
     {
-      "id":0, 
-      "firstName":"Volkhard",
-      "lastName":"Pfeiffer",
-      "title":"Prof.", 
-      "gender":"Herr", 
-      "email":"volkhard.pfeiffer@hs-coburg.de"
+      "id": 1,
+      "firstName": "Dieter",
+      "lastName": "Landes",
+      "title": "Prof. Dr.",
+      "gender": "Sehr geehrter",
+      "email": "Dieter.Landes@hs-coburg.de"
     },
     {
-      "id":1,
-      "firstName":"Dieter",
-      "lastName":"Landes",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"dieter.landes@hs-coburg.de"
+      "id": 2,
+      "firstName": "Volkard",
+      "lastName": "Pfeiffer",
+      "title": "Prof.",
+      "gender": "Sehr geehrter",
+      "email": "Volkard.Pfeiffer@hs-coburg.de"
     },
     {
-      "id":2,
-      "firstName":"Dieter",
-      "lastName":"Wießmann",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"dieter.wissmann@hs-coburg.de"
-    },
-    {
-      "id":3,
-      "firstName":"Thomas",
-      "lastName":"Wieland",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"thomas.wieland@hs-coburg.de"
-    },
-    {
-      "id":4,
-      "firstName":"Jens",
-      "lastName":"Grubert",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Jens.Grubert@hs-coburg.de"
-    },
-    {
-      "id":5,
-      "firstName":"Quirin",
-      "lastName":"Meyer",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Quirin.Meyer@hs-coburg.de"
-    },
-    {
-      "id":6,
-      "firstName":"Florian",
-      "lastName":"Mittag",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Florian.Mittag@hs-coburg.de"
-    },
-    {
-      "id":7,
-      "firstName":"Jürgen",
-      "lastName":"Terpin",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"juergen.terpin@hs-coburg.de"
-    },
-    {
-      "id":8,
-      "firstName":"Matthias",
-      "lastName":"Mörz",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"matthias.moerz@hs-coburg.de"
+      "id": 3,
+      "firstName": "Ada",
+      "lastName": "Bäumner",
+      "title": "Prof. Dr",
+      "gender": "Sehr geehrte",
+      "email": "Ada.Baeumner@hs-coburg.de"
     }
   ],
-  "moduleOwners":[
+  "spos": [
     {
-      "id":0, 
-      "firstName":"Volkhard",
-      "lastName":"Pfeiffer",
-      "title":"Prof.", 
-      "gender":"Herr", 
-      "email":"volkhard.pfeiffer@hs-coburg.de"
+      "id": 1,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
+      "startDate": "2020-10-01",
+      "endDate": null,
+      "course": "Informatik",
+      "degree": "Bachelor"
     },
     {
-      "id":1,
-      "firstName":"Dieter",
-      "lastName":"Landes",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"dieter.landes@hs-coburg.de"
+      "id": 2,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf",
+      "startDate": "2014-10-01",
+      "endDate": "2020-09-30",
+      "course": "Informatik",
+      "degree": "Bachelor"
     },
     {
-      "id":2,
-      "firstName":"Dieter",
-      "lastName":"Wießmann",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"dieter.wissmann@hs-coburg.de"
+      "id": 3,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf",
+      "startDate": "2009-07-22",
+      "endDate": "2014-09-30",
+      "course": "Informatik",
+      "degree": "Bachelor"
     },
     {
-      "id":3,
-      "firstName":"Thomas",
-      "lastName":"Wieland",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"thomas.wieland@hs-coburg.de"
+      "id": 4,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20EL%201_0.pdf",
+      "startDate": "2020-10-01",
+      "endDate": null,
+      "course": "Elektro- und Informationstechnik",
+      "degree": "Bachelor"
     },
     {
-      "id":4,
-      "firstName":"Jens",
-      "lastName":"Grubert",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Jens.Grubert@hs-coburg.de"
+      "id": 5,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_EL_neu.pdf",
+      "startDate": "2017-10-01",
+      "endDate": "2020-09-30",
+      "course": "Elektro- und Informationstechnik",
+      "degree": "Bachelor"
     },
     {
-      "id":5,
-      "firstName":"Quirin",
-      "lastName":"Meyer",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Quirin.Meyer@hs-coburg.de"
+      "id": 6,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf",
+      "startDate": "2020-10-01",
+      "endDate": null,
+      "course": "Visual Computing",
+      "degree": "Bachelor"
     },
     {
-      "id":6,
-      "firstName":"Florian",
-      "lastName":"Mittag",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"Florian.Mittag@hs-coburg.de"
+      "id": 7,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20EN%201.pdf",
+      "startDate": "2020-10-01",
+      "endDate": null,
+      "course": "Energietechnik und Erneuerbare Energien",
+      "degree": "Bachelor"
     },
     {
-      "id":7,
-      "firstName":"Jürgen",
-      "lastName":"Terpin",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"juergen.terpin@hs-coburg.de"
+      "id": 8,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_EN.pdf",
+      "startDate": "2017-10-01",
+      "endDate": "2020-09-30",
+      "course": "Energietechnik und Erneuerbare Energien",
+      "degree": "Bachelor"
     },
     {
-      "id":8,
-      "firstName":"Matthias",
-      "lastName":"Mörz",
-      "title":"Prof. Dr.",
-      "gender":"Herr",
-      "email":"matthias.moerz@hs-coburg.de"
+      "id": 9,
+      "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20AU%202_0.pdf",
+      "startDate": "2020-10-01",
+      "endDate": null,
+      "course": "Automatisierungstechnik und Robotik",
+      "degree": "Bachelor"
+    },
+    {
+      "id": 10,
+      "link": "",
+      "startDate": "2017-10-01",
+      "endDate": "2020-09-30",
+      "course": "Automatisierungstechnik und Robotik",
+      "degree": "Bachelor"
     }
   ]
 }

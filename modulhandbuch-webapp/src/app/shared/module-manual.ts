@@ -1,7 +1,7 @@
 import { Spo } from "./spo";
 
 export interface ModuleManual {
-    id: number,
+    id: number | null,
     spo: Spo,
     semester: String,
    // firstPage: string | undefined,
