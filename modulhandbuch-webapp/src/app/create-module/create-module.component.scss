@@ -1,10 +1,4 @@
-#div-create-module{
-    width: auto !important;
-    margin-left: 10%;
-    border-bottom: 1px solid gray;
- }
- 
- #i-plus-symbol{
+#i-plus-symbol{
      font-size: 13px !important;
      margin-right: 0.5vw;
  }
@@ -41,13 +35,12 @@
      border: 1px solid rgb(255, 200, 0);
 }
 
-
-#bt-submit-close, #bt-submit-open, #bt-submit-new{
+#btn-submit-close, #btn-submit-open, #btn-submit-new{
     width: 20%;
     margin-top: 2vh;
 }
 
-#bt-submit-close, #bt-submit-open{
+#btn-submit-close, #btn-submit-open{
     margin-right: 20%;
 }
 
@@ -61,5 +54,4 @@
 
 li{
     margin-bottom: 0.5vh;
-
 }

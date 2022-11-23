@@ -33,5 +33,4 @@ export class ModuleDetailComponent implements OnInit {
   ngOnDestroy() {
     this.routeSub.unsubscribe();
   }
-
 }

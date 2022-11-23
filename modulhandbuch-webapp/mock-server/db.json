@@ -397,5 +397,153 @@
       },
       "semester": "WiSe 22/23"
     }
+  ],
+  "profs":[
+    {
+      "id":0, 
+      "firstName":"Volkhard",
+      "lastName":"Pfeiffer",
+      "title":"Prof.", 
+      "gender":"Herr", 
+      "email":"volkhard.pfeiffer@hs-coburg.de"
+    },
+    {
+      "id":1,
+      "firstName":"Dieter",
+      "lastName":"Landes",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"dieter.landes@hs-coburg.de"
+    },
+    {
+      "id":2,
+      "firstName":"Dieter",
+      "lastName":"Wießmann",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"dieter.wissmann@hs-coburg.de"
+    },
+    {
+      "id":3,
+      "firstName":"Thomas",
+      "lastName":"Wieland",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"thomas.wieland@hs-coburg.de"
+    },
+    {
+      "id":4,
+      "firstName":"Jens",
+      "lastName":"Grubert",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Jens.Grubert@hs-coburg.de"
+    },
+    {
+      "id":5,
+      "firstName":"Quirin",
+      "lastName":"Meyer",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Quirin.Meyer@hs-coburg.de"
+    },
+    {
+      "id":6,
+      "firstName":"Florian",
+      "lastName":"Mittag",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Florian.Mittag@hs-coburg.de"
+    },
+    {
+      "id":7,
+      "firstName":"Jürgen",
+      "lastName":"Terpin",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"juergen.terpin@hs-coburg.de"
+    },
+    {
+      "id":8,
+      "firstName":"Matthias",
+      "lastName":"Mörz",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"matthias.moerz@hs-coburg.de"
+    }
+  ],
+  "moduleOwners":[
+    {
+      "id":0, 
+      "firstName":"Volkhard",
+      "lastName":"Pfeiffer",
+      "title":"Prof.", 
+      "gender":"Herr", 
+      "email":"volkhard.pfeiffer@hs-coburg.de"
+    },
+    {
+      "id":1,
+      "firstName":"Dieter",
+      "lastName":"Landes",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"dieter.landes@hs-coburg.de"
+    },
+    {
+      "id":2,
+      "firstName":"Dieter",
+      "lastName":"Wießmann",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"dieter.wissmann@hs-coburg.de"
+    },
+    {
+      "id":3,
+      "firstName":"Thomas",
+      "lastName":"Wieland",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"thomas.wieland@hs-coburg.de"
+    },
+    {
+      "id":4,
+      "firstName":"Jens",
+      "lastName":"Grubert",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Jens.Grubert@hs-coburg.de"
+    },
+    {
+      "id":5,
+      "firstName":"Quirin",
+      "lastName":"Meyer",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Quirin.Meyer@hs-coburg.de"
+    },
+    {
+      "id":6,
+      "firstName":"Florian",
+      "lastName":"Mittag",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"Florian.Mittag@hs-coburg.de"
+    },
+    {
+      "id":7,
+      "firstName":"Jürgen",
+      "lastName":"Terpin",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"juergen.terpin@hs-coburg.de"
+    },
+    {
+      "id":8,
+      "firstName":"Matthias",
+      "lastName":"Mörz",
+      "title":"Prof. Dr.",
+      "gender":"Herr",
+      "email":"matthias.moerz@hs-coburg.de"
+    }
   ]
 }
