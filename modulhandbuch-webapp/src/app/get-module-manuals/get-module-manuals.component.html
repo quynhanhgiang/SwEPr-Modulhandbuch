@@ -3,24 +3,25 @@
     <hr>
     <p-dataView #dv [value]="moduleManuals" [paginator]="true" [rows]="5" [sortField]="sortField" [sortOrder]="sortOrder"
     [emptyMessage]="emptyMessage" filterBy="spo.course">
+
         <!--Data-View Headerleiste-->
         <ng-template pTemplate="header">
           <div class="d-flex flex-row justify-content-between">
             <span class="p-input-icon-left mb-2 md:mb-0">
               <i class="pi pi-search"></i>
-              <input type="search" pInputText placeholder="Studienfach" (input)="dv.filter($event.target.value, 'contains')">
+              <input type="search" pInputText placeholder="Studienfach" id="input-search" (input)="dv.filter($event.target.value, 'contains')">
             </span>
-            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortieren nach" (onChange)="onSortChange($event)"
-              [style]="{'min-width':'15em'}"></p-dropdown>
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortieren nach" id="dropdown-sort"
+            (onChange)="onSortChange($event)" [style]="{'min-width':'15em'}"></p-dropdown>
           </div>
         </ng-template>
 
         <!-- Data-View Modulhandbuch-Liste-->
-        <ng-template let-moduleManual pTemplate="listItem">
+        <ng-template let-moduleManual let-i="rowIndex" pTemplate="listItem">
             <div class="block p-3">
 
                 <!-- Overlay-Link für ein Listen-Element, umfasst gesamten "inner"-Block -->
-                <a class="overlay" [routerLink]="['/module-manual-detail-view', moduleManual.id]"></a>
+                <a class="overlay" [routerLink]="['/module-manual-detail-view', moduleManual.id]" id="link-manual-{{i}}"></a>
 
                 <div class="inner list-group-item d-flex justify-content-between align-items-start">
                     <div class="me-auto">
@@ -40,7 +41,7 @@
                         </ng-template>
 
                         <!-- MH-SPO-Link -->
-                        <a href="{{moduleManual.spo.link}}" class="ms-4 link-secondary d-block">
+                        <a href="{{moduleManual.spo.link}}" class="ms-4 link-secondary d-block" id="link-spo-{{i}}">
                             <i class="bi bi-link-45deg"></i><small>zur Studien- und Prüfungsordnung</small>
                         </a>
                     </div>
