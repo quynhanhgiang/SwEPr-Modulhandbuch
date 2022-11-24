@@ -27,6 +27,7 @@ import {InputTextModule} from 'primeng/inputtext';
 
 import { RestApiService } from './services/rest-api.service';
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
+import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CreateModuleManualComponent } from './create-module-manual/create-modul
     ModuleDetailComponent,
     EditModuleComponent,
     SanitizeHtmlPipe,
-    CreateModuleManualComponent
+    CreateModuleManualComponent,
+    GetCollegeEmployeesComponent
   ],
   imports: [
     BrowserModule,
