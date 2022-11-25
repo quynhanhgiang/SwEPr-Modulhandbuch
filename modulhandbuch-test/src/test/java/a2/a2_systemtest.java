@@ -28,9 +28,9 @@ public class a2_systemtest {
 			driver = new ChromeDriver();
 			driver.get("https://85.214.225.164/dev");
 			driver.manage().window().maximize();
-			driver.findElement(By.id("details-button")).click();
-			driver.findElement(By.id("proceed-link")).click();
 		}
+		driver.findElement(By.id("details-button")).click();
+		driver.findElement(By.id("proceed-link")).click();
 	}
 	
 	@Test
