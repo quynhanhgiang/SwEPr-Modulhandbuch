@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Host, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GetModuleManualsComponent } from '../get-module-manuals/get-module-manuals.component';
 import { RestApiService } from '../services/rest-api.service';
 import { ModuleManual } from '../shared/module-manual';
 import { Spo } from '../shared/spo';
@@ -8,179 +9,183 @@ import { Spo } from '../shared/spo';
 @Component({
   selector: 'app-create-module-manual',
   templateUrl: './create-module-manual.component.html',
-  styleUrls: ['./create-module-manual.component.scss']
+  styleUrls: ['./create-module-manual.component.scss'],
 })
 export class CreateModuleManualComponent implements OnInit {
-  @ViewChild('spo-form') spoFormElement!: ElementRef;
 
-  visible: boolean = false; //false == form hidden | true == form visible
-  spoDisabled: boolean = false;
-  endDateEnabled: boolean = true;
+  // ### dialog-control ###
+  dialogVisible: boolean = false; // true: dialog is visible, false: dialog is invisible
 
-  manualFormGroup!: FormGroup;
-  spoFormGroup!: FormGroup;
+  // ### form-groups ###
+  manualFormGroup!: FormGroup;    // main-formgroup
+  spoFormGroup!: FormGroup;       // sub-formgroup
 
-  selectedSpo: number = 1;
+  // ### form-controls ###
+  selectedSpoIndex: string = "0"; // the index of the currently selected spo in spos-list; binded to spo-select
+  spoDisabled: boolean = false;   // true: spo-form-group is disabled & spo-selct enabled, false: vice versa; binded to spo-select-checkbox
+  endDateEnabled: boolean = true; // true: end-date-picker enabled, false: end-date-picker disabled (null)
 
-  newManual!: ModuleManual;
-  newSPO!: Spo;
+  // ### asynchronous data ###
+  spos: Spo[] = [];               //spos for spo-select
 
-  spos: Spo[] = [];
-
-  constructor(private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
-    this.initSpoForm();
-    this.initManualForm();
+  constructor(@Host() private getManualsComp: GetModuleManualsComponent, private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
+    this.initFormGroups();
   }
 
   ngOnInit(): void {
-    this.restAPI.getSPOs().subscribe(resp => {
-      this.spos = resp;
+    this.restAPI.getSPOs().subscribe((resp) => {
+     this.spos = resp;
     });
   }
 
-  initManualForm() {
-    this.manualFormGroup = this.fb.group({
-      semesterType:  new FormControl('Wintersemester', [Validators.required]),
-      semesterYears: new FormControl('', [Validators.required]),
-      spo: this.fb.group({})
-    });
-  }
-
-  initSpoForm() {
+  /**
+   * Initializes the spo-formgroup and the manual-formgroup.
+   */
+  initFormGroups() {
     this.spoFormGroup = this.fb.group({
       id: null,
       link: new FormControl('', [Validators.required]),
       degree: new FormControl('Bachelor', [Validators.required]),
       course: new FormControl('', [Validators.required]),
-      startDate: new FormControl(new Date(0).toISOString().split("T")[0], [Validators.required]),
-      endDate: new FormControl(new Date().toISOString().split("T")[0])
+      startDate: new FormControl(new Date(0).toISOString().split('T')[0], [Validators.required]),
+      endDate: new FormControl(new Date().toISOString().split('T')[0]),
+    });
+
+    this.manualFormGroup = this.fb.group({
+      semesterType: new FormControl('Wintersemester', [Validators.required]),
+      semesterYears: new FormControl('', [Validators.required]),
+      spoGroup: this.spoFormGroup
     });
   }
 
-  showDialog() {  //make form visible
+  /**
+   * Resets the whole form.
+   */
+  resetForm() {
+    this.initFormGroups();
+
+    this.spoDisabled = false;
+    this.endDateEnabled = true;
+    this.selectedSpoIndex = "0";
+  }
+
+  /**
+   * Only Resets the spo-formgroup (sub-formgroup of manual-formgroup).
+   */
+  resetSpoForm() {
     this.spoFormGroup.enable();
-    this.initSpoForm();
-    this.visible = true;
+    this.spoFormGroup.controls["id"].setValue(null);
+    this.spoFormGroup.controls["link"].setValue("");
+    this.spoFormGroup.controls["degree"].setValue("Bachelor");
+    this.spoFormGroup.controls["course"].setValue("");
+    this.spoFormGroup.controls["startDate"].setValue(new Date(0).toISOString().split('T')[0]);
+    this.spoFormGroup.controls["endDate"].setValue(new Date().toISOString().split('T')[0]);
   }
 
-  hideDialog() {  //hide form
-    this.visible = false;
+  /**
+   * Updates all form-controls of spo-formgroup with the values of the currently selected spo.
+   * @param index Index of the selected spo in spos-list.
+   */
+  updateSpoForm(index: string) {
+    this.selectedSpoIndex = index;
+    let selectedSPO: Spo = this.spos[parseInt(this.selectedSpoIndex)];
+
+    this.spoFormGroup.controls['id'].setValue(selectedSPO!.id);
+    this.spoFormGroup.controls['link'].setValue(selectedSPO!.link);
+    this.spoFormGroup.controls['degree'].setValue(selectedSPO!.degree);
+    this.spoFormGroup.controls['course'].setValue(selectedSPO!.course);
+    this.spoFormGroup.controls['startDate'].setValue(selectedSPO!.startDate);
+    this.spoFormGroup.controls['endDate'].setValue(selectedSPO!.endDate);
   }
 
-  formsValid(): boolean {
-    return (this.spoFormGroup.valid || this.spoDisabled) && this.manualFormGroup.valid;
-  }
+  /**
+   * Submits the form. -> Calls API to create a new module-manual (and in certain circumstances a new spo).
+   * @param event Event that triggered the submit. Needed to find out, which button was clicked.
+   */
+  onSubmit(event: {submitter: any}) {
 
-  save(reset: boolean, open: boolean) {
-    if (this.formsValid()) {
-      if (!this.spoDisabled) {
+    let newManual: ModuleManual = {
+      id: null,
+      semester: this.manualFormGroup.controls['semesterType'].value + ' ' + this.manualFormGroup.controls['semesterYears'].value,
+      spo: (this.spoDisabled) ?  this.spos[parseInt(this.selectedSpoIndex)]  : this.manualFormGroup.controls['spoGroup'].getRawValue()
+    }
 
-        this.restAPI.createSPO(this.spoFormGroup.getRawValue()).subscribe(resp => {
-          let newMan: ModuleManual = {
-            id: null,
-            semester: this.manualFormGroup.controls["semesterType"].value + " " + this.manualFormGroup.controls["semesterYears"].value,
-            spo: resp
-          }
+    this.restAPI.createModuleManual(newManual).subscribe((resp) => {
+      this.getManualsComp.moduleManuals.push(resp);
 
-          this.restAPI.createModuleManual(newMan).subscribe(resp => {
-            if (reset) {
-              this.resetForm();
-              return;
-            }
-
-            if (open) {
-              this.router.navigate(['/module-manual-detail-view', resp.id]);
-              return;
-            }
-
-            this.hideDialog();
-          });
-        });
+      if(event.submitter.id=="bt-submit-open"){
+        this.router.navigate(['/module-manual-detail-view', resp.id]);
+        return;
       }
-      else {
-        let newMan: ModuleManual = {
-          id: null,
-          semester: this.manualFormGroup.controls["semesterType"].value + " " + this.manualFormGroup.controls["semesterYears"].value,
-          spo: this.spos.find(spo => {
-            return spo.id === this.selectedSpo;
-          })!
-        }
 
-        this.restAPI.createModuleManual(newMan).subscribe(resp => {
-          if (reset) {
-            this.resetForm();
-            return;
-          }
-
-          if (open) {
-            this.router.navigate(['/module-manual-detail-view', resp.id]);
-            return;
-          }
-
-          this.hideDialog();
-        });
+      if(event.submitter.id=="bt-submit-new"){
+        this.resetForm();
+        return;
       }
-    } else {
-      alert("Bitte füllen Sie alle Felder (ggf. mit Ausnahme des Gültigkeits-Endes) aus!");
-    }
+
+      this.hideDialog();
+    });
   }
 
-  getSpoTimespan(spo: Spo) {
-    if (spo.endDate == null) {
-      return "ab " + new Date(spo.startDate).getFullYear()
-    } else {
-      return "von " + new Date(spo.startDate).getFullYear() + " bis " + new Date(spo.endDate!).getFullYear()
-    }
-  }
-
-  toggleEndDate() {
-    this.endDateEnabled = !this.endDateEnabled;
-
-    if (this.endDateEnabled) {
-      this.spoFormGroup.controls["endDate"].enable();
-      this.spoFormGroup.controls["endDate"].setValue(new Date().toISOString().split("T")[0]);
-    } else {
-      this.spoFormGroup.controls["endDate"].disable();
-      this.spoFormGroup.controls["endDate"].reset();
-    }
-  }
-
+  /**
+   * Toggles the disabled-property of the spo-form and handles its contents.
+   */
   toggleSpoForm() {
     this.spoDisabled = !this.spoDisabled;
 
     if (this.spoDisabled) {
       this.spoFormGroup.disable();
-      this.updateSpoForm("-1");
+      this.updateSpoForm(this.selectedSpoIndex);
       this.endDateEnabled = false;
-    } else {
-      this.spoFormGroup.enable();
-      this.initSpoForm();
-      this.endDateEnabled = true;
-    }
-  }
-
-  updateSpoForm(id: string) {
-    if (parseInt(id) > 0) {
-      this.selectedSpo = parseInt(id);
+      return;
     }
 
-    let selectedSPO: Spo | undefined = this.spos.find(spo => {
-      return spo.id === this.selectedSpo;
-    });
-
-    this.spoFormGroup.controls["id"].setValue(selectedSPO!.id);
-    this.spoFormGroup.controls["link"].setValue(selectedSPO!.link);
-    this.spoFormGroup.controls["degree"].setValue(selectedSPO!.degree);
-    this.spoFormGroup.controls["course"].setValue(selectedSPO!.course);
-    this.spoFormGroup.controls["startDate"].setValue(selectedSPO!.startDate);
-    this.spoFormGroup.controls["endDate"].setValue(selectedSPO!.endDate);
+    this.spoFormGroup.enable();
+    this.resetSpoForm();
+    this.endDateEnabled = true;
   }
 
-  resetForm() {
-    this.initManualForm();
-    this.initSpoForm();
+  /**
+   * Toggles the disabled-property of the end-date-picker and handles its contents.
+   */
+  toggleEndDate() {
+    this.endDateEnabled = !this.endDateEnabled;
 
-    this.spoDisabled = false;
-    this.endDateEnabled = false;
+    if (this.endDateEnabled) {
+      this.spoFormGroup.controls['endDate'].enable();
+      this.spoFormGroup.controls['endDate'].setValue(
+        new Date().toISOString().split('T')[0]
+      );
+      return;
+    }
+
+    this.spoFormGroup.controls['endDate'].disable();
+    this.spoFormGroup.controls['endDate'].reset();
   }
+
+  /**
+   * Helper-function to clearly display the validity-period of a spo.
+   * @param spo
+   */
+  getSpoTimespan(spo: Spo) {
+    if (spo.endDate == null) {
+      return 'ab ' + new Date(spo.startDate).getFullYear();
+    }
+
+    return 'von ' + new Date(spo.startDate).getFullYear() + ' bis ' + new Date(spo.endDate!).getFullYear();
+  }
+
+   /**
+   * Makes the create-manual-dialog visible.
+   */
+    showDialog() {
+      this.dialogVisible = true;
+    }
+
+    /**
+     * Hides the create-manual-dialog.
+     */
+    hideDialog() {
+      this.dialogVisible = false;
+    }
 }
