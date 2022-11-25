@@ -1,23 +1,19 @@
 package a4;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class a4_systemtest {
+public class a4_integrationstest {
 	private WebDriver driver;
-
+	
 	@BeforeTest
 	public void openWebsite() {
 		boolean localTest = false;
@@ -36,25 +32,13 @@ public class a4_systemtest {
 			driver.findElement(By.id("proceed-link")).click();
 		}
 	}
-
+	
 	@Test
-	public void S_D_A4T01() {
-		driver.findElement(By.id("btn-hamburger")).click();
-		driver.findElement(By.id("a-module-management")).click();
-		driver.findElement(By.id("bt-create-module")).click();
-
-		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[1]/td[2]/input"))
-				.sendKeys("Programmieren 1");
-
-		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
-				.sendKeys("Prog 1");
-
-		Select spo = new Select(driver.findElement(By.id("pr_id_4_label")));
-		spo.selectByVisibleText("B ZT");
-
-		Assert.assertEquals(true, true);
+	public void I_A2A4T01() {
+		driver.findElement(By.id("btn-hamburger")).click();	
+		driver.findElement(By.xpath("//a[text()=' Modulverwaltung ']")).click();
+	    WebElement neuesModulButton = driver.findElement(By.xpath("//button[text()='Neues Modul erstellen']"));
+	    Assert.assertNotNull(neuesModulButton);
 	}
 
 }

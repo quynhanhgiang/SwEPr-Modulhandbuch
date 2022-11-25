@@ -16,40 +16,43 @@ public class a2_systemtest {
 	private WebDriver driver;
 	@BeforeTest
 	public void openWebsite() {
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.addArguments("--no-sandbox");
-		chromeOptions.addArguments("--headless");
-		chromeOptions.addArguments("disable-gpu");
-		driver = new ChromeDriver(chromeOptions);
-		
-//		driver = new ChromeDriver();
-		driver.get("https://85.214.225.164/dev");
-//		driver.manage().window().maximize();
-		driver.findElement(By.id("details-button")).click();
-		driver.findElement(By.id("proceed-link")).click();
+		boolean localTest = false;
+		if (!localTest) {
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions chromeOptions = new ChromeOptions();
+			chromeOptions.addArguments("--no-sandbox");
+			chromeOptions.addArguments("--headless");
+			chromeOptions.addArguments("disable-gpu");
+			driver = new ChromeDriver(chromeOptions);
+		} else {
+			driver = new ChromeDriver();
+			driver.get("https://85.214.225.164/dev");
+			driver.manage().window().maximize();
+			driver.findElement(By.id("details-button")).click();
+			driver.findElement(By.id("proceed-link")).click();
+		}
 	}
 	
 	@Test
-	public void S_A2T01() {
+	public void S_F_A2T01() {
 		String expectedUrl = "https://85.214.225.164/dev/home";
 		Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
 	}
 	
 	@Test
-	public void S_A2T02() {
+	public void S_F_A2T02() {
 		boolean hamburgerMenuExist = !driver.findElements(By.id("btn-hamburger")).isEmpty();
 		Assert.assertEquals(hamburgerMenuExist, true);
 	}
 	
 	@Test
-	public void S_A2T03() {
+	public void S_F_A2T03() {
 		WebElement modulhandbuecher = driver.findElement(By.xpath("//a[text()=' Modulhandbücher ']"));
 		Assert.assertNotNull(modulhandbuecher);
 	}
 	
 	@Test
-	public void S_A2T04() {
+	public void S_F_A2T04() {
 		WebElement modulverwaltung = driver.findElement(By.xpath("//a[text()=' Modulverwaltung ']"));
 		Assert.assertNotNull(modulverwaltung);
 	}
