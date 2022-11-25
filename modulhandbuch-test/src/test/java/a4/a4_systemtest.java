@@ -51,10 +51,16 @@ public class a4_systemtest {
                 driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
                 .sendKeys("Prog 1");
 
-                Select spo = new Select(driver.findElement(By.id("pr_id_4_label")));
-                spo.selectByVisibleText("B ZT");
+                // B ZT
+                driver.findElement(By.id("pr_id_4_label")).click();
+                driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[1]/td[2]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[5]/li/span")).click();
+
+                // Kategorie
+                Select s = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[2]/td[2]/select")));
+                s.selectByValue("Pflichtfach");
 
                 
+
 
 		Assert.assertEquals(true, true);
 	}
