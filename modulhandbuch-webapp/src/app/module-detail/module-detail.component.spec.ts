@@ -1,4 +1,7 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { ModuleDetailComponent } from './module-detail.component';
 
@@ -8,7 +11,13 @@ describe('ModuleDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModuleDetailComponent ]
+      declarations: [ ModuleDetailComponent ],
+      providers: [
+        HttpClient,
+        FormBuilder,
+        {provide: ActivatedRoute, useValue: ActivatedRoute},
+        HttpHandler
+      ]
     })
     .compileComponents();
 

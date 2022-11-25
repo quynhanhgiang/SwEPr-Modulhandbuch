@@ -84,7 +84,7 @@ describe('CreateModuleComponent', () => {
   /**
   * Testfall A4.4:UT6 Testen, ob reset Form .
   */
-  it("should reset 'moduleFormGroup' after calling 'resetForm'", () => {
+   it("should reset 'moduleFormGroup' after calling 'resetForm'", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
     component = fixture.componentInstance;
 
