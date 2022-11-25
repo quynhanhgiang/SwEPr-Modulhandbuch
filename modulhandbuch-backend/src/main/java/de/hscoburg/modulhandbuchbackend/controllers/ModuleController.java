@@ -3,6 +3,7 @@ package de.hscoburg.modulhandbuchbackend.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +55,7 @@ public class ModuleController {
 		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
 	}
 
-	@PostMapping("")
+	@PostMapping(path = "", produces = MediaType.APPLICATION_PDF_VALUE)
 	ModuleDTO newModule(@RequestBody ModuleDTO newModule) {
 		if (newModule.getId() != null) {
 			// TODO own exception and advice
