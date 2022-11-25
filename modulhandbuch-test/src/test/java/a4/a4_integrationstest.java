@@ -1,5 +1,4 @@
-package a2;
-
+package a4;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +11,9 @@ import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class a2_systemtest {
+public class a4_integrationstest {
 	private WebDriver driver;
+	
 	@BeforeTest
 	public void openWebsite() {
 		boolean localTest = false;
@@ -34,26 +34,11 @@ public class a2_systemtest {
 	}
 	
 	@Test
-	public void S_F_A2T01() {
-		String expectedUrl = "https://85.214.225.164/dev/home";
-		Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
+	public void I_A2A4T01() {
+		driver.findElement(By.id("btn-hamburger")).click();	
+		driver.findElement(By.xpath("//a[text()=' Modulverwaltung ']")).click();
+	    WebElement neuesModulButton = driver.findElement(By.xpath("//button[text()='Neues Modul erstellen']"));
+	    Assert.assertNotNull(neuesModulButton);
 	}
-	
-	@Test
-	public void S_F_A2T02() {
-		boolean hamburgerMenuExist = !driver.findElements(By.id("btn-hamburger")).isEmpty();
-		Assert.assertEquals(hamburgerMenuExist, true);
-	}
-	
-	@Test
-	public void S_F_A2T03() {
-		WebElement modulhandbuecher = driver.findElement(By.xpath("//a[text()=' Modulhandbücher ']"));
-		Assert.assertNotNull(modulhandbuecher);
-	}
-	
-	@Test
-	public void S_F_A2T04() {
-		WebElement modulverwaltung = driver.findElement(By.xpath("//a[text()=' Modulverwaltung ']"));
-		Assert.assertNotNull(modulverwaltung);
-	}
+
 }
