@@ -22,7 +22,7 @@ public class a4_systemtest {
 
 	@BeforeTest
 	public void openWebsite() {
-		boolean localTest = false;
+		boolean localTest = true;
 		if (!localTest) {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions chromeOptions = new ChromeOptions();
@@ -43,22 +43,22 @@ public class a4_systemtest {
 		driver.findElement(By.id("bt-create-module")).click();
 	}
 
-//	@Test
-//	public void S_D_A4T01() {
-//		driver.findElement(By.xpath(
-//				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[1]/td[2]/input"))
-//				.sendKeys("Programmieren 1");
-//
-//		driver.findElement(By.xpath(
-//				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
-//				.sendKeys("Prog 1");
-//
-//		Select spo = new Select(driver.findElement(By.id("pr_id_4_label")));
-//		spo.selectByVisibleText("B ZT");
-//
-//		Assert.assertEquals(true, true);
-//	}
-//	
+	@Test
+	public void S_D_A4T01() {
+		driver.findElement(By.xpath(
+				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[1]/td[2]/input"))
+				.sendKeys("Programmieren 1");
+
+		driver.findElement(By.xpath(
+				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
+				.sendKeys("Prog 1");
+
+		Select spo = new Select(driver.findElement(By.id("pr_id_4_label")));
+		spo.selectByVisibleText("B ZT");
+
+		Assert.assertEquals(true, true);
+	}
+	
 	@Test
 	public void S_F_A4T01() {
 		WebElement dialog = driver.findElement(By.xpath("//div[@role='dialog']"));
