@@ -1,0 +1,40 @@
+<ul class="list-group list-group-flush">
+
+  <!-- edit general-informations section-->
+  <li class="list-group-item">
+    <h6 class="card-title">Modulhandbuch-Infos</h6>
+    <form class="row g-3" [formGroup]="manualFormGroup">
+
+      <div class="col-md-6">
+        <label for="input-semester" class="form-label">Gültig für das...</label>
+        <input type="text" class="form-control" id="semester" formControlName="semester" required/>
+      </div>
+
+      <div class="col-md-6">
+        <label for="select-spo" class="form-label">Zugeordnete SPO:</label>
+        <select class="form-select" id="select-spo">
+          <option *ngFor="let spo of spos; let i=index" value="{{i}}">{{spo.degree}} {{spo.course}}
+            [{{getSpoTimespan(spo)}}]
+          </option>
+        </select>
+      </div>
+
+    </form>
+  </li>
+
+  <!-- upload documents section-->
+  <li class="list-group-item">
+    <h6 class="card-title">Dokumente hochladen</h6>
+    <form class="row g-3">
+
+    </form>
+  </li>
+
+  <!-- edit assignments section -->
+  <li class="list-group-item">
+    <h6 class="card-title">Zuordnungen individualisieren</h6>
+    <form class="row g-3">
+
+    </form>
+  </li>
+</ul>

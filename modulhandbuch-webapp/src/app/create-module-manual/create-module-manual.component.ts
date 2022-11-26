@@ -112,7 +112,7 @@ export class CreateModuleManualComponent implements OnInit {
 
     this.restAPI.createModuleManual(newManual).subscribe((resp) => {
       if(event.submitter.id=="bt-submit-open"){
-        this.router.navigate(['/module-manual-detail-view', resp.id]);
+        this.router.navigate(['/manual-edit', resp.id]);
         return;
       }
 
