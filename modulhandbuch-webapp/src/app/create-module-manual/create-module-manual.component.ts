@@ -28,7 +28,7 @@ export class CreateModuleManualComponent implements OnInit {
   // ### asynchronous data ###
   spos: Spo[] = [];               //spos for spo-select
 
-  constructor(@Host() private getManualsComp: GetModuleManualsComponent, private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
+  constructor(private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
     this.initFormGroups();
   }
 
@@ -111,8 +111,6 @@ export class CreateModuleManualComponent implements OnInit {
     }
 
     this.restAPI.createModuleManual(newManual).subscribe((resp) => {
-      this.getManualsComp.moduleManuals.push(resp);
-
       if(event.submitter.id=="bt-submit-open"){
         this.router.navigate(['/module-manual-detail-view', resp.id]);
         return;
@@ -167,7 +165,7 @@ export class CreateModuleManualComponent implements OnInit {
    * Helper-function to clearly display the validity-period of a spo.
    * @param spo
    */
-  getSpoTimespan(spo: Spo) {
+  getSpoTimespan(spo: Spo): string {
     if (spo.endDate == null) {
       return 'ab ' + new Date(spo.startDate).getFullYear();
     }
