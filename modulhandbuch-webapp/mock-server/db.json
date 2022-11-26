@@ -422,6 +422,14 @@
       "title": "Prof. Dr",
       "gender": "Sehr geehrte",
       "email": "Ada.Baeumner@hs-coburg.de"
+    },
+    {
+      "id": 4,
+      "title": "Prof. Dr. Dipl.",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "ebert.sonneberg@web.de",
+      "gender": "Frau"
     }
   ],
   "spos": [
