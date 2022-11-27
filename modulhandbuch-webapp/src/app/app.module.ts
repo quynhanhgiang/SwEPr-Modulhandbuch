@@ -30,6 +30,7 @@ import { CreateModuleManualComponent } from './create-module-manual/create-modul
 import { EditManualComponent } from './edit-manual/edit-manual.component';
 import { EditManualGeneralComponent } from './edit-manual-general/edit-manual-general.component';
 import { EditManualModulesComponent } from './edit-manual-modules/edit-manual-modules.component';
+import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { EditManualModulesComponent } from './edit-manual-modules/edit-manual-mo
     CreateModuleManualComponent,
     EditManualComponent,
     EditManualGeneralComponent,
-    EditManualModulesComponent
+    EditManualModulesComponent,
+    DynamicListComponent
   ],
   imports: [
     BrowserModule,
