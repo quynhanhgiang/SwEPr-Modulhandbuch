@@ -116,7 +116,7 @@ export class RestApiService {
    * @returns the updated ModuleManual-object
    */
   updateModuleManual(moduleManual: ModuleManual): Observable<ModuleManual>  {
-    return this.http.put<ModuleManual>(this.apiURL + '/module-manuals/' + moduleManual.id, JSON.stringify(module), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<ModuleManual>(this.apiURL + '/module-manuals/' + moduleManual.id, JSON.stringify(moduleManual), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
 

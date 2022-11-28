@@ -1,0 +1,124 @@
+<ul class="list-group list-group-flush">
+
+  <!-- edit general-informations section-->
+  <li class="list-group-item pt-3 pb-3">
+    <form class="row g-3" [formGroup]="manualFormGroup" (ngSubmit)="submitManual()">
+
+      <div class="col-md-6">
+        <label for="input-semester" class="form-label"><h6>Gültig für das...</h6></label>
+        <input type="text" class="form-control" id="input-semester" formControlName="semester" required/>
+      </div>
+
+      <div class="col-md-6">
+        <label for="select-spo" class="form-label"><h6>Zugeordnete SPO:</h6></label>
+        <select class="form-select" id="select-spo" [value]="selectedSpoIndex" (change)="updateSpoForm($event.target.value)">
+          <option *ngFor="let spo of spos; let i=index" value="{{i}}">{{spo.degree}} {{spo.course}}
+            [{{getSpoTimespan(spo)}}]
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-12 row g-3 p-0 m-0" [formGroup]="spoFormGroup">
+        <div class="col-md-2">
+          <label for="input-degree" class="form-label"><h6>Abschluss:</h6></label>
+          <input type="text" class="form-control" id="input-degree" formControlName="degree"/>
+        </div>
+
+        <div class="col-md-4">
+          <label for="input-course" class="form-label"><h6>Studiengang:</h6></label>
+          <input type="text" class="form-control" id="input-course" formControlName="course"/>
+        </div>
+
+        <div class="col-md-3">
+          <label for="input-start" class="form-label"><h6>Studienanfänger ab...</h6></label>
+          <input type="text" class="form-control" id="input-start" formControlName="startDate"/>
+        </div>
+
+        <div class="col-md-3">
+          <label for="input-end" class="form-label"><h6>...bis...</h6></label>
+          <input type="text" class="form-control" id="input-end" formControlName="endDate"/>
+        </div>
+
+        <div class="col-md-12">
+          <label for="input-link" class="form-label"><h6>Link zur SPO:</h6></label>
+          <input type="text" class="form-control" id="input-link" formControlName="link"/>
+        </div>
+      </div>
+
+      <div class="row justify-content-end mt-3">
+        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
+          Speichern
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+          [ngStyle]="{'visibility': firstFormSuccess? 'visible' : 'hidden'}">
+            Gespeichert!
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </li>
+
+  <!-- upload documents section-->
+  <li class="list-group-item pt-3 pb-3">
+    <h5 class="card-title mb-3">Dokumente hochladen</h5>
+
+    <form class="row g-3" (ngSubmit)="submitFiles()">
+
+      <div class="col-md-6">
+        <label for="fileinput-first-page" class="form-label"><h6>Titelseite (.pdf, .png, .jpeg):</h6></label>
+        <input class="form-control" type="file" id="fileinput-first-page" (change)="handleFileInput($event.target.files, firstPageFile)">
+      </div>
+
+      <div class="col-md-6">
+        <label for="fileinput-moduleplan" class="form-label"><h6>Modulplan (.pdf, .png, .jpeg):</h6></label>
+        <input class="form-control" type="file" id="fileinput-moduleplan" (change)="handleFileInput($event.target.files, modulePlanFile)">
+      </div>
+
+      <div class="col-md-12">
+        <label for="fileinput-preliminary-note" class="form-label"><h6>Vorbemerkungen (.txt, .md):</h6></label>
+        <input class="form-control" type="file" id="fileinput-preliminary-note" (change)="handleFileInput($event.target.files, preliminaryNoteFile)">
+      </div>
+
+      <div class="row justify-content-end mt-3">
+        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
+          Hochladen
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+          [ngStyle]="{'visibility': secondFormSuccess? 'visible' : 'hidden'}">
+            Erfolgreich!
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </li>
+
+  <!-- edit assignments section -->
+  <li class="list-group-item pt-3 pb-3">
+    <h5 class="card-title  mb-3">Zuordnungen individualisieren</h5>
+
+    <form class="row g-3" (ngSubmit)="submitAssignments()">
+
+      <div class="col-md-4">
+        <app-dynamic-list header="Studienabschnitt" [(list)]="studyphases"></app-dynamic-list>
+      </div>
+
+      <div class="col-md-4">
+        <app-dynamic-list header="Modularten" [(list)]="moduletypes"></app-dynamic-list>
+      </div>
+
+      <div class="col-md-4">
+        <app-dynamic-list header="Zulassungsvorraussetzungen" [(list)]="requirements"></app-dynamic-list>
+      </div>
+
+      <div class="row justify-content-end mt-3">
+        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
+          Speichern
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+          [ngStyle]="{'visibility': thirdFormSuccess? 'visible' : 'hidden'}">
+            Gespeichert!
+          </span>
+        </button>
+      </div>
+    </form>
+  </li>
+</ul>
