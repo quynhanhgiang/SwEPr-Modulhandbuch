@@ -153,6 +153,30 @@ describe('CreateModuleManualComponent', () => {
   });
 
   /**
+   * Testfall A9.2:UT4 Testen, ob End-Datumsauswahl deaktiviert wird, falls untere Checkbox gesetzt ist.
+   */
+   it('should disable the enddate-picker if enddate-checkbox is unset and vice-versa', () => {
+    let document = TestBed.inject(DOCUMENT);
+
+    component.showDialog();
+    fixture.detectChanges();
+
+    let chk = document.getElementById("check-end-date") as HTMLInputElement;
+
+    chk.click();
+
+    fixture.detectChanges();
+    expect(component.endDateEnabled).toBeFalse();
+    expect(component.spoFormGroup.controls["endDate"].value).toBeNull();
+
+    chk.click();
+
+    fixture.detectChanges();
+    expect(component.endDateEnabled).toBeTrue();
+    expect(component.spoFormGroup.controls["endDate"].value).toEqual( new Date().toISOString().split('T')[0]);
+   });
+
+  /**
    * Testfall A9.2:UT8 Testen, ob Submit eines invaliden Formulars die Methode onSubmit triggert.
    */
   it('should not submit the form, if it is invalid', () => {
