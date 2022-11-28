@@ -3,11 +3,13 @@
         <h3>Neuen Mitarbeiter anlegen</h3>
     </ng-template>
     <form id="form-create-employee" (ngSubmit)="onSubmit()" [formGroup]="employeeFormGroup" ngNativeValidate>
-        <div class="mb-3">
-            <p-dropdown formControlName="gender" [options]="genders" placeholder="Anrede auswählen" [required]="true"></p-dropdown>
-        </div>
-        <div class="mb-3">
-            <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen"></p-multiSelect>
+        <div class="row">
+            <div class="mb-3 col">
+                <p-dropdown formControlName="gender" [options]="genders" placeholder="Anrede auswählen" [required]="true"></p-dropdown>
+            </div>
+            <div class="mb-3 col">
+                <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen"></p-multiSelect>
+            </div>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="input-first-name" placeholder="name@example.com" formControlName="firstName" required="true">
