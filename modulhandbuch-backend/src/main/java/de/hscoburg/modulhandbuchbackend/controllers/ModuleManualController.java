@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +59,26 @@ public class ModuleManualController {
 				// TODO own exception
 				this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 			);
+		}
+
+		ModuleManualEntity result = this.moduleManualRepository.save(moduleManualEntity);
+		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
+	}
+
+	@PutMapping("/{id}")
+	ModuleManualDTO replaceModuleManual(@RequestBody ModuleManualDTO updatedModuleManual, @PathVariable Integer id) {
+		this.moduleManualRepository.findById(id).orElseThrow(() -> {
+			// TODO own exception and advice
+			throw new RuntimeException(String.format("ID %d is not mapped for any module manual. For creating a new module manual please use a POST request.", id));
+		});
+
+		updatedModuleManual.setId(id);
+		ModuleManualEntity moduleManualEntity = modulhandbuchBackendMapper.map(updatedModuleManual, ModuleManualEntity.class);
+
+		// extract only id from spo and replace other contents of spo with data from database
+		if ((moduleManualEntity.getSpo() != null) && (moduleManualEntity.getSpo().getId() != null)) {
+			// TODO own exception
+			moduleManualEntity.setSpo(this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found")));
 		}
 
 		ModuleManualEntity result = this.moduleManualRepository.save(moduleManualEntity);
