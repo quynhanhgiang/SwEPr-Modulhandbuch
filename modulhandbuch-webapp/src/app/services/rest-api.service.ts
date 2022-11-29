@@ -8,6 +8,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Spo } from '../shared/spo';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
+import { Assignment } from '../shared/AssignmentInterfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,6 @@ export class RestApiService {
       'Content-Type': 'application/json',
     }),
   };
-
 
   // ########## Modules-API ##########
 
@@ -120,6 +120,117 @@ export class RestApiService {
   }
 
 
+  // ########## Module-Manuals-API: Documents ##########
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/first-page"-api-endpoint per PUT.
+   * Used to set / upload a first-page for the module-manual with the given ID.
+   * @param manualID ID of the target-manual
+   * @param file the first-page as .png, .jpeg or .pdf file
+   * @returns ?
+   */
+  uploadFirstPage(manualID: number, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('firstPageFile', file, file.name);
+
+    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/first-page", formData).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/module-plan"-api-endpoint per PUT.
+   * Used to set / upload a module-plan for the module-manual with the given ID.
+   * @param manualID ID of the target-manual
+   * @param file the module-manual as .png, .jpeg or .pdf file
+   * @returns ?
+   */
+  uploadModulePlan(manualID: number, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('modulePlanFile', file, file.name);
+
+    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/preliminary-note"-api-endpoint per PUT.
+   * Used to set / upload a preliminary-note for the module-manual with the given ID.
+   * @param manualID ID of the target-manual
+   * @param file the preliminary-note as .txt or .odt file
+   * @returns
+   */
+  uploadPreliminaryNote(manualID: number, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('preliminaryNoteFile', file, file.name);
+
+    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
+  }
+
+
+  // ########## Module-Manuals-API: Segments ##########
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/segments"-api-endpoint per GET.
+   * Returns a list of all segments for a given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns Segments as Assignment[]
+   */
+  getSegments(manualID: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/segments"-api-endpoint per PUT.
+   * Updates the set segments for a given module-manual to the submitted list.
+   * @param manualID ID of the target-manual
+   * @param segments the new segment-list as Assignment[]
+   * @returns Segments as Assignment[]
+   */
+  updateSegments(manualID: number, segments: Assignment[]): Observable<Assignment[]> {
+    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/module-types"-api-endpoint per GET.
+   * Returns a list of all module-types for a given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns Module-types as Assignment[]
+   */
+  getModuleTypes(manualID: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/module-types"-api-endpoint per PUT.
+   * Updates the set module-types for a given module-manual to the submitted list.
+   * @param manualID ID of the target-manual
+   * @param moduleTypes the new module-type-list as Assignment[]
+   * @returns Module-types as Assignment[]
+   */
+  updateModuleTypes(manualID: number, moduleTypes: Assignment[]): Observable<Assignment[]> {
+    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/requirements"-api-endpoint per GET.
+   * Returns a list of all requirements for a given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns Requirements as string[]
+   */
+  getRequirements(manualID: number): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements").pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/requirements"-api-endpoint per PUT.
+   * Updates the set requirements for a given module-manual to the submitted list.
+   * @param manualID ID of the target-manual
+   * @param requirements the new requirements-list as string[]
+   * @returns Requirements as string[]
+   */
+  updateRequirements(manualID: number, requirements: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements", JSON.stringify(requirements), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+
   // ########## SPO-API ##########
 
   /**
@@ -167,15 +278,10 @@ export class RestApiService {
   // ########## Error-Handling ##########
 
   handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
+    let errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+
     window.alert(errorMessage);
+
     return throwError(() => {
       return errorMessage;
     });
