@@ -10,8 +10,15 @@
     </li>
   </ul>
 
-  <form class="input-group mb-3" (ngSubmit)="add()">
-    <input class="form-control" placeholder="..." [(ngModel)]="inputVal" name="input-val" required>
-    <button class="btn btn-outline-secondary" type="submit" id="add-string-{{header}}">Hinzufügen</button>
+  <form class="needs-validation mb-3" (ngSubmit)="add()">
+    <div class="input-group has-validation">
+      <input class="form-control" placeholder="..." [(ngModel)]="inputVal" name="input-val"  [ngClass]="valid ? '' : 'is-invalid'" required>
+      <button class="btn btn-outline-secondary" type="submit" id="add-string-{{header}}">
+        Hinzufügen
+      </button>
+      <div class="invalid-feedback">
+        Eintrag bereits vorhanden.
+      </div>
+    </div>
   </form>
 </div>
