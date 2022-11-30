@@ -17,6 +17,9 @@ describe('ModuleDetailComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+  * Testfall A6.2.A:UT1 Testen, ob Komponente erzeugt wird.
+  */
   it('should create', () => {
     expect(component).toBeTruthy();
   });

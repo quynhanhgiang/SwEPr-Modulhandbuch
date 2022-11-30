@@ -100,6 +100,7 @@ export class CreateModuleComponent implements OnInit {
     }
   }
 
+
   showDialog() {//make form visible
     this.display = true;
   }
@@ -133,7 +134,7 @@ export class CreateModuleComponent implements OnInit {
     if(this.variations.length >1){
       this.variations.removeAt(index);
     }else{
-      alert("Es muss mindestens eine Variation geben")
+      window.alert("Es muss mindestens eine Variation vorhanden sein")
     }
   }
 }
