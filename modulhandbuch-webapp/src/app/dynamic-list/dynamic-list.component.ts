@@ -12,13 +12,20 @@ export class DynamicListComponent{
   @Output() listChange = new EventEmitter<string[]>();
 
   inputVal: string = "";
+  valid: boolean = true;
 
   constructor() { }
 
   add() {
-    this.list.push(this.inputVal);
+    if (this.list.includes(this.inputVal)) {
+      this.valid = false;
+      setTimeout(() => this.valid = true, 3000);
+    } else {
+      this.list.push(this.inputVal);
+      this.listChange.emit(this.list);
+    }
+
     this.inputVal="";
-    this.listChange.emit(this.list);
   }
 
   delete(index: number) {

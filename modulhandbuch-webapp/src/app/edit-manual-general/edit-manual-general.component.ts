@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/AssignmentInterfaces';
+import { FileStatus } from '../shared/FileStatus';
 import { ModuleManual } from '../shared/module-manual';
 import { Spo } from '../shared/spo';
 
@@ -18,8 +20,11 @@ export class EditManualGeneralComponent implements OnInit {
   selectedSpoIndex: number | null = null;
 
   firstPageFile: File | null = null;
-  preliminaryNoteFile: File | null = null;
+  firstPageStatus: FileStatus = {filename: null, link: null, timestamp: null};
   modulePlanFile: File | null = null;
+  modulePlanStatus: FileStatus = {filename: null, link: null, timestamp: null};
+  preliminaryNoteFile: File | null = null;
+  preliminaryNoteStatus: FileStatus = {filename: null, link: null, timestamp: null};
 
   firstFormSuccess: boolean = false;
   secondFormSuccess: boolean = false;
@@ -61,7 +66,29 @@ export class EditManualGeneralComponent implements OnInit {
 
         this.selectedSpoIndex = spos.map(e => e.id).indexOf(manual.spo.id);
       });
-    })
+    });
+
+    this.restAPI.getFirstPageStatus(id).subscribe(status => this.firstPageStatus = status);
+    this.restAPI.getModulePlanStatus(id).subscribe(status => this.modulePlanStatus = status);
+    this.restAPI.getPreliminaryNoteStatus(id).subscribe(status => this.preliminaryNoteStatus = status);
+
+    this.restAPI.getSegments(id).subscribe(segments => {
+      this.studyphases = new Array(segments.length);
+
+      for(let segment of segments) {
+        this.studyphases[segment.pos] = segment.name;
+      }
+    });
+
+    this.restAPI.getModuleTypes(id).subscribe(moduletypes => {
+      this.moduletypes = new Array(moduletypes.length);
+
+      for(let moduletype of moduletypes) {
+        this.moduletypes[moduletype.pos] = moduletype.name;
+      }
+    });
+
+    this.restAPI.getRequirements(id).subscribe(requirements => this.requirements = requirements);
   }
 
   /**
@@ -94,15 +121,54 @@ export class EditManualGeneralComponent implements OnInit {
   /**
    * Submits the second form (files-section).
    */
-  submitFiles() {
+  submitFirstPage() {
+    if (this.firstPageFile == null)
+      return;
 
+    this.restAPI.uploadFirstPage(this.moduleManual.id!, this.firstPageFile).subscribe(status => this.firstPageStatus = status);
+  }
+
+  /**
+   * Submits the second form (files-section).
+   */
+  submitModulePlan() {
+    if (this.modulePlanFile == null)
+      return;
+
+    this.restAPI.uploadModulePlan(this.moduleManual.id!, this.modulePlanFile).subscribe(status => this.modulePlanStatus = status);
+  }
+
+  /**
+   * Submits the second form (files-section).
+   */
+  submitPreliminaryNote() {
+    if (this.preliminaryNoteFile == null)
+      return;
+
+    this.restAPI.uploadPreliminaryNote(this.moduleManual.id!, this.preliminaryNoteFile).subscribe(status => this.preliminaryNoteStatus = status);
   }
 
   /**
    * Submits the third form (assignments-section).
    */
   submitAssignments() {
+    let segments: Assignment[] = [];
+    let moduletypes: Assignment[] = [];
+    let i = 0;
 
+    for (let studyphase of this.studyphases) {
+      segments.push({name: studyphase, pos: i++});
+    }
+
+    i = 0;
+
+    for (let moduletype of this.moduletypes) {
+      moduletypes.push({name: moduletype, pos: i++});
+    }
+
+    this.restAPI.updateSegments(this.moduleManual.id!, segments).subscribe();
+    this.restAPI.updateModuleTypes(this.moduleManual.id!, moduletypes).subscribe();
+    this.restAPI.updateRequirements(this.moduleManual.id!, this.requirements).subscribe();
   }
 
   /**

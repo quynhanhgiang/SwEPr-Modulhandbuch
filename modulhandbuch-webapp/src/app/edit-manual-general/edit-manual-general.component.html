@@ -62,33 +62,61 @@
   <li class="list-group-item pt-3 pb-3">
     <h5 class="card-title mb-3">Dokumente hochladen</h5>
 
-    <form class="row g-3" (ngSubmit)="submitFiles()">
+    <form class="row g-4">
 
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="fileinput-first-page" class="form-label"><h6>Titelseite (.pdf, .png, .jpeg):</h6></label>
-        <input class="form-control" type="file" id="fileinput-first-page" (change)="handleFileInput($event.target.files, firstPageFile)">
+
+        <div class="input-group">
+          <input class="form-control" type="file" id="fileinput-first-page" (change)="handleFileInput($event.target.files, firstPageFile)">
+          <button class="btn btn-outline-secondary" type="button" id="btn-upload-first-page" (click)="submitFirstPage()">Hochladen</button>
+        </div>
+        <div *ngIf="firstPageStatus.filename == null; else firstPageStatusMessage" class="text-danger p-1">
+          Es wurde noch kein Dokument hochgeladen.
+        </div>
+
+        <ng-template #firstPageStatusMessage>
+          <div class="text-success p-1">
+            Datei "<a href="{{firstPageStatus.link}}" class="link-success">{{firstPageStatus.filename}}</a>" wurde am {{firstPageStatus.timestamp}} hochgeladen.
+          </div>
+        </ng-template>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="fileinput-moduleplan" class="form-label"><h6>Modulplan (.pdf, .png, .jpeg):</h6></label>
-        <input class="form-control" type="file" id="fileinput-moduleplan" (change)="handleFileInput($event.target.files, modulePlanFile)">
+
+        <div class="input-group">
+          <input class="form-control" type="file" id="fileinput-moduleplan" (change)="handleFileInput($event.target.files, modulePlanFile)">
+          <button class="btn btn-outline-secondary" type="button" id="btn-upload-module-plan" (click)="submitModulePlan()">Hochladen</button>
+        </div>
+
+        <div *ngIf="modulePlanStatus.filename == null; else modulePlanStatusMessage" class="text-danger p-1">
+          Es wurde noch kein Dokument hochgeladen.
+        </div>
+        <ng-template #modulePlanStatusMessage>
+          <div class="text-success p-1">
+            Datei "<a href="{{modulePlanStatus.link}}" class="link-success">{{modulePlanStatus.filename}}</a>" wurde am {{modulePlanStatus.timestamp}} hochgeladen.
+          </div>
+        </ng-template>
       </div>
 
       <div class="col-md-12">
         <label for="fileinput-preliminary-note" class="form-label"><h6>Vorbemerkungen (.txt, .md):</h6></label>
-        <input class="form-control" type="file" id="fileinput-preliminary-note" (change)="handleFileInput($event.target.files, preliminaryNoteFile)">
-      </div>
 
-      <div class="row justify-content-end mt-3">
-        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
-          Hochladen
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
-          [ngStyle]="{'visibility': secondFormSuccess? 'visible' : 'hidden'}">
-            Erfolgreich!
-          </span>
-        </button>
-      </div>
+        <div class="input-group">
+          <input class="form-control" type="file" id="fileinput-preliminary-note" (change)="handleFileInput($event.target.files, preliminaryNoteFile)">
+          <button class="btn btn-outline-secondary" type="button" id="btn-upload-preliminary-note" (click)="submitPreliminaryNote()">Hochladen</button>
+        </div>
 
+        <div *ngIf="preliminaryNoteStatus.filename == null; else preliminaryNoteStatusMessage" class="text-danger p-1">
+          Es wurde noch kein Dokument hochgeladen.
+        </div>
+        <ng-template #preliminaryNoteStatusMessage>
+          <div class="text-success p-1">
+            Datei "<a href="{{preliminaryNoteStatus.link}}" class="link-success">{{preliminaryNoteStatus.filename}}</a>" wurde am {{preliminaryNoteStatus.timestamp}} hochgeladen.
+          </div>
+        </ng-template>
+      </div>
     </form>
   </li>
 
