@@ -8,8 +8,8 @@ import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Spo } from '../shared/spo';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
-import { Assignment } from '../shared/AssignmentInterfaces';
 import { FileStatus } from '../shared/FileStatus';
+
 
 @Injectable({
   providedIn: 'root'
@@ -202,42 +202,42 @@ export class RestApiService {
    * Method for requesting the "/module-manuals/{{manual_id}}/segments"-api-endpoint per GET.
    * Returns a list of all segments for a given module-manual.
    * @param manualID ID of the target-manual
-   * @returns Segments as Assignment[]
+   * @returns Segments as string[]
    */
-  getSegments(manualID: number): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
+  getSegments(manualID: number): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
    * Method for requesting the "/module-manuals/{{manual_id}}/segments"-api-endpoint per PUT.
    * Updates the set segments for a given module-manual to the submitted list.
    * @param manualID ID of the target-manual
-   * @param segments the new segment-list as Assignment[]
-   * @returns Segments as Assignment[]
+   * @param segments the new segment-list as string[]
+   * @returns Segments as string[]
    */
-  updateSegments(manualID: number, segments: Assignment[]): Observable<Assignment[]> {
-    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  updateSegments(manualID: number, segments: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
    * Method for requesting the "/module-manuals/{{manual_id}}/module-types"-api-endpoint per GET.
    * Returns a list of all module-types for a given module-manual.
    * @param manualID ID of the target-manual
-   * @returns Module-types as Assignment[]
+   * @returns Module-types as string[]
    */
-  getModuleTypes(manualID: number): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
+  getModuleTypes(manualID: number): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
    * Method for requesting the "/module-manuals/{{manual_id}}/module-types"-api-endpoint per PUT.
    * Updates the set module-types for a given module-manual to the submitted list.
    * @param manualID ID of the target-manual
-   * @param moduleTypes the new module-type-list as Assignment[]
-   * @returns Module-types as Assignment[]
+   * @param moduleTypes the new module-type-list as string[]
+   * @returns Module-types as string[]
    */
-  updateModuleTypes(manualID: number, moduleTypes: Assignment[]): Observable<Assignment[]> {
-    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  updateModuleTypes(manualID: number, moduleTypes: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -305,6 +305,121 @@ export class RestApiService {
     return this.http.post<CollegeEmployee>(this.apiURL + '/college-employees', JSON.stringify(collegeEmployee), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
+  // ########## Enumerations-API ##########
+
+  /**
+   * Method for requesting the "/degrees"-api-endpoint per GET.
+   * Returns a list of all degrees.
+   * @returns degrees as string[]
+   */
+  getDegrees(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/degrees').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/degrees"-api-endpoint per PUT.
+   * Updates the set degrees to the submitted list.
+   * @param degrees the new degrees-list as string[]
+   * @returns degrees as string[]
+   */
+  updateDegrees(degrees: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/degrees', JSON.stringify(degrees), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/cycles"-api-endpoint per GET.
+   * Returns a list of all cycles.
+   * @returns cycles as string[]
+   */
+  getCycles(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/cycles').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/cycles"-api-endpoint per PUT.
+   * Updates the set cycles to the submitted list.
+   * @param cycles the new cycles-list as string[]
+   * @returns cycles as string[]
+   */
+  updateCycles(cycles: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/cycles', JSON.stringify(cycles), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/genders"-api-endpoint per GET.
+   * Returns a list of all genders.
+   * @returns genders as string[]
+   */
+  getGenders(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/genders').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/genders"-api-endpoint per PUT.
+   * Updates the set genders to the submitted list.
+   * @param genders the new genders-list as string[]
+   * @returns genders as string[]
+   */
+  updateGenders(genders: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/genders', JSON.stringify(genders), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/durations"-api-endpoint per GET.
+   * Returns a list of all durations.
+   * @returns durations as string[]
+   */
+  getDurations(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/durations').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/durations"-api-endpoint per PUT.
+   * Updates the set durations to the submitted list.
+   * @param durations the new durations-list as string[]
+   * @returns durations as string[]
+   */
+  updateDurations(durations: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/durations', JSON.stringify(durations), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/maternity-protections"-api-endpoint per GET.
+   * Returns a list of all maternity-protections.
+   * @returns maternity-protections as string[]
+   */
+  getMaternityProtections(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/maternity-protections').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/maternity-protections"-api-endpoint per PUT.
+   * Updates the set maternity-protections to the submitted list.
+   * @param maternityProtections the new maternity-protections-list as string[]
+   * @returns maternity-protections as string[]
+   */
+  updateMaternityProtections(maternityProtections: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/maternity-protections', JSON.stringify(maternityProtections), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/languages"-api-endpoint per GET.
+   * Returns a list of all languages.
+   * @returns languages as string[]
+   */
+  getLanguages(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiURL + '/languages').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/languages"-api-endpoint per PUT.
+   * Updates the set languages to the submitted list.
+   * @param languages the new languages-list as string[]
+   * @returns languages as string[]
+   */
+  updateLanguages(languages: string[]): Observable<string[]> {
+    return this.http.put<string[]>(this.apiURL + '/languages', JSON.stringify(languages), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
 
   // ########## Error-Handling ##########
 

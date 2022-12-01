@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
-import { Assignment } from '../shared/AssignmentInterfaces';
 import { FileStatus } from '../shared/FileStatus';
 import { ModuleManual } from '../shared/module-manual';
 import { Spo } from '../shared/spo';
@@ -27,7 +26,6 @@ export class EditManualGeneralComponent implements OnInit {
   preliminaryNoteStatus: FileStatus = {filename: null, link: null, timestamp: null};
 
   firstFormSuccess: boolean = false;
-  secondFormSuccess: boolean = false;
   thirdFormSuccess: boolean = false;
 
   moduleManual!: ModuleManual;
@@ -72,22 +70,8 @@ export class EditManualGeneralComponent implements OnInit {
     this.restAPI.getModulePlanStatus(id).subscribe(status => this.modulePlanStatus = status);
     this.restAPI.getPreliminaryNoteStatus(id).subscribe(status => this.preliminaryNoteStatus = status);
 
-    this.restAPI.getSegments(id).subscribe(segments => {
-      this.studyphases = new Array(segments.length);
-
-      for(let segment of segments) {
-        this.studyphases[segment.pos] = segment.name;
-      }
-    });
-
-    this.restAPI.getModuleTypes(id).subscribe(moduletypes => {
-      this.moduletypes = new Array(moduletypes.length);
-
-      for(let moduletype of moduletypes) {
-        this.moduletypes[moduletype.pos] = moduletype.name;
-      }
-    });
-
+    this.restAPI.getSegments(id).subscribe(segments => this.studyphases = segments);
+    this.restAPI.getModuleTypes(id).subscribe(moduletypes => this.moduletypes = moduletypes);
     this.restAPI.getRequirements(id).subscribe(requirements => this.requirements = requirements);
   }
 
@@ -107,8 +91,6 @@ export class EditManualGeneralComponent implements OnInit {
     this.moduleManual = this.manualFormGroup.getRawValue();
 
     this.restAPI.updateModuleManual(this.moduleManual).subscribe(manual => {
-      this.moduleManual = manual;
-
       this.firstFormSuccess = true
       setTimeout(() => this.firstFormSuccess = false, 2000);
     });
@@ -152,23 +134,14 @@ export class EditManualGeneralComponent implements OnInit {
    * Submits the third form (assignments-section).
    */
   submitAssignments() {
-    let segments: Assignment[] = [];
-    let moduletypes: Assignment[] = [];
-    let i = 0;
-
-    for (let studyphase of this.studyphases) {
-      segments.push({name: studyphase, pos: i++});
-    }
-
-    i = 0;
-
-    for (let moduletype of this.moduletypes) {
-      moduletypes.push({name: moduletype, pos: i++});
-    }
-
-    this.restAPI.updateSegments(this.moduleManual.id!, segments).subscribe();
-    this.restAPI.updateModuleTypes(this.moduleManual.id!, moduletypes).subscribe();
-    this.restAPI.updateRequirements(this.moduleManual.id!, this.requirements).subscribe();
+    this.restAPI.updateSegments(this.moduleManual.id!, this.studyphases).subscribe(r1 => {
+      this.restAPI.updateModuleTypes(this.moduleManual.id!, this.moduletypes).subscribe(r2 => {
+        this.restAPI.updateRequirements(this.moduleManual.id!, this.requirements).subscribe(r3 => {
+          this.thirdFormSuccess = true
+          setTimeout(() => this.thirdFormSuccess = false, 2000);
+        });
+      });
+    });
   }
 
   /**
