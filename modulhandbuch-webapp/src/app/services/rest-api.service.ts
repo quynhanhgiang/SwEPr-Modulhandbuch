@@ -8,6 +8,8 @@ import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Spo } from '../shared/spo';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
+import { FileStatus } from '../shared/FileStatus';
+
 
 @Injectable({
   providedIn: 'root'
@@ -122,17 +124,37 @@ export class RestApiService {
   // ########## Module-Manuals-API: Documents ##########
 
   /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/first-page"-api-endpoint per GET.
+   * Returns the status of the first-page-file for an given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns file-status as FileStatus-Object
+   */
+   getFirstPageStatus(manualID: number): Observable<FileStatus> {
+    return this.http.get<FileStatus>(this.apiURL + '/module-manuals/' + manualID + "/first-page").pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
    * Method for requesting the "/module-manuals/{{manual_id}}/first-page"-api-endpoint per PUT.
    * Used to set / upload a first-page for the module-manual with the given ID.
    * @param manualID ID of the target-manual
    * @param file the first-page as .png, .jpeg or .pdf file
    * @returns ?
    */
-  uploadFirstPage(manualID: number, file: File): Observable<any> {
+  uploadFirstPage(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
     formData.append('firstPageFile', file, file.name);
 
-    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/first-page", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/first-page", formData).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/module-plan"-api-endpoint per GET.
+   * Returns the status of the module-plan-file for an given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns file-status as FileStatus-Object
+   */
+   getModulePlanStatus(manualID: number): Observable<FileStatus> {
+    return this.http.get<FileStatus>(this.apiURL + '/module-manuals/' + manualID + "/module-plan").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -142,11 +164,21 @@ export class RestApiService {
    * @param file the module-manual as .png, .jpeg or .pdf file
    * @returns ?
    */
-  uploadModulePlan(manualID: number, file: File): Observable<any> {
+  uploadModulePlan(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
     formData.append('modulePlanFile', file, file.name);
 
-    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/preliminary-note"-api-endpoint per GET.
+   * Returns the status of the preliminary-note-file for an given module-manual.
+   * @param manualID ID of the target-manual
+   * @returns file-status as FileStatus-Object
+   */
+   getPreliminaryNoteStatus(manualID: number): Observable<FileStatus> {
+    return this.http.get<FileStatus>(this.apiURL + '/module-manuals/' + manualID + "/preliminary-note").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -156,11 +188,11 @@ export class RestApiService {
    * @param file the preliminary-note as .txt or .odt file
    * @returns
    */
-  uploadPreliminaryNote(manualID: number, file: File): Observable<any> {
+  uploadPreliminaryNote(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
     formData.append('preliminaryNoteFile', file, file.name);
 
-    return this.http.post<any>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
   }
 
 
