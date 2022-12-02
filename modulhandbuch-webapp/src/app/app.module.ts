@@ -27,6 +27,7 @@ import {InputTextModule} from 'primeng/inputtext';
 
 import { RestApiService } from './services/rest-api.service';
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
+import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 import { CreateCollegeEmployeeComponent } from './create-college-employee/create-college-employee.component';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CreateCollegeEmployeeComponent } from './create-college-employee/create
     EditModuleComponent,
     SanitizeHtmlPipe,
     CreateModuleManualComponent,
+    GetCollegeEmployeesComponent,
     CreateCollegeEmployeeComponent
   ],
   imports: [
