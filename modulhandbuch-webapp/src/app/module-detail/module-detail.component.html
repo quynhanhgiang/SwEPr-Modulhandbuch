@@ -11,7 +11,7 @@
                     <td class="td-row-left" ><label>Kürzel</label></td>
                     <td class="td-row-right"><p>{{module.abbreviation}}</p></td>
                 </tr>
-                
+
                 <ng-container *ngFor="let variation of module.variations">
                     <tr>
                         <td colspan="2">
@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <td class="td-row-left" ><label>SPO</label></td>
-                        <td class="td-row-right"><p>{{variation.spo.course}} vom {{variation.spo.startDate}} bis zum {{variation.spo.endDate}}</p></td>
+                        <td class="td-row-right"><p>{{variation.manual.spo.course}} vom {{variation.manual.spo.startDate}} bis zum {{variation.manual.spo.endDate}}</p></td>
                     </tr>
                     <tr>
                         <td class="td-row-left" ><label>Semester</label></td>

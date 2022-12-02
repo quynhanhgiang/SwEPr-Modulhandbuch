@@ -27,7 +27,7 @@ export class EditModuleComponent implements OnInit {
   moduleOwners!:CollegeEmployee[];
 
   private routeSub!: Subscription;
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private restAPI: RestApiService) { 
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
       id: null,
       moduleName: new FormControl(),
@@ -120,7 +120,7 @@ export class EditModuleComponent implements OnInit {
       for(let i=0;i<module.variations.length;i++){
         this.variations.push(
           this.fb.group({
-            spo:module.variations[i].spo,
+            spo:module.variations[i].manual.spo,
             ects: module.variations[i].ects,
             sws: module.variations[i].sws,
             workLoad: module.variations[i].workLoad,
@@ -128,11 +128,11 @@ export class EditModuleComponent implements OnInit {
             category: module.variations[i].category,
           })
         );
-        
+
       }
       this.rendered = true;
     });
-      
+
   }
 
   ngOnDestroy() {
@@ -145,7 +145,7 @@ export class EditModuleComponent implements OnInit {
     this.restAPI.updateModule(this.moduleFormGroup.value).subscribe(resp => {
       console.log(resp);
     });
-    
+
     this.hideDialog();
 
     if(event.submitter.id=="bt-submit-new"){
