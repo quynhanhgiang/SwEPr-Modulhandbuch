@@ -1,5 +1,5 @@
 import { CollegeEmployee } from "./CollegeEmployee";
-import { Variation } from "./variation";
+import { ModuleVariation } from "./ModuleVariation";
 
 /**
  * "Module"-Interface, for Module-Creation and -Update
@@ -8,7 +8,7 @@ export interface Module {
   id: number | null,
   moduleName: string,
   abbreviation: string,
-  variations: Variation[],
+  variations: ModuleVariation[],
   cycle: string,
   duration: string,
   moduleOwner: CollegeEmployee,   // Bei GET: Namen als String -> keine weiteren Abfragen nötig

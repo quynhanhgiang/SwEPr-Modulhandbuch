@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { Spo } from '../shared/spo';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { FileStatus } from '../shared/FileStatus';
+import { ManualVariation } from '../shared/ManualVariation';
 
 
 @Injectable({
@@ -31,6 +32,15 @@ export class RestApiService {
   // ########## Modules-API ##########
 
   /**
+   * Method for requesting the "{{url}}/modules"-api-endpoint per GET
+   * Returns a detailed represantation of all modules.
+   * @returns list of Module-objects
+   */
+  getModules(): Observable<Module[]> {
+    return this.http.get<Module[]>(this.apiURL + '/modules').pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
    * Method for requesting the "{{url}}/modules?flat=true"-api-endpoint per GET.
    * Returns a flat represantation of all modules.
    * @returns list of FlatModule-objects
@@ -40,12 +50,13 @@ export class RestApiService {
   }
 
   /**
-   * Method for requesting the "{{url}}/modules"-api-endpoint per GET
-   * Returns a detailed represantation of all modules.
-   * @returns list of Module-objects
+   * Method for requesting the "{{url}}/modules?flat=true&not-in-manual={{manual_id}}"-api-endpoint per GET.
+   * Returns a flat represantation of all modules that are not already assigned to the manual with the given ID.
+   * @returns list of FlatModule-objects
    */
-  getModules(): Observable<Module[]> {
-    return this.http.get<Module[]>(this.apiURL + '/modules').pipe(retry(1), catchError(this.handleError));
+  getModulesAssignableTo(manualID: number): Observable<FlatModule[]> {
+    return this.http.get<FlatModule[]>( this.apiURL + (this.prod ?
+      '/modules?flat=true&not-in-manual=' + manualID : '/flatModules')).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -138,7 +149,7 @@ export class RestApiService {
    * Used to set / upload a first-page for the module-manual with the given ID.
    * @param manualID ID of the target-manual
    * @param file the first-page as .png, .jpeg or .pdf file
-   * @returns ?
+   * @returns file-status as FileStatus-Object
    */
   uploadFirstPage(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
@@ -162,7 +173,7 @@ export class RestApiService {
    * Used to set / upload a module-plan for the module-manual with the given ID.
    * @param manualID ID of the target-manual
    * @param file the module-manual as .png, .jpeg or .pdf file
-   * @returns ?
+   * @returns file-status as FileStatus-Object
    */
   uploadModulePlan(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
@@ -186,7 +197,7 @@ export class RestApiService {
    * Used to set / upload a preliminary-note for the module-manual with the given ID.
    * @param manualID ID of the target-manual
    * @param file the preliminary-note as .txt or .odt file
-   * @returns
+   * @returns file-status as FileStatus-Object
    */
   uploadPreliminaryNote(manualID: number, file: File): Observable<FileStatus> {
     const formData: FormData = new FormData();
@@ -195,6 +206,29 @@ export class RestApiService {
     return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
   }
 
+
+  // ########## Module-Manuals-API: Modules ##########
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/modules"-api-endpoint per GET.
+   * Returns a list of all assigned modules for the module-manual with the given ID.
+   * @param manualID ID of the target-manual
+   * @returns the assigned modules as ManualVariation[]
+   */
+  getAssignedModules(manualID: number): Observable<ManualVariation[]> {
+    return this.http.get<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules").pipe(retry(1), catchError(this.handleError));
+  }
+
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/modules"-api-endpoint per PUT.
+   * Used to refresh the assigned modules for the module-manual with the given ID.
+   * @param manualID ID of the target-manual
+   * @param manualVariations the assigned modules as ManualVariation[]
+   * @returns the assigned modules as ManualVariation[]
+   */
+  updateAssignedModules(manualID: number, manualVariations: any[]): Observable<ManualVariation[]> {
+    return this.http.post<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(manualVariations)).pipe(retry(1), catchError(this.handleError));
+  }
 
   // ########## Module-Manuals-API: Segments ##########
 
@@ -219,6 +253,9 @@ export class RestApiService {
     return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
+
+  // ########## Module-Manuals-API: Module-Types ##########
+
   /**
    * Method for requesting the "/module-manuals/{{manual_id}}/module-types"-api-endpoint per GET.
    * Returns a list of all module-types for a given module-manual.
@@ -239,6 +276,9 @@ export class RestApiService {
   updateModuleTypes(manualID: number, moduleTypes: string[]): Observable<string[]> {
     return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
+
+
+  // ########## Module-Manuals-API: Requirements ##########
 
   /**
    * Method for requesting the "/module-manuals/{{manual_id}}/requirements"-api-endpoint per GET.
