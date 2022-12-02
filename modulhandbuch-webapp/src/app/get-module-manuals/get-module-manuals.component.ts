@@ -26,7 +26,7 @@ export class GetModuleManualsComponent implements OnInit {
     this.restAPI.getModuleManuals().subscribe(resp => {
       this.moduleManuals = resp;
 
-      if (moduleManuals.length === 0) {
+      if (resp.length === 0) {
         this.emptyMessage = "Es wurden noch keine Modulhandbücher angelegt. Zum Anlegen bitte auf 'Neues Modulhandbuch' klicken."
       } else {
         this.emptyMessage = "Keine Ergebnisse gefunden. Bitte überprüfen Sie die Korrektheit der Eingabe und stellen Sie sicher, dass lediglich das Studienfach gesucht wurde (z.B. 'Visual Computing')."

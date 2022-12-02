@@ -1,5 +1,6 @@
 package de.hscoburg.modulhandbuchbackend.controllers;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,20 @@ public class CollegeEmployeeController {
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for college employee not found.", id)));
-		return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
+      return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
 	}
+
+	@PostMapping("")
+	CollegeEmployeeDTO newCollegeEmployee(@RequestBody CollegeEmployeeDTO newCollegeEmployee) {
+		if (newCollegeEmployee.getId() != null) {
+			// TODO own exception and advice
+			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
+		}
+
+		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);
+
+		CollegeEmployeeEntity result = this.collegeEmployeeRepository.save(collegeEmployeeEntity);
+    return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
+	}
+
 }

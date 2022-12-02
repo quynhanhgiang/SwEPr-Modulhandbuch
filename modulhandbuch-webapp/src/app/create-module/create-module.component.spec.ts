@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 
@@ -10,15 +10,13 @@ describe('CreateModuleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       providers: [
         FormBuilder,
-        HttpClient,
-        HttpHandler
       ],
       declarations: [
         CreateModuleComponent
-      ]
+      ],
     })
     .compileComponents();
 
@@ -103,5 +101,18 @@ describe('CreateModuleComponent', () => {
     expect(component.moduleFormGroup.value.id).toBe(null);
     expect(component.moduleFormGroup.value.moduleOwner).toBe(null);
   });
+
+  /**
+  * Testfall A4.4:UT7 Testen ob, 'Diverse' nach aufruf der Funktion 'onSubmit' zu '' wird.
+  */
+     it("should set gender to ''after calling 'onSubmit'", () => {
+      fixture = TestBed.createComponent(CreateModuleComponent);
+      component = fixture.componentInstance;
+      
+      component.ngOnInit();
+  
+  
+      //component.onSubmit();
+    });
 
 });
