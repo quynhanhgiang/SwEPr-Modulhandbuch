@@ -5,11 +5,12 @@ import { FlatModule } from "./FlatModule";
  */
 export interface ManualVariation {
     module: FlatModule,
-    semester: number,
-    sws: number,
-    ects: number,
-    workLoad: string,
-    moduleType: string,
-    segment: string,
-    admissionRequirement: string
+    semester: number | null,
+    sws: number  | null,
+    ects: number  | null,
+    workLoad: string  | null,
+    moduleType: string  | null,
+    segment: string  | null,
+    admissionRequirement: string  | null
+    isAssigned: boolean | undefined
 }

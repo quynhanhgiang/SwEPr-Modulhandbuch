@@ -35,7 +35,7 @@ export class EditManualGeneralComponent implements OnInit {
   moduletypes: string[] = [];
   requirements: string[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private restAPI: RestApiService, private fb: FormBuilder) {
+  constructor(private activatedRoute: ActivatedRoute, private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({
       id: [{value: ''}],
       link: [{value: '', disabled: true}],

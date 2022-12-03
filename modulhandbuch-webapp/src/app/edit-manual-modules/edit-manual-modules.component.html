@@ -1,3 +1,84 @@
-<div class="card-body">
-  TODO
-</div>
+<ul class="list-group list-group-flush">
+
+  <div class="card-body p-3 pb-0">
+    <p-pickList [source]="unassignedModules" [target]="assignedModules"
+      sourceHeader="Verfügbare Module ({{unassignedModules.length}})" targetHeader="Zugeordnete Module ({{assignedModules.length}})"
+      [responsive] = "true" filterBy="module.moduleName" sourceFilterPlaceholder="Modul Suchen" targetFilterPlaceholder="Modul Suchen"
+      [sourceStyle]="{'height':'30rem'}" [targetStyle]="{'height':'30rem'}" [showSourceControls]="false" [showTargetControls]="false"
+      (onMoveToTarget)="assignModule($event)" (onMoveToSource)="unassignModule($event)">
+
+      <ng-template let-manualVar pTemplate="item">
+        <div class="">
+          <b>{{manualVar.module.moduleName}}</b> ({{manualVar.module.moduleOwner}})
+
+          <div *ngIf="!manualVar.isAssigned; else assignedTemplate">
+          </div>
+
+          <ng-template #assignedTemplate>
+            <div class="row g-1 mt-1">
+              <div class="col">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.semester}}. Semester
+                </div>
+              </div>
+              <div class="col">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.segment}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-1 mt-1">
+              <div class="col-6">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.moduleType}}
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.sws}} SWS
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.ects}} ECTS
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-1 mt-1">
+              <div class="col">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.workLoad}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-1 mt-1">
+              <div class="col">
+                <div class="border rounded-1 p-1">
+                  {{manualVar.admissionRequirement}}
+                </div>
+              </div>
+            </div>
+
+          </ng-template>
+        </div>
+      </ng-template>
+    </p-pickList>
+
+    <div class="row justify-content-end p-3">
+      <button id="bt-submit-close" class="btn btn-outline-secondary position-relative me-4" type="button" (click)="submit(false)">
+        Speichern
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+          [ngStyle]="{'visibility': submitSuccess ? 'visible' : 'hidden'}">
+          Gespeichert!
+        </span>
+      </button>
+
+      <button id="bt-submit-close" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
+        Speichern & Schließen
+      </button>
+    </div>
+  </div>
+</ul>
