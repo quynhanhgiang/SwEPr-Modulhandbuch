@@ -505,5 +505,28 @@
       "course": "Automatisierungstechnik und Robotik",
       "degree": "Bachelor"
     }
+  ],
+  "maternity-protections":[
+    "Grün",
+    "Gelb",
+    "Rot"
+  ],
+  "cycles":[
+    "Jährlich",
+    "Halbjährlich"
+  ],
+  "durations":[
+    "Einsemestrig",
+    "Zweisemestrig"
+  ],
+  "languages":[
+    "Deutsch",
+    "Englisch",
+    "Spanisch",
+    "Chinisisch"
+  ],
+  "degrees":[
+    "Bachelor",
+    "Master"
   ]
 }

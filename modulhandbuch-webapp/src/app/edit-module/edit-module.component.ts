@@ -106,7 +106,6 @@ export class EditModuleComponent implements OnInit {
         profs: module.profs,
         language: module.language,
         usage: module.usage,
-        admissionRequirements: module.admissionRequirements,
         knowledgeRequirements: module.knowledgeRequirements,
         skills: module.skills,
         content: module.content,

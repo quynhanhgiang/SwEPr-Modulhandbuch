@@ -15,7 +15,7 @@ export class CreateModuleComponent implements OnInit {
   
   display: boolean = false;//false == form hidden | true == form visible
   loaded:number=0;
-  disabled!:boolean[];
+  disabled:boolean[]=[];
 
   newModule!:Module;
   
@@ -25,12 +25,13 @@ export class CreateModuleComponent implements OnInit {
   selectedProfs!:[];
   moduleManuals!:ModuleManual[];
   moduleOwners!:CollegeEmployee[];
-  cycle!:String[];
-  duration!:String[];
-  language!:String[];
-  maternityProtection!:String[];
+  cycles!:String[];
+  durations!:String[];
+  languages!:String[];
+  maternityProtections!:String[];
+
   admissionRequirements:String[][]=[];
-  categorys:String[][]=[];
+  moduleCategorys:String[][]=[];
   segments:String[][]=[];
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
@@ -73,22 +74,22 @@ export class CreateModuleComponent implements OnInit {
     });
 
     this.restAPI.getCycles().subscribe(resp => {
-      this.cycle = resp;
+      this.cycles = resp;
       this.loaded++;
     });
 
     this.restAPI.getDurations().subscribe(resp => {
-      this.duration = resp;
+      this.durations = resp;
       this.loaded++;
     });
 
     this.restAPI.getMaternityProtections().subscribe(resp => {
-      this.maternityProtection = resp;
+      this.maternityProtections = resp;
       this.loaded++;
     });
 
     this.restAPI.getLanguages().subscribe(resp => {
-      this.language = resp;
+      this.languages = resp;
       this.loaded++;
     });
 
@@ -112,10 +113,10 @@ export class CreateModuleComponent implements OnInit {
     }
   }
 
-  updateSpoForm(id: string, i:number) {
-
+  updateModuleManual(id: string, i:number) {
+    console.log("add MOduleManual with id: "+id+" i: "+i)
     this.restAPI.getModuleTypes(parseInt(id)).subscribe(resp => {
-        this.categorys[i]=(resp);
+        this.moduleCategorys[i]=(resp);
     });
 
     this.restAPI.getRequirements(parseInt(id)).subscribe(resp => {
@@ -144,7 +145,7 @@ export class CreateModuleComponent implements OnInit {
         workLoad: new FormControl('', [Validators.required]),
         semester: new FormControl('', [Validators.required]),
         moduleCategory: new FormControl('', [Validators.required]),
-        admissionRequirements: new FormControl('', [Validators.required]),
+        admissionRequirement: new FormControl('', [Validators.required]),
         segment:new FormControl('', [Validators.required]),
       })
     );
@@ -155,7 +156,7 @@ export class CreateModuleComponent implements OnInit {
     if(this.variations.length >1){
       this.variations.removeAt(index);
       delete this.disabled[index];//testing
-      delete this.categorys[index]//testing
+      delete this.moduleCategorys[index]//testing
       delete this.admissionRequirements[index]//testing
       delete this.segments[index]//Testing
     }else{

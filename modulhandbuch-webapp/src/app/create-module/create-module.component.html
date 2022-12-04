@@ -19,30 +19,36 @@
                     </td>
                 </tr>
                 <tr>
-                <tr>
                     <td colspan="2">
                         <ul formGroupName="variations" class="list-group" style="width: 100%;">
                             <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
                                 <tr > 
                                     <td class="td-row-left" ><label>Modulhandbuch</label></td>
                                     <td class="td-row-right">
-                                        <p-dropdown [options]="moduleManuals" formControlName="moduleManual" id="dropdown-create-module-moduleManual" [required]="true"  (change)="updateVariation($event.target.value,i)"></p-dropdown>
+                                        <p-dropdown [options]="moduleManuals" formControlName="moduleManual" id="dropdown-create-module-moduleManual"  (onChange)="updateModuleManual($event.target,i)" optionLabel="semester"></p-dropdown>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="td-row-left" ><label>Kategorie</label></td>
                                     <td  class="td-row-right">
-                                        <p-dropdown [disabled]="disabled[i]" [options]="category" formControlName="category" id="dropdown-create-module-category" [required]="true" aria-disabled="true">
+                                        <p-dropdown [disabled]="disabled[i]" [options]="moduleCategorys" formControlName="moduleCategory" id="dropdown-create-module-category" [required]="true" ></p-dropdown>
                                     </td>
                                 </tr>
+                                <tr>
                                     <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
                                     <td  class="td-row-right">
-                                        <p-dropdown [disabled]="disabled[i]" [options]="admissionRequirements" formControlName="admissionRequirements" id="dropdown-create-module-admissionRequirements" [required]="true" aria-disabled="true">
+                                        <p-dropdown [disabled]="disabled[i]" [options]="admissionRequirements" formControlName="admissionRequirement" id="dropdown-create-module-admissionRequirements" [required]="true" ></p-dropdown>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-row-left" ><label>Abschnitt im Modulhandbuch</label></td>
+                                    <td  class="td-row-right">
+                                        <p-dropdown [disabled]="disabled[i]" [options]="segments" formControlName="segment" id="dropdown-create-module-segment" [required]="true" ></p-dropdown>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                                    <td class="td-row-right"><input [disabled]="disabled[i]" type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></td>
+                                    <td class="td-row-right"><input disabled="disabled[i]" type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></td>
                                 </tr>
                                 <tr>
                                     <td class="td-row-left" ><label>Leistungspunkte / ECTS</label></td>
@@ -86,13 +92,13 @@
                 <tr>
                     <td class="td-row-left" ><label>Angebotsturnus</label></td>
                     <td  class="td-row-right">
-                        <p-dropdown [options]="clycle" formControlName="clycle" id="dropdown-create-module-cycle" [required]="true" aria-disabled="true">
+                        <p-dropdown [options]="cycles" formControlName="cycle" id="dropdown-create-module-cycle" [required]="true" ></p-dropdown>
                     </td>
                 </tr>
                 <tr >
                     <td class="td-row-left" ><label>Dauer des Moduls</label></td>
                     <td  class="td-row-right">
-                        <p-dropdown [options]="duration" formControlName="duration" id="dropdown-create-module-duration" [required]="true" aria-disabled="true"></p-dropdown>
+                        <p-dropdown [options]="durations" formControlName="duration" id="dropdown-create-module-duration" [required]="true" ></p-dropdown>
                     </td>
                 </tr>
                 <tr>
@@ -108,7 +114,7 @@
                 <tr>
                     <td class="td-row-left" ><label>Sprache</label></td>
                     <td  class="td-row-right">
-                        <p-dropdown [options]="language" formControlName="language" id="dropdown-create-module-language" [required]="true" aria-disabled="true">
+                        <p-dropdown [options]="languages" formControlName="language" id="dropdown-create-module-language" [required]="true" ></p-dropdown>
                     </td>
                 </tr>
                 <tr>
@@ -182,7 +188,7 @@
                 <tr >
                     <td class="td-row-left" ><label>Mutterschutz</label></td>
                     <td  class="td-row-right">
-                        <p-dropdown [options]="maternityProtection" formControlName="maternityProtection" id="dropdown-create-module-maternityProtection" [required]="true" aria-disabled="true">
+                        <p-dropdown [options]="maternityProtections" formControlName="maternityProtection" id="dropdown-create-module-maternityProtection" [required]="true" ></p-dropdown>
                     </td>
                 </tr>
            </table> 
