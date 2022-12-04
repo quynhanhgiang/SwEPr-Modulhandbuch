@@ -1,8 +1,3 @@
-::ng-deep .p-picklist-transfer-buttons > button:nth-child(2),
-::ng-deep .p-picklist-transfer-buttons > button:nth-child(4) {
-    display: none !important;
-  }
-
-  button.btn {
-    width: 200px;
-  }
+button.btn.btn-outline-secondary {
+  width: 200px;
+}

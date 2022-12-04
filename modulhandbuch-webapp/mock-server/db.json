@@ -1,4 +1,83 @@
 {
+  "moduleTypes": [
+    "Wahlpflichtfach",
+    "Pflichtfach",
+    "Praktikum",
+    "Schlüsselqualifikation"
+  ],
+  "requirements": [
+    "Zulassungsvorraussetzung nach §4 Abs. 1",
+    "Zulassungsvorraussetzung nach §4 Abs. 2",
+    "Zulassungsvorraussetzung nach §5 Abs. 1",
+    "Zulassungsvorraussetzung nach §5 Abs. 2"
+  ],
+  "segments": [
+    "1. Studienabschnitt",
+    "2. Studienabschnitt",
+    "3. Studienabschnitt"
+  ],
+  "assignedModules": [
+    {
+      "module": {
+        "id": 13,
+        "abbreviation": "Eng",
+        "moduleName": "English",
+        "moduleOwner": "Richard Fry"
+      },
+      "semester": 1,
+      "sws": 4,
+      "ects": 20,
+      "workLoad": "<p><ul><li>40h Präsenz,</li> <li>60h Selbststudium</li></ul></p>",
+      "moduleType": "Pflichtfach",
+      "segment": "1. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 12,
+        "abbreviation": "MathVC",
+        "moduleName": "Mathematik für Visual Computing",
+        "moduleOwner": "Prof. Dr. Thomas Wieland"
+      },
+      "semester": 4,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "2. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 11,
+        "abbreviation": "BiVa1",
+        "moduleName": "Bildverarbeitung 1",
+        "moduleOwner": "Prof. Dr. Tilo Strutz"
+      },
+      "semester": 7,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "3. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 10,
+        "abbreviation": "SwEPr",
+        "moduleName": "Software Engineering Projekt",
+        "moduleOwner": "Prof. Dr. Dieter Landes"
+      },
+      "semester": 7,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "3. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    }
+  ],
   "flatModules": [
     {
       "id": 0,

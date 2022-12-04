@@ -18,8 +18,6 @@ export class EditManualGeneralComponent implements OnInit {
 
   selectedSpoIndex: number | null = null;
 
-  firstPageFile: File | null = null;
-  firstPageStatus: FileStatus = {filename: null, link: null, timestamp: null};
   modulePlanFile: File | null = null;
   modulePlanStatus: FileStatus = {filename: null, link: null, timestamp: null};
   preliminaryNoteFile: File | null = null;
@@ -66,7 +64,6 @@ export class EditManualGeneralComponent implements OnInit {
       });
     });
 
-    this.restAPI.getFirstPageStatus(id).subscribe(status => this.firstPageStatus = status);
     this.restAPI.getModulePlanStatus(id).subscribe(status => this.modulePlanStatus = status);
     this.restAPI.getPreliminaryNoteStatus(id).subscribe(status => this.preliminaryNoteStatus = status);
 
@@ -98,16 +95,6 @@ export class EditManualGeneralComponent implements OnInit {
 
   handleFileInput(files: FileList, file: File | null) {
     file = files.item(0);
-  }
-
-  /**
-   * Submits the second form (files-section).
-   */
-  submitFirstPage() {
-    if (this.firstPageFile == null)
-      return;
-
-    this.restAPI.uploadFirstPage(this.moduleManual.id!, this.firstPageFile).subscribe(status => this.firstPageStatus = status);
   }
 
   /**

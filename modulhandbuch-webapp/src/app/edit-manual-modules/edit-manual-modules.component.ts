@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
 import { ManualVariation } from '../shared/ManualVariation';
 import { ModuleManual } from '../shared/module-manual';
-import { assignableModules, assignedModules } from './mock-modules';
 
 @Component({
   selector: 'app-edit-manual-modules',
@@ -12,14 +12,34 @@ import { assignableModules, assignedModules } from './mock-modules';
 })
 export class EditManualModulesComponent implements OnInit {
 
+  editDialogVisible = false;
   submitSuccess: boolean = false;
+
+  variationToEdit!: ManualVariation;
+  variationFormGroup: FormGroup;
 
   moduleManual!: ModuleManual;
 
   unassignedModules: ManualVariation[] = [];
   assignedModules: ManualVariation[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private restAPI: RestApiService) { }
+  segments: string[] = [];
+  moduleTypes: string[] = [];
+  requirements: string[] = [];
+
+  constructor(private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private restAPI: RestApiService) {
+    this.variationFormGroup = this.fb.group({
+      module: {},
+      semester: new FormControl(''),
+      segment: new FormControl(''),
+      moduleType: new FormControl(''),
+      sws: new FormControl(''),
+      ects: new FormControl(''),
+      workLoad: new FormControl(''),
+      admissionRequirement: new FormControl(''),
+      isAssigned: false
+    });
+  }
 
   ngOnInit(): void {
     let id = Number(this.activatedRoute.snapshot.parent!.paramMap.get("id"));
@@ -28,51 +48,99 @@ export class EditManualModulesComponent implements OnInit {
       this.moduleManual = manual;
     });
 
-    this.assignedModules = assignedModules;
+    this.restAPI.getModulesAssignableTo(id).subscribe(modules => {
+      for (let mod of modules) {
+        this.unassignedModules.push({
+          module: mod,
+          semester: null,
+          sws: null,
+          ects: null,
+          workLoad: "",
+          moduleType: null,
+          segment: null,
+          admissionRequirement: null,
+          isAssigned: false
+        });
+      }
 
-    for (let mod of assignableModules) {
-      this.unassignedModules.push({
-        module: mod,
-        semester: null,
-        sws: null,
-        ects: null,
-        workLoad: null,
-        moduleType: null,
-        segment: null,
-        admissionRequirement: null,
-        isAssigned: false
-      });
-    }
+      this.unassignedModules.sort( this.compareVariations );
+    });
 
-    this.assignedModules.sort( this.compareVariations );
-    this.unassignedModules.sort( this.compareVariations );
+    this.restAPI.getAssignedModules(id).subscribe(modules => {
+      for(let mod of modules) {
+        mod.isAssigned = true;
+      }
+
+      this.assignedModules = modules;
+      this.assignedModules.sort( this.compareVariations );
+    });
+
+    this.restAPI.getSegments(id).subscribe(segments => {this.segments = segments});
+    this.restAPI.getModuleTypes(id).subscribe(types => {this.moduleTypes = types});
+    this.restAPI.getRequirements(id).subscribe(requirements => {this.requirements = requirements});
   }
 
   /**
-   *
-   * @param itemTransferEvent
+   * Method is called, after trying to assign one or multiple modules. Checks for each module-assignment, if its valid.
+   * Unvaild module-assignments are rejected. Sets valid-flag, if assignment is valid.
+   * @param itemTransferEvent Event with item-list containing the assigned moduleVariation-objects.
    */
   assignModule(itemTransferEvent: any) {
-    let manualVar = itemTransferEvent.items[0];
-
-    if (!this.isValidVariation(manualVar)) {
-      this.assignedModules.splice(this.assignedModules.indexOf(manualVar, 0), 1);
-      this.unassignedModules.push(manualVar);
-      this.unassignedModules.sort( this.compareVariations );
-      return;
+    for (let manualVar of itemTransferEvent.items) {
+      if (!this.isValidVariation(manualVar)) {
+        this.assignedModules.splice(this.assignedModules.indexOf(manualVar, 0), 1);
+        this.unassignedModules.push(manualVar);
+        continue;
+      }
+      manualVar.isAssigned = true;
     }
 
-    manualVar.isAssigned = true;
+    this.unassignedModules.sort( this.compareVariations );
     this.assignedModules.sort( this.compareVariations );
   }
 
   /**
-   *
-   * @param itemTransferEvent
+   * Method is called, after trying to unassign one ore multiple modules. Unsets valid-flag for each unassigned module.
+   * @param itemTransferEvent Event with item-list containing the unassigned moduleVariation-objects.
    */
   unassignModule(itemTransferEvent: any) {
-    itemTransferEvent.items[0].isAssigned = false;
+    for (let manualVar of itemTransferEvent.items) {
+      manualVar.isAssigned = false;
+    }
+
     this.unassignedModules.sort( this.compareVariations );
+  }
+
+  /**
+   * Shows the edit-dialog for the specified manualVariation-object.
+   * @param manualVar manualVariation to edit
+   */
+  editManualVar(manualVar: ManualVariation) {
+    this.variationToEdit = manualVar;
+    this.variationFormGroup.patchValue(manualVar);
+    this.editDialogVisible = true;
+  }
+
+  /**
+   * Reset and close the eddit-dialog.
+   */
+  closeDialog() {
+    this.variationFormGroup.reset();
+    this.editDialogVisible = false;
+  }
+
+  /**
+   * Save the changes made to the manualVariation and close the dialog.
+   */
+  saveVariationChanges() {
+    this.variationToEdit.semester = this.variationFormGroup.controls["semester"].value;
+    this.variationToEdit.segment = this.variationFormGroup.controls["segment"].value;
+    this.variationToEdit.moduleType = this.variationFormGroup.controls["moduleType"].value;
+    this.variationToEdit.sws = this.variationFormGroup.controls["sws"].value;
+    this.variationToEdit.ects = this.variationFormGroup.controls["ects"].value;
+    this.variationToEdit.workLoad = this.variationFormGroup.controls["workLoad"].value;
+    this.variationToEdit.admissionRequirement = this.variationFormGroup.controls["admissionRequirement"].value;
+    this.closeDialog();
   }
 
   /**
@@ -97,7 +165,7 @@ export class EditManualModulesComponent implements OnInit {
    * @param v2
    * @returns
    */
-  private compareVariations(v1: ManualVariation, v2: ManualVariation) {
+  compareVariations(v1: ManualVariation, v2: ManualVariation) {
     if ( v1.module.moduleName + v1.module.moduleOwner < v2.module.moduleName + v2.module.moduleOwner ){
       return -1;
     }
@@ -112,7 +180,7 @@ export class EditManualModulesComponent implements OnInit {
    * @param manualVar the object whose validity is to be checked
    * @returns true, if valid, false otherwise
    */
-  private isValidVariation(manualVar: ManualVariation): boolean {
+  isValidVariation(manualVar: ManualVariation): boolean {
     return  manualVar.semester != null && manualVar.semester > 0 && manualVar.semester < 10 &&
             manualVar.sws != null && manualVar.sws > 0 && manualVar.sws < 30 &&
             manualVar.ects != null && manualVar.ects > 0 && manualVar.ects < 100 &&
