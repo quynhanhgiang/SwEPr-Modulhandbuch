@@ -5,10 +5,10 @@
     <form id="form-create-employee" (ngSubmit)="onSubmit()" [formGroup]="employeeFormGroup" ngNativeValidate>
         <div class="row">
             <div class="mb-3 col">
-                <p-dropdown formControlName="gender" [options]="genders" placeholder="Anrede auswählen" [required]="true"></p-dropdown>
+                <p-dropdown formControlName="gender" [options]="genders"></p-dropdown>
             </div>
             <div class="mb-3 col">
-                <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen"></p-multiSelect>
+                <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen" ></p-multiSelect>
             </div>
         </div>
         <div class="form-floating mb-3">
