@@ -65,24 +65,6 @@
     <form class="row g-4">
 
       <div class="col-md-12">
-        <label for="fileinput-first-page" class="form-label"><h6>Titelseite (.pdf, .png, .jpeg):</h6></label>
-
-        <div class="input-group">
-          <input class="form-control" type="file" id="fileinput-first-page" (change)="handleFileInput($event.target.files, firstPageFile)">
-          <button class="btn btn-outline-secondary" type="button" id="btn-upload-first-page" (click)="submitFirstPage()">Hochladen</button>
-        </div>
-        <div *ngIf="firstPageStatus.filename == null; else firstPageStatusMessage" class="text-danger p-1">
-          Es wurde noch kein Dokument hochgeladen.
-        </div>
-
-        <ng-template #firstPageStatusMessage>
-          <div class="text-success p-1">
-            Datei "<a href="{{firstPageStatus.link}}" class="link-success">{{firstPageStatus.filename}}</a>" wurde am {{firstPageStatus.timestamp}} hochgeladen.
-          </div>
-        </ng-template>
-      </div>
-
-      <div class="col-md-12">
         <label for="fileinput-moduleplan" class="form-label"><h6>Modulplan (.pdf, .png, .jpeg):</h6></label>
 
         <div class="input-group">
