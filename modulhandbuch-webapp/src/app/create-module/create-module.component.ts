@@ -4,7 +4,7 @@ import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
-import { Spo } from '../shared/spo';
+import { DisplayModuleManual } from './display-module-manual';
 
 @Component({
   selector: 'app-create-module',
@@ -24,6 +24,8 @@ export class CreateModuleComponent implements OnInit {
   profs!:CollegeEmployee[];
   selectedProfs!:[];
   moduleManuals!:ModuleManual[];
+  //selectedModuleManuals:DisplayModuleManual[]=[];
+  displayModuleManuals:DisplayModuleManual[]=[];
   moduleOwners!:CollegeEmployee[];
   cycles!:String[];
   durations!:String[];
@@ -58,6 +60,13 @@ export class CreateModuleComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.loaded=0;
+    this.disabled=[];
+    this.selectedProfs=[];
+    this.segments=[];
+    this.moduleCategorys=[];
+    this.admissionRequirements=[];
+
     this.restAPI.getCollegeEmployees().subscribe(resp => {
       this.profs = resp;
       this.loaded++;
@@ -69,8 +78,24 @@ export class CreateModuleComponent implements OnInit {
     });
 
     this.restAPI.getModuleManuals().subscribe(resp => {
-      this.moduleManuals = resp;
-      this.loaded++;
+      if(resp.length<1){
+        window.alert("Es muss zuerst ein MOdulhandbuch angelegt werden, bevor weitere MOdule angelegt werden können")
+        return;
+      }else{
+        this.moduleManuals = resp;
+      
+        for (let i=0;i<resp.length;i++) {
+          let displayModuleManual:DisplayModuleManual={id:resp[i].id, name:""};
+          if(resp[i].spo.endDate==null){
+            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n (ab: "+resp[i].spo.startDate+")";
+          }else{
+            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n ("+resp[i].spo.startDate+"-"+resp[i].spo.endDate+")";
+          }
+          
+          this.displayModuleManuals.push(displayModuleManual);
+        }
+        this.loaded++;
+      }
     });
 
     this.restAPI.getCycles().subscribe(resp => {
@@ -113,17 +138,17 @@ export class CreateModuleComponent implements OnInit {
     }
   }
 
-  updateModuleManual(id: string, i:number) {
+  updateModuleManual(id:number, i:number) {
     console.log("add MOduleManual with id: "+id+" i: "+i)
-    this.restAPI.getModuleTypes(parseInt(id)).subscribe(resp => {
+    this.restAPI.getModuleTypes(id).subscribe(resp => {
         this.moduleCategorys[i]=(resp);
     });
 
-    this.restAPI.getRequirements(parseInt(id)).subscribe(resp => {
+    this.restAPI.getRequirements(id).subscribe(resp => {
       this.admissionRequirements[i]= resp;
     });
 
-    this.restAPI.getSegments(parseInt(id)).subscribe(resp => {
+    this.restAPI.getSegments(id).subscribe(resp => {
       for(let j=0;j<resp.length;i++){
         this.segments[i]=resp;
       }
@@ -165,7 +190,12 @@ export class CreateModuleComponent implements OnInit {
   }
 
   showDialog() {//make form visible
-    this.display = true;
+    if(this.loaded==7){
+      this.display = true;
+    }else{
+      window.alert("Es liegt Modulhandbuch vor, welchem das MOdul zugeordent werden kann")
+    }
+    
   }
 
   hideDialog() {//hide form
@@ -174,5 +204,6 @@ export class CreateModuleComponent implements OnInit {
 
   resetForm(){
     this.moduleFormGroup.reset();
+    this.ngOnInit();
   }
 }

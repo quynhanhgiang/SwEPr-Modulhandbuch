@@ -1,133 +1,62 @@
 <p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()"><!--Pop-up dialog for form-->
     <ng-template pTemplate="header">
-        <h3>Neues Modul erstellen</h3>
+        <h4>----------------------------------- Neues Modul erstellen -----------------------------------</h4>
     </ng-template>
-    <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
-        <ng-container *ngIf="loaded==7">
-            <table id="table-create-module">
-                <tr>
-                    <td class="td-row-left" ><label>Modulbezeichnung</label></td>
-                    <td class="td-row-right"><input type="text" class="form-control" required formControlName="moduleName" id="input-create-module-moduleName"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Kürzel</label></td>
-                    <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-create-module-abbreviation"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <ul formGroupName="variations" class="list-group" style="width: 100%;">
-                            <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
-                                <tr > 
-                                    <td class="td-row-left" ><label>Modulhandbuch</label></td>
-                                    <td class="td-row-right">
-                                        <p-dropdown [options]="moduleManuals" formControlName="moduleManual" id="dropdown-create-module-moduleManual"  (onChange)="updateModuleManual($event.target,i)" optionLabel="semester"></p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Kategorie</label></td>
-                                    <td  class="td-row-right">
-                                        <p-dropdown [disabled]="disabled[i]" [options]="moduleCategorys" formControlName="moduleCategory" id="dropdown-create-module-category" [required]="true" ></p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
-                                    <td  class="td-row-right">
-                                        <p-dropdown [disabled]="disabled[i]" [options]="admissionRequirements" formControlName="admissionRequirement" id="dropdown-create-module-admissionRequirements" [required]="true" ></p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Abschnitt im Modulhandbuch</label></td>
-                                    <td  class="td-row-right">
-                                        <p-dropdown [disabled]="disabled[i]" [options]="segments" formControlName="segment" id="dropdown-create-module-segment" [required]="true" ></p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                                    <td class="td-row-right"><input disabled="disabled[i]" type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Leistungspunkte / ECTS</label></td>
-                                    <td class="td-row-right"><input [disabled]="disabled[i]" type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
-                                    <td class="td-row-right">
-                                        <p-editor required="true" [disabled]="disabled[i]" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
-                                            <p-header>
-                                                <span class="ql-formats">
-                                                    <button class="ql-bold" aria-label="Bold"></button>
-                                                    <button class="ql-italic" aria-label="Italic"></button>
-                                                    <button class="ql-underline" aria-label="Underline"></button>
-                                                    <button class="ql-list" value="ordered"></button>
-                                                    <button class="ql-list" value="bullet"></button>      
-                                                </span> 
-                                            </p-header>
-                                        </p-editor>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Fachsemester</label></td>
-                                    <td class="td-row-right"><input [disabled]="disabled[i]" type="number" class="form-control" required min="1" max="7" formControlName="semester" id="input-create-module-semester"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <button [disabled]="variations.length<=1" id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
-                                    </td>
-                                </tr>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
-                    </td>
-                </tr>
-    
-                <tr>
-                    <td class="td-row-left" ><label>Angebotsturnus</label></td>
-                    <td  class="td-row-right">
+    <ng-container *ngIf="loaded==7">
+        <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
+
+            <div class="row p-2">
+                <div class="text-center p-4 col"><h4>statische Felder</h4></div>
+            </div>
+
+            <div class="border border-dark">
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Modulbezeichnung</label></div>
+                    <div class="col-8"><input type="text" class="form-control" required formControlName="moduleName" id="input-create-module-moduleName"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Kürzel</label></div>
+                    <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-create-module-abbreviation"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Angebotsturnus</label></div>
+                    <div class="col-8">
                         <p-dropdown [options]="cycles" formControlName="cycle" id="dropdown-create-module-cycle" [required]="true" ></p-dropdown>
-                    </td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Dauer des Moduls</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3"><label>Dauer des Moduls</label></div>
+                    <div class="col-8">
                         <p-dropdown [options]="durations" formControlName="duration" id="dropdown-create-module-duration" [required]="true" ></p-dropdown>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Modulverantwortliche(r)</label></td>
-                    <td class="td-row-right"><p-dropdown [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner" id="dropdown-create-module-moduleOwner" [required]="true"></p-dropdown></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Dozent(in)</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Modulverantwortliche(r)</label></div>
+                    <div class="col-8"><p-dropdown [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner" id="dropdown-create-module-moduleOwner" [required]="true"></p-dropdown></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Dozent(in)</label></div>
+                    <div class="col-8">
                         <p-multiSelect [options]="profs" [(ngModel)]="selectedProfs" formControlName="profs" optionLabel="lastName" id="multiselect-create-module-profs"></p-multiSelect>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Sprache</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Sprache</label></div>
+                    <div class="col-8">
                         <p-dropdown [options]="languages" formControlName="language" id="dropdown-create-module-language" [required]="true" ></p-dropdown>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Nutzung in anderen Studiengängen</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="usage" id="input-create-module-usage"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Inhaltliche Voraussetzung</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-create-module-knowledge-requirements"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Nutzung in anderen Studiengängen</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="usage" id="input-create-module-usage"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Inhaltliche Voraussetzung</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-create-module-knowledge-requirements"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Qualifikationsziele/Kompetenzen</label></div>
+                    <div class="col-8">
                         <p-editor required="true" formControlName="skills" id="editor-create-module-skills">
                             <p-header>
                                 <span class="ql-formats">
@@ -139,11 +68,11 @@
                                 </span> 
                             </p-header>
                         </p-editor>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Lehrinhalte</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Lehrinhalte</label></div>
+                    <div class="col-8">
                         <p-editor required="true" formControlName="content" id="editor-create-module-content">
                             <p-header>
                                 <span class="ql-formats">
@@ -155,23 +84,23 @@
                                 </span> 
                             </p-header>
                         </p-editor>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
-                    <td  class="td-row-right"><input required type="text" class="form-control" formControlName="examType" id="input-create-module-exam-type"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="certificates" id="input-create-certificates"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Medienform</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="mediaType" id="input-create-module-media-type"></td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Literatur</label></td>
-                    <td class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Endnotenbildung Studien-/Prüfungsleistungen</label></div>
+                    <div class="col-8"><input required type="text" class="form-control" formControlName="examType" id="input-create-module-exam-type"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Sonstige Leistungsnachweise</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="certificates" id="input-create-certificates"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Medienform</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="mediaType" id="input-create-module-media-type"></div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Literatur</label></div>
+                    <div class="col-8">
                         <p-editor required="true" formControlName="literature" id="editor-create-module-literature">
                             <p-header>
                                 <span class="ql-formats">
@@ -183,22 +112,95 @@
                                 </span> 
                             </p-header>
                         </p-editor>
-                    </td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Mutterschutz</label></td>
-                    <td  class="td-row-right">
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col-3"><label>Mutterschutz</label></div>
+                    <div class="col-8">
                         <p-dropdown [options]="maternityProtections" formControlName="maternityProtection" id="dropdown-create-module-maternityProtection" [required]="true" ></p-dropdown>
-                    </td>
-                </tr>
-           </table> 
-        </ng-container>
-        <div>
-            <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
-            <button id="btn-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
-            <button id="btn-submit-new" class="btn btn-outline-secondary" type="submit">Speichern und Neu</button>
-        </div>
-    </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row p-2">
+                <div class="text-center p-4 col"><h4>Felder die sich je nach ausgewähltem Modulhandbuch unterscheiden</h4></div>
+            </div>
+
+
+            <ul formGroupName="variations" class="list-group" style="width: 100%;">
+                <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="border border-dark list-group-item mb-4 border-top brder-bottom">
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Modulhandbuch</label></div>
+                        <div class="col-8">
+                            <p-dropdown [options]="displayModuleManuals" placeholder="Modulhandbuch auswählen" formControlName="moduleManual" id="dropdown-create-module-moduleManual"  (onChange)="updateModuleManual($event.value.id,i)" optionLabel="name"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Kategorie</label></div>
+                        <div class="col-8">
+                            <p-dropdown [disabled]="disabled[i]" [options]="moduleCategorys" formControlName="moduleCategory" id="dropdown-create-module-category" [required]="true" ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Zulassungsvoraussetzungen</label></div>
+                        <div class="col-8">
+                            <p-dropdown [disabled]="disabled[i]" [options]="admissionRequirements" formControlName="admissionRequirement" id="dropdown-create-module-admissionRequirements" [required]="true" ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Abschnitt im Modulhandbuch</label></div>
+                        <div class="col-8">
+                            <p-dropdown [disabled]="disabled[i]" [options]="segments" formControlName="segment" id="dropdown-create-module-segment" [required]="true" ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Lehrform / SWS</label></div>
+                        <div class="col-8"><input [disabled]="disabled[i]" type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Leistungspunkte / ECTS</label></div>
+                        <div class="col-8"><input [disabled]="disabled[i]" type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Arbeitsaufwand</label></div>
+                        <div class="col-8">
+                            <p-editor required="true" [disabled]="disabled[i]" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
+                                <p-header>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold" aria-label="Bold"></button>
+                                        <button class="ql-italic" aria-label="Italic"></button>
+                                        <button class="ql-underline" aria-label="Underline"></button>
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>      
+                                    </span> 
+                                </p-header>
+                            </p-editor>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-3"><label>Fachsemester</label></div>
+                        <div class="col-8"><input [disabled]="disabled[i]" type="number" class="form-control" required min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
+                    </div>
+                    <div class="row p-2 border-top">
+                        <div colspan="2">
+                            <button [disabled]="variations.length <=1" id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="row border-bottom p-2">
+                <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
+            </div> 
+            
+
+            <div>
+                <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+                <button id="btn-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
+                <button id="btn-submit-new" class="btn btn-outline-secondary" type="submit">Speichern und Neu</button>
+            </div>
+        </form>
+    </ng-container>
 </p-dialog>
 
 <div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
