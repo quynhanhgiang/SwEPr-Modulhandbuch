@@ -81,7 +81,7 @@ public class a1_systemtest {
 		boolean result = true;
 		openFormular();
 		try {
-			driver.findElement(By.xpath("//span[text()='Anrede auswählen']"));
+			driver.findElement(By.xpath("//span[text()='Herr']"));
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
@@ -144,8 +144,8 @@ public class a1_systemtest {
 	public void S_F_A1T08() {
 		boolean result = true;
 		openFormular();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Anrede auswählen']")));
-		WebElement andere = driver.findElement(By.xpath("//span[text()='Anrede auswählen']"));
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("pr_id_2_label")));
+		WebElement andere = driver.findElement(By.id("pr_id_2_label"));
 		andere.click();
 
 		try {
@@ -210,6 +210,71 @@ public class a1_systemtest {
 		WebElement email = driver.findElement(By.id("input-email"));
 		String typeOfEmail = email.getAttribute("type");
 		if (typeOfEmail == null || !typeOfEmail.equals("email")) {
+			result = false;
+		}
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T13() {
+		boolean result = true;
+		openFormular();
+		
+		WebElement andere = driver.findElement(By.id("pr_id_2_label"));
+		String emailRequired = andere.getAttribute("required");
+		if (!Boolean.valueOf(emailRequired)) {
+			result = false;
+		}
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T14() {
+		boolean result = true;
+		openFormular();
+		
+		WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+		String titelRequired = titel.getAttribute("required");
+		if (Boolean.valueOf(titelRequired)) {
+			result = false;
+		}
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T15() {
+		boolean result = true;
+		openFormular();
+		
+		WebElement vorname = driver.findElement(By.id("input-first-name"));
+		String vornameRequired = vorname.getAttribute("required");
+		if (!Boolean.valueOf(vornameRequired)) {
+			result = false;
+		}
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T16() {
+		boolean result = true;
+		openFormular();
+		
+		WebElement nachname = driver.findElement(By.id("input-last-name"));
+		String nachnameRequired = nachname.getAttribute("required");
+		if (!Boolean.valueOf(nachnameRequired)) {
+			result = false;
+		}
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T17() {
+		boolean result = true;
+		openFormular();
+		
+		WebElement email = driver.findElement(By.id("input-email"));
+		String emailRequired = email.getAttribute("required");
+		if (!Boolean.valueOf(emailRequired)) {
 			result = false;
 		}
 		Assert.assertEquals(result, true);
