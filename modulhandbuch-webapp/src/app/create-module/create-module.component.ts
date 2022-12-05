@@ -61,7 +61,7 @@ export class CreateModuleComponent implements OnInit {
   
   ngOnInit(): void {
     this.loaded=0;
-    this.disabled=[];
+    //this.disabled[0]=true;
     this.selectedProfs=[];
     this.segments=[];
     this.moduleCategorys=[];
@@ -180,10 +180,10 @@ export class CreateModuleComponent implements OnInit {
   deleteVariation(index:number){
     if(this.variations.length >1){
       this.variations.removeAt(index);
-      delete this.disabled[index];//testing
-      delete this.moduleCategorys[index]//testing
-      delete this.admissionRequirements[index]//testing
-      delete this.segments[index]//Testing
+      this.disabled.splice(index, 1)//testing
+      this.moduleCategorys.splice(index,1)//testing
+      this.admissionRequirements.splice(index,1)//testing
+      this.segments.splice(index,1)//Testing
     }else{
       window.alert("Es muss mindestens eine Variation vorhanden sein")
     }
