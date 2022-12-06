@@ -53,8 +53,59 @@ public class a4_systemtest {
 				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
 				.sendKeys("Prog 1");
 
-		Select spo = new Select(driver.findElement(By.id("pr_id_4_label")));
-		spo.selectByVisibleText("B ZT");
+		driver.findElement(By.id("pr_id_4_label")).click();
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[1]/td[2]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[5]/li/span")).click();
+
+		Select category = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[2]/td[2]/select")));
+		category.selectByVisibleText("Pflichtfach");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[3]/td[2]/input"))
+			.sendKeys("5");
+		
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[4]/td[2]/input"))
+			.sendKeys("6");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[5]/td[2]/p-editor/div/div[2]/div[1]"))
+			.sendKeys("150 Stunden, davon:\n50 in Präsenz\n100 Selbststudium");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[6]/td[2]/input"))
+			.sendKeys("1");
+
+		Select cycle = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[7]/td[2]/select")));
+		cycle.selectByVisibleText("Jährlich");
+
+		Select duration = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[8]/td[2]/select")));
+		duration.selectByVisibleText("Einsemestrig");
+
+		driver.findElement(By.id("pr_id_3_label")).click();
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[9]/td[2]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[2]/li/span")).click();
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[2]")).click();
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[4]/div[2]/ul/p-multiselectitem[1]/li/span")).click();
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[4]/div[2]/ul/p-multiselectitem[2]/li/span")).click();
+
+		Select language = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[11]/td[2]/select")));
+		language.selectByVisibleText("Deutsch");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[12]/td[2]/input"))
+			.sendKeys("TEST Nutzung in anderen Studiengängen");
+
+		Select req2 = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[13]/td[2]/select")));
+		req2.selectByVisibleText("Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[14]/td[2]/input"))
+			.sendKeys("TEST Inhaltliche Voraussetzung");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[15]/td[2]/p-editor/div/div[2]/div[1]/p"))
+			.sendKeys("TEST Qualifikationsziele/Kompetenzen");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[16]/td[2]/p-editor/div/div[2]/div[1]/p"))
+			.sendKeys("TEST Lehrinhalte");
+
+
+
+
+
 
 		Assert.assertEquals(true, true);
 	}
