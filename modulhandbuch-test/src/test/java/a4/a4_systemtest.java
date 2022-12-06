@@ -102,9 +102,12 @@ public class a4_systemtest {
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[16]/td[2]/p-editor/div/div[2]/div[1]/p"))
 			.sendKeys("TEST Lehrinhalte");
 
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[17]/td[2]/input"))
+			.sendKeys("TEST Endnotenbildung Studien-/Prüfungsleistungen");
 
 
-			
+
+
 
 
 		Assert.assertEquals(true, true);
