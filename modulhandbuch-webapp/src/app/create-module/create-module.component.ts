@@ -5,6 +5,7 @@ import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
 import { DisplayModuleManual } from './display-module-manual';
+import { displayCollegeEmployee } from './displayCollegeEmployee';
 
 @Component({
   selector: 'app-create-module',
@@ -22,40 +23,41 @@ export class CreateModuleComponent implements OnInit {
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
+  displayProfs:displayCollegeEmployee[]=[];
   selectedProfs!:[];
   moduleManuals!:ModuleManual[];
-  //selectedModuleManuals:DisplayModuleManual[]=[];
   displayModuleManuals:DisplayModuleManual[]=[];
   moduleOwners!:CollegeEmployee[];
+  displayModuleOwners:displayCollegeEmployee[]=[];
   cycles!:String[];
   durations!:String[];
   languages!:String[];
   maternityProtections!:String[];
 
   admissionRequirements:String[][]=[];
-  moduleCategorys:String[][]=[];
+  moduleTypes:String[][]=[];
   segments:String[][]=[];
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
       id: null,
-      moduleName: new FormControl('', [Validators.required]),
-      abbreviation: new FormControl('', [Validators.required]),
+      moduleName: new FormControl(),
+      abbreviation: new FormControl(),
       variations: this.fb.array([]),
-      cycle: new FormControl('', [Validators.required]),
-      duration: new FormControl('', [Validators.required]),
-      moduleOwner: new FormControl('', [Validators.required]),
-      profs: new FormControl('', [Validators.required]),
-      language: new FormControl('', [Validators.required]),
+      cycle: new FormControl(),
+      duration: new FormControl(),
+      moduleOwner: new FormControl(),
+      profs: new FormControl(),
+      language: new FormControl(),
       usage: new FormControl(),
-      knowledgeRequirements: new FormControl(),
+      knowledgeRequirements: new FormControl(""),
       skills: new FormControl(),
       content: new FormControl(),
-      examType: new FormControl('', [Validators.required]),
+      examType: new FormControl(),
       certificates: new FormControl(),
       mediaType: new FormControl(),
       literature: new FormControl(),
-      maternityProtection: new FormControl('', [Validators.required]),
+      maternityProtection: new FormControl(),
     });
   }
   
@@ -64,22 +66,45 @@ export class CreateModuleComponent implements OnInit {
     //this.disabled[0]=true;
     this.selectedProfs=[];
     this.segments=[];
-    this.moduleCategorys=[];
+    this.moduleTypes=[];
     this.admissionRequirements=[];
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
-      this.profs = resp;
-      this.loaded++;
+      if(resp.length<1){
+        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
+        return;
+      }else{
+        this.profs = resp;
+      
+        for (let i=0;i<resp.length;i++) {
+          let displayProf:DisplayModuleManual={id:resp[i].id, name:""};
+          displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
+          this.displayProfs.push(displayProf);
+        }
+        this.loaded++;
+      }
     });
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
-      this.moduleOwners = resp;
-      this.loaded++;
+      if(resp.length<1){
+        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
+        return;
+      }else{
+        this.moduleOwners = resp;
+      
+        for (let i=0;i<resp.length;i++) {
+          let displayModuleOwner:DisplayModuleManual={id:resp[i].id, name:""};
+          displayModuleOwner.name = this.moduleOwners[i].title +" " + this.moduleOwners[i].firstName +" " +this.moduleOwners[i].lastName;
+          this.displayModuleOwners.push(displayModuleOwner);
+        }
+        this.loaded++;
+      }
+
     });
 
     this.restAPI.getModuleManuals().subscribe(resp => {
       if(resp.length<1){
-        window.alert("Es muss zuerst ein MOdulhandbuch angelegt werden, bevor weitere MOdule angelegt werden können")
+        window.alert("Es muss zuerst ein Modulhandbuch angelegt werden, bevor weitere Module angelegt werden können")
         return;
       }else{
         this.moduleManuals = resp;
@@ -122,26 +147,55 @@ export class CreateModuleComponent implements OnInit {
   }
 
   onSubmit(event: {submitter:any }): void {//create new Module with form data
-    console.log("submit");
-
     this.newModule = this.moduleFormGroup.value;
+
+    if(this.newModule.profs.length<1){
+      window.alert("Es muss mindestens ein Dozent zugewiesen werden");
+      return;
+    }
     
+    for(let i=0;i<this.newModule.variations.length;i++){
+      let index=this.newModule.variations[i].manual.id;
+      for(let j=0;j < this.moduleManuals.length;j++){
+        if(this.moduleManuals[j].id==index){
+          this.newModule.variations[i].manual=this.moduleManuals[j];
+          break;
+        }
+      }
+    }
+
+    for(let i=0;i<this.moduleOwners.length;i++){
+      if(this.newModule.moduleOwner.id==this.moduleOwners[i].id){
+        this.newModule.moduleOwner = this.moduleOwners[i];
+        break;
+      }
+    }
+
+    for(let i=0;i<this.newModule.profs.length;i++){
+      for(let j=0;j<this.profs.length;i++){
+        if(this.newModule.profs[i].id=this.profs[j].id){
+          this.newModule.profs[i]=this.profs[j];
+          break;
+        }
+      }
+    }
+
     this.restAPI.createModule(this.newModule).subscribe(resp => {
       console.log(resp);
     });
     
     this.hideDialog();
     this.resetForm();
+    this.ngOnInit();
 
     if(event.submitter.id=="bt-submit-new"){
       this.showDialog();
     }
   }
-
+  
   updateModuleManual(id:number, i:number) {
-    console.log("add MOduleManual with id: "+id+" i: "+i)
     this.restAPI.getModuleTypes(id).subscribe(resp => {
-        this.moduleCategorys[i]=(resp);
+        this.moduleTypes[i]=(resp);
     });
 
     this.restAPI.getRequirements(id).subscribe(resp => {
@@ -154,6 +208,39 @@ export class CreateModuleComponent implements OnInit {
       }
     });
 
+    //delete when in dev
+    if(i==0){
+      this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
+    }else{
+      if(i==1){
+        this.moduleTypes[i]=["Wahlfach", "Pflichtfach"]
+      }else{
+        this.moduleTypes[i]=["Wahlfach"]
+      }
+    }
+
+    //delete when in dev
+    if(i==0){
+      this.segments[i]=["1. Abschnitt", "2. Abschnitt", "3. Abschnitt"]
+    }else{
+      if(i==1){
+        this.segments[i]=["1. Abschnitt", "4. Abschnitt"]
+      }else{
+        this.segments[i]=["1. Abschnitt"]
+      }
+    }
+
+    //delete when in dev
+    if(i==0){
+      this.admissionRequirements[i]=["1", "2", "3"]
+    }else{
+      if(i==1){
+        this.admissionRequirements[i]=["1", "4"]
+      }else{
+        this.admissionRequirements[i]=["100"]
+      }
+    }
+
     this.disabled[i]=false;
   }
 
@@ -164,16 +251,17 @@ export class CreateModuleComponent implements OnInit {
   addVariation() {
     this.variations.push(
       this.fb.group({
-        moduleManual: new FormControl('', [Validators.required]),
-        ects: new FormControl('', [Validators.required]),
-        sws: new FormControl('', [Validators.required]),
-        workLoad: new FormControl('', [Validators.required]),
-        semester: new FormControl('', [Validators.required]),
-        moduleCategory: new FormControl('', [Validators.required]),
-        admissionRequirement: new FormControl('', [Validators.required]),
-        segment:new FormControl('', [Validators.required]),
+        manual: new FormControl(),
+        ects: new FormControl(),
+        sws: new FormControl(),
+        workLoad: new FormControl(),
+        semester: new FormControl(),
+        moduleType: new FormControl(),
+        admissionRequirement: new FormControl(),
+        segment:new FormControl(),
       })
     );
+    
     this.disabled.push(true);//Test
   }
 
@@ -181,7 +269,7 @@ export class CreateModuleComponent implements OnInit {
     if(this.variations.length >1){
       this.variations.removeAt(index);
       this.disabled.splice(index, 1)//testing
-      this.moduleCategorys.splice(index,1)//testing
+      this.moduleTypes.splice(index,1)//testing
       this.admissionRequirements.splice(index,1)//testing
       this.segments.splice(index,1)//Testing
     }else{
@@ -193,13 +281,15 @@ export class CreateModuleComponent implements OnInit {
     if(this.loaded==7){
       this.display = true;
     }else{
-      window.alert("Es liegt Modulhandbuch vor, welchem das MOdul zugeordent werden kann")
+      window.alert("Es liegt kein Modulhandbuch vor, welchem das Modul zugeordent werden kann")
     }
     
   }
 
   hideDialog() {//hide form
     this.display = false;
+    this.moduleFormGroup.reset();
+    this.ngOnInit();
   }
 
   resetForm(){
