@@ -266,15 +266,11 @@ export class CreateModuleComponent implements OnInit {
   }
 
   deleteVariation(index:number){
-    if(this.variations.length >1){
-      this.variations.removeAt(index);
-      this.disabled.splice(index, 1)//testing
-      this.moduleTypes.splice(index,1)//testing
-      this.admissionRequirements.splice(index,1)//testing
-      this.segments.splice(index,1)//Testing
-    }else{
-      window.alert("Es muss mindestens eine Variation vorhanden sein")
-    }
+    this.variations.removeAt(index);
+    this.disabled.splice(index, 1)//testing
+    this.moduleTypes.splice(index,1)//testing
+    this.admissionRequirements.splice(index,1)//testing
+    this.segments.splice(index,1)//Testing
   }
 
   showDialog() {//make form visible
