@@ -42,14 +42,13 @@ public class a4_systemtest {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.findElement(By.id("btn-hamburger")).click();
 		driver.findElement(By.id("a-module-management")).click();
-		driver.findElement(By.id("bt-create-module")).click();
+		driver.findElement(By.id("btn-create-module")).click();
 	}
 
 	@Test
 	public void S_D_A4T01() {
-		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[1]/td[2]/input"))
-				.sendKeys("Programmieren 1");
+		driver.findElement(By.id("input-create-module-moduleName"))
+			.sendKeys("Programmieren 1");
 
 		driver.findElement(By.xpath(
 				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
