@@ -5,7 +5,9 @@
     <form id="form-create-employee" (ngSubmit)="onSubmit()" [formGroup]="employeeFormGroup" ngNativeValidate>
         <div class="row">
             <div class="mb-3 col">
-                <p-dropdown formControlName="gender" [options]="genders"></p-dropdown>
+                <select class="form-select" formControlName="gender" id="select-create-employee-gender"  required>
+                    <option *ngFor="let gender of genders; let i=index" value="{{gender}}">{{gender}}</option>
+                </select>
             </div>
             <div class="mb-3 col">
                 <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen" ></p-multiSelect>

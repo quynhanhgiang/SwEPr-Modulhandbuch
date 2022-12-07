@@ -22,7 +22,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.employeeFormGroup = this.fb.group({
       id: null,
-      title:new FormControl(),
+      title:new FormControl(""),
       firstName:new FormControl(),
       lastName:new FormControl(),
       email:new FormControl(),
@@ -37,9 +37,9 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
   onSubmit(): void {//create new Module with form data
     console.log("submit");
-
-    this.newCollegeEmployee = this.employeeFormGroup.value;
     
+    this.newCollegeEmployee = this.employeeFormGroup.value;
+
     if(this.newCollegeEmployee.title.length>0){
       for (let i=0;i<this.newCollegeEmployee.title.length;i++) {
         this.title +=this.newCollegeEmployee.title[i]+" ";
@@ -47,6 +47,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
       this.title=this.title.slice(0,-1);
       this.newCollegeEmployee.title=this.title;
     }
+
     if(this.newCollegeEmployee.gender=="Diverse"){
       this.newCollegeEmployee.gender="";
     }
