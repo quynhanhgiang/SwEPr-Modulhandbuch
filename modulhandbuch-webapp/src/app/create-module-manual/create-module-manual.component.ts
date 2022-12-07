@@ -103,6 +103,7 @@ export class CreateModuleManualComponent implements OnInit {
    * @param event Event that triggered the submit. Needed to find out, which button was clicked.
    */
   onSubmit(event: {submitter: any}) {
+    console.log("TESTSTSTSTSTSSTSTSTTST")
 
     let newManual: ModuleManual = {
       id: null,

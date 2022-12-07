@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
 import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
 import lombok.AllArgsConstructor;
@@ -52,12 +53,18 @@ public class ModuleManualController {
 
 		ModuleManualEntity moduleManualEntity = modulhandbuchBackendMapper.map(newModuleManual, ModuleManualEntity.class);
 
-		// extract only id from spo and replace other contents of spo with data from database
-		if ((moduleManualEntity.getSpo() != null) && (moduleManualEntity.getSpo().getId() != null)) {
-			moduleManualEntity.setSpo(
-				// TODO own exception
-				this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
-			);
+		if (moduleManualEntity.getSpo() != null) {
+			if (moduleManualEntity.getSpo().getId() == null) {
+				// if id of spo is null a new entry for it should be created
+				SpoEntity result = this.spoRepository.save(moduleManualEntity.getSpo());
+				moduleManualEntity.setSpo(result);
+			} else {
+				// extract only id from spo and replace other contents of spo with data from database
+				moduleManualEntity.setSpo(
+					// TODO own exception
+					this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
+				);
+			}
 		}
 
 		ModuleManualEntity result = this.moduleManualRepository.save(moduleManualEntity);
