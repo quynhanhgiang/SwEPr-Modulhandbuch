@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS college_employee (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
-	title VARCHAR(255) NULL,
+	title VARCHAR(255) NOT NULL,
 	fk_gender_pk_unique_id INT NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pk_unique_id),
@@ -36,7 +36,7 @@ INSERT IGNORE INTO college_employee VALUES
 	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 1, 'Dieter.Wissmann@hs-coburg.de'),
 	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 1, 'Thomas.Wieland@hs-coburg.de'),
 	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 1, 'Quirin.Meyer@hs-coburg.de'),
-	(6, 'Michaela', 'Ihlau', NULL, 2, 'Michaela.Ihlau@hs-coburg.de')
+	(6, 'Michaela', 'Ihlau', '', 2, 'Michaela.Ihlau@hs-coburg.de')
 ;
 
 
