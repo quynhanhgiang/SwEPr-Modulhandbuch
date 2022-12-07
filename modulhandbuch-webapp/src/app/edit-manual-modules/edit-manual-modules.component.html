@@ -83,6 +83,21 @@
 <!--START: picklist for module-assignment -->
 
 <div class="card-body p-3 pb-0">
+  <div class="row justify-content-start p-3">
+    <button id="bt-submit-start" class="btn btn-outline-secondary position-relative me-4" type="button"
+      (click)="submit(false)">
+      Speichern
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+        [ngStyle]="{'visibility': submitSuccess ? 'visible' : 'hidden'}">
+        Gespeichert!
+      </span>
+    </button>
+
+    <button id="bt-submit-close-start" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
+      Speichern & Schließen
+    </button>
+  </div>
+
   <p-pickList [source]="unassignedModules" [target]="assignedModules"
     sourceHeader="Verfügbare Module ({{unassignedModules.length}})"
     targetHeader="Zugeordnete Module ({{assignedModules.length}})" filterBy="module.moduleName"
@@ -172,7 +187,7 @@
   </p-pickList>
 
   <div class="row justify-content-end p-3">
-    <button id="bt-submit-close" class="btn btn-outline-secondary position-relative me-4" type="button"
+    <button id="bt-submit-end" class="btn btn-outline-secondary position-relative me-4" type="button"
       (click)="submit(false)">
       Speichern
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
@@ -181,10 +196,11 @@
       </span>
     </button>
 
-    <button id="bt-submit-close" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
+    <button id="bt-submit-close-end" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
       Speichern & Schließen
     </button>
   </div>
+
 </div>
 
 <!--END: picklist for module-assignment -->

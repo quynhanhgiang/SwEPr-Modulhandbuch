@@ -19,7 +19,7 @@ export class EditManualGeneralComponent implements OnInit {
   selectedSpoIndex: number | null = null;
 
   modulePlanFile: File | null = null;
-  modulePlanStatus: FileStatus = {filename: null, link: null, timestamp: null};
+  modulePlanStatus: FileStatus = {filename: "modulplanIF22", link: "https://test.url", timestamp: "01.12.2022 11:30 Uhr"};
   preliminaryNoteFile: File | null = null;
   preliminaryNoteStatus: FileStatus = {filename: null, link: null, timestamp: null};
 
