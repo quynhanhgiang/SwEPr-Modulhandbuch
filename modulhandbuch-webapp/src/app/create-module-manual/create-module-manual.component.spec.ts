@@ -58,13 +58,9 @@ describe('CreateModuleManualComponent', () => {
     expect(component.dialogVisible).toBeFalse();
 
     btn.click();
-
-    fixture.detectChanges();
     expect(component.dialogVisible).toBeTrue();
 
     component.hideDialog();
-
-    fixture.detectChanges();
     expect(component.dialogVisible).toBeFalse();
   });
 
@@ -72,7 +68,6 @@ describe('CreateModuleManualComponent', () => {
    * Testfall A9.2:UT3 Testen, ob obere Checkbox (SPO) aktiviert wird falls bereits SPOs existieren.
    */
    it('should enable the spo-select-checkbox if spos are already existing ', () => {
-
     let document = TestBed.inject(DOCUMENT);
 
     const restApiService = TestBed.inject(RestApiService);
