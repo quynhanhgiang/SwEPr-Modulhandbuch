@@ -1,5 +1,7 @@
 package a4;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -105,11 +107,26 @@ public class a4_systemtest {
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[17]/td[2]/input"))
 			.sendKeys("TEST Endnotenbildung Studien-/Prüfungsleistungen");
 
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[18]/td[2]/input"))
+			.sendKeys("TEST Sonstige Leistungsnachweise");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[19]/td[2]/input"))
+			.sendKeys("TEST Medienform");
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[20]/td[2]/p-editor/div/div[2]/div[1]/p"))
+			.sendKeys("TEST Literatur");
+
+		Select mat = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[21]/td[2]/select")));
+		mat.selectByVisibleText("Grün");
+
+		driver.findElement(By.id("bt-submit-new")).click();
 
 
 
+		//Database Stuff
 
 
+	
 		Assert.assertEquals(true, true);
 	}
 
