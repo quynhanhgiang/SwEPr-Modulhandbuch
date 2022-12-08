@@ -17,6 +17,9 @@ describe('EditManualComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Testfall A10.3:UT1 Testen, ob Komponente erzeugt wird.
+   */
   it('should create', () => {
     expect(component).toBeTruthy();
   });

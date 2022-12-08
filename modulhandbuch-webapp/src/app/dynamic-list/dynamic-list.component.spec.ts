@@ -17,6 +17,9 @@ describe('DynamicListComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Testfall A10.3:UTx Testen, ob Komponente erzeugt wird.
+   */
   it('should create', () => {
     expect(component).toBeTruthy();
   });

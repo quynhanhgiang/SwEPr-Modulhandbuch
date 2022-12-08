@@ -108,7 +108,7 @@ describe('CreateModuleManualComponent', () => {
   });
 
   /**
-   * Testfall A9.2:UT4 Testen, ob Zeitraum korrekt umgewandelt wird.
+   * Testfall A9.2:UT5 Testen, ob Zeitraum korrekt umgewandelt wird.
    */
   it('should show the correct output for an given spo-period', () => {
     expect(component.getSpoTimespan(spos[0])).toEqual("ab 2020");
