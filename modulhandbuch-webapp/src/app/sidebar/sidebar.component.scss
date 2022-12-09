@@ -1,0 +1,35 @@
+#sidebarWrapper {
+    box-shadow: 8px 1px 4px 0px rgba(0,0,0,0.075); 
+}
+
+#sidebarWrapper, #sidebar {
+    min-height: calc(100vh - 116px);  
+    height: 100%; 
+}
+
+#sidebar {
+     width: 280px; 
+}
+
+div.collapse.show > nav > ul {
+    top:132px;
+    position: sticky;    
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    vertical-align: text-bottom;
+}
+
+.nav-link.active {
+    background-color: rgb(255,107,0);
+    color: white;
+}
+
+.nav-link:not(.active) {
+    color: #212529;
+}
+
+.nav-link i {
+    font-size: 1.4rem;
+}

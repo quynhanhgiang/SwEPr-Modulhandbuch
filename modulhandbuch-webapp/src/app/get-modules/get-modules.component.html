@@ -1,0 +1,30 @@
+<div id="div-module-list" class="container pb-4 pt-4">
+    <app-create-module (onSuccessfulSubmission)="ngOnInit()"></app-create-module>
+    <hr>
+    <p-table [value]="modules" [rows]="10" [paginator]="true" id="table-module-list">
+        <ng-template pTemplate="header">
+            <tr>
+                <th id="th-moduleName" pSortableColumn="moduleName">Modulname <p-sortIcon field="moduleName"></p-sortIcon></th>
+                <th id="th-abbreviation" pSortableColumn="abbreviation">Kürzel <p-sortIcon field="abbreviation"></p-sortIcon></th>
+                <th id="th-moduleOwner" pSortableColumn="moduleOwner">Modulverantwortliche(r) <p-sortIcon field="moduleOwner"></p-sortIcon></th>
+            </tr>
+            <tr>
+                <th id="th-moduleName-filter" ><p-columnFilter type="text" field="moduleName" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
+                <th id="th-abbreviation-filter" ><p-columnFilter type="text" field="abbreviation" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
+                <th id="th-moduleOwner-filter" ><p-columnFilter type="text" field="moduleOwner" [matchModeOptions]="matchModeOptions"></p-columnFilter></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-module><!--Data Columnms-->
+                <tr id="tr-module-liste" class="clickable" [routerLink]="['/module-detail-view', module.id]">
+                    <td id="td-moduleName">{{module.moduleName}}</td>
+                    <td id="td-abbreviation"> {{module.abbreviation}}</td>
+                    <td id="td-moduleOwner" >{{module.moduleOwner}}</td>
+                </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3">{{message}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

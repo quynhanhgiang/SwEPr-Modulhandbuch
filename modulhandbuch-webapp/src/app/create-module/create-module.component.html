@@ -1,0 +1,217 @@
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="hideDialog()"><!--Pop-up dialog for form-->
+    <ng-template pTemplate="header">
+        <h4>Neues Modul erstellen</h4>
+    </ng-template>
+    <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
+        <div class="border border-dark">
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start text-start"><label>Modulbezeichnung</label></div>
+                <div class="col-8"><input type="text" class="form-control" required formControlName="moduleName" id="input-create-module-moduleName"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Kürzel</label></div>
+                <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-create-module-abbreviation"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Angebotsturnus</label></div>
+                <div class="col-8">
+                    <select class="form-select" formControlName="cycle" id="select-create-module-cycle"  required>
+                        <option *ngFor="let cycle of cycles; let i=index" value="{{cycle}}">{{cycle}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Dauer des Moduls</label></div>
+                <div class="col-8">
+                    <select class="form-select" formControlName="duration" id="select-create-module-duration" required  placeholder="Moduldauer auswählen">
+                        <option *ngFor="let duration of durations; let i=index" value="{{duration}}" >{{duration}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
+                <div class="col-8">
+                    <select class="form-select" formControlName="moduleOwner" id="select-create-module-moduleOwner" required  placeholder="Modulverantowrtlichen auswählen" place>
+                        <option *ngFor="let moduleOwner of moduleOwners; let i=index" [ngValue]="moduleOwner">{{moduleOwner.title}} {{moduleOwner.firstName}} {{moduleOwner.lastName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Dozent(in)</label></div>
+                <div class="col-8">
+                    <p-multiSelect [options]="displayProfs" [(ngModel)]="selectedProfs" minlength="1" formControlName="profs" optionLabel="name" id="multiselect-create-module-profs"  placeholder="Dozenten auswählen"></p-multiSelect>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Sprache</label></div>
+                <div class="col-8">
+                    <select class="form-select"formControlName="language" id="select-create-module-language" required  placeholder="Sprache auswählen">
+                        <option *ngFor="let language of languages; let i=index" value="{{language}}">{{language}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
+                <div class="col-8"><input type="text" class="form-control" formControlName="usage" id="input-create-module-usage"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
+                <div class="col-8"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-create-module-knowledge-requirements"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
+                <div class="col-8">
+                    <p-editor required="true" formControlName="skills" id="editor-create-module-skills">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                        </p-header>
+                    </p-editor>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Lehrinhalte</label></div>
+                <div class="col-8">
+                    <p-editor required="true" formControlName="content" id="editor-create-module-content">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                        </p-header>
+                    </p-editor>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Endnotenbildende Studien-/Prüfungsleistungen</label></div>
+                <div class="col-8"><input required type="text" class="form-control" formControlName="examType" id="input-create-module-exam-type"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Sonstige Leistungsnachweise</label></div>
+                <div class="col-8"><input type="text" class="form-control" formControlName="certificates" id="input-create-certificates"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Medienform</label></div>
+                <div class="col-8"><input type="text" class="form-control" formControlName="mediaType" id="input-create-module-media-type"></div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Literatur</label></div>
+                <div class="col-8">
+                    <p-editor required="true" formControlName="literature" id="editor-create-module-literature">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                        </p-header>
+                    </p-editor>
+                </div>
+            </div>
+            <div class="row border-bottom p-2 m-3 align-items-center">
+                <div class="col-4 text-start"><label>Mutterschutz</label></div>
+                <div class="col-8">
+                    <select class="form-select" id="select-create-module-maternityProtection" required formControlName="maternityProtection" placeholder="Mutterschutz auswählen">
+                        <option *ngFor="let maternityProtection of maternityProtections; let i=index" value="{{maternityProtection}}">{{maternityProtection}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="text-center p-4 col"><h4>Felder sie auf je ein Modulhandbuch beziehen</h4></div>
+        </div>
+
+        <ul formGroupName="variations" class="list-group" style="width: 100%;">
+            <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="border border-dark list-group-item mb-4 border-top brder-bottom">
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Modulhandbuch</label></div>
+                    <div class="col-8">
+                        <select  class="form-select" id="select-create-module-manual" required formControlName="manual" (change)="updateModuleManual($event.target.value.id,i)">
+                            <option *ngFor="let moduleManual of moduleManuals" [ngValue]="moduleManual">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}(von {{moduleManual.spo.startDate}} bis zum {{moduleManual.spo.endDate}})</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Modul Typ</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
+                            <option *ngFor="let moduleType of moduleTypes[i]" value="{{moduleType}}">{{moduleType}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
+                            <option *ngFor="let admissionRequirement of admissionRequirements[i]" value="{{admissionRequirement}}">{{admissionRequirement}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Studienabschnitt</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="segment" id="select-create-module-segment" required>
+                            <option *ngFor="let segment of segments[i]" value="{{segment}}">{{segment}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
+                    <div class="col-8"><input type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
+                    <div class="col-8"><input type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
+                    <div class="col-8">
+                        <p-editor required="true" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
+                            <p-header>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold"></button>
+                                    <button class="ql-italic" aria-label="Italic"></button>
+                                    <button class="ql-underline" aria-label="Underline"></button>
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>      
+                                </span> 
+                            </p-header>
+                        </p-editor>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Fachsemester</label></div>
+                    <div class="col-8"><input type="number" class="form-control" min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
+                </div>
+                <div class="row p-2 border-top align-items-center">
+                    <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
+                </div>
+            </li>
+        </ul>
+        <div class="row border-bottom p-2 align-items-center">
+            <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
+        </div> 
+        
+
+        <div>
+            <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+            <button id="btn-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
+            <button id="btn-submit-new" class="btn btn-outline-secondary" type="submit">Speichern und Neu</button>
+        </div>
+    </form>
+</p-dialog>
+
+<div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
+    <button id="btn-create-module" class="btn btn-lg btn-outline-secondary" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
+</div>
