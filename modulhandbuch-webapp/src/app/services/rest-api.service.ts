@@ -135,30 +135,6 @@ export class RestApiService {
   // ########## Module-Manuals-API: Documents ##########
 
   /**
-   * Method for requesting the "/module-manuals/{{manual_id}}/first-page"-api-endpoint per GET.
-   * Returns the status of the first-page-file for an given module-manual.
-   * @param manualID ID of the target-manual
-   * @returns file-status as FileStatus-Object
-   */
-   getFirstPageStatus(manualID: number): Observable<FileStatus> {
-    return this.http.get<FileStatus>(this.apiURL + '/module-manuals/' + manualID + "/first-page").pipe(retry(1), catchError(this.handleError));
-  }
-
-  /**
-   * Method for requesting the "/module-manuals/{{manual_id}}/first-page"-api-endpoint per PUT.
-   * Used to set / upload a first-page for the module-manual with the given ID.
-   * @param manualID ID of the target-manual
-   * @param file the first-page as .png, .jpeg or .pdf file
-   * @returns file-status as FileStatus-Object
-   */
-  uploadFirstPage(manualID: number, file: File): Observable<FileStatus> {
-    const formData: FormData = new FormData();
-    formData.append('firstPageFile', file, file.name);
-
-    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/first-page", formData).pipe(retry(1), catchError(this.handleError));
-  }
-
-  /**
    * Method for requesting the "/module-manuals/{{manual_id}}/module-plan"-api-endpoint per GET.
    * Returns the status of the module-plan-file for an given module-manual.
    * @param manualID ID of the target-manual
@@ -216,7 +192,8 @@ export class RestApiService {
    * @returns the assigned modules as ManualVariation[]
    */
   getAssignedModules(manualID: number): Observable<ManualVariation[]> {
-    return this.http.get<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules").pipe(retry(1), catchError(this.handleError));
+    return this.http.get<ManualVariation[]>(this.apiURL + (this.prod ?
+      "/module-manuals/" + manualID + "/modules": '/assignedModules')).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -227,7 +204,7 @@ export class RestApiService {
    * @returns the assigned modules as ManualVariation[]
    */
   updateAssignedModules(manualID: number, manualVariations: any[]): Observable<ManualVariation[]> {
-    return this.http.post<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(manualVariations)).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(manualVariations)).pipe(retry(1), catchError(this.handleError));
   }
 
   // ########## Module-Manuals-API: Segments ##########
@@ -239,7 +216,8 @@ export class RestApiService {
    * @returns Segments as string[]
    */
   getSegments(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL +  (this.prod ?
+      '/module-manuals/' + manualID + "/segments": '/segments')).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -263,7 +241,8 @@ export class RestApiService {
    * @returns Module-types as string[]
    */
   getModuleTypes(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL + (this.prod ?
+      '/module-manuals/' + manualID + "/module-types": '/moduleTypes')).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -287,7 +266,8 @@ export class RestApiService {
    * @returns Requirements as string[]
    */
   getRequirements(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements").pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL + (this.prod ?
+      '/module-manuals/' + manualID + "/requirements" : "/requirements")).pipe(retry(1), catchError(this.handleError));
   }
 
   /**

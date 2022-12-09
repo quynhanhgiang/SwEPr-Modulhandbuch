@@ -18,10 +18,8 @@ export class EditManualGeneralComponent implements OnInit {
 
   selectedSpoIndex: number | null = null;
 
-  firstPageFile: File | null = null;
-  firstPageStatus: FileStatus = {filename: null, link: null, timestamp: null};
   modulePlanFile: File | null = null;
-  modulePlanStatus: FileStatus = {filename: null, link: null, timestamp: null};
+  modulePlanStatus: FileStatus = {filename: "modulplanIF22", link: "https://test.url", timestamp: "01.12.2022 11:30 Uhr"};
   preliminaryNoteFile: File | null = null;
   preliminaryNoteStatus: FileStatus = {filename: null, link: null, timestamp: null};
 
@@ -35,7 +33,7 @@ export class EditManualGeneralComponent implements OnInit {
   moduletypes: string[] = [];
   requirements: string[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private restAPI: RestApiService, private fb: FormBuilder) {
+  constructor(private activatedRoute: ActivatedRoute, private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({
       id: [{value: ''}],
       link: [{value: '', disabled: true}],
@@ -66,7 +64,6 @@ export class EditManualGeneralComponent implements OnInit {
       });
     });
 
-    this.restAPI.getFirstPageStatus(id).subscribe(status => this.firstPageStatus = status);
     this.restAPI.getModulePlanStatus(id).subscribe(status => this.modulePlanStatus = status);
     this.restAPI.getPreliminaryNoteStatus(id).subscribe(status => this.preliminaryNoteStatus = status);
 
@@ -98,16 +95,6 @@ export class EditManualGeneralComponent implements OnInit {
 
   handleFileInput(files: FileList, file: File | null) {
     file = files.item(0);
-  }
-
-  /**
-   * Submits the second form (files-section).
-   */
-  submitFirstPage() {
-    if (this.firstPageFile == null)
-      return;
-
-    this.restAPI.uploadFirstPage(this.moduleManual.id!, this.firstPageFile).subscribe(status => this.firstPageStatus = status);
   }
 
   /**
