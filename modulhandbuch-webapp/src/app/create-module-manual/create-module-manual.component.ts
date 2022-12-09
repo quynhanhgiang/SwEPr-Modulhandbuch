@@ -1,4 +1,4 @@
-import { Component, ElementRef, Host, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Host, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GetModuleManualsComponent } from '../get-module-manuals/get-module-manuals.component';
@@ -12,6 +12,7 @@ import { Spo } from '../shared/spo';
   styleUrls: ['./create-module-manual.component.scss'],
 })
 export class CreateModuleManualComponent implements OnInit {
+  @Output() onSuccessfulSubmission = new EventEmitter();
 
   // ### dialog-control ###
   dialogVisible: boolean = false; // true: dialog is visible, false: dialog is invisible
@@ -117,9 +118,12 @@ export class CreateModuleManualComponent implements OnInit {
       }
 
       if(event.submitter.id=="bt-submit-new"){
+        this.spoFormGroup.enable();
         this.resetForm();
         return;
       }
+
+      this.onSuccessfulSubmission.emit(); // benachrichtigt die Parent-Component, dass neue Daten vorliegen
 
       this.hideDialog();
     });
