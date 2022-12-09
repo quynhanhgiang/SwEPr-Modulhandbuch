@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -7,7 +7,6 @@ import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
-import { Spo } from '../shared/spo';
 
 @Component({
   selector: 'app-edit-module',
@@ -15,7 +14,8 @@ import { Spo } from '../shared/spo';
   styleUrls: ['./edit-module.component.scss']
 })
 export class EditModuleComponent implements OnInit {
-  
+  @Output() onSuccessfulSubmission = new EventEmitter();
+
   display: boolean = false;//false == form hidden | true == form visible
   moduleName!:string;
   rendered:boolean = false;
@@ -73,8 +73,6 @@ export class EditModuleComponent implements OnInit {
     this.routeSub = this.route.params.subscribe(params => {
       id =params['id'];
     });
-
-
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
@@ -181,8 +179,9 @@ export class EditModuleComponent implements OnInit {
       }
     }
 
-    this.restAPI.createModule(this.newModule).subscribe(resp => {
+    this.restAPI.updateModule(this.newModule).subscribe(resp => {
       console.log(resp);
+      this.onSuccessfulSubmission.emit(); 
     });
     
     this.hideDialog();

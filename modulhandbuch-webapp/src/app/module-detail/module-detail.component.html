@@ -1,6 +1,6 @@
 <ng-container *ngIf="rendered==true">
     <div id="div-detail-module" class="container pt-4 pb-4">
-        <app-edit-module></app-edit-module>
+        <app-edit-module  (onSuccessfulSubmission)="ngOnInit()"></app-edit-module>
         <hr>
         <table id="table-detail-module">
             <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">

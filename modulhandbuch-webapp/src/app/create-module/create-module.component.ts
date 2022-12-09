@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
@@ -12,6 +12,7 @@ import { displayCollegeEmployee } from './displayCollegeEmployee';
   styleUrls: ['./create-module.component.scss']
 })
 export class CreateModuleComponent implements OnInit {
+  @Output() onSuccessfulSubmission = new EventEmitter();
   
   display: boolean = false;//false == form hidden | true == form visible
 
@@ -118,6 +119,7 @@ export class CreateModuleComponent implements OnInit {
     }
 
     this.restAPI.createModule(this.newModule).subscribe(resp => {
+      this.onSuccessfulSubmission.emit();
       console.log(resp);
     });
     
