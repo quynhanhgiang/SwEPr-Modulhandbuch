@@ -1,5 +1,5 @@
 <div class="container pt-4 pb-4">
-  <app-create-college-employee></app-create-college-employee>
+  <app-create-college-employee (onSuccessfulSubmission)="ngOnInit()"></app-create-college-employee>
   <hr> 
     <p-dataView #dv [value]="displayEmployees" [paginator]="true" [rows]="7" [emptyMessage]="message" filterBy="name" filterPlaceholder="Suchen nach name">
         <ng-template pTemplate="header">
