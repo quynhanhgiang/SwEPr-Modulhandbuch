@@ -148,7 +148,7 @@ describe('CreateModuleManualComponent', () => {
   });
 
   /**
-   * Testfall A9.2:UT4 Testen, ob End-Datumsauswahl deaktiviert wird, falls untere Checkbox gesetzt ist.
+   * Testfall A9.2:UT7 Testen, ob End-Datumsauswahl deaktiviert wird, falls untere Checkbox gesetzt ist.
    */
    it('should disable the enddate-picker if enddate-checkbox is unset and vice-versa', () => {
     let document = TestBed.inject(DOCUMENT);
