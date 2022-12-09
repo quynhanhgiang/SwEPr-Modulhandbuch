@@ -6,7 +6,6 @@ export interface ModuleVariation {
     sws: number,
     ects: number,
     workLoad: string,
-    category:string,
     moduleType: string,
     segment: string,
     admissionRequirement: string

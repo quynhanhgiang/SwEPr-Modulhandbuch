@@ -15,7 +15,6 @@ export interface Module {
   profs: CollegeEmployee[],      // Bei POST: ID der Dozenten wird überegeben -> Verweis auf Objekt
   language: string,
   usage: string,
-  admissionRequirements: string,
   knowledgeRequirements: string,
   skills: string,
   content: string,

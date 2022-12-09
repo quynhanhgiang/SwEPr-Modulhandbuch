@@ -1,5 +1,5 @@
 <div id="div-module-list" class="container pb-4 pt-4">
-    <app-create-module></app-create-module>
+    <app-create-module (onSuccessfulSubmission)="ngOnInit()"></app-create-module>
     <hr>
     <p-table [value]="modules" [rows]="10" [paginator]="true" id="table-module-list">
         <ng-template pTemplate="header">
