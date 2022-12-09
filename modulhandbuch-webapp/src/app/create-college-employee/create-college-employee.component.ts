@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
@@ -10,7 +10,7 @@ import { CollegeEmployee } from '../shared/CollegeEmployee';
 })
 export class CreateCollegeEmployeeComponent implements OnInit {
   @Output() onSuccessfulSubmission = new EventEmitter();
-  
+
   display: boolean = false;//false == form hidden | true == form visible
 
   newCollegeEmployee!:CollegeEmployee;
@@ -38,7 +38,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
   onSubmit(): void {//create new Module with form data
     console.log("submit");
-    
+
     this.newCollegeEmployee = this.employeeFormGroup.value;
 
     if(this.newCollegeEmployee.title.length>0){
@@ -57,7 +57,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
       console.log(resp);
       this.onSuccessfulSubmission.emit();
     });
-    
+
     this.title="";
     this.hideDialog();
     this.resetForm();
