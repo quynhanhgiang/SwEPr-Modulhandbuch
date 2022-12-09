@@ -14,6 +14,7 @@ export class ModuleDetailComponent implements OnInit {
 
   module!: Module;
   rendered:boolean=false;
+  id!:number;
 
   private routeSub!: Subscription;
   constructor(private route: ActivatedRoute, private restAPI: RestApiService) { }
@@ -21,7 +22,7 @@ export class ModuleDetailComponent implements OnInit {
   ngOnInit():void {
     let id=0;
     this.routeSub = this.route.params.subscribe(params => {
-      id =params['id'];
+      this.id =params['id'];
     });
 
     this.restAPI.getModule(id).subscribe(module => {

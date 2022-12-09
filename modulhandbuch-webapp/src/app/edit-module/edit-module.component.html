@@ -34,14 +34,14 @@
                     <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="moduleOwner" id="select-create-module-moduleOwner" required  placeholder="Modulverantowrtlichen auswählen" place>
-                            <option *ngFor="let moduleOwner of displayModuleOwners; let i=index" [ngValue]="moduleOwner">{{moduleOwner.name}}</option>
+                            <option *ngFor="let moduleOwner of moduleOwners; let i=index" [ngValue]="moduleOwner">{{moduleOwner.title}} {{moduleOwner.firstName}} {{moduleOwner.lastName}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Dozent(in)</label></div>
                     <div class="col-8">
-                        <p-multiSelect [options]="displayProfs" [(ngModel)]="selectedProfs" minlength="1" formControlName="profs" optionLabel="name" id="multiselect-create-module-profs"  placeholder="Dozenten auswählen"></p-multiSelect>
+                        <p-multiSelect [options]="displayProfs" [(ngModel)]="selectedProfs" minlength="1" formControlName="profs" optionLabel="name" id="multiselect-create-module-profs"></p-multiSelect>
                     </div>
                 </div>
                 <div class="row border-bottom p-2 m-3 align-items-center">
@@ -140,14 +140,14 @@
                         <div class="col-4 text-start"><label>Modulhandbuch</label></div>
                         <div class="col-8">
                             <select  class="form-select" id="select-create-module-manual" required formControlName="manual" (change)="updateModuleManual($event.target.value.id,i)">
-                                <option *ngFor="let displayModuleManual of displayModuleManuals" [ngValue]="displayModuleManual">{{displayModuleManual.name}}</option>
+                                <option *ngFor="let moduleManual of moduleManuals" [ngValue]="moduleManual">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}(von {{moduleManual.spo.startDate}} bis zum {{moduleManual.spo.endDate}})</option>
                             </select>
                         </div>
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Modul Typ</label></div>
                         <div class="col-8">
-                            <select class="form-select"  [disabled]="disabled[i]" formControlName="moduleType" id="select-create-module-type" required>
+                            <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
                                 <option *ngFor="let moduleType of moduleTypes[i]" value="{{moduleType}}">{{moduleType}}</option>
                             </select>
                         </div>
@@ -155,7 +155,7 @@
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
                         <div class="col-8">
-                            <select class="form-select" [disabled]="disabled[i]" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
+                            <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
                                 <option *ngFor="let admissionRequirement of admissionRequirements[i]" value="{{admissionRequirement}}">{{admissionRequirement}}</option>
                             </select>
                         </div>
@@ -163,23 +163,23 @@
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Studienabschnitt</label></div>
                         <div class="col-8">
-                            <select class="form-select" [disabled]="disabled[i]==true" formControlName="segment" id="select-create-module-segment" required>
+                            <select class="form-select" formControlName="segment" id="select-create-module-segment" required>
                                 <option *ngFor="let segment of segments[i]" value="{{segment}}">{{segment}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
-                        <div class="col-8"><input [disabled]="disabled[i]" type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
+                        <div class="col-8"><input  type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
-                        <div class="col-8"><input [disabled]="disabled[i]" type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
+                        <div class="col-8"><input  type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
                         <div class="col-8">
-                            <p-editor required="true" [disabled]="disabled[i]" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
+                            <p-editor required="true" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
                                 <p-header>
                                     <span class="ql-formats">
                                         <button class="ql-bold" aria-label="Bold"></button>
@@ -194,7 +194,7 @@
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Fachsemester</label></div>
-                        <div class="col-8"><input type="number" class="form-control" [disabled]="disabled[i]" min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
+                        <div class="col-8"><input type="number" class="form-control" min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
                     </div>
                     <div class="row p-2 border-top align-items-center">
                         <button [disabled]="variations.length <=1" id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>

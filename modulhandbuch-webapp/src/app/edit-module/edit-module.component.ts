@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DisplayModuleManual } from '../create-module/display-module-manual';
 import { displayCollegeEmployee } from '../create-module/displayCollegeEmployee';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
@@ -18,8 +17,6 @@ import { Spo } from '../shared/spo';
 export class EditModuleComponent implements OnInit {
   
   display: boolean = false;//false == form hidden | true == form visible
-  loaded:number=0;
-  disabled:boolean[]=[];
   moduleName!:string;
   rendered:boolean = false;
 
@@ -29,12 +26,11 @@ export class EditModuleComponent implements OnInit {
 
   profs!:CollegeEmployee[];
   displayProfs:displayCollegeEmployee[]=[];
-  selectedProfs!:CollegeEmployee[];
+  selectedProfs:displayCollegeEmployee[]=[];
 
   moduleManuals!:ModuleManual[];
-  displayModuleManuals:DisplayModuleManual[]=[];
   moduleOwners!:CollegeEmployee[];
-  displayModuleOwners:displayCollegeEmployee[]=[];
+
   cycles!:String[];
   durations!:String[];
   languages!:String[];
@@ -69,7 +65,6 @@ export class EditModuleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loaded=0;
     this.segments=[];
     this.moduleTypes=[];
     this.admissionRequirements=[];
@@ -79,9 +74,50 @@ export class EditModuleComponent implements OnInit {
       id =params['id'];
     });
 
+
+
+    this.restAPI.getCollegeEmployees().subscribe(resp => {
+        this.profs = resp;
+      
+        for (let i=0;i<resp.length;i++) {
+          let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
+          displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
+          this.displayProfs.push(displayProf);
+        }
+    });
+
+    this.restAPI.getCollegeEmployees().subscribe(resp => {
+        this.moduleOwners = resp;
+    });
+
+    this.restAPI.getModuleManuals().subscribe(resp => {
+        this.moduleManuals = resp;
+    });
+
+    this.restAPI.getCycles().subscribe(resp => {
+      this.cycles = resp;
+    });
+
+    this.restAPI.getDurations().subscribe(resp => {
+      this.durations = resp;
+    });
+
+    this.restAPI.getMaternityProtections().subscribe(resp => {
+      this.maternityProtections = resp;
+    });
+
+    this.restAPI.getLanguages().subscribe(resp => {
+      this.languages = resp;
+    });
+
     this.restAPI.getModule(id).subscribe(module => {
       this.moduleName = module.moduleName;
-      this.selectedProfs = module.profs;
+
+      for (let i=0;i<module.profs.length;i++) {
+        let displayProf:displayCollegeEmployee={id:module.profs[i].id, name:""};
+        displayProf.name=module.profs[i].title +" " + module.profs[i].firstName +" " +module.profs[i].lastName;
+        this.selectedProfs.push(displayProf);
+      }
 
       this.moduleFormGroup.patchValue({
         id: module.id,
@@ -116,86 +152,13 @@ export class EditModuleComponent implements OnInit {
             segment: module.variations[i].segment,
           })
         );
-
+        let id =module.variations[i].manual.id
+        if(id!=null)
+        this.updateModuleManual(id,i);
       }
       this.rendered = true;
     });
-
-    this.restAPI.getCollegeEmployees().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
-        this.profs = resp;
-      
-        for (let i=0;i<resp.length;i++) {
-          let displayProf:DisplayModuleManual={id:resp[i].id, name:""};
-          displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
-          this.displayProfs.push(displayProf);
-        }
-        this.loaded++;
-      }
-    });
-
-    this.restAPI.getCollegeEmployees().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
-        this.moduleOwners = resp;
-      
-        for (let i=0;i<resp.length;i++) {
-          let displayModuleOwner:DisplayModuleManual={id:resp[i].id, name:""};
-          displayModuleOwner.name = this.moduleOwners[i].title +" " + this.moduleOwners[i].firstName +" " +this.moduleOwners[i].lastName;
-          this.displayModuleOwners.push(displayModuleOwner);
-        }
-        this.loaded++;
-      }
-
-    });
-
-    this.restAPI.getModuleManuals().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Modulhandbuch angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
-        this.moduleManuals = resp;
-      
-        for (let i=0;i<resp.length;i++) {
-          let displayModuleManual:DisplayModuleManual={id:resp[i].id, name:""};
-          if(resp[i].spo.endDate==null){
-            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n (ab: "+resp[i].spo.startDate+")";
-          }else{
-            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n ("+resp[i].spo.startDate+"-"+resp[i].spo.endDate+")";
-          }
-          
-          this.displayModuleManuals.push(displayModuleManual);
-        }
-        this.loaded++;
-      }
-    });
-
-    this.restAPI.getCycles().subscribe(resp => {
-      this.cycles = resp;
-      this.loaded++;
-    });
-
-    this.restAPI.getDurations().subscribe(resp => {
-      this.durations = resp;
-      this.loaded++;
-    });
-
-    this.restAPI.getMaternityProtections().subscribe(resp => {
-      this.maternityProtections = resp;
-      this.loaded++;
-    });
-
-    this.restAPI.getLanguages().subscribe(resp => {
-      this.languages = resp;
-      this.loaded++;
-    });
   }
-
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
@@ -207,23 +170,6 @@ export class EditModuleComponent implements OnInit {
     if(this.newModule.profs.length<1){
       window.alert("Es muss mindestens ein Dozent zugewiesen werden");
       return;
-    }
-    
-    for(let i=0;i<this.newModule.variations.length;i++){
-      let index=this.newModule.variations[i].manual.id;
-      for(let j=0;j < this.moduleManuals.length;j++){
-        if(this.moduleManuals[j].id==index){
-          this.newModule.variations[i].manual=this.moduleManuals[j];
-          break;
-        }
-      }
-    }
-
-    for(let i=0;i<this.moduleOwners.length;i++){
-      if(this.newModule.moduleOwner.id==this.moduleOwners[i].id){
-        this.newModule.moduleOwner = this.moduleOwners[i];
-        break;
-      }
     }
 
     for(let i=0;i<this.newModule.profs.length;i++){
@@ -262,7 +208,7 @@ export class EditModuleComponent implements OnInit {
         this.segments[i]=resp;
       }
     });
-
+    /** 
     //delete when in dev
     if(i==0){
       this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
@@ -295,8 +241,7 @@ export class EditModuleComponent implements OnInit {
         this.admissionRequirements[i]=["100"]
       }
     }
-
-    this.disabled[i]=false;
+    */
   }
 
   get variations(){
@@ -316,14 +261,11 @@ export class EditModuleComponent implements OnInit {
         segment:new FormControl(),
       })
     );
-    
-    this.disabled.push(true);//Test
   }
 
   deleteVariation(index:number){
     if(this.variations.length >1){
       this.variations.removeAt(index);
-      this.disabled.splice(index, 1)//testing
       this.moduleTypes.splice(index,1)//testing
       this.admissionRequirements.splice(index,1)//testing
       this.segments.splice(index,1)//Testing
@@ -333,12 +275,7 @@ export class EditModuleComponent implements OnInit {
   }
 
   showDialog() {//make form visible
-    if(this.loaded==7){
       this.display = true;
-    }else{
-      window.alert("Es liegt kein Modulhandbuch vor, welchem das Modul zugeordent werden kann")
-    }
-    
   }
 
   hideDialog() {//hide form
@@ -351,5 +288,4 @@ export class EditModuleComponent implements OnInit {
     this.moduleFormGroup.reset();
     this.ngOnInit();
   }
-
 }

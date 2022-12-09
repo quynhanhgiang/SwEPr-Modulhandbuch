@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
-import { DisplayModuleManual } from './display-module-manual';
 import { displayCollegeEmployee } from './displayCollegeEmployee';
 
 @Component({
@@ -15,8 +14,6 @@ import { displayCollegeEmployee } from './displayCollegeEmployee';
 export class CreateModuleComponent implements OnInit {
   
   display: boolean = false;//false == form hidden | true == form visible
-  loaded:number=0;
-  disabled:boolean[]=[];
 
   newModule!:Module;
   
@@ -26,9 +23,7 @@ export class CreateModuleComponent implements OnInit {
   displayProfs:displayCollegeEmployee[]=[];
   selectedProfs!:[];
   moduleManuals!:ModuleManual[];
-  displayModuleManuals:DisplayModuleManual[]=[];
   moduleOwners!:CollegeEmployee[];
-  displayModuleOwners:displayCollegeEmployee[]=[];
   cycles!:String[];
   durations!:String[];
   languages!:String[];
@@ -62,85 +57,44 @@ export class CreateModuleComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.loaded=0;
-    //this.disabled[0]=true;
     this.selectedProfs=[];
     this.segments=[];
     this.moduleTypes=[];
     this.admissionRequirements=[];
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
         this.profs = resp;
       
         for (let i=0;i<resp.length;i++) {
-          let displayProf:DisplayModuleManual={id:resp[i].id, name:""};
+          let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
           displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
           this.displayProfs.push(displayProf);
         }
-        this.loaded++;
-      }
     });
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Mitarbeiter angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
         this.moduleOwners = resp;
-      
-        for (let i=0;i<resp.length;i++) {
-          let displayModuleOwner:DisplayModuleManual={id:resp[i].id, name:""};
-          displayModuleOwner.name = this.moduleOwners[i].title +" " + this.moduleOwners[i].firstName +" " +this.moduleOwners[i].lastName;
-          this.displayModuleOwners.push(displayModuleOwner);
-        }
-        this.loaded++;
-      }
-
     });
 
     this.restAPI.getModuleManuals().subscribe(resp => {
-      if(resp.length<1){
-        window.alert("Es muss zuerst ein Modulhandbuch angelegt werden, bevor weitere Module angelegt werden können")
-        return;
-      }else{
         this.moduleManuals = resp;
-      
-        for (let i=0;i<resp.length;i++) {
-          let displayModuleManual:DisplayModuleManual={id:resp[i].id, name:""};
-          if(resp[i].spo.endDate==null){
-            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n (ab: "+resp[i].spo.startDate+")";
-          }else{
-            displayModuleManual.name=resp[i].spo.degree +" "+resp[i].spo.course+"\n ("+resp[i].spo.startDate+"-"+resp[i].spo.endDate+")";
-          }
-          
-          this.displayModuleManuals.push(displayModuleManual);
-        }
-        this.loaded++;
-      }
     });
 
     this.restAPI.getCycles().subscribe(resp => {
       this.cycles = resp;
-      this.loaded++;
     });
 
     this.restAPI.getDurations().subscribe(resp => {
       this.durations = resp;
-      this.loaded++;
     });
 
     this.restAPI.getMaternityProtections().subscribe(resp => {
       this.maternityProtections = resp;
-      this.loaded++;
+
     });
 
     this.restAPI.getLanguages().subscribe(resp => {
       this.languages = resp;
-      this.loaded++;
     });
 
     this.addVariation();
@@ -153,27 +107,10 @@ export class CreateModuleComponent implements OnInit {
       window.alert("Es muss mindestens ein Dozent zugewiesen werden");
       return;
     }
-    
-    for(let i=0;i<this.newModule.variations.length;i++){
-      let index=this.newModule.variations[i].manual.id;
-      for(let j=0;j < this.moduleManuals.length;j++){
-        if(this.moduleManuals[j].id==index){
-          this.newModule.variations[i].manual=this.moduleManuals[j];
-          break;
-        }
-      }
-    }
-
-    for(let i=0;i<this.moduleOwners.length;i++){
-      if(this.newModule.moduleOwner.id==this.moduleOwners[i].id){
-        this.newModule.moduleOwner = this.moduleOwners[i];
-        break;
-      }
-    }
 
     for(let i=0;i<this.newModule.profs.length;i++){
-      for(let j=0;j<this.profs.length;i++){
-        if(this.newModule.profs[i].id=this.profs[j].id){
+      for(let j=0;j<this.profs.length;j++){
+        if(this.newModule.profs[i].id==this.profs[j].id){
           this.newModule.profs[i]=this.profs[j];
           break;
         }
@@ -185,10 +122,8 @@ export class CreateModuleComponent implements OnInit {
     });
     
     this.hideDialog();
-    this.resetForm();
-    this.ngOnInit();
 
-    if(event.submitter.id=="bt-submit-new"){
+    if(event.submitter.id=="btn-submit-new"){
       this.showDialog();
     }
   }
@@ -208,6 +143,7 @@ export class CreateModuleComponent implements OnInit {
       }
     });
 
+    /** 
     //delete when in dev
     if(i==0){
       this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
@@ -240,8 +176,7 @@ export class CreateModuleComponent implements OnInit {
         this.admissionRequirements[i]=["100"]
       }
     }
-
-    this.disabled[i]=false;
+    */
   }
 
   get variations(){
@@ -261,35 +196,27 @@ export class CreateModuleComponent implements OnInit {
         segment:new FormControl(),
       })
     );
-    
-    this.disabled.push(true);//Test
   }
 
   deleteVariation(index:number){
     this.variations.removeAt(index);
-    this.disabled.splice(index, 1)//testing
-    this.moduleTypes.splice(index,1)//testing
-    this.admissionRequirements.splice(index,1)//testing
-    this.segments.splice(index,1)//Testing
+    this.moduleTypes.splice(index,1)
+    this.admissionRequirements.splice(index,1)
+    this.segments.splice(index,1)
   }
 
   showDialog() {//make form visible
-    if(this.loaded==7){
-      this.display = true;
-    }else{
-      window.alert("Es liegt kein Modulhandbuch vor, welchem das Modul zugeordent werden kann")
-    }
-    
+    this.display = true;
   }
 
   hideDialog() {//hide form
     this.display = false;
     this.moduleFormGroup.reset();
-    this.ngOnInit();
-  }
+    this.selectedProfs=[];
 
-  resetForm(){
-    this.moduleFormGroup.reset();
-    this.ngOnInit();
+    while(this.variations.length>0){
+      this.deleteVariation(this.variations.length-1);
+    }
+    this.addVariation();
   }
 }
