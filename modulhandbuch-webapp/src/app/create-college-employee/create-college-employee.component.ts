@@ -9,7 +9,8 @@ import { CollegeEmployee } from '../shared/CollegeEmployee';
   styleUrls: ['./create-college-employee.component.scss']
 })
 export class CreateCollegeEmployeeComponent implements OnInit {
-
+  @Output() onSuccessfulSubmission = new EventEmitter();
+  
   display: boolean = false;//false == form hidden | true == form visible
 
   newCollegeEmployee!:CollegeEmployee;
@@ -54,6 +55,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
     this.restAPI.createCollegeEmployee(this.newCollegeEmployee).subscribe(resp => {
       console.log(resp);
+      this.onSuccessfulSubmission.emit();
     });
     
     this.title="";
