@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
-import { Spo } from '../shared/spo';
+import { ModuleManual } from '../shared/module-manual';
+import { displayCollegeEmployee } from './displayCollegeEmployee';
 
 @Component({
   selector: 'app-create-module',
@@ -11,16 +12,27 @@ import { Spo } from '../shared/spo';
   styleUrls: ['./create-module.component.scss']
 })
 export class CreateModuleComponent implements OnInit {
+  @Output() onSuccessfulSubmission = new EventEmitter();
   
   display: boolean = false;//false == form hidden | true == form visible
-  newModule!:Module;
 
+  newModule!:Module;
+  
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
+  displayProfs:displayCollegeEmployee[]=[];
   selectedProfs!:[];
-  spos!:Spo[];
+  moduleManuals!:ModuleManual[];
   moduleOwners!:CollegeEmployee[];
+  cycles!:String[];
+  durations!:String[];
+  languages!:String[];
+  maternityProtections!:String[];
+
+  admissionRequirements:String[][]=[];
+  moduleTypes:String[][]=[];
+  segments:String[][]=[];
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
@@ -28,15 +40,13 @@ export class CreateModuleComponent implements OnInit {
       moduleName: new FormControl(),
       abbreviation: new FormControl(),
       variations: this.fb.array([]),
-
       cycle: new FormControl(),
       duration: new FormControl(),
       moduleOwner: new FormControl(),
       profs: new FormControl(),
       language: new FormControl(),
       usage: new FormControl(),
-      admissionRequirements: new FormControl(),
-      knowledgeRequirements: new FormControl(),
+      knowledgeRequirements: new FormControl(""),
       skills: new FormControl(),
       content: new FormControl(),
       examType: new FormControl(),
@@ -48,69 +58,127 @@ export class CreateModuleComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.profs=[
-      {id:0, firstName:"Volkhard", lastName:"Pfeiffer", title:"Prof.", gender:"Herr", email:"volkhard.pfeiffer@hs-coburg.de"},
-      {id:1, firstName:"Dieter", lastName:"Landes", title:"Prof. Dr.", gender:"Herr", email:"dieter.landes@hs-coburg.de"},
-      {id:2, firstName:"Dieter", lastName:"Wießmann", title:"Prof. Dr.", gender:"Herr", email:"dieter.wissmann@hs-coburg.de"},
-      {id:3, firstName:"Thomas", lastName:"Wieland", title:"Prof. Dr.", gender:"Herr", email:"thomas.wieland@hs-coburg.de"},
-      {id:4, firstName:"Jens", lastName:"Grubert", title:"Prof. Dr.", gender:"Herr", email:"Jens.Grubert@hs-coburg.de"},
-      {id:5, firstName:"Quirin", lastName:"Meyer", title:"Prof. Dr.", gender:"Herr", email:"Quirin.Meyer@hs-coburg.de"},
-      {id:6, firstName:"Florian", lastName:"Mittag", title:"Prof. Dr.", gender:"Herr", email:"Florian.Mittag@hs-coburg.de"},
-      {id:7, firstName:"Jürgen", lastName:"Terpin", title:"Prof. Dr.", gender:"Herr", email:"juergen.terpin@hs-coburg.de"},
-      {id:8, firstName:"Matthias", lastName:"Mörz", title:"Prof. Dr.", gender:"Herr", email:"matthias.moerz@hs-coburg.de"},
-    ]
+    this.selectedProfs=[];
+    this.segments=[];
+    this.moduleTypes=[];
+    this.admissionRequirements=[];
 
-    this.moduleOwners=[
-      {id:0, firstName:"Volkhard", lastName:"Pfeiffer", title:"Prof.", gender:"Herr", email:"volkhard.pfeiffer@hs-coburg.de"},
-      {id:1, firstName:"Dieter", lastName:"Landes", title:"Prof. Dr.", gender:"Herr", email:"dieter.landes@hs-coburg.de"},
-      {id:2, firstName:"Dieter", lastName:"Wießmann", title:"Prof. Dr.", gender:"Herr", email:"dieter.wissmann@hs-coburg.de"},
-      {id:3, firstName:"Thomas", lastName:"Wieland", title:"Prof. Dr.", gender:"Herr", email:"thomas.wieland@hs-coburg.de"},
-      {id:4, firstName:"Jens", lastName:"Grubert", title:"Prof. Dr.", gender:"Herr", email:"Jens.Grubert@hs-coburg.de"},
-      {id:5, firstName:"Quirin", lastName:"Meyer", title:"Prof. Dr.", gender:"Herr", email:"Quirin.Meyer@hs-coburg.de"},
-      {id:6, firstName:"Florian", lastName:"Mittag", title:"Prof. Dr.", gender:"Herr", email:"Florian.Mittag@hs-coburg.de"},
-      {id:7, firstName:"Jürgen", lastName:"Terpin", title:"Prof. Dr.", gender:"Herr", email:"juergen.terpin@hs-coburg.de"},
-      {id:8, firstName:"Matthias", lastName:"Mörz", title:"Prof. Dr.", gender:"Herr", email:"matthias.moerz@hs-coburg.de"},
-    ]
+    this.restAPI.getCollegeEmployees().subscribe(resp => {
+        this.profs = resp;
+      
+        for (let i=0;i<resp.length;i++) {
+          let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
+          displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
+          this.displayProfs.push(displayProf);
+        }
+    });
 
-    this.spos=[
-      {id:0, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2014/SPO_B_BW_6.pdf",startDate:"2014-08-01", endDate:"2020-08-01", course:"B BW", degree:"Bachelor" },
-      {id:1, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_IW_3.pdf",startDate:"2021-11-25", endDate:"2022-12-31", course:"B IW", degree:"Bachelor"  },
-      {id:2, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_SA_9.pdf",startDate:"2014-12-23", endDate:"2022-12-31", course:"B SA", degree:"Bachelor"  },
-      {id:3, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2022/SPO__B__ADT_2022.pdf",startDate:"2022-05-24", endDate:"2022-08-01", course:" B ADT", degree:"Bachelor"  },
-      {id:4, link:"https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2021/SPO_B_ZT.pdf",startDate:"2021-05-06", endDate:"2022-01-01", course:"B ZT", degree:"Bachelor"  },
-    ]
+    this.restAPI.getCollegeEmployees().subscribe(resp => {
+        this.moduleOwners = resp;
+    });
+
+    this.restAPI.getModuleManuals().subscribe(resp => {
+        this.moduleManuals = resp;
+    });
+
+    this.restAPI.getCycles().subscribe(resp => {
+      this.cycles = resp;
+    });
+
+    this.restAPI.getDurations().subscribe(resp => {
+      this.durations = resp;
+    });
+
+    this.restAPI.getMaternityProtections().subscribe(resp => {
+      this.maternityProtections = resp;
+
+    });
+
+    this.restAPI.getLanguages().subscribe(resp => {
+      this.languages = resp;
+    });
 
     this.addVariation();
   }
 
   onSubmit(event: {submitter:any }): void {//create new Module with form data
-    console.log("submit");
-
     this.newModule = this.moduleFormGroup.value;
-    
+
+    if(this.newModule.profs.length<1){
+      window.alert("Es muss mindestens ein Dozent zugewiesen werden");
+      return;
+    }
+
+    for(let i=0;i<this.newModule.profs.length;i++){
+      for(let j=0;j<this.profs.length;j++){
+        if(this.newModule.profs[i].id==this.profs[j].id){
+          this.newModule.profs[i]=this.profs[j];
+          break;
+        }
+      }
+    }
+
     this.restAPI.createModule(this.newModule).subscribe(resp => {
+      this.onSuccessfulSubmission.emit();
       console.log(resp);
     });
     
     this.hideDialog();
-    this.resetForm();
 
-    if(event.submitter.id=="bt-submit-new"){
+    if(event.submitter.id=="btn-submit-new"){
       this.showDialog();
     }
   }
+  
+  updateModuleManual(id:number, i:number) {
+    this.restAPI.getModuleTypes(id).subscribe(resp => {
+        this.moduleTypes[i]=(resp);
+    });
 
+    this.restAPI.getRequirements(id).subscribe(resp => {
+      this.admissionRequirements[i]= resp;
+    });
 
-  showDialog() {//make form visible
-    this.display = true;
-  }
+    this.restAPI.getSegments(id).subscribe(resp => {
+      for(let j=0;j<resp.length;i++){
+        this.segments[i]=resp;
+      }
+    });
 
-  hideDialog() {//hide form
-    this.display = false;
-  }
+    /** 
+    //delete when in dev
+    if(i==0){
+      this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
+    }else{
+      if(i==1){
+        this.moduleTypes[i]=["Wahlfach", "Pflichtfach"]
+      }else{
+        this.moduleTypes[i]=["Wahlfach"]
+      }
+    }
 
-  resetForm(){
-    this.moduleFormGroup.reset();
+    //delete when in dev
+    if(i==0){
+      this.segments[i]=["1. Abschnitt", "2. Abschnitt", "3. Abschnitt"]
+    }else{
+      if(i==1){
+        this.segments[i]=["1. Abschnitt", "4. Abschnitt"]
+      }else{
+        this.segments[i]=["1. Abschnitt"]
+      }
+    }
+
+    //delete when in dev
+    if(i==0){
+      this.admissionRequirements[i]=["1", "2", "3"]
+    }else{
+      if(i==1){
+        this.admissionRequirements[i]=["1", "4"]
+      }else{
+        this.admissionRequirements[i]=["100"]
+      }
+    }
+    */
   }
 
   get variations(){
@@ -120,21 +188,37 @@ export class CreateModuleComponent implements OnInit {
   addVariation() {
     this.variations.push(
       this.fb.group({
-        spo: new FormControl('', [Validators.required]),
-        ects: new FormControl('', [Validators.required]),
-        sws: new FormControl('', [Validators.required]),
-        workLoad: new FormControl('', [Validators.required]),
-        semester: new FormControl('', [Validators.required]),
-        category: new FormControl('', [Validators.required]),
+        manual: new FormControl(),
+        ects: new FormControl(),
+        sws: new FormControl(),
+        workLoad: new FormControl(),
+        semester: new FormControl(),
+        moduleType: new FormControl(),
+        admissionRequirement: new FormControl(),
+        segment:new FormControl(),
       })
     );
   }
 
   deleteVariation(index:number){
-    if(this.variations.length >1){
-      this.variations.removeAt(index);
-    }else{
-      window.alert("Es muss mindestens eine Variation vorhanden sein")
+    this.variations.removeAt(index);
+    this.moduleTypes.splice(index,1)
+    this.admissionRequirements.splice(index,1)
+    this.segments.splice(index,1)
+  }
+
+  showDialog() {//make form visible
+    this.display = true;
+  }
+
+  hideDialog() {//hide form
+    this.display = false;
+    this.moduleFormGroup.reset();
+    this.selectedProfs=[];
+
+    while(this.variations.length>0){
+      this.deleteVariation(this.variations.length-1);
     }
+    this.addVariation();
   }
 }

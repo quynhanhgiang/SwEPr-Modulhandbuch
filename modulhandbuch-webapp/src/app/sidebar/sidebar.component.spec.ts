@@ -17,6 +17,9 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * Testfall A2:UT4 Testen, ob Komponente erzeugt wird.
+   */
   it('should create', () => {
     expect(component).toBeTruthy();
   });

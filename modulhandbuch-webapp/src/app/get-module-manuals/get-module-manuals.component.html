@@ -1,6 +1,8 @@
 <div class="container pt-4 pb-4">
-    <app-create-module-manual></app-create-module-manual>
+    <app-create-module-manual (onSuccessfulSubmission)="ngOnInit()"></app-create-module-manual>
+
     <hr>
+
     <p-dataView #dv [value]="moduleManuals" [paginator]="true" [rows]="5" [sortField]="sortField" [sortOrder]="sortOrder"
     [emptyMessage]="emptyMessage" filterBy="spo.course">
 
@@ -21,7 +23,7 @@
             <div class="block p-3">
 
                 <!-- Overlay-Link für ein Listen-Element, umfasst gesamten "inner"-Block -->
-                <a class="overlay" [routerLink]="['/module-manual-detail-view', moduleManual.id]" id="link-manual-{{i}}"></a>
+                <a class="overlay" [routerLink]="['/manual-edit', moduleManual.id]" id="link-manual-{{i}}"></a>
 
                 <div class="inner list-group-item d-flex justify-content-between align-items-start">
                     <div class="me-auto">

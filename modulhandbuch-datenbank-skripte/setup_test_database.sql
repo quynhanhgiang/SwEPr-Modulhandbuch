@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS spo (
 	end_date DATETIME NULL,
 	course VARCHAR(255) NOT NULL,
 	degree ENUM('Bachelor', 'Master') NOT NULL DEFAULT 'Bachelor',
-	module_plan BLOB NULL,
 	PRIMARY KEY (pk_unique_id)
 )
 COMMENT='SPO is a table that references SPOs.\r\nLink contains an URL to the SPO on myCampus.\r\nStartDate and EndDate is the time frame in which this SPO is valid.'
@@ -43,10 +42,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO spo VALUES
-	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', 'Bachelor', NULL),
-	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', 'Bachelor', NULL),
-	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', 'Bachelor', NULL),
-	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 'Bachelor', NULL)
+	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', 'Bachelor'),
+	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', 'Bachelor'),
+	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', 'Bachelor'),
+	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 'Bachelor')
 ;
 
 
@@ -150,6 +149,7 @@ CREATE TABLE IF NOT EXISTS module_manual (
 	first_page BLOB NULL,
 	preliminary_note TEXT NULL,
 	generated_pdf BLOB NULL,
+	module_plan BLOB NULL,
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_manual_fk_spo_pk_unique_id FOREIGN KEY (fk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -157,8 +157,18 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_manual VALUES
-	(1, 1, "Sommersemester 23", NULL, NULL, NULL),
-	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL),
-	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL)
+	(1, 1, "Sommersemester 23", NULL, NULL, NULL, NULL),
+	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL, NULL),
+	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL, NULL)
 ;
 
+
+
+CREATE TABLE IF NOT EXISTS additional_data (
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NULL,
+	path VARCHAR(255) NULL,
+	PRIMARY KEY (pk_unique_id)
+)
+COLLATE='utf8mb4_unicode_520_ci'
+;

@@ -5,219 +5,210 @@
         </ng-template>
 
         <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
-        <table id="table-edit-module" >
-                <tr>
-                    <td class="td-row-left" ><label>Modulbezeichnung</label></td>
-                    <td class="td-row-right"><input type="text" class="form-control" required formControlName="moduleName" id="input-edit-module-moduleName"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Kürzel</label></td>
-                    <td class="td-row-right"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-edit-module-abbreviation"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                    </td>
-                </tr>
-                <tr>
-                <tr>
-                    <td colspan="2">
-                        <ul formGroupName="variations" class="list-group" style="width: 100%;">
-                            <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="list-group-item">
-                                <tr > 
-                                    <td class="td-row-left" ><label>SPO</label></td>
-                                    <td class="td-row-right">
-                                        <p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="spos" optionLabel="course" formControlName="spo" dataKey="id" id="dropdown-edit-module-course"></p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Kategorie</label></td>
-                                    <td  class="td-row-right">
-                                        <select required  class="form-select" formControlName="category" id="select-edit-module-category">
-                                            <option value="Pflichtfach">Pflichtfach</option>
-                                            <option value="Wahlfach">Wahlfach</option>
-                                            <option value="Schlüsselqualifikation">Schlüsselqualifikation</option>
-                                    </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Lehrform / SWS</label></td>
-                                    <td class="td-row-right"><input type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-edit-module-sws"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Leistungspunkte / ECTS</label></td>
-                                    <td class="td-row-right"><input type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-edit-module-ects"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Arbeitsaufwand</label></td>
-                                    <td class="td-row-right">
-                                        <p-editor required="true" formControlName="workLoad" id="editor-edit-module-workLoad"><!--Texteditor based on Quill-->
-                                            <p-header>
-                                                <span class="ql-formats">
-                                                    <button class="ql-bold" aria-label="Bold"></button>
-                                                    <button class="ql-italic" aria-label="Italic"></button>
-                                                    <button class="ql-underline" aria-label="Underline"></button>
-                                                    <button class="ql-list" value="ordered"></button>
-                                                    <button class="ql-list" value="bullet"></button>      
-                                                </span> 
-                                            </p-header>
-                                        </p-editor>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-row-left" ><label>Fachsemester</label></td>
-                                    <td class="td-row-right"><input type="number" class="form-control" required min="1" max="7" formControlName="semester" id="input-edit-module-semester"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">SPO entfernen</button>
-                                    </td>
-                                </tr>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neue SPO hinzufügen</button>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td class="td-row-left" ><label>Angebotsturnus</label></td>
-                    <td  class="td-row-right">
-                        <select required formControlName="cycle"  class="form-select" id="select-edit-module-cycle">
-                            <option value="Halbjärlich" selected>Halbjährlich</option>
-                            <option value="Jährlich">Jährlich</option>
-                    </select>
-                    </td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Dauer des Moduls</label></td>
-                    <td  class="td-row-right">
-                        <select required formControlName="duration" class="form-select" id="select-edit-module-duration">
-                            <option value="Einsemestrig">Einsemestrig</option>
-                            <option value="Zweisemestrig">Zweisemestrig</option>
-                    </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Modulverantwortliche(r)</label></td>
-                    <td class="td-row-right">
-                        <p-dropdown [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="moduleOwners" optionLabel="lastName" formControlName="moduleOwner" dataKey="id" id="dropdown-edit-module-moduleOwner"></p-dropdown>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Dozent(in)</label></td>
-                    <td  class="td-row-right">
-                        <p-multiSelect [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'0ms'" [options]="profs" value="selectedProfs" optionLabel="lastName" formControlName="profs" dataKey="id" id="multi-select-edit-module-profs"></p-multiSelect>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Sprache</label></td>
-                    <td  class="td-row-right">
-                        <select formControlName="language" class="form-select" id="select-edit-module-language">
-                            <option value="Deutsch">Deutsch</option>
-                            <option value="Englisch">Englisch</option>
-                            <option value="Spanisch">Spanisch</option>
-                    </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Nutzung in anderen Studiengängen</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="usage" id="input-edit-module-usage"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Zulassungsvoraussetzungen</label></td>
-                    <td  class="td-row-right">
-                        <select formControlName="admissionRequirements" class="form-select" id="select-edit-module-admission-requirements">
-                            <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)">Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)</option>
-                            <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)">Vorrückensberechtigung nach §5 Abs. 1 SPO (EL)</option>
-                            <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)">Vorrückensberechtigung nach §5 Abs. 1 SPO (AU)</option>
-                            <option value="Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)">Vorrückensberechtigung nach §5 Abs. 1 SPO (VC)</option>
+            <div class="border border-dark">
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start text-start"><label>Modulbezeichnung</label></div>
+                    <div class="col-8"><input type="text" class="form-control" required formControlName="moduleName" id="input-create-module-moduleName"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Kürzel</label></div>
+                    <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-create-module-abbreviation"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Angebotsturnus</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="cycle" id="select-create-module-cycle"  required>
+                            <option *ngFor="let cycle of cycles; let i=index" value="{{cycle}}">{{cycle}}</option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Inhaltliche Voraussetzung</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-edit-module-knowledge-requirements"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Qualifikationsziele/Kompetenzen</label></td>
-                    <td  class="td-row-right">
-                        <p-editor required="true" formControlName="skills" id="editor-edit-module-skills">
-                            <p-header>
-                                <span class="ql-formats">
-                                    <button class="ql-bold" aria-label="Bold"></button>
-                                    <button class="ql-italic" aria-label="Italic"></button>
-                                    <button class="ql-underline" aria-label="Underline"></button>
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>      
-                                </span> 
-                            </p-header>
-                        </p-editor>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Lehrinhalte</label></td>
-                    <td  class="td-row-right">
-                        <p-editor required="true" formControlName="content" id="editor-edit-module-content">
-                            <p-header>
-                                <span class="ql-formats">
-                                    <button class="ql-bold" aria-label="Bold"></button>
-                                    <button class="ql-italic" aria-label="Italic"></button>
-                                    <button class="ql-underline" aria-label="Underline"></button>
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>      
-                                </span> 
-                            </p-header>
-                        </p-editor>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Endnotenbildung Studien-/Prüfungsleistungen</label></td>
-                    <td  class="td-row-right"><input required type="text" class="form-control" formControlName="examType" id="input-edit-module-exam-type"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Sonstige Leistungsnachweise</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="certificates" id="input-edit-module-certificates"></td>
-                </tr>
-                <tr>
-                    <td class="td-row-left" ><label>Medienform</label></td>
-                    <td  class="td-row-right"><input type="text" class="form-control" formControlName="mediaType" id="input-edit-module-media-type"></td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Literatur</label></td>
-                    <td class="td-row-right">
-                        <p-editor required="true" formControlName="literature" id="editor-edit-module-literature">
-                            <p-header>
-                                <span class="ql-formats">
-                                    <button class="ql-bold" aria-label="Bold"></button>
-                                    <button class="ql-italic" aria-label="Italic"></button>
-                                    <button class="ql-underline" aria-label="Underline"></button>
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>      
-                                </span> 
-                            </p-header>
-                        </p-editor>
-                    </td>
-                </tr>
-                <tr >
-                    <td class="td-row-left" ><label>Mutterschutz</label></td>
-                    <td class="td-row-right">
-                        <select required formControlName="maternityProtection" class="form-select" id="select-edit-module-maternity-protection">
-                            <option value="Grün">Grün</option>
-                            <option value="Gelb">Gelb</option>
-                            <option value="Rot">Rot</option>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Dauer des Moduls</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="duration" id="select-create-module-duration" required  placeholder="Moduldauer auswählen">
+                            <option *ngFor="let duration of durations; let i=index" value="{{duration}}" >{{duration}}</option>
                         </select>
-                    </td>
-                </tr>
-        </table>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
+                    <div class="col-8">
+                        <select class="form-select" formControlName="moduleOwner" id="select-create-module-moduleOwner" required  placeholder="Modulverantowrtlichen auswählen" place>
+                            <option *ngFor="let moduleOwner of moduleOwners; let i=index" [ngValue]="moduleOwner">{{moduleOwner.title}} {{moduleOwner.firstName}} {{moduleOwner.lastName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Dozent(in)</label></div>
+                    <div class="col-8">
+                        <p-multiSelect [options]="displayProfs" [(ngModel)]="selectedProfs" minlength="1" formControlName="profs" optionLabel="name" id="multiselect-create-module-profs"></p-multiSelect>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Sprache</label></div>
+                    <div class="col-8">
+                        <select class="form-select"formControlName="language" id="select-create-module-language" required  placeholder="Sprache auswählen">
+                            <option *ngFor="let language of languages; let i=index" value="{{language}}">{{language}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="usage" id="input-create-module-usage"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-create-module-knowledge-requirements"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
+                    <div class="col-8">
+                        <p-editor required="true" formControlName="skills" id="editor-create-module-skills">
+                            <p-header>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold"></button>
+                                    <button class="ql-italic" aria-label="Italic"></button>
+                                    <button class="ql-underline" aria-label="Underline"></button>
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>      
+                                </span> 
+                            </p-header>
+                        </p-editor>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Lehrinhalte</label></div>
+                    <div class="col-8">
+                        <p-editor required="true" formControlName="content" id="editor-create-module-content">
+                            <p-header>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold"></button>
+                                    <button class="ql-italic" aria-label="Italic"></button>
+                                    <button class="ql-underline" aria-label="Underline"></button>
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>      
+                                </span> 
+                            </p-header>
+                        </p-editor>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Endnotenbildende Studien-/Prüfungsleistungen</label></div>
+                    <div class="col-8"><input required type="text" class="form-control" formControlName="examType" id="input-create-module-exam-type"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Sonstige Leistungsnachweise</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="certificates" id="input-create-certificates"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Medienform</label></div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="mediaType" id="input-create-module-media-type"></div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Literatur</label></div>
+                    <div class="col-8">
+                        <p-editor required="true" formControlName="literature" id="editor-create-module-literature">
+                            <p-header>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold"></button>
+                                    <button class="ql-italic" aria-label="Italic"></button>
+                                    <button class="ql-underline" aria-label="Underline"></button>
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>      
+                                </span> 
+                            </p-header>
+                        </p-editor>
+                    </div>
+                </div>
+                <div class="row border-bottom p-2 m-3 align-items-center">
+                    <div class="col-4 text-start"><label>Mutterschutz</label></div>
+                    <div class="col-8">
+                        <select class="form-select" id="select-create-module-maternityProtection" required formControlName="maternityProtection" placeholder="Mutterschutz auswählen">
+                            <option *ngFor="let maternityProtection of maternityProtections; let i=index" value="{{maternityProtection}}">{{maternityProtection}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-        <div>
-            <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
-        </div>
+            <div class="row p-2">
+                <div class="text-center p-4 col"><h4>Felder sie auf je ein Modulhandbuch beziehen</h4></div>
+            </div>
+
+            <ul formGroupName="variations" class="list-group" style="width: 100%;">
+                <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="border border-dark list-group-item mb-4 border-top brder-bottom">
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Modulhandbuch</label></div>
+                        <div class="col-8">
+                            <select  class="form-select" id="select-create-module-manual" required formControlName="manual" (change)="updateModuleManual($event.target.value.id,i)">
+                                <option *ngFor="let moduleManual of moduleManuals" [ngValue]="moduleManual">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}(von {{moduleManual.spo.startDate}} bis zum {{moduleManual.spo.endDate}})</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Modul Typ</label></div>
+                        <div class="col-8">
+                            <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
+                                <option *ngFor="let moduleType of moduleTypes[i]" value="{{moduleType}}">{{moduleType}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
+                        <div class="col-8">
+                            <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
+                                <option *ngFor="let admissionRequirement of admissionRequirements[i]" value="{{admissionRequirement}}">{{admissionRequirement}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Studienabschnitt</label></div>
+                        <div class="col-8">
+                            <select class="form-select" formControlName="segment" id="select-create-module-segment" required>
+                                <option *ngFor="let segment of segments[i]" value="{{segment}}">{{segment}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
+                        <div class="col-8"><input  type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
+                        <div class="col-8"><input  type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
+                        <div class="col-8">
+                            <p-editor required="true" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
+                                <p-header>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold" aria-label="Bold"></button>
+                                        <button class="ql-italic" aria-label="Italic"></button>
+                                        <button class="ql-underline" aria-label="Underline"></button>
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>      
+                                    </span> 
+                                </p-header>
+                            </p-editor>
+                        </div>
+                    </div>
+                    <div class="row border-bottom p-2 m-3 align-items-center">
+                        <div class="col-4 text-start"><label>Fachsemester</label></div>
+                        <div class="col-8"><input type="number" class="form-control" min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
+                    </div>
+                    <div class="row p-2 border-top align-items-center">
+                        <button [disabled]="variations.length <=1" id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="row border-bottom p-2 align-items-center">
+                <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
+            </div> 
+            
+
+            <div>
+                <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+            </div>
         </form>
     </p-dialog>
 </ng-container>

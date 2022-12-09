@@ -5,7 +5,8 @@
 </button>
 
 <!-- pop-up-dialog for form -->
-<p-dialog [(visible)]="dialogVisible" [transitionOptions]="'150ms'" (onHide)="spoFormGroup.enable(); resetForm()">
+<p-dialog [(visible)]="dialogVisible" [transitionOptions]="'150ms'" [style]="{minWidth: '50vw', maxWidth: '66vw'}" [modal]="true"
+(onHide)="spoFormGroup.enable(); resetForm()">
 
   <!-- dialog-header -->
   <ng-template pTemplate="header">
