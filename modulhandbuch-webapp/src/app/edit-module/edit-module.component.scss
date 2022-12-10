@@ -1,0 +1,56 @@
+ #i-plus-symbol{
+     font-size: 13px !important;
+     margin-right: 0.5vw;
+ }
+ 
+ #table-edit-module, th, td{
+     border: 1px solid lightgray;
+ }
+
+ .td-row-left{
+    width: 40%;
+ }
+
+ .td-row-right{
+    width: 60%;
+ }
+ 
+ .td-row-left, .td-row-right{
+     padding: 0.6vh 0.5vh;
+ }
+ 
+ .td-row-right{
+     width: 30vw
+ }
+ 
+ input, select, tr, li{
+     width:100%;
+ }
+ 
+ input:focus, select:focus, .ql-editor:hover {
+     box-shadow: 0 0 4px rgb(255, 200, 0)!important;
+     border: 1px solid rgb(255, 200, 0)!important;
+ }
+ 
+ input:hover, select:hover{
+     border: 1px solid rgb(255, 200, 0);
+}
+
+#btn-submit-close{
+    width: 30%;
+    margin-top: 2vh;
+    margin-left: 35%;
+}
+
+#btn-add-variations,#btn-remove-variations {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+li{
+    margin-bottom: 0.5vh;
+
+}
