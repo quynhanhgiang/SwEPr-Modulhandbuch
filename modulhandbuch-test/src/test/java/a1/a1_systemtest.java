@@ -9,11 +9,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.netty.handler.timeout.TimeoutException;
 
 public class a1_systemtest {
 	private WebDriver driver;
@@ -30,21 +32,35 @@ public class a1_systemtest {
 			chromeOptions.addArguments("--headless");
 			chromeOptions.addArguments("disable-gpu");
 			driver = new ChromeDriver(chromeOptions);
+			driver.get("https://85.214.225.164/dev");
 		} else {
 			driver = new ChromeDriver();
-			driver.get("http://localhost:4200/home");
+			driver.get("https://85.214.225.164/dev");
 			driver.manage().window().maximize();
+			driver.findElement(By.id("details-button")).click();
+			driver.findElement(By.id("proceed-link")).click();
 		}
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("btn-hamburger")));
-		driver.findElement(By.id("btn-hamburger")).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("a-user-management")));
-		driver.findElement(By.id("a-user-management")).click();
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("btn-hamburger")));
+			driver.findElement(By.id("btn-hamburger")).click();
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("a-user-management")));
+			driver.findElement(By.id("a-user-management")).click();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void openFormular() {
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Mitarbeiter anlegen']")));
-		driver.findElement(By.xpath("//button[text()='Mitarbeiter anlegen']")).click();
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Mitarbeiter anlegen']")));
+			driver.findElement(By.xpath("//button[text()='Mitarbeiter anlegen']")).click();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Button to open the form does not work");
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -63,16 +79,18 @@ public class a1_systemtest {
 	@Test
 	public void S_F_A1T02() {
 		boolean result = true;
-
 		openFormular();
+		
 		try {
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
 			driver.findElement(By.xpath("//div[@role='dialog']"));
 			WebElement dialogTitle = driver.findElement(By.cssSelector(".p-dialog .p-dialog-header"));
 			String dialogTitleText = dialogTitle.getText();
 			result = dialogTitleText.contentEquals("Neuen Mitarbeiter anlegen");
-		} catch (NoSuchElementException noSuchElement) {
+		} catch (NoSuchElementException | TimeoutException e) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -80,11 +98,13 @@ public class a1_systemtest {
 	public void S_F_A1T03() {
 		boolean result = true;
 		openFormular();
+		
 		try {
-			driver.findElement(By.xpath("//span[text()='Herr']"));
+			driver.findElement(By.id("select-create-employee-gender"));
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -98,6 +118,7 @@ public class a1_systemtest {
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -111,6 +132,7 @@ public class a1_systemtest {
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -124,6 +146,7 @@ public class a1_systemtest {
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -137,6 +160,7 @@ public class a1_systemtest {
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -144,22 +168,23 @@ public class a1_systemtest {
 	public void S_F_A1T08() {
 		boolean result = true;
 		openFormular();
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("pr_id_2_label")));
-		WebElement andere = driver.findElement(By.id("pr_id_2_label"));
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("select-create-employee-gender")));
+		WebElement andere = driver.findElement(By.id("select-create-employee-gender"));
 		andere.click();
 
 		try {
-			List<WebElement> andereOptions = andere.findElements(By.xpath("//li[@role='option']"));
+			List<WebElement> andereOptions = andere.findElements(By.xpath("//option"));
 			if (andereOptions.size() != 3) {
 				result = false;
 			}
-			andere.findElement(By.xpath("//li[@aria-label='Herr']"));
-			andere.findElement(By.xpath("//li[@aria-label='Frau']"));
-			andere.findElement(By.xpath("//li[@aria-label='Diverse']"));
+			andere.findElement(By.xpath("//option[@value='Herr']"));
+			andere.findElement(By.xpath("//option[@value='Frau']"));
+			andere.findElement(By.xpath("//option[@value='Diverse']"));
 
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -168,11 +193,24 @@ public class a1_systemtest {
 		boolean result = true;
 		openFormular();
 
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='Titel auswählen']")));
 		WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
-		String typeOfTitel = titel.getAttribute("type");
-		if (typeOfTitel == null || !typeOfTitel.equals("text")) {
+		titel.click();
+		
+		try {
+			List<WebElement> titelOptions = titel.findElements(By.xpath("//p-multiselectitem"));
+			System.out.println(titelOptions.size());
+			if (titelOptions.size() != 3) {
+				result = false;
+			}
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']"));
+			titel.findElement(By.xpath("//li[@aria-label='Dr.']"));
+			titel.findElement(By.xpath("//li[@aria-label='Dipl.']"));
+
+		} catch (NoSuchElementException noSuchElement) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -186,6 +224,7 @@ public class a1_systemtest {
 		if (typeOfVorname == null || !typeOfVorname.equals("text")) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -199,6 +238,7 @@ public class a1_systemtest {
 		if (typeOfNachname == null || !typeOfNachname.equals("text")) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 
@@ -212,6 +252,7 @@ public class a1_systemtest {
 		if (typeOfEmail == null || !typeOfEmail.equals("email")) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 	
@@ -220,11 +261,12 @@ public class a1_systemtest {
 		boolean result = true;
 		openFormular();
 		
-		WebElement andere = driver.findElement(By.id("pr_id_2_label"));
-		String emailRequired = andere.getAttribute("required");
-		if (!Boolean.valueOf(emailRequired)) {
+		WebElement andere = driver.findElement(By.id("select-create-employee-gender"));
+		String andereRequired = andere.getAttribute("required");
+		if (!Boolean.valueOf(andereRequired)) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 	
@@ -238,6 +280,7 @@ public class a1_systemtest {
 		if (Boolean.valueOf(titelRequired)) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 	
@@ -251,6 +294,7 @@ public class a1_systemtest {
 		if (!Boolean.valueOf(vornameRequired)) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 	
@@ -264,6 +308,7 @@ public class a1_systemtest {
 		if (!Boolean.valueOf(nachnameRequired)) {
 			result = false;
 		}
+		
 		Assert.assertEquals(result, true);
 	}
 	
@@ -277,6 +322,53 @@ public class a1_systemtest {
 		if (!Boolean.valueOf(emailRequired)) {
 			result = false;
 		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T18() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Florian");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Mittag");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Florian.Mittag@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		try {
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
+			WebElement formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+			if(formularNeuenMitarbeiterAnlegen != null) {
+				result = false;
+			}
+		} catch (NoSuchElementException | TimeoutException e) {
+			String currentUrl = driver.getCurrentUrl();
+			String expectedUrl = "https://85.214.225.164/dev/user-management";
+			if(!currentUrl.equals(expectedUrl)) {
+				result = false;
+			}
+		}
+		
 		Assert.assertEquals(result, true);
 	}
 }
