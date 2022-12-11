@@ -2,13 +2,15 @@
 
   <!-- edit general-informations section-->
   <li class="list-group-item pt-3 pb-3">
-    <form class="row g-3" [formGroup]="manualFormGroup" (ngSubmit)="submitManual()">
+    <form class="row g-3" [formGroup]="manualFormGroup" (ngSubmit)="submitManual()" id="form-manual">
 
+      <!-- semester-input -->
       <div class="col-md-6">
         <label for="input-semester" class="form-label"><h6>Gültig für das...</h6></label>
         <input type="text" class="form-control" id="input-semester" formControlName="semester" required/>
       </div>
 
+      <!-- spo-select -->
       <div class="col-md-6">
         <label for="select-spo" class="form-label"><h6>Zugeordnete SPO:</h6></label>
         <select class="form-select" id="select-spo" [value]="selectedSpoIndex" (change)="updateSpoForm($event.target.value)">
@@ -18,35 +20,43 @@
         </select>
       </div>
 
+      <!-- spo-form-group -->
       <div class="col-md-12 row g-3 p-0 m-0" [formGroup]="spoFormGroup">
+
+        <!--spo: degree-->
         <div class="col-md-2">
           <label for="input-degree" class="form-label"><h6>Abschluss:</h6></label>
           <input type="text" class="form-control" id="input-degree" formControlName="degree"/>
         </div>
 
+        <!--spo: course-->
         <div class="col-md-4">
           <label for="input-course" class="form-label"><h6>Studiengang:</h6></label>
           <input type="text" class="form-control" id="input-course" formControlName="course"/>
         </div>
 
+        <!--spo: start-date-->
         <div class="col-md-3">
           <label for="input-start" class="form-label"><h6>Studienanfänger ab...</h6></label>
-          <input type="text" class="form-control" id="input-start" formControlName="startDate"/>
+          <input type="date" class="form-control" id="input-start" formControlName="startDate"/>
         </div>
 
+        <!--spo: end-date-->
         <div class="col-md-3">
           <label for="input-end" class="form-label"><h6>...bis...</h6></label>
-          <input type="text" class="form-control" id="input-end" formControlName="endDate"/>
+          <input type="date" class="form-control" id="input-end" formControlName="endDate"/>
         </div>
 
+        <!--spo: link-->
         <div class="col-md-12">
           <label for="input-link" class="form-label"><h6>Link zur SPO:</h6></label>
           <input type="text" class="form-control" id="input-link" formControlName="link"/>
         </div>
       </div>
 
+      <!-- first-form-submit-button -->
       <div class="row justify-content-end mt-3">
-        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
+        <button id="btn-submit-manual" class="btn btn-outline-secondary position-relative" type="submit" >
           Speichern
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
           [ngStyle]="{'visibility': firstFormSuccess? 'visible' : 'hidden'}">
@@ -64,6 +74,7 @@
 
     <form class="row g-4">
 
+      <!-- module-plan: upload & status -->
       <div class="col-md-12">
         <label for="fileinput-moduleplan" class="form-label"><h6>Modulplan (.pdf, .png, .jpeg):</h6></label>
 
@@ -82,6 +93,7 @@
         </ng-template>
       </div>
 
+      <!-- preliminary-note: upload & status -->
       <div class="col-md-12">
         <label for="fileinput-preliminary-note" class="form-label"><h6>Vorbemerkungen (.txt, .md):</h6></label>
 
@@ -106,22 +118,26 @@
   <li class="list-group-item pt-3 pb-3">
     <h5 class="card-title  mb-3">Zuordnungen individualisieren</h5>
 
-    <form class="row g-3" (ngSubmit)="submitAssignments()">
+    <form class="row g-3" (ngSubmit)="submitAssignments()" id="form-assignments">
 
+      <!-- studyphases/segments-dynamic-list -->
       <div class="col-md-4">
         <app-dynamic-list header="Studienabschnitt" [(list)]="studyphases"></app-dynamic-list>
       </div>
 
+      <!-- moduletypes-dynamic-list -->
       <div class="col-md-4">
         <app-dynamic-list header="Modularten" [(list)]="moduletypes"></app-dynamic-list>
       </div>
 
+      <!-- requirements-dynamic-list -->
       <div class="col-md-4">
         <app-dynamic-list header="Zulassungsvorraussetzungen" [(list)]="requirements"></app-dynamic-list>
       </div>
 
+      <!-- third-form-submit -->
       <div class="row justify-content-end mt-3">
-        <button id="bt-submit-close" class="btn btn-outline-secondary position-relative" type="submit" >
+        <button id="btn-submit-assignments" class="btn btn-outline-secondary position-relative" type="submit" >
           Speichern
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
           [ngStyle]="{'visibility': thirdFormSuccess? 'visible' : 'hidden'}">

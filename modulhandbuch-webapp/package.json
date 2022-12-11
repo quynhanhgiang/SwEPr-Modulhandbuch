@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --branch-coverage",
-    "mock-server": "npx json-server --watch ./mock-server/db.json"
+    "mock-server": "npx json-server --watch ./mock-server/db.json --routes ./mock-server/routes.json"
   },
   "private": true,
   "dependencies": {

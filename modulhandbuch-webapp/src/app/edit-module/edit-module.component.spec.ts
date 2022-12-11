@@ -3,11 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { CreateModuleComponent } from '../create-module/create-module.component';
-import { RestApiService } from '../services/rest-api.service';
-import { CollegeEmployee } from '../shared/CollegeEmployee';
-import { Module } from '../shared/module';
-import { ModuleManual } from '../shared/module-manual';
 
 import { EditModuleComponent } from './edit-module.component';
 import { moduleManuals, profs, cycles, durations, languages, maternityProtections } from './mock-objects';

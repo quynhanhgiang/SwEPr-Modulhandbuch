@@ -1,6 +1,8 @@
+import { FileStatus } from "../shared/FileStatus";
+import { ModuleManual } from "../shared/module-manual";
 import { Spo } from "../shared/spo";
 
-export const spos: Spo[] = [
+export const sposMock: Spo[] = [
   {
     id: 1,
     link: "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
@@ -83,3 +85,40 @@ export const spos: Spo[] = [
   }
 ];
 
+export const moduleManualMock: ModuleManual = {
+  id: 1,
+  semester: "Sommersemester 2023",
+  spo: sposMock[0]
+};
+
+export const availableStatusMock: FileStatus = {
+  filename: "test-file.pdf",
+  link: "https://test.url",
+  timestamp: "01.12.2022 11:30 Uhr"
+};
+
+export const nullStatusMock: FileStatus = {
+  filename: null,
+  link: null,
+  timestamp: null
+};
+
+export const segmentsMock: string[] = [
+  "1. Studienabschnitt",
+  "2. Studienabschnitt",
+  "3. Studienabschnitt"
+];
+
+export const moduleTypesMock: string[] = [
+  "Wahlpflichtfach",
+  "Pflichtfach",
+  "Praktikum",
+  "Schlüsselqualifikation"
+];
+
+export const requirementsMock: string[] = [
+  "Zulassungsvorraussetzung nach §4 Abs. 1",
+  "Zulassungsvorraussetzung nach §4 Abs. 2",
+  "Zulassungsvorraussetzung nach §5 Abs. 1",
+  "Zulassungsvorraussetzung nach §5 Abs. 2"
+];

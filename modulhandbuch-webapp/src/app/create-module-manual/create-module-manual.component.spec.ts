@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
@@ -274,11 +273,11 @@ describe('CreateModuleManualComponent', () => {
       spoGroup: spos[0]
     });
     expect(restApiService.createModuleManual).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/module-manual-detail-view', 10]);
+    expect(router.navigate).toHaveBeenCalledWith(['/manual-edit', 10]);
   });
 
   /**
-   * Testfall A9.2:UT11 Testen, ob Click auf "Speichern und Zurücksetzen" ein valides Formular submittet und zurücksetzt.
+   * Testfall A9.2:UT11 Testen, ob Click auf "Speichern und Zurücksetzen" ein valides Formular (hier mit bereits vorhandener SPO) submittet und zurücksetzt.
    */
   it('should submit and reset the form, if the form is valid and button "Speichern und Zurücksetzen" has been clicked', () => {
     const restApiService = TestBed.inject(RestApiService);
@@ -292,23 +291,24 @@ describe('CreateModuleManualComponent', () => {
     let document = TestBed.inject(DOCUMENT);
 
     component.showDialog();
-    fixture.detectChanges();
 
+    let chkSPO = document.getElementById("check-new-spo") as HTMLInputElement;
     let btnSaveReset = document.getElementById("bt-submit-new") as HTMLButtonElement;
     let submit = new SubmitEvent("submit", { submitter: btnSaveReset });
-    let chkSPO = document.getElementById("check-new-spo") as HTMLInputElement;
 
     chkSPO.click();
-
     component.manualFormGroup.patchValue({
       semesterType: "Sommersemester",
       semesterYears: "2023",
       spoGroup: component.spoFormGroup
     });
 
-    component.onSubmit(submit);
     fixture.detectChanges();
+    expect(component.spoFormGroup.disabled).toBeTrue();
 
+    component.onSubmit(submit);
+
+    fixture.detectChanges();
     expect(restApiService.createModuleManual).toHaveBeenCalled();
     expect(component.spoFormGroup.controls["link"].value).toEqual("");
   });
