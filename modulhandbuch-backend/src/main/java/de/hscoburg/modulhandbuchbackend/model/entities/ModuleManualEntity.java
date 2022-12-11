@@ -1,7 +1,5 @@
 package de.hscoburg.modulhandbuchbackend.model.entities;
 
-import java.sql.Blob;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name= "module_manual")
+@Table(name = "module_manual")
 public class ModuleManualEntity {
 	
 	@Id
@@ -31,24 +29,23 @@ public class ModuleManualEntity {
 	@JoinColumn(name = "fk_spo_pk_unique_id", nullable = false)
 	private SpoEntity spo;
 
-	@Column(name = "first_page")
-	private Blob firstPage;
-
 	@Column(name = "preliminary_note")
-	private String preliminaryNote;
+	private String preliminaryNoteLink;
 
 	@Column(name = "generated_pdf")
-	private Blob generatedPdf;
+	private String generatedPdfLink;
 
 	@Column(name = "semester", nullable = false)
 	private String semester;
 
+	@Column(name = "module_plan")
+	private String modulePlanLink;
 
-	public ModuleManualEntity(SpoEntity spo, Blob firstPage, String preliminaryNote, Blob generatedPdf, String semester) {
+	public ModuleManualEntity(SpoEntity spo, String preliminaryNoteLink, String generatedPdfLink, String semester, String modulePlanLink) {
 		this.spo = spo;
-		this.firstPage = firstPage;
-		this.preliminaryNote = preliminaryNote;
-		this.generatedPdf = generatedPdf;
+		this.preliminaryNoteLink = preliminaryNoteLink;
+		this.generatedPdfLink = generatedPdfLink;
 		this.semester = semester;
+		this.modulePlanLink = modulePlanLink;
 	}	
 }
