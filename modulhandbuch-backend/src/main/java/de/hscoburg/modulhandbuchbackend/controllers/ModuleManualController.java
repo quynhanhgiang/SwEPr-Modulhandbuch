@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
-import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -29,7 +29,7 @@ public class ModuleManualController {
 	private final ModuleManualRepository moduleManualRepository;
 	private final SpoRepository spoRepository;
 	
-	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper();
+	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
 	@GetMapping("")
 	public List<ModuleManualDTO> allModuleManuals() {
