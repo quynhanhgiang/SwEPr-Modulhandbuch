@@ -1,6 +1,5 @@
 package de.hscoburg.modulhandbuchbackend.model.entities;
 
-import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -46,16 +45,12 @@ public class SpoEntity {
 	@Column(name = "degree", nullable = false, columnDefinition = "ENUM('Bachelor', 'Master') DEFAULT 'Bachelor'")
 	private Degree degree;
 
-	@Column(name = "module_plan")
-	private Blob module_plan;
-
-	public SpoEntity(String link, LocalDate startDate, LocalDate endDate, String course, Degree degree, Blob module_plan) {
+	public SpoEntity(String link, LocalDate startDate, LocalDate endDate, String course, Degree degree) {
 		this.link = link;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.course = course;
 		this.degree = degree;
-		this.module_plan = module_plan;
 	}
 
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
