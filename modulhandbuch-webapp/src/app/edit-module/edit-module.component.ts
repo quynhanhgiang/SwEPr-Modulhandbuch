@@ -171,8 +171,8 @@ export class EditModuleComponent implements OnInit {
     }
 
     for(let i=0;i<this.newModule.profs.length;i++){
-      for(let j=0;j<this.profs.length;i++){
-        if(this.newModule.profs[i].id=this.profs[j].id){
+      for(let j=0;j<this.profs.length;j++){
+        if(this.newModule.profs[i].id==this.profs[j].id){
           this.newModule.profs[i]=this.profs[j];
           break;
         }
@@ -207,7 +207,7 @@ export class EditModuleComponent implements OnInit {
         this.segments[i]=resp;
       }
     });
-    /** 
+    
     //delete when in dev
     if(i==0){
       this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
@@ -240,7 +240,7 @@ export class EditModuleComponent implements OnInit {
         this.admissionRequirements[i]=["100"]
       }
     }
-    */
+    
   }
 
   get variations(){
