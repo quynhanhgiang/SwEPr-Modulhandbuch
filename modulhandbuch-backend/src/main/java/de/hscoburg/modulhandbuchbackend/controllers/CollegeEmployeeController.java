@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +48,11 @@ public class CollegeEmployeeController {
 		}
 
 		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);
+
+		if (this.collegeEmployeeRepository.findByEmail(collegeEmployeeEntity.getEmail()).size() > 0) {
+			// TODO own exception and advice
+			throw new RuntimeException("The given email address is bound already.");
+		}
 
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.save(collegeEmployeeEntity);
     return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
