@@ -33,7 +33,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.titles=["Prof.","Dr.", "Dipl."]
-    this.genders=["Herr","Frau", "Diverse"]
+    this.genders=["Herr","Frau", "Divers"]
   }
 
   onSubmit(): void {//create new Module with form data
@@ -49,7 +49,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
       this.newCollegeEmployee.title=this.title;
     }
 
-    if(this.newCollegeEmployee.gender=="Diverse"){
+    if(this.newCollegeEmployee.gender=="Divers"){
       this.newCollegeEmployee.gender="";
     }
 
