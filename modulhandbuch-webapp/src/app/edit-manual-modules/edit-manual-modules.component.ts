@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {  Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
 import { ManualVariation } from '../shared/ManualVariation';
 import { ModuleManual } from '../shared/module-manual';
@@ -31,13 +31,13 @@ export class EditManualModulesComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private restAPI: RestApiService) {
     this.variationFormGroup = this.fb.group({
       module: {},
-      semester: new FormControl(''),
-      segment: new FormControl(''),
-      moduleType: new FormControl(''),
-      sws: new FormControl(''),
-      ects: new FormControl(''),
-      workLoad: new FormControl(''),
-      admissionRequirement: new FormControl(''),
+      semester: ['', [Validators.required, Validators.min(1), Validators.max(7)]],
+      segment: ['', [Validators.required]],
+      moduleType: ['', [Validators.required]],
+      sws: ['', [Validators.required, Validators.min(1), Validators.max(40)]],
+      ects: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
+      workLoad: ['', [Validators.required]],
+      admissionRequirement: ['', [Validators.required]],
       isAssigned: false
     });
   }
@@ -133,6 +133,10 @@ export class EditManualModulesComponent implements OnInit {
    * Save the changes made to the manualVariation and close the dialog.
    */
   saveVariationChanges() {
+    if (!this.variationFormGroup.valid) {
+      return;
+    }
+
     this.variationToEdit.semester = this.variationFormGroup.controls["semester"].value;
     this.variationToEdit.segment = this.variationFormGroup.controls["segment"].value;
     this.variationToEdit.moduleType = this.variationFormGroup.controls["moduleType"].value;
@@ -140,6 +144,7 @@ export class EditManualModulesComponent implements OnInit {
     this.variationToEdit.ects = this.variationFormGroup.controls["ects"].value;
     this.variationToEdit.workLoad = this.variationFormGroup.controls["workLoad"].value;
     this.variationToEdit.admissionRequirement = this.variationFormGroup.controls["admissionRequirement"].value;
+
     this.closeDialog();
   }
 

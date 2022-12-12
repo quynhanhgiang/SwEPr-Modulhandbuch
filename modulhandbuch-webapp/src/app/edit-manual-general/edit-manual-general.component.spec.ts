@@ -151,7 +151,9 @@ describe('EditManualGeneralComponent', () => {
     fixture.detectChanges();
     expect(component.thirdFormSuccess).toBeFalse();
 
-    form.triggerEventHandler("ngSubmit", null);
+    form.triggerEventHandler("ngSubmit",
+
+    null);
 
     fixture.detectChanges();
     expect(component.thirdFormSuccess).toBeTrue();
