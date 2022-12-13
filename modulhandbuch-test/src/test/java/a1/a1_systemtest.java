@@ -32,7 +32,7 @@ public class a1_systemtest {
 			driver = new ChromeDriver(chromeOptions);
 		} else {
 			driver = new ChromeDriver();
-			driver.get("http://localhost:4200/home");
+			driver.get("https://85.214.225.164/dev/home");
 			driver.manage().window().maximize();
 		}
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -45,6 +45,11 @@ public class a1_systemtest {
 	public void openFormular() {
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Mitarbeiter anlegen']")));
 		driver.findElement(By.xpath("//button[text()='Mitarbeiter anlegen']")).click();
+	}
+
+	@Test
+	public void S_D_A1T01() {
+		
 	}
 
 	@Test
