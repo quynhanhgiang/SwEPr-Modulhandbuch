@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
@@ -9,6 +9,7 @@ import { CollegeEmployee } from '../shared/CollegeEmployee';
   styleUrls: ['./create-college-employee.component.scss']
 })
 export class CreateCollegeEmployeeComponent implements OnInit {
+  @Output() onSuccessfulSubmission = new EventEmitter();
 
   display: boolean = false;//false == form hidden | true == form visible
 
@@ -22,7 +23,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.employeeFormGroup = this.fb.group({
       id: null,
-      title:new FormControl(),
+      title:new FormControl(""),
       firstName:new FormControl(),
       lastName:new FormControl(),
       email:new FormControl(),
@@ -32,14 +33,14 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.titles=["Prof.","Dr.", "Dipl."]
-    this.genders=["Herr","Frau", "Diverse"]
+    this.genders=["Herr","Frau", "Divers"]
   }
 
   onSubmit(): void {//create new Module with form data
     console.log("submit");
 
     this.newCollegeEmployee = this.employeeFormGroup.value;
-    
+
     if(this.newCollegeEmployee.title.length>0){
       for (let i=0;i<this.newCollegeEmployee.title.length;i++) {
         this.title +=this.newCollegeEmployee.title[i]+" ";
@@ -47,14 +48,16 @@ export class CreateCollegeEmployeeComponent implements OnInit {
       this.title=this.title.slice(0,-1);
       this.newCollegeEmployee.title=this.title;
     }
-    if(this.newCollegeEmployee.gender=="Diverse"){
+
+    if(this.newCollegeEmployee.gender=="Divers"){
       this.newCollegeEmployee.gender="";
     }
 
     this.restAPI.createCollegeEmployee(this.newCollegeEmployee).subscribe(resp => {
       console.log(resp);
+      this.onSuccessfulSubmission.emit();
     });
-    
+
     this.title="";
     this.hideDialog();
     this.resetForm();
