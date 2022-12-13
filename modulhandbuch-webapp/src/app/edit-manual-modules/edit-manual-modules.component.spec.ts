@@ -7,15 +7,10 @@ describe('EditManualModulesComponent', () => {
   let component: EditManualModulesComponent;
   let fixture: ComponentFixture<EditManualModulesComponent>;
 
-  const fakeActivatedRoute = {
-    snapshot: { data: { ... } }
-  } as ActivatedRoute;
+
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        {provide: ActivatedRoute, useValue: fakeActivatedRoute}
-      ],
       declarations: [ EditManualModulesComponent ]
     })
     .compileComponents();

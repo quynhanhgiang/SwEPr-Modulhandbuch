@@ -3,8 +3,7 @@
         <ng-template pTemplate="header">
             <h3>Modul {{moduleName}} bearbeiten</h3> 
         </ng-template>
-
-        <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
+        <form  (ngSubmit)="onSubmit()" [formGroup]="moduleFormGroup" ngNativeValidate>
             <div class="border border-dark">
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start text-start"><label>Modulbezeichnung</label></div>
@@ -34,7 +33,7 @@
                     <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="moduleOwner" id="select-create-module-moduleOwner" required  placeholder="Modulverantowrtlichen auswählen" place>
-                            <option *ngFor="let moduleOwner of moduleOwners; let i=index" [ngValue]="moduleOwner">{{moduleOwner.title}} {{moduleOwner.firstName}} {{moduleOwner.lastName}}</option>
+                            <option *ngFor="let moduleOwner of moduleOwners; let i=index" [ngValue]="moduleOwner" value="moduleOwner">{{moduleOwner.title}} {{moduleOwner.firstName}} {{moduleOwner.lastName}}</option>
                         </select>
                     </div>
                 </div>
@@ -205,9 +204,8 @@
                 <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
             </div> 
             
-
-            <div>
-                <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+            <div class="row align-items-center p-2">
+                <button id="btn-submit-close"  style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" type="submit">Änderungen Speichern</button>
             </div>
         </form>
     </p-dialog>
