@@ -32,7 +32,7 @@ public class a1_systemtest {
 			chromeOptions.addArguments("--headless");
 			chromeOptions.addArguments("disable-gpu");
 			driver = new ChromeDriver(chromeOptions);
-			driver.get("https://85.214.225.164/dev");
+			driver.get("https://85.214.225.164/dev/home");
 		} else {
 			driver = new ChromeDriver();
 			driver.get("https://85.214.225.164/dev/home");
