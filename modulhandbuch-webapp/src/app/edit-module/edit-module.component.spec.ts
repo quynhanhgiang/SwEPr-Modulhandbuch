@@ -87,7 +87,7 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT4 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
+  * Testfall A4.3:UT5 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
   */
   it("should show alert message'Es muss mindestens ein Dozent zugewiesen werden' when submitting without any selected prof", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
@@ -151,7 +151,7 @@ describe('EditModuleComponent', () => {
   });
 
  /**
-  * Testfall A4.3:UT5 Testen, ob das displayProf Objekt nach Absenden des Formulars korrekt umgewandelt wird.
+  * Testfall A4.3:UT6 Testen, ob das displayProf Objekt nach Absenden des Formulars korrekt umgewandelt wird.
   */
  it("should convert displayEmployee object to CollegeEmployee after submitting", () => {
   fixture = TestBed.createComponent(EditModuleComponent);
@@ -245,7 +245,7 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT6 Testen, ob Variationen hinzugefügt und gelöscht werden können
+  * Testfall A4.3:UT7 Testen, ob Variationen hinzugefügt und gelöscht werden können
   */
     it("should add variation after calling 'addVariation()'and delete variation after calling 'deleteVAriation(i)", () => {
       fixture = TestBed.createComponent(EditModuleComponent);
@@ -264,7 +264,7 @@ describe('EditModuleComponent', () => {
     });
 
   /**
-  * Testfall A4.3:UT6 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
+  * Testfall A4.3:UT8 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
   */
   it("should initialize all values correct after calling 'ngOnInit()'", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
