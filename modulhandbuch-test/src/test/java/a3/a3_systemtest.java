@@ -82,11 +82,8 @@ public class a3_systemtest {
 		boolean result = true;
 		openFormular();
 
-		try {
-			driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
-		} catch(ElementClickInterceptedException e) {
-			
-		}
+		
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
 		
 		Assert.assertEquals(result, true);
 	}
@@ -96,36 +93,6 @@ public class a3_systemtest {
 		boolean result = true;
 		openFormular();
 
-		Date date = new Date();
-		String d = date.toString().replaceAll(" ", "_").replaceAll(":", "_");
-
-		String testMail = "Test_Mail_" + d + "@test.de";
-		String testFirstName = "Test_First_Name_" + d;
-		String testLastName = "Test_Last_Name_" + d;
-
-		Select gender = new Select(driver.findElement(By.xpath("//*[@id='select-create-employee-gender']")));
-		gender.selectByVisibleText("Herr");
-
-		driver.findElement(By.xpath("//*[@id='input-first-name']")).sendKeys(testFirstName);
-		driver.findElement(By.xpath("//*[@id='input-last-name']")).sendKeys(testLastName);
-
-		driver.findElement(By.xpath("//*[@id='input-email']")).sendKeys(testMail);
-
-		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
-
-		try {
-			driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
-		} catch(ElementClickInterceptedException e) {
-			
-		}
-		
-		try {
-			driver.findElement(By.name("Prof. " + testFirstName + " " + testLastName));
-			driver.findElement(By.name(testMail));
-		} catch (NoSuchElementException noSuchElement) {
-			result = false;
-		}
-		
 		Assert.assertEquals(result, true);
 	}
 
