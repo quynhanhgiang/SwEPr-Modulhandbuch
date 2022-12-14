@@ -72,7 +72,7 @@ public class a3_systemtest {
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(
 			"jdbc:mariadb://85.214.225.164:3306/swepr_test",
-			"read_only_user", "sweprmodulhandbuch2022readonly"
+			"read_only_user_local_host", "car_tree_moon"
 		);
 		return connection;
 	}
@@ -81,8 +81,7 @@ public class a3_systemtest {
 	public void S_D_A1T01() {
 		boolean result = true;
 		openFormular();
-
-
+		
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
 		
 		Assert.assertEquals(result, true);
