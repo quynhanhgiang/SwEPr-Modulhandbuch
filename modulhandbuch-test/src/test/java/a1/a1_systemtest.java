@@ -76,7 +76,7 @@ public class a1_systemtest {
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(
 			"jdbc:mariadb://85.214.225.164:3306/swepr_test",
-			"read_only_user", "sweprmodulhandbuch2022readonly"
+			"read_only_user_local_host", "car_tree_moon"
 		);
 		return connection;
 	}
