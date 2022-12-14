@@ -183,7 +183,7 @@
           "semester": 1,
           "moduleType": "Pflichtfach",
           "admissionRequirement": "1",
-          "segment": "1. Abschnitt"
+          "segment": "1. Studienabschnitt"
         }
       ],
       "cycle": "Jährlich",
@@ -241,7 +241,7 @@
           "semester": 1,
           "moduleType": "Pflichtfach",
           "admissionRequirement": null,
-          "segment": "1. Abschnitt"
+          "segment": "1. Studienabschnitt"
         }
       ],
       "cycle": "Jährlich",

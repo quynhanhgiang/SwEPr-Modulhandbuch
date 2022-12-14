@@ -131,7 +131,7 @@ export class CreateModuleComponent implements OnInit {
   }
   
   updateModuleManual(id:number, i:number) {
-    this.restAPI.getModuleTypes(id).subscribe(resp => {
+      this.restAPI.getModuleTypes(id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
@@ -140,45 +140,8 @@ export class CreateModuleComponent implements OnInit {
     });
 
     this.restAPI.getSegments(id).subscribe(resp => {
-      for(let j=0;j<resp.length;i++){
-        this.segments[i]=resp;
-      }
+      this.segments[i]=resp    
     });
-
-    /** 
-    //delete when in dev
-    if(i==0){
-      this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
-    }else{
-      if(i==1){
-        this.moduleTypes[i]=["Wahlfach", "Pflichtfach"]
-      }else{
-        this.moduleTypes[i]=["Wahlfach"]
-      }
-    }
-
-    //delete when in dev
-    if(i==0){
-      this.segments[i]=["1. Abschnitt", "2. Abschnitt", "3. Abschnitt"]
-    }else{
-      if(i==1){
-        this.segments[i]=["1. Abschnitt", "4. Abschnitt"]
-      }else{
-        this.segments[i]=["1. Abschnitt"]
-      }
-    }
-
-    //delete when in dev
-    if(i==0){
-      this.admissionRequirements[i]=["1", "2", "3"]
-    }else{
-      if(i==1){
-        this.admissionRequirements[i]=["1", "4"]
-      }else{
-        this.admissionRequirements[i]=["100"]
-      }
-    }
-    */
   }
 
   get variations(){

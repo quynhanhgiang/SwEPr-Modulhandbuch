@@ -87,3 +87,23 @@ export const maternityProtections: string[] = [
     "Gelb",
     "Rot"
 ]
+
+export const segments: string[] = [
+  "1. Studienabschnitt",
+  "2. Studienabschnitt",
+  "3. Studienabschnitt"
+]
+
+export const requirements: string[] = [
+  "Zulassungsvorraussetzung nach §4 Abs. 1",
+  "Zulassungsvorraussetzung nach §4 Abs. 2",
+  "Zulassungsvorraussetzung nach §5 Abs. 1",
+  "Zulassungsvorraussetzung nach §5 Abs. 2"
+]
+
+export const types: string[] = [
+  "Wahlpflichtfach",
+  "Pflichtfach",
+  "Praktikum",
+  "Schlüsselqualifikation"
+]

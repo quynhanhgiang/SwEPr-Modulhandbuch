@@ -65,9 +65,11 @@ export class EditModuleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("init start")
     this.segments=[];
     this.moduleTypes=[];
     this.admissionRequirements=[];
+    this.profs = [];
 
     let id=0;
     this.routeSub = this.route.params.subscribe(params => {
@@ -151,18 +153,16 @@ export class EditModuleComponent implements OnInit {
           })
         );
         let id =module.variations[i].manual.id
-        if(id!=null)
-        this.updateModuleManual(id,i);
+        if(id!=null){
+          this.updateModuleManual(id,i);
+        }
       }
       this.rendered = true;
     });
+    console.log("init end")
   }
 
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
-  onSubmit(event: {submitter:any }): void {//create new Module with form data
+  onSubmit(): void {//create new Module with form data
     this.newModule = this.moduleFormGroup.value;
 
     if(this.newModule.profs.length<1){
@@ -171,8 +171,8 @@ export class EditModuleComponent implements OnInit {
     }
 
     for(let i=0;i<this.newModule.profs.length;i++){
-      for(let j=0;j<this.profs.length;i++){
-        if(this.newModule.profs[i].id=this.profs[j].id){
+      for(let j=0;j<this.profs.length;j++){
+        if(this.newModule.profs[i].id==this.profs[j].id){
           this.newModule.profs[i]=this.profs[j];
           break;
         }
@@ -181,16 +181,9 @@ export class EditModuleComponent implements OnInit {
 
     this.restAPI.updateModule(this.newModule).subscribe(resp => {
       console.log(resp);
+      this.hideDialog();
       this.onSuccessfulSubmission.emit(); 
     });
-    
-    this.hideDialog();
-    this.resetForm();
-    this.ngOnInit();
-
-    if(event.submitter.id=="bt-submit-new"){
-      this.showDialog();
-    }
   }
   
   updateModuleManual(id:number, i:number) {
@@ -203,44 +196,8 @@ export class EditModuleComponent implements OnInit {
     });
 
     this.restAPI.getSegments(id).subscribe(resp => {
-      for(let j=0;j<resp.length;i++){
-        this.segments[i]=resp;
-      }
+      this.segments[i]=resp    
     });
-    /** 
-    //delete when in dev
-    if(i==0){
-      this.moduleTypes[i]=["Wahlfach", "Pflichtfach", "Praktikum"]
-    }else{
-      if(i==1){
-        this.moduleTypes[i]=["Wahlfach", "Pflichtfach"]
-      }else{
-        this.moduleTypes[i]=["Wahlfach"]
-      }
-    }
-
-    //delete when in dev
-    if(i==0){
-      this.segments[i]=["1. Abschnitt", "2. Abschnitt", "3. Abschnitt"]
-    }else{
-      if(i==1){
-        this.segments[i]=["1. Abschnitt", "4. Abschnitt"]
-      }else{
-        this.segments[i]=["1. Abschnitt"]
-      }
-    }
-
-    //delete when in dev
-    if(i==0){
-      this.admissionRequirements[i]=["1", "2", "3"]
-    }else{
-      if(i==1){
-        this.admissionRequirements[i]=["1", "4"]
-      }else{
-        this.admissionRequirements[i]=["100"]
-      }
-    }
-    */
   }
 
   get variations(){
@@ -263,14 +220,10 @@ export class EditModuleComponent implements OnInit {
   }
 
   deleteVariation(index:number){
-    if(this.variations.length >1){
       this.variations.removeAt(index);
       this.moduleTypes.splice(index,1)//testing
       this.admissionRequirements.splice(index,1)//testing
       this.segments.splice(index,1)//Testing
-    }else{
-      window.alert("Es muss mindestens eine Variation vorhanden sein")
-    }
   }
 
   showDialog() {//make form visible
@@ -279,12 +232,6 @@ export class EditModuleComponent implements OnInit {
 
   hideDialog() {//hide form
     this.display = false;
-    this.moduleFormGroup.reset();
-    this.ngOnInit();
   }
 
-  resetForm(){
-    this.moduleFormGroup.reset();
-    this.ngOnInit();
-  }
 }
