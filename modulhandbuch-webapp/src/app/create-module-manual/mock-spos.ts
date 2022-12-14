@@ -81,4 +81,5 @@ export const spos: Spo[] = [
     course: "Automatisierungstechnik und Robotik",
     degree: "Bachelor"
   }
-]
+];
+

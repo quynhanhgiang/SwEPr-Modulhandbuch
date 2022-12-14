@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
@@ -12,6 +12,7 @@ import { Spo } from '../shared/spo';
   styleUrls: ['./edit-manual-general.component.scss']
 })
 export class EditManualGeneralComponent implements OnInit {
+  @Input() id: number = 0;
 
   manualFormGroup: FormGroup;
   spoFormGroup: FormGroup;
@@ -33,7 +34,7 @@ export class EditManualGeneralComponent implements OnInit {
   moduletypes: string[] = [];
   requirements: string[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private restAPI: RestApiService, private fb: FormBuilder) {
+  constructor(private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({
       id: [{value: ''}],
       link: [{value: '', disabled: true}],
@@ -51,12 +52,10 @@ export class EditManualGeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id = Number(this.activatedRoute.snapshot.parent!.paramMap.get("id"));
-
     this.restAPI.getSPOs().subscribe(spos => {
       this.spos = spos;
 
-      this.restAPI.getModuleManual(id).subscribe(manual => {
+      this.restAPI.getModuleManual(this.id).subscribe(manual => {
         this.moduleManual = manual;
         this.manualFormGroup.setValue(manual);
 
@@ -64,12 +63,12 @@ export class EditManualGeneralComponent implements OnInit {
       });
     });
 
-    this.restAPI.getModulePlanStatus(id).subscribe(status => this.modulePlanStatus = status);
-    this.restAPI.getPreliminaryNoteStatus(id).subscribe(status => this.preliminaryNoteStatus = status);
+    this.restAPI.getModulePlanStatus(this.id).subscribe(status => this.modulePlanStatus = status);
+    this.restAPI.getPreliminaryNoteStatus(this.id).subscribe(status => this.preliminaryNoteStatus = status);
 
-    this.restAPI.getSegments(id).subscribe(segments => this.studyphases = segments);
-    this.restAPI.getModuleTypes(id).subscribe(moduletypes => this.moduletypes = moduletypes);
-    this.restAPI.getRequirements(id).subscribe(requirements => this.requirements = requirements);
+    this.restAPI.getSegments(this.id).subscribe(segments => this.studyphases = segments);
+    this.restAPI.getModuleTypes(this.id).subscribe(moduletypes => this.moduletypes = moduletypes);
+    this.restAPI.getRequirements(this.id).subscribe(requirements => this.requirements = requirements);
   }
 
   /**

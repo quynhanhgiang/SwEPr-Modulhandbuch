@@ -7,7 +7,7 @@
     <h3>Zusatzinformationen für "{{variationToEdit.module.moduleName}}"</h3>
   </ng-template>
 
-  <form class="p-0" [formGroup]="variationFormGroup" (ngSubmit)="saveVariationChanges()" ngNativeValidate>
+  <form class="p-0" [formGroup]="variationFormGroup" (ngSubmit)="saveVariationChanges()" ngNativeValidate id="form-variation">
     <div class="card p-3 mt-2">
       <div class="row g-3">
 
@@ -31,19 +31,19 @@
         <div class="col-md-4">
           <label for="input-semester" class="form-label">Semester:</label>
           <input type="number" class="form-control" id="input-semester" formControlName="semester"
-           min="1" max="10" required />
+           min="1" max="7" required />
         </div>
 
         <div class="col-md-4">
           <label for="input-sws" class="form-label">SWS:</label>
           <input type="number" class="form-control" id="input-sws" formControlName="sws"
-           min="0" max="40" required />
+           min="1" max="40" required />
         </div>
 
         <div class="col-md-4">
           <label for="input-ects" class="form-label">ECTS:</label>
           <input type="number" class="form-control" id="input-ects" formControlName="ects"
-           min="0" max="30" required />
+           min="1" max="30" required />
         </div>
 
         <div class="col-md-12">
@@ -74,7 +74,7 @@
     </div>
 
     <div class="row justify-content-end p-3 pb-0">
-      <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
+      <button id="btn-save" class="btn btn-outline-secondary" type="submit">Speichern</button>
     </div>
   </form>
 </p-dialog>
@@ -113,7 +113,7 @@
         <div *ngIf="!manualVar.isAssigned; else assignedTemplate">
           <div *ngIf="!isValidVariation(manualVar); else validTemplate">
             <div class="d-flex justify-content-between p-1">
-              <button type="button" class="btn btn-outline-secondary btn-sm m-1" (click)="editManualVar(manualVar)">
+              <button type="button" class="btn-edit-unassigned btn btn-outline-secondary btn-sm m-1" (click)="editManualVar(manualVar)">
                 <i class="bi bi-input-cursor-text fs-6"></i>
                 Vervollständigen
               </button>
@@ -124,7 +124,7 @@
 
           <ng-template #validTemplate>
             <div class="d-flex justify-content-between p-1">
-              <button type="button" class="btn btn-outline-secondary btn-sm m-1" (click)="editManualVar(manualVar)">
+              <button type="button" class="btn-edit-unassigned btn btn-outline-secondary btn-sm m-1" (click)="editManualVar(manualVar)">
                 <i class="bi bi-pencil-square fs-6"></i>
                 Bearbeiten
               </button>
@@ -175,7 +175,7 @@
             </div>
 
             <div class="col-1">
-              <button type="button" class="btn p-0 w-100 text-primary" (click)="editManualVar(manualVar)">
+              <button type="button" class="btn-edit-assigned btn p-0 w-100 text-primary" (click)="editManualVar(manualVar)">
                 <i class="bi bi-pencil-square fs-5"></i>
               </button>
             </div>
@@ -187,7 +187,7 @@
   </p-pickList>
 
   <div class="row justify-content-end p-3">
-    <button id="bt-submit-end" class="btn btn-outline-secondary position-relative me-4" type="button"
+    <button id="btn-submit-end" class="btn btn-outline-secondary position-relative me-4" type="button"
       (click)="submit(false)">
       Speichern
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
@@ -196,7 +196,7 @@
       </span>
     </button>
 
-    <button id="bt-submit-close-end" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
+    <button id="btn-submit-close-end" class="btn btn-outline-secondary ms-4" type="button" (click)="submit(true)">
       Speichern & Schließen
     </button>
   </div>

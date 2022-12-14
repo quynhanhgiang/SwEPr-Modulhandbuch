@@ -1,6 +1,7 @@
-package de.hscoburg.modulhandbuchbackend.mappers;
+package de.hscoburg.modulhandbuchbackend.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import de.hscoburg.modulhandbuchbackend.converters.CollegeEmployeeEntityGenderStringConverter;
 import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityCycleStringConverter;
@@ -10,6 +11,7 @@ import de.hscoburg.modulhandbuchbackend.converters.ModuleEntityMaternityProtecti
 import de.hscoburg.modulhandbuchbackend.converters.SpoEntityDegreeStringConverter;
 import de.hscoburg.modulhandbuchbackend.converters.VariationEntityCategoryStringConverter;
 
+@Service
 public class ModulhandbuchBackendMapper extends ModelMapper {
 	
 	public ModulhandbuchBackendMapper() {

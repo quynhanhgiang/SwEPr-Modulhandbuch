@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
@@ -17,15 +17,13 @@ describe('CreateModuleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
       providers: [
         FormBuilder,
-        HttpClient,
-        HttpHandler
       ],
       declarations: [
         CreateModuleComponent
-      ]
+      ],
     })
     .compileComponents();
 
@@ -62,7 +60,7 @@ describe('CreateModuleComponent', () => {
   it("should add variation after calling 'addVariation()'and delete variation after calling 'deleteVAriation(i)", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
     component = fixture.componentInstance;
-    
+
     expect(component.variations.length).toBe(0);
 
     component.addVariation();
@@ -87,13 +85,13 @@ describe('CreateModuleComponent', () => {
       expect(component.variations.length).toBe(2);
 
       component.hideDialog();
-  
+
       expect(component.variations.length).toBe(1);
       expect(component.display).toBe(false);
       expect(component.selectedProfs.length).toBe(0);
       expect(component.moduleFormGroup.value.moduleName).toEqual(null)
     });
-  
+
   /**
   * Testfall A4.3:UT6 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
   */
@@ -105,7 +103,7 @@ describe('CreateModuleComponent', () => {
 
     const testModuleManuals: ModuleManual[] = moduleManuals;
     spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testModuleManuals));
-   
+
     const testEmplyees: CollegeEmployee[] = profs;
     spyOn(restApiService, 'getCollegeEmployees').and.returnValue(of(testEmplyees));
 
@@ -189,12 +187,12 @@ describe('CreateModuleComponent', () => {
       literature: "<p><span style=\color: rgb(0, 0, 0);\>T. Arens et al., „Mathematik“, Spektrum, Heidelberg, 2008 </span></p><p><span style=\color: rgb(51, 51, 51);\>G. Teschl, S. Teschl, „Mathematik für Informatiker“, Band 1 und 2, Springer Spektrum Berlin, Heidelberg, 2013</span></p><p><span style=\color: rgb(51, 51, 51);\>W. Struckmann, D. Wätjen, „Mathematik für Informatiker“, Springer Vieweg Berlin, Heidelberg, 2016</span></p><p><span style=\color: rgb(51, 51, 51);\>R. Berghammer, „Mathematik für Informatiker“, Springer Vieweg Wiesbaden, 2014</span></p><p>&nbsp;</p><p><span style=\color: rgb(51, 51, 51);\>E. Weitz, „Konkrete Mathematik (nicht nur) für Informatiker“, Springer Spektrum Wiesbaden, 2018</span></p><p>&nbsp;</p><p><span style=\color: rgb(0, 0, 0);\>O. Forster, „Analysis 1“, Vieweg, Wiesbaden, 2004</span></p>",
       maternityProtection: "Grün"
     });
-    
+
     spyOn(window, 'alert');
-    
+
     let btnSaveOpen = document.getElementById("#bt-submit-close") as HTMLButtonElement;
     let submit = new SubmitEvent("submit", { submitter: btnSaveOpen });
-    
+
     component.onSubmit(submit);
 
     expect(window.alert).toHaveBeenCalledWith('Es muss mindestens ein Dozent zugewiesen werden');

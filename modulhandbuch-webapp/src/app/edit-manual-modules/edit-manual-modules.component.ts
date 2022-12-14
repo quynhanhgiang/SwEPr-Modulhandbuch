@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {  Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
 import { ManualVariation } from '../shared/ManualVariation';
 import { ModuleManual } from '../shared/module-manual';
@@ -11,6 +11,7 @@ import { ModuleManual } from '../shared/module-manual';
   styleUrls: ['./edit-manual-modules.component.scss']
 })
 export class EditManualModulesComponent implements OnInit {
+  @Input() id: number = 0;
 
   editDialogVisible = false;
   submitSuccess: boolean = false;
@@ -27,35 +28,34 @@ export class EditManualModulesComponent implements OnInit {
   moduleTypes: string[] = [];
   requirements: string[] = [];
 
-  constructor(private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private restAPI: RestApiService) {
+  constructor(private fb: FormBuilder, private router: Router, private restAPI: RestApiService) {
     this.variationFormGroup = this.fb.group({
       module: {},
-      semester: new FormControl(''),
-      segment: new FormControl(''),
-      moduleType: new FormControl(''),
-      sws: new FormControl(''),
-      ects: new FormControl(''),
-      workLoad: new FormControl(''),
-      admissionRequirement: new FormControl(''),
+      semester: ['', [Validators.required, Validators.min(1), Validators.max(7)]],
+      segment: ['', [Validators.required]],
+      moduleType: ['', [Validators.required]],
+      sws: ['', [Validators.required, Validators.min(1), Validators.max(40)]],
+      ects: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
+      workLoad: ['', [Validators.required]],
+      admissionRequirement: ['', [Validators.required]],
       isAssigned: false
     });
   }
 
   ngOnInit(): void {
-    let id = Number(this.activatedRoute.snapshot.parent!.paramMap.get("id"));
 
-    this.restAPI.getModuleManual(id).subscribe(manual => {
+    this.restAPI.getModuleManual(this.id).subscribe(manual => {
       this.moduleManual = manual;
     });
 
-    this.restAPI.getModulesAssignableTo(id).subscribe(modules => {
+    this.restAPI.getModulesAssignableTo(this.id).subscribe(modules => {
       for (let mod of modules) {
         this.unassignedModules.push({
           module: mod,
           semester: null,
           sws: null,
           ects: null,
-          workLoad: "",
+          workLoad: null,
           moduleType: null,
           segment: null,
           admissionRequirement: null,
@@ -66,7 +66,7 @@ export class EditManualModulesComponent implements OnInit {
       this.unassignedModules.sort( this.compareVariations );
     });
 
-    this.restAPI.getAssignedModules(id).subscribe(modules => {
+    this.restAPI.getAssignedModules(this.id).subscribe(modules => {
       for(let mod of modules) {
         mod.isAssigned = true;
       }
@@ -75,9 +75,9 @@ export class EditManualModulesComponent implements OnInit {
       this.assignedModules.sort( this.compareVariations );
     });
 
-    this.restAPI.getSegments(id).subscribe(segments => {this.segments = segments});
-    this.restAPI.getModuleTypes(id).subscribe(types => {this.moduleTypes = types});
-    this.restAPI.getRequirements(id).subscribe(requirements => {this.requirements = requirements});
+    this.restAPI.getSegments(this.id).subscribe(segments => {this.segments = segments});
+    this.restAPI.getModuleTypes(this.id).subscribe(types => {this.moduleTypes = types});
+    this.restAPI.getRequirements(this.id).subscribe(requirements => {this.requirements = requirements});
   }
 
   /**
@@ -133,6 +133,10 @@ export class EditManualModulesComponent implements OnInit {
    * Save the changes made to the manualVariation and close the dialog.
    */
   saveVariationChanges() {
+    if (!this.variationFormGroup.valid) {
+      return;
+    }
+
     this.variationToEdit.semester = this.variationFormGroup.controls["semester"].value;
     this.variationToEdit.segment = this.variationFormGroup.controls["segment"].value;
     this.variationToEdit.moduleType = this.variationFormGroup.controls["moduleType"].value;
@@ -140,6 +144,7 @@ export class EditManualModulesComponent implements OnInit {
     this.variationToEdit.ects = this.variationFormGroup.controls["ects"].value;
     this.variationToEdit.workLoad = this.variationFormGroup.controls["workLoad"].value;
     this.variationToEdit.admissionRequirement = this.variationFormGroup.controls["admissionRequirement"].value;
+
     this.closeDialog();
   }
 
@@ -169,10 +174,7 @@ export class EditManualModulesComponent implements OnInit {
     if ( v1.module.moduleName + v1.module.moduleOwner < v2.module.moduleName + v2.module.moduleOwner ){
       return -1;
     }
-    if ( v1.module.moduleName + v1.module.moduleOwner > v2.module.moduleName + v2.module.moduleOwner){
-      return 1;
-    }
-    return 0;
+    return 1;
   }
 
   /**
@@ -181,13 +183,7 @@ export class EditManualModulesComponent implements OnInit {
    * @returns true, if valid, false otherwise
    */
   isValidVariation(manualVar: ManualVariation): boolean {
-    return  manualVar.semester != null && manualVar.semester > 0 && manualVar.semester < 10 &&
-            manualVar.sws != null && manualVar.sws > 0 && manualVar.sws < 30 &&
-            manualVar.ects != null && manualVar.ects > 0 && manualVar.ects < 100 &&
-            manualVar.moduleType != null &&
-            manualVar.segment != null &&
-            manualVar.workLoad != null &&
-            manualVar.admissionRequirement != null;
+    return Object.values(manualVar).every(val => val !== null);
   }
 }
 

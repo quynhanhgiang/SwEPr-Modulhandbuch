@@ -7,6 +7,7 @@ import { ModuleDetailComponent } from './module-detail/module-detail.component';
 import { EditManualComponent } from './edit-manual/edit-manual.component';
 import { EditManualGeneralComponent } from './edit-manual-general/edit-manual-general.component';
 import { EditManualModulesComponent } from './edit-manual-modules/edit-manual-modules.component';
+import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'user-management',
-    component: DummyComponent
+    component: GetCollegeEmployeesComponent
   },
   {
     path: 'manual-edit/:id',

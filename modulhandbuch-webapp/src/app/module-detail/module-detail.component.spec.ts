@@ -1,5 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
@@ -18,6 +19,7 @@ describe('ModuleDetailComponent', () => {
       providers:[
         HttpClient,
         HttpHandler,
+        FormBuilder,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -51,9 +53,9 @@ describe('ModuleDetailComponent', () => {
     component = fixture.componentInstance;
     const restApiService = TestBed.inject(RestApiService);
     const testData: Module = modules[1];
-    
+
     spyOn(restApiService, 'getModule').and.returnValue(of(testData));
-   
+
     component.ngOnInit();
 
     expect(component.id).toBe(1);

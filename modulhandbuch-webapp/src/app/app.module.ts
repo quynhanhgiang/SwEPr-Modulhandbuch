@@ -28,6 +28,8 @@ import { PickListModule } from 'primeng/picklist';
 
 import { RestApiService } from './services/rest-api.service';
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
+import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
+import { CreateCollegeEmployeeComponent } from './create-college-employee/create-college-employee.component';
 import { EditManualComponent } from './edit-manual/edit-manual.component';
 import { EditManualGeneralComponent } from './edit-manual-general/edit-manual-general.component';
 import { EditManualModulesComponent } from './edit-manual-modules/edit-manual-modules.component';
@@ -46,6 +48,8 @@ import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
     EditModuleComponent,
     SanitizeHtmlPipe,
     CreateModuleManualComponent,
+    GetCollegeEmployeesComponent,
+    CreateCollegeEmployeeComponent,
     EditManualComponent,
     EditManualGeneralComponent,
     EditManualModulesComponent,

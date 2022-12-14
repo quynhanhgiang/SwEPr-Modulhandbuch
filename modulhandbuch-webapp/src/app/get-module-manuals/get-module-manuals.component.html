@@ -1,6 +1,8 @@
 <div class="container pt-4 pb-4">
-    <app-create-module-manual></app-create-module-manual>
+    <app-create-module-manual (onSuccessfulSubmission)="ngOnInit()"></app-create-module-manual>
+
     <hr>
+
     <p-dataView #dv [value]="moduleManuals" [paginator]="true" [rows]="5" [sortField]="sortField" [sortOrder]="sortOrder"
     [emptyMessage]="emptyMessage" filterBy="spo.course">
 
