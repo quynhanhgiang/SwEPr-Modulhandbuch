@@ -10,6 +10,7 @@ import { Spo } from '../shared/spo';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { FileStatus } from '../shared/FileStatus';
 import { ManualVariation } from '../shared/ManualVariation';
+import { Assignment } from '../shared/Assignments';
 
 
 @Injectable({
@@ -213,8 +214,8 @@ export class RestApiService {
    * @param manualID ID of the target-manual
    * @returns Segments as string[]
    */
-  getSegments(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
+  getSegments(manualID: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -224,8 +225,8 @@ export class RestApiService {
    * @param segments the new segment-list as string[]
    * @returns Segments as string[]
    */
-  updateSegments(manualID: number, segments: string[]): Observable<string[]> {
-    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  updateSegments(manualID: number, segments: Assignment[]): Observable<Assignment[]> {
+    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/segments", JSON.stringify(segments), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
 
@@ -237,8 +238,8 @@ export class RestApiService {
    * @param manualID ID of the target-manual
    * @returns Module-types as string[]
    */
-  getModuleTypes(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
+  getModuleTypes(manualID: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -248,8 +249,8 @@ export class RestApiService {
    * @param moduleTypes the new module-type-list as string[]
    * @returns Module-types as string[]
    */
-  updateModuleTypes(manualID: number, moduleTypes: string[]): Observable<string[]> {
-    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  updateModuleTypes(manualID: number, moduleTypes: Assignment[]): Observable<Assignment[]> {
+    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types", JSON.stringify(moduleTypes), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
 
@@ -261,8 +262,8 @@ export class RestApiService {
    * @param manualID ID of the target-manual
    * @returns Requirements as string[]
    */
-  getRequirements(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements").pipe(retry(1), catchError(this.handleError));
+  getRequirements(manualID: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -272,8 +273,8 @@ export class RestApiService {
    * @param requirements the new requirements-list as string[]
    * @returns Requirements as string[]
    */
-  updateRequirements(manualID: number, requirements: string[]): Observable<string[]> {
-    return this.http.put<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements", JSON.stringify(requirements), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  updateRequirements(manualID: number, requirements: Assignment[]): Observable<Assignment[]> {
+    return this.http.put<Assignment[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements", JSON.stringify(requirements), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
 
