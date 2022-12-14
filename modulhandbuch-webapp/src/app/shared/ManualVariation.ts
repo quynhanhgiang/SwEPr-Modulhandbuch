@@ -8,7 +8,7 @@ export interface ManualVariation {
     semester: number | null,
     sws: number  | null,
     ects: number  | null,
-    workLoad: string,
+    workLoad: string | null,
     moduleType: string  | null,
     segment: string  | null,
     admissionRequirement: string  | null

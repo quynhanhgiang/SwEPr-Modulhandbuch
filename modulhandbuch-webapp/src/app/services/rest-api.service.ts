@@ -46,7 +46,7 @@ export class RestApiService {
    * @returns list of FlatModule-objects
    */
   getModulesOverview(): Observable<FlatModule[]> {
-    return this.http.get<FlatModule[]>( this.apiURL + (this.prod ?'/modules?flat=true' : '/flatModules')).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<FlatModule[]>( this.apiURL + '/modules?flat=true').pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -55,8 +55,7 @@ export class RestApiService {
    * @returns list of FlatModule-objects
    */
   getModulesAssignableTo(manualID: number): Observable<FlatModule[]> {
-    return this.http.get<FlatModule[]>( this.apiURL + (this.prod ?
-      '/modules?flat=true&not-in-manual=' + manualID : '/flatModules')).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<FlatModule[]>( this.apiURL + '/modules?flat=true&not-in-manual=' + manualID).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -192,8 +191,7 @@ export class RestApiService {
    * @returns the assigned modules as ManualVariation[]
    */
   getAssignedModules(manualID: number): Observable<ManualVariation[]> {
-    return this.http.get<ManualVariation[]>(this.apiURL + (this.prod ?
-      "/module-manuals/" + manualID + "/modules": '/assignedModules')).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -216,8 +214,7 @@ export class RestApiService {
    * @returns Segments as string[]
    */
   getSegments(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL +  (this.prod ?
-      '/module-manuals/' + manualID + "/segments": '/segments')).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/segments").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -241,8 +238,7 @@ export class RestApiService {
    * @returns Module-types as string[]
    */
   getModuleTypes(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + (this.prod ?
-      '/module-manuals/' + manualID + "/module-types": '/moduleTypes')).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/module-types").pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -266,8 +262,7 @@ export class RestApiService {
    * @returns Requirements as string[]
    */
   getRequirements(manualID: number): Observable<string[]> {
-    return this.http.get<string[]>(this.apiURL + (this.prod ?
-      '/module-manuals/' + manualID + "/requirements" : "/requirements")).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<string[]>(this.apiURL + '/module-manuals/' + manualID + "/requirements").pipe(retry(1), catchError(this.handleError));
   }
 
   /**

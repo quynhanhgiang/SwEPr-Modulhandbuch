@@ -42,6 +42,41 @@ export const assignableModules: FlatModule[] = [
 ]
 
 
+export const invalidManualVariations: ManualVariation[] = [
+  {
+    module: {
+      id: 6,
+      abbreviation: "CN",
+      moduleName: "Computernetze",
+      moduleOwner: "Prof. Dr. Thomas Wieland"
+    },
+    semester: null,
+    sws: 6,
+    ects: 30,
+    workLoad: "60h Präsenz, 90h Selbststudium",
+    moduleType: "Pflichtfach",
+    segment: "1. Studienabschnitt",
+    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    isAssigned: true
+  },
+  {
+    module: {
+      id: 7,
+      abbreviation: "ITS",
+      moduleName: "IT-Sicherheit",
+      moduleOwner: "Prof. Dr. Thomas Wieland"
+    },
+    semester: null,
+    sws: null,
+    ects: null,
+    workLoad: null,
+    moduleType: null,
+    segment: null,
+    admissionRequirement: null,
+    isAssigned: false
+  },
+];
+
 export const assignedModules: ManualVariation[] = [
   {
     module: {

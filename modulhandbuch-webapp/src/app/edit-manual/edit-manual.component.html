@@ -13,7 +13,9 @@
       </ul>
     </div>
 
-    <router-outlet></router-outlet>
+    <div *ngIf="idLoaded">
+      <router-outlet (activate)="$event.id = this.id;"></router-outlet>
+    </div>
 
     <div class="card-footer">
 
