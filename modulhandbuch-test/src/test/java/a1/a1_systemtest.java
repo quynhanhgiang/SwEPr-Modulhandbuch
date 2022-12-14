@@ -498,4 +498,98 @@ public class a1_systemtest {
 		
 		Assert.assertEquals(result, true);
 	}
+	
+	@Test
+	public void S_F_A1T19() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Florian");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Mittag");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Volkhard.Pfeiffer@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T20() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Volkhard");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Pfeiffer");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Florian.Mittag@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T21() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Volkhard");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Pfeiffer");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Florian.Mittag@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		Assert.assertEquals(result, true);
+	}
 }
