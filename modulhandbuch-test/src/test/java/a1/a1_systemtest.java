@@ -76,7 +76,7 @@ public class a1_systemtest {
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(
 			"jdbc:mariadb://85.214.225.164:3306/swepr_test",
-			"read_only_user_local_host", "car_tree_moon"
+			"read_only_user", "sweprmodulhandbuch2022readonly"
 		);
 		return connection;
 	}
@@ -307,7 +307,7 @@ public class a1_systemtest {
 			}
 			andere.findElement(By.xpath("//option[@value='Herr']"));
 			andere.findElement(By.xpath("//option[@value='Frau']"));
-			andere.findElement(By.xpath("//option[@value='Diverse']"));
+			andere.findElement(By.xpath("//option[@value='Divers']"));
 
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
