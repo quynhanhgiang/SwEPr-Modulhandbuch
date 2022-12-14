@@ -1,4 +1,3 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -9,6 +8,7 @@ import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
 import { EditModuleComponent } from './edit-module.component';
 import { types, segments, requirements, cycles, durations, languages, maternityProtections, moduleManuals, profs, module } from './mock-objects';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('EditModuleComponent', () => {
   let component: EditModuleComponent;
@@ -53,7 +53,16 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT3 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
+  * Testfall A4.3:UT3 Testen, ob Formular nach Aufrufen von 'showDialog()'
+  */
+    it("should set 'display' on true after calling 'showDialog()'", () => {
+      expect(component.display).toEqual(false);
+      component.showDialog();
+      expect(component.display).toBe(true);
+    });
+
+  /**
+  * Testfall A4.3:UT4 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
   */
   it("should get correct values after calling 'updateModuleManual(id,i)'", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
@@ -224,15 +233,78 @@ describe('EditModuleComponent', () => {
       gender: "Sehr geehrter",
       email: "Volkhard.Pfeiffer@hs-coburg.de"
     }
-  ]
+  ]  
 
   const restApiService = TestBed.inject(RestApiService);
 
-  const testModule= component.moduleFormGroup.value ;
+  const testModule = component.moduleFormGroup.value ;
   spyOn(restApiService, 'updateModule').and.returnValue(of(testModule));
 
   component.onSubmit();
+  expect(component.display).toBe(false);
+  });
 
-});
- 
+  /**
+  * Testfall A4.3:UT6 Testen, ob Variationen hinzugefügt und gelöscht werden können
+  */
+    it("should add variation after calling 'addVariation()'and delete variation after calling 'deleteVAriation(i)", () => {
+      fixture = TestBed.createComponent(EditModuleComponent);
+      component = fixture.componentInstance;
+      
+      expect(component.variations.length).toBe(0);
+  
+      component.addVariation();
+      component.addVariation();
+  
+      expect(component.variations.length).toBe(2);
+  
+      component.deleteVariation(component.variations.length-1);
+  
+      expect(component.variations.length).toBe(1);
+    });
+
+  /**
+  * Testfall A4.3:UT6 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
+  */
+  it("should initialize all values correct after calling 'ngOnInit()'", () => {
+    fixture = TestBed.createComponent(EditModuleComponent);
+    component = fixture.componentInstance;
+
+    const restApiService = TestBed.inject(RestApiService);
+
+    const testModuleManuals: ModuleManual[] = moduleManuals;
+    spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testModuleManuals));
+   
+    const testEmplyees: CollegeEmployee[] = profs;
+    spyOn(restApiService, 'getCollegeEmployees').and.returnValue(of(testEmplyees));
+
+    const testCycles:string[] = cycles;
+    spyOn(restApiService, 'getCycles').and.returnValue(of(testCycles));
+
+    const testDurations: string[] = durations;
+    spyOn(restApiService, 'getDurations').and.returnValue(of(testDurations));
+
+    const testLanguages: string[] = languages;
+    spyOn(restApiService, 'getLanguages').and.returnValue(of(testLanguages));
+
+    const testMaternityProtections: string[] = maternityProtections;
+    spyOn(restApiService, 'getMaternityProtections').and.returnValue(of(testMaternityProtections));
+
+    const testModule: Module = module;
+    spyOn(restApiService, 'getModule').and.returnValue(of(testModule));
+
+    const testTypes: string[] = types;
+    spyOn(restApiService, 'getModuleTypes').and.returnValue(of(testTypes));
+
+    const testSegments: string[] = segments;
+    spyOn(restApiService, 'getSegments').and.returnValue(of(testSegments));
+
+    const testRequirements: string[] = requirements;
+    spyOn(restApiService, 'getRequirements').and.returnValue(of(testRequirements));
+
+    component.ngOnInit();
+
+    expect(component.moduleFormGroup.value.id).toBe(testModule.id);
+    expect(component.selectedProfs.length).toBe(testModule.profs.length);
+  });
 });

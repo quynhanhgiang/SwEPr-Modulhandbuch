@@ -181,8 +181,8 @@ export class EditModuleComponent implements OnInit {
 
     this.restAPI.updateModule(this.newModule).subscribe(resp => {
       console.log(resp);
+      this.hideDialog();
       this.onSuccessfulSubmission.emit(); 
-      window.location.reload();
     });
   }
   
@@ -220,14 +220,10 @@ export class EditModuleComponent implements OnInit {
   }
 
   deleteVariation(index:number){
-    if(this.variations.length >1){
       this.variations.removeAt(index);
       this.moduleTypes.splice(index,1)//testing
       this.admissionRequirements.splice(index,1)//testing
       this.segments.splice(index,1)//Testing
-    }else{
-      window.alert("Es muss mindestens eine Variation vorhanden sein")
-    }
   }
 
   showDialog() {//make form visible
