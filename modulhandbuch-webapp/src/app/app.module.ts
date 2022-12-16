@@ -24,9 +24,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
-import { PickListModule } from 'primeng/picklist';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
+
+import {ConfirmationService} from 'primeng/api';
 import { RestApiService } from './services/rest-api.service';
+
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
 import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 import { CreateCollegeEmployeeComponent } from './create-college-employee/create-college-employee.component';
@@ -69,11 +72,12 @@ import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
     DropdownModule,
     DataViewModule,
     InputTextModule,
-    PickListModule
+    ConfirmDialogModule,
   ],
   providers: [
     FilterService,
     RestApiService,
+    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })

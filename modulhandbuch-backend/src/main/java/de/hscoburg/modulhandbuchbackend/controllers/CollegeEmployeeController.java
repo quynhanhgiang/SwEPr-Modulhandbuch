@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.CollegeEmployeeDTO;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.exceptions.EmailAlreadyBoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,10 @@ public class CollegeEmployeeController {
 		}
 
 		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);
+
+		if (this.collegeEmployeeRepository.findByEmail(collegeEmployeeEntity.getEmail()).size() > 0) {
+			throw new EmailAlreadyBoundException(collegeEmployeeEntity.getEmail(), String.join(" ", collegeEmployeeEntity.getFirstName(), collegeEmployeeEntity.getLastName()));
+		}
 
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.save(collegeEmployeeEntity);
     return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
