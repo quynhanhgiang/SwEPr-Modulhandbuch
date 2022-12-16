@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
 import { RestApiService } from '../services/rest-api.service';
 import { ModuleManual } from '../shared/module-manual';
-import { moduleManuals } from './mock-module-manuals';
 
 @Component({
   selector: 'app-get-module-manuals',

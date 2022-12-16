@@ -15,6 +15,9 @@ describe('RestApiService', () => {
     service = TestBed.inject(RestApiService);
   });
 
+  /**
+   * S1:UT1 Testen, ob Komponente erzeugt wird.
+   */
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

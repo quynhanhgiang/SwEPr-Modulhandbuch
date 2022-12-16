@@ -5,7 +5,8 @@
 </button>
 
 <!-- pop-up-dialog for form -->
-<p-dialog [(visible)]="dialogVisible" [transitionOptions]="'150ms'" (onHide)="spoFormGroup.enable(); resetForm()">
+<p-dialog [(visible)]="dialogVisible" [transitionOptions]="'150ms'" [style]="{minWidth: '50vw', maxWidth: '66vw'}" [modal]="true"
+(onHide)="spoFormGroup.enable(); resetForm()">
 
   <!-- dialog-header -->
   <ng-template pTemplate="header">
@@ -117,12 +118,12 @@
       </div>
       <div class="col">
         <button id="bt-submit-open" class="btn btn-outline-secondary" type="submit">
-          Speichern und öffnen
+          Speichern und Öffnen
         </button>
       </div>
       <div class="col">
         <button id="bt-submit-new" class="btn btn-outline-secondary" type="submit">
-          Speichern und Neu
+          Speichern und Zurücksetzen
         </button>
       </div>
     </div>

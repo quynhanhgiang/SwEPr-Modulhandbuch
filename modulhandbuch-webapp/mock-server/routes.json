@@ -1,0 +1,8 @@
+{
+    "/modules?flat=true*": "/flatModules",
+    "/module-manuals/:id/modules": "/assignedModules",
+    "/module-manuals/:id/segments": "/segments",
+    "/module-manuals/:id/module-types": "/moduleTypes",
+    "/module-manuals/:id/requirements": "/requirements"
+
+}

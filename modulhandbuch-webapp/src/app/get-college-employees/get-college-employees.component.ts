@@ -15,11 +15,6 @@ export class GetCollegeEmployeesComponent implements OnInit {
   displayEmployees:displayCollegeEmployee[]=[];
   message:string ="Mitarbeiter werden geladen...";
 
-  sortOptions!: SelectItem[];
-  sortKey: string = "";
-  sortField: string = "";
-  sortOrder: number = 1;
-
   constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
@@ -41,9 +36,5 @@ export class GetCollegeEmployeesComponent implements OnInit {
       }
     });
 
-    this.sortOptions = [
-      {label: 'Name aufsteigend', value: 'displayEmployee.name'},
-      {label: 'Name absteigend', value: '!displayEmployee.name'}
-    ];
   }
 }

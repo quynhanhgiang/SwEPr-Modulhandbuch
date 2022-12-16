@@ -23,8 +23,9 @@ import { EditorModule } from 'primeng/editor';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
-import {InputTextModule} from 'primeng/inputtext';
+import { InputTextModule } from 'primeng/inputtext';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {PickListModule} from 'primeng/picklist';
 
 import {ConfirmationService} from 'primeng/api';
 import { RestApiService } from './services/rest-api.service';
@@ -32,6 +33,10 @@ import { RestApiService } from './services/rest-api.service';
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
 import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 import { CreateCollegeEmployeeComponent } from './create-college-employee/create-college-employee.component';
+import { EditManualComponent } from './edit-manual/edit-manual.component';
+import { EditManualGeneralComponent } from './edit-manual-general/edit-manual-general.component';
+import { EditManualModulesComponent } from './edit-manual-modules/edit-manual-modules.component';
+import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,10 @@ import { CreateCollegeEmployeeComponent } from './create-college-employee/create
     CreateModuleManualComponent,
     GetCollegeEmployeesComponent,
     CreateCollegeEmployeeComponent,
+    EditManualComponent,
+    EditManualGeneralComponent,
+    EditManualModulesComponent,
+    DynamicListComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +73,7 @@ import { CreateCollegeEmployeeComponent } from './create-college-employee/create
     DataViewModule,
     InputTextModule,
     ConfirmDialogModule,
+    PickListModule
   ],
   providers: [
     FilterService,

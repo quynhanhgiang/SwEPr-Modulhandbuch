@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
-import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -33,7 +33,7 @@ public class ModuleController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
 	private final SpoRepository spoRepository;
 	private final VariationRepository variationRepository;
-	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper();
+	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
 	// TODO better return type?
 	@GetMapping("")

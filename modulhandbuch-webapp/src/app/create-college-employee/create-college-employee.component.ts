@@ -45,7 +45,11 @@ export class CreateCollegeEmployeeComponent implements OnInit {
 
   onSubmit(): void {//create new Module with form data
 
+
     this.newCollegeEmployee = this.employeeFormGroup.value;
+    if(this.newCollegeEmployee.title==null){
+      this.newCollegeEmployee.title="";
+    }
 
     for(let employee of this.employees){
       if(employee.email==this.newCollegeEmployee.email){
@@ -55,7 +59,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
     }
 
     for(let employee of this.employees){
-      if(employee.firstName+this.newCollegeEmployee.lastName==employee.firstName+employee.lastName&&this.doubleName==false){
+      if(employee.firstName+employee.lastName==this.newCollegeEmployee.firstName+this.newCollegeEmployee.lastName&&this.doubleName==false){
         this.confirm();
         return;
       }
@@ -83,6 +87,7 @@ export class CreateCollegeEmployeeComponent implements OnInit {
     this.title="";
     this.hideDialog();
     this.resetForm();
+    this.ngOnInit();
   }
 
   confirm(): void{
@@ -95,7 +100,6 @@ export class CreateCollegeEmployeeComponent implements OnInit {
     this.doubleName = true;
     this.confirmationService.close();
     this.onSubmit();
-    
   }
 
   reject(){

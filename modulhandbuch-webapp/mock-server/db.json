@@ -1,4 +1,83 @@
 {
+  "moduleTypes": [
+    "Wahlpflichtfach",
+    "Pflichtfach",
+    "Praktikum",
+    "Schlüsselqualifikation"
+  ],
+  "requirements": [
+    "Zulassungsvorraussetzung nach §4 Abs. 1",
+    "Zulassungsvorraussetzung nach §4 Abs. 2",
+    "Zulassungsvorraussetzung nach §5 Abs. 1",
+    "Zulassungsvorraussetzung nach §5 Abs. 2"
+  ],
+  "segments": [
+    "1. Studienabschnitt",
+    "2. Studienabschnitt",
+    "3. Studienabschnitt"
+  ],
+  "assignedModules": [
+    {
+      "module": {
+        "id": 13,
+        "abbreviation": "Eng",
+        "moduleName": "English",
+        "moduleOwner": "Richard Fry"
+      },
+      "semester": 1,
+      "sws": 4,
+      "ects": 20,
+      "workLoad": "<p><ul><li>40h Präsenz,</li> <li>60h Selbststudium</li></ul></p>",
+      "moduleType": "Pflichtfach",
+      "segment": "1. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 12,
+        "abbreviation": "MathVC",
+        "moduleName": "Mathematik für Visual Computing",
+        "moduleOwner": "Prof. Dr. Thomas Wieland"
+      },
+      "semester": 4,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "2. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 11,
+        "abbreviation": "BiVa1",
+        "moduleName": "Bildverarbeitung 1",
+        "moduleOwner": "Prof. Dr. Tilo Strutz"
+      },
+      "semester": 7,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "3. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    },
+    {
+      "module": {
+        "id": 10,
+        "abbreviation": "SwEPr",
+        "moduleName": "Software Engineering Projekt",
+        "moduleOwner": "Prof. Dr. Dieter Landes"
+      },
+      "semester": 7,
+      "sws": 6,
+      "ects": 30,
+      "workLoad": "60h Präsenz, 90h Selbststudium",
+      "moduleType": "Wahlpflichtfach",
+      "segment": "3. Studienabschnitt",
+      "admissionRequirement": "Zulassungsvorraussetzung nach §xy Abs. z"
+    }
+  ],
   "flatModules": [
     {
       "id": 0,
@@ -86,220 +165,141 @@
       "abbreviation": "Ana",
       "variations": [
         {
-          "spo": {
-            "id": 5,
-            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
-            "startDate": "22.07.2009",
-            "endDate": "-",
-            "course": "IF Bachelor"
+          "manual": {
+            "id": 1,
+            "semester": "Wintersemester 2022/2023",
+            "spo": {
+              "id": 1,
+              "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
+              "degree": "Bachelor",
+              "course": "Informatik",
+              "startDate": "2020-10-01",
+              "endDate": null
+            }
           },
-          "semester": 1,
-          "sws": 6,
           "ects": 7,
-          "workLoad": "90h Präsenz, 120 Eigenarbeit",
-          "category": "Pflichtfach"
-        }
-      ],
-      "cycle": "jährlich",
-      "duration": "einsemestrig",
-      "moduleOwner": {
-        "id": 3,
-        "firstName": "Ada",
-        "lastName": "Bäumner",
-        "title": "Prof. Dr",
-        "gender": "Sehr geehrte",
-        "email": "Ada.Baeumner@hs-coburg.de"
-      },
-      "profs": [
-        {
-          "id": 3,
-          "firstName": "Ada",
-          "lastName": "Bäumner",
-          "title": "Prof. Dr",
-          "gender": "Sehr geehrte",
-          "email": "Ada.Baeumner@hs-coburg.de"
-        }
-      ],
-      "language": "Deutsch",
-      "usage": "-",
-      "admissionRequirements": "-",
-      "knowledgeRequirements": "-",
-      "skills": "Studierende sollen wesentliche Grundlagen der Analysis bis hin zur Differentialrechnung kennen und anwenden können.",
-      "content": "Logik, Mengenlehre, Vollständige Induktion, Kombinatorik, rationale und reelle Zahlen, komplexe Zahlen, Folgen und Grenzwerte, Reihen, Funktionen und Stetigkeit,Differenzierbarkeit, Sätze der Differenzialrechnung Extremwerte, Taylorentwicklung",
-      "examType": "Schriftliche Prüfung (120 Minuten)",
-      "certificates": "-",
-      "mediaType": "Tafel, Skript",
-      "literature": "T. Arens et al., „Mathematik“, Spektrum, Heidelberg, 2008\nG. Teschl, S. Teschl, „Mathematik für Informatiker“, Band 1 und 2, Springer Spektrum Berlin, Heidelberg, 2013\nW. Struckmann, D. Wätjen, „Mathematik für Informatiker“, Springer Vieweg Berlin, Heidelberg, 2016\nR. Berghammer, „Mathematik für Informatiker“, Springer Vieweg Wiesbaden, 2014\nE. Weitz, „Konkrete Mathematik (nicht nur) für Informatiker“, Springer Spektrum Wiesbaden, 2018\nO. Forster, „Analysis 1“, Vieweg, Wiesbaden, 2004",
-      "maternityProtection": "Grün"
-    },
-    {
-      "id": 1,
-      "moduleName": "Programmieren 1",
-      "abbreviation": "Prog1",
-      "variations": [
-        {
-          "spo": {
-            "id": 5,
-            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
-            "startDate": "22.07.2009",
-            "endDate": "-",
-            "course": "IF Bachelor"
-          },
-          "semester": 1,
-          "sws": 4,
-          "ects": 5,
-          "workLoad": "60h Präsenz, 90h Eigenarbeit",
-          "category": "Pflichtfach"
-        }
-      ],
-      "cycle": "jährlich",
-      "duration": "einsemestrig",
-      "moduleOwner": {
-        "id": 2,
-        "firstName": "Volkard",
-        "lastName": "Pfeiffer",
-        "title": "Prof.",
-        "gender": "Sehr geehrter",
-        "email": "Volkard.Pfeiffer@hs-coburg.de"
-      },
-      "profs": [
-        {
-          "id": 2,
-          "firstName": "Volkard",
-          "lastName": "Pfeiffer",
-          "title": "Prof.",
-          "gender": "Sehr geehrter",
-          "email": "Volkard.Pfeiffer@hs-coburg.de"
-        }
-      ],
-      "language": "Deutsch",
-      "usage": "Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik\nBachelor Visual Computing",
-      "admissionRequirements": "-",
-      "knowledgeRequirements": "-",
-      "skills": "Fachlich-methodische Kompetenzen:\nStudierende sollen\n\t• die zentralen Konzepte von Programmiersprachen(z.B. Variablen, Prozeduren, Kontrollstrukturen, Zeiger) kennen, verstehen und auf Problemstellungen anwenden können\n\t• die Grundlagen der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können",
-      "content": "Einführung, Datentypen und Ausdrücke, Kontrollstrukturen, Arrays und Zeiger, Prozedurale Programmierung, Rekursion, Objektorientierte Programmierung – Teil 1, Strings, Exception Handling",
-      "examType": "Schriftliche Prüfung (120 Minuten) als computergestützte Präsenzprüfung",
-      "certificates": "-",
-      "mediaType": "Beamer, Tafel, Overheadprojektor, E-Learning Medien",
-      "literature": "Ullenboom, Christian \"Java ist auch eine Insel\" Galileo Computing jeweils in der neusten Auflage\nKrüger, Guido \"Handbuch der Java Programmierung\"\nAddison Wesley jeweils in der neusten Auflage\nKathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage\nSchiedermeier R. \"Programmieren mit Java\" Pearson Studium jeweils in der neusten Auflage ",
-      "maternityProtection": "Grün"
-    },
-    {
-      "id": 2,
-      "moduleName": "Programmieren 2",
-      "abbreviation": "Prog2",
-      "variations": [
-        {
-          "spo": {
-            "id": 5,
-            "link": "https://www.hs-coburg.de/fileadmin/hscoburg/Amtsblatt/2009/10_SPO_B_IF_2.pdf",
-            "startDate": "22.07.2009",
-            "endDate": "-",
-            "course": "IF Bachelor"
-          },
-          "semester": 2,
           "sws": 6,
-          "ects": 7,
-          "workLoad": "90h Präsenz, 120 Eigenarbeit",
-          "category": "Pflichtfach"
+          "workLoad": "<p><span style=\"color: rgb(0, 0, 0);\">90 h Präsenz (Seminaristischer Unterricht mit integrierten Übungen)</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">120 h Eigenarbeit (40 h Nachbereitung des Lehrstoffs, 30 h Bearbeitung von Übungsaufgaben, 50 h Prüfungsvorbereitung)</span></p>",
+          "semester": 1,
+          "moduleType": "Pflichtfach",
+          "admissionRequirement": "1",
+          "segment": "1. Studienabschnitt"
         }
       ],
-      "cycle": "jährlich",
-      "duration": "einsemestrig",
-      "moduleOwner": {
-        "id": 2,
-        "firstName": "Volkard",
-        "lastName": "Pfeiffer",
-        "title": "Prof.",
-        "gender": "Sehr geehrter",
-        "email": "Volkard.Pfeiffer@hs-coburg.de"
-      },
-      "profs": [
-        {
-          "id": 2,
-          "firstName": "Volkard",
-          "lastName": "Pfeiffer",
-          "title": "Prof.",
-          "gender": "Sehr geehrter",
-          "email": "Volkard.Pfeiffer@hs-coburg.de"
-        }
-      ],
-      "language": "Deutsch",
-      "usage": "Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik\nBachelor Visual Computing",
-      "admissionRequirements": "-",
-      "knowledgeRequirements": "Grundlagen der imperativen Programmierung",
-      "skills": "Fachlich-methodische Kompetenzen:\nStudierende sollen\n\t• weiterführende Konzepte der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können,\n\t• die Grundlagen der Programmierung von Bedienoberflächen und Ein/Ausgabe-Handling kennen, verstehen und auf Problemstellungen anwenden können,\n\t• verschiedene Datenstrukturen kennen, verstehen und anwenden können,\n\t• die Grundlagen der funktionalen Programmierung im Rahmen einer objekt-funktionalen Sprache kennen,verstehen und anwenden können",
-      "content": "Objektorientierte Programmierung - Vertiefung, Collection Datenstrukturen, Utility Klassen, Generics, Lambda und Streams, Graphik 2D Grundlagen, User Interface Komponenten, Swing / Java FX Komponenten, I/O - Ein- und Ausgabe",
-      "examType": "Schriftliche Prüfung (90 min)",
-      "certificates": "-",
-      "mediaType": "Beamer, Tafel, Overheadprojektor, E-Learning Medien",
-      "literature": "Ullenboom, Christian \"Java ist auch eine Insel\" Galileo Computing jeweils in der neusten Auflage\nKrüger, Guido \"Handbuch der Java Programmierung\"\nAddison Wesley jeweils in der neusten Auflage\nKathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage\nSchiedermeier R. \"Programmieren mit Java\" Pearson Studium jeweils in der neusten Auflage ",
-      "maternityProtection": "Grün"
-    },
-    {
-      "id": 3,
-      "moduleName": "Alol",
-      "abbreviation": "Al",
-      "variations": [
-        {
-          "spo": "",
-          "ects": 2,
-          "sws": 1,
-          "workLoad": "<p>3</p>",
-          "semester": 7,
-          "category": "Jährlich"
-        }
-      ],
-      "cycle": "Halbjärlich",
+      "cycle": "Jährlich",
       "duration": "Einsemestrig",
-      "moduleOwner": null,
-      "prof": [
+      "moduleOwner": {
+        "id": 2,
+        "firstName": "Volkard",
+        "lastName": "Pfeiffer",
+        "title": "Prof.",
+        "gender": "Sehr geehrter",
+        "email": "Volkard.Pfeiffer@hs-coburg.de"
+      },
+      "profs": [
         {
           "id": 1,
           "firstName": "Dieter",
           "lastName": "Landes",
           "title": "Prof. Dr.",
-          "gender": "Herr",
-          "email": "dieter.landes@hs-coburg.de"
+          "gender": "Sehr geehrter",
+          "email": "Dieter.Landes@hs-coburg.de"
         }
       ],
-      "language": "english",
-      "usage": "test",
-      "admissionRequirements": "Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)",
-      "knowledgeRequirements": "test",
-      "skills": "<p>tesrt</p>",
-      "content": "<p>testr</p>",
-      "examType": "test",
-      "certificates": "test",
-      "mediaType": "test",
-      "literature": "<p>test</p>",
-      "maternityProtection": "g"
+      "language": "Deutsch",
+      "usage": null,
+      "knowledgeRequirements": "",
+      "skills": "<p><span style=\"color: rgb(0, 0, 0);\">Studierende sollen wesentliche Grundlagen der Analysis bis hin zur Differentialrechnung kennen und anwenden können.</span></p>",
+      "content": "<p><span style=\"color: rgb(0, 0, 0);\">Logik, Mengenlehre, Vollständige Induktion, Kombinatorik, rationale und reelle Zahlen, komplexe Zahlen, Folgen und Grenzwerte, Reihen, Funktionen und Stetigkeit, Differenzierbarkeit, Sätze der Differenzialrechnung Extremwerte, Taylorentwicklung</span></p>",
+      "examType": "Schriftliche Prüfung (120 Minuten)",
+      "certificates": null,
+      "mediaType": "Tafel, Skript",
+      "literature": "<p><span style=\"color: rgb(0, 0, 0);\">T. Arens et al., „Mathematik“, Spektrum, Heidelberg, 2008 </span></p><p><span style=\"color: rgb(51, 51, 51);\">G. Teschl, S. Teschl, „Mathematik für Informatiker“, Band 1 und 2, Springer Spektrum Berlin, Heidelberg, 2013</span></p><p><span style=\"color: rgb(51, 51, 51);\">W. Struckmann, D. Wätjen, „Mathematik für Informatiker“, Springer Vieweg Berlin, Heidelberg, 2016</span></p><p><span style=\"color: rgb(51, 51, 51);\">R. Berghammer, „Mathematik für Informatiker“, Springer Vieweg Wiesbaden, 2014</span></p><p>&nbsp;</p><p><span style=\"color: rgb(51, 51, 51);\">E. Weitz, „Konkrete Mathematik (nicht nur) für Informatiker“, Springer Spektrum Wiesbaden, 2018</span></p><p>&nbsp;</p><p><span style=\"color: rgb(0, 0, 0);\">O. Forster, „Analysis 1“, Vieweg, Wiesbaden, 2004</span></p>",
+      "maternityProtection": "Grün"
+    },
+    {
+      "id": 1,
+      "moduleName": "Programmieren 1",
+      "abbreviation": "prog1",
+      "variations": [
+        {
+          "manual": {
+            "id": 1,
+            "semester": "Wintersemester 2022/2023",
+            "spo": {
+              "id": 1,
+              "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
+              "degree": "Bachelor",
+              "course": "Informatik",
+              "startDate": "2020-10-01",
+              "endDate": null
+            }
+          },
+          "ects": 5,
+          "sws": 4,
+          "workLoad": "<p><span style=\"color: rgb(0, 0, 0);\">150 h,&nbsp;davon </span></p><ul><li><span style=\"color: rgb(0, 0, 0);\">60 h Präsenz (30 h Seminaristischer Unterricht, 30 h Übung)</span></li><li><span style=\"color: rgb(0, 0, 0);\">90 h Eigenarbeit (30h Vor- und Nachbereitung des Lehrstoffs, 30h Lösung&nbsp;von Übungsaufgaben, 30h Prüfungsvorbereitung)</span></li></ul>",
+          "semester": 1,
+          "moduleType": "Pflichtfach",
+          "admissionRequirement": null,
+          "segment": "1. Studienabschnitt"
+        }
+      ],
+      "cycle": "Jährlich",
+      "duration": "Einsemestrig",
+      "moduleOwner": {
+        "id": 2,
+        "firstName": "Volkard",
+        "lastName": "Pfeiffer",
+        "title": "Prof.",
+        "gender": "Sehr geehrter",
+        "email": "Volkard.Pfeiffer@hs-coburg.de"
+      },
+      "profs": [
+        {
+          "id": 2,
+          "firstName": "Volkard",
+          "lastName": "Pfeiffer",
+          "title": "Prof.",
+          "gender": "Sehr geehrter",
+          "email": "Volkard.Pfeiffer@hs-coburg.de"
+        }
+      ],
+      "language": "Deutsch",
+      "usage": "Betriebswirtschaft – Schwerpunkt Wirtschaftsinformatik Bachelor Visual Computing",
+      "knowledgeRequirements": "",
+      "skills": "<p><span style=\"color: rgb(0, 0, 0);\">Fachlich-methodische Kompetenzen:</span></p><p><span style=\"color: rgb(0, 0, 0);\">Studierende sollen </span></p><ul><li><span style=\"color: rgb(0, 0, 0);\">die zentralen Konzepte von Programmiersprachen (z.B. Variablen, Prozeduren, Kontrollstrukturen, Zeiger) kennen, verstehen und auf Problemstellungen anwenden können</span></li><li><span style=\"color: rgb(0, 0, 0);\">die Grundlagen der objektorientierten Programmierung kennen, verstehen und auf Problemstellungen anwenden können</span></li></ul>",
+      "content": "<ul><li><span style=\"color: rgb(0, 0, 0);\">Einführung </span></li><li><span style=\"color: rgb(0, 0, 0);\">Datentypen und Ausdrücke </span></li><li><span style=\"color: rgb(0, 0, 0);\">Kontrollstrukturen </span></li><li><span style=\"color: rgb(0, 0, 0);\">Arrays und Zeiger </span></li><li><span style=\"color: rgb(0, 0, 0);\">Prozedurale Programmierung&nbsp;</span></li><li><span style=\"color: rgb(0, 0, 0);\">Rekursion</span></li><li><span style=\"color: rgb(0, 0, 0);\">Objektorientierte Programmierung – Teil 1</span></li><li><span style=\"color: rgb(0, 0, 0);\">Strings </span></li><li><span style=\"color: rgb(0, 0, 0);\">Exception Handling</span></li></ul>",
+      "examType": "Schriftliche Prüfung (90 min) als computergestützte Präsenzprüfung ",
+      "certificates": null,
+      "mediaType": "Beamer, Tafel, Overheadprojektor, E-Learning Medien",
+      "literature": "<p><span style=\"color: rgb(0, 0, 0);\">Ullenboom, Christian </span><a href=\"http://openbook.galileocomputing.de/javainsel/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(0, 0, 0);\">\"Java ist auch eine Insel\"</a><span style=\"color: rgb(0, 0, 0);\"> Galileo Computing jeweils in der neusten Auflage</span></p><p><span style=\"color: rgb(0, 0, 0);\">Krüger, Guido </span><a href=\"http://www.javabuch.de\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(0, 0, 0);\">\"Handbuch der Java Programmierung\"</a><span style=\"color: rgb(0, 0, 0);\"> Addison Wesley&nbsp;jeweils in der neusten Auflage&nbsp;</span></p><p><span style=\"color: rgb(0, 0, 0);\">Kathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage</span></p><p><span style=\"color: rgb(0, 0, 0);\">Schiedermeier R. \"Programmieren mit Java\" Pearson Studium jeweils in der neusten Auflage</span></p>",
+      "maternityProtection": "Grün"
     }
   ],
   "module-manuals": [
     {
       "id": 1,
+      "semester": "Wintersemester 2022/2023",
       "spo": {
         "id": 1,
         "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf",
-        "startDate": "2020-10-01",
-        "endDate": null,
+        "degree": "Bachelor",
         "course": "Informatik",
-        "degree": "Bachelor"
-      },
-      "semester": "WiSe 22/23"
+        "startDate": "2020-10-01",
+        "endDate": null
+      }
     },
     {
       "id": 2,
+      "semester": "Sommersemester 2023",
       "spo": {
         "id": 2,
         "link": "https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf",
-        "startDate": "2014-10-01",
-        "endDate": "2020-09-30",
+        "degree": "Bachelor",
         "course": "Informatik",
-        "degree": "Bachelor"
-      },
-      "semester": "WiSe 22/23"
+        "startDate": "2014-10-01",
+        "endDate": "2020-09-30"
+      }
     },
     {
       "id": 3,
@@ -425,11 +425,35 @@
     },
     {
       "id": 4,
+      "firstName": "Michael",
+      "lastName": "Geisler",
+      "title": "Prof. Dr.",
+      "gender": "Sehr geehrter",
+      "email": "Michael.Geisler@hs-coburg.de"
+    },
+    {
+      "id": 5,
       "title": "Prof. Dr. Dipl.",
       "firstName": "Felix",
       "lastName": "Ebert",
-      "email": "ebert.sonneberg@web.de",
+      "email": "felixebert@outlook.com",
+      "gender": "Herr"
+    },
+    {
+      "id": 6,
+      "title": "",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "felixebert@outlook.co",
       "gender": "Frau"
+    },
+    {
+      "id": 7,
+      "title": "",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "felixbert@outlook.com",
+      "gender": "Herr"
     }
   ],
   "spos": [
@@ -513,5 +537,28 @@
       "course": "Automatisierungstechnik und Robotik",
       "degree": "Bachelor"
     }
+  ],
+  "maternity-protections": [
+    "Grün",
+    "Gelb",
+    "Rot"
+  ],
+  "cycles": [
+    "Jährlich",
+    "Halbjährlich"
+  ],
+  "durations": [
+    "Einsemestrig",
+    "Zweisemestrig"
+  ],
+  "languages": [
+    "Deutsch",
+    "Englisch",
+    "Spanisch",
+    "Chinisisch"
+  ],
+  "degrees": [
+    "Bachelor",
+    "Master"
   ]
 }
