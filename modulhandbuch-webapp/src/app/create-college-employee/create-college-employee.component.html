@@ -29,7 +29,12 @@
         <div class="text-center">
             <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit" style="width: 95%;">Speichern</button>
         </div>
-
+        <p-confirmDialog header="Namensdopplung Bestätigen" icon="pi pi-exclamation-triangle">
+            <ng-template pTemplate="footer">
+                <button type="button" pButton icon="pi pi-times" label="No" (click)="reject()"></button>
+                <button type="button" pButton icon="pi pi-check" label="Yes" (click)="accept()"></button>
+            </ng-template>
+        </p-confirmDialog>
     </form>
 </p-dialog>
 

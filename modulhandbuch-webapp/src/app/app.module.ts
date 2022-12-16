@@ -24,8 +24,11 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import {InputTextModule} from 'primeng/inputtext';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
+import {ConfirmationService} from 'primeng/api';
 import { RestApiService } from './services/rest-api.service';
+
 import { CreateModuleManualComponent } from './create-module-manual/create-module-manual.component';
 import { GetCollegeEmployeesComponent } from './get-college-employees/get-college-employees.component';
 import { CreateCollegeEmployeeComponent } from './create-college-employee/create-college-employee.component';
@@ -44,7 +47,7 @@ import { CreateCollegeEmployeeComponent } from './create-college-employee/create
     SanitizeHtmlPipe,
     CreateModuleManualComponent,
     GetCollegeEmployeesComponent,
-    CreateCollegeEmployeeComponent
+    CreateCollegeEmployeeComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,11 +62,13 @@ import { CreateCollegeEmployeeComponent } from './create-college-employee/create
     MultiSelectModule,
     DropdownModule,
     DataViewModule,
-    InputTextModule
+    InputTextModule,
+    ConfirmDialogModule,
   ],
   providers: [
     FilterService,
     RestApiService,
+    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })
