@@ -1,6 +1,12 @@
 package a1;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -52,6 +58,7 @@ public class a1_systemtest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	public void openFormular() {
@@ -65,9 +72,19 @@ public class a1_systemtest {
 		}
 	}
 
+	public Connection getDatabaseConnection() throws SQLException, ClassNotFoundException {
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(
+			"jdbc:mariadb://85.214.225.164:3306/swepr_test",
+			"read_only_user_local_host", "car_tree_moon"
+		);
+		return connection;
+	}
+
 	@Test
-	public void S_D_A1T01() {
-		boolean result = true;
+	public void S_D_A1T01() throws SQLException, ClassNotFoundException {
+		boolean result = false;
+		List<Boolean> resultList = new ArrayList<Boolean>();
 		openFormular();
 
 		Date date = new Date();
@@ -77,8 +94,8 @@ public class a1_systemtest {
 		String testFirstName = "Test_First_Name_" + d;
 		String testLastName = "Test_Last_Name_" + d;
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[1]/p-dropdown/div/div[2]")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[1]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[1]/li/span")).click();
+		Select genderSelect = new Select(driver.findElement(By.xpath("//*[@id='select-create-employee-gender']")));
+		genderSelect.selectByVisibleText("Frau");
 
 		driver.findElement(By.xpath("//*[@id='input-first-name']")).sendKeys(testFirstName);
 		driver.findElement(By.xpath("//*[@id='input-last-name']")).sendKeys(testLastName);
@@ -90,26 +107,41 @@ public class a1_systemtest {
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/div[4]/div[1]/button/span")).click();
 
 		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
-		
-		try {
-			driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
-		} catch(ElementClickInterceptedException e) {
-			
+
+		Connection connection = getDatabaseConnection();
+
+		try (PreparedStatement statement = connection.prepareStatement(
+            "SELECT * " +
+            "FROM college_employee " +
+			"WHERE first_name='" + testFirstName + "'"
+        	))
+		{
+    		ResultSet resultSet = statement.executeQuery();
+    		while (resultSet.next()) {
+        		String first_name = resultSet.getString("first_name");
+				resultList.add(first_name.equals(testFirstName));
+
+				String last_name = resultSet.getString("last_name");
+				resultList.add(last_name.equals(testLastName));
+
+				String gender = resultSet.getString("gender");
+				resultList.add(gender.equals("Frau"));
+
+				String mail = resultSet.getString("email");
+				resultList.add(mail.equals(testMail));
+
+				String title = resultSet.getString("title");
+				resultList.add(title.equals("Prof."));
+    		}
 		}
-		
-		try {
-			driver.findElement(By.name("Prof. " + testFirstName + " " + testLastName));
-			driver.findElement(By.name(testMail));
-		} catch (NoSuchElementException noSuchElement) {
-			result = false;
-		}
-		
+		result = !resultList.contains((Boolean) false);
 		Assert.assertEquals(result, true);
 	}
 
 	@Test
-	public void S_D_A1T02() {
-		boolean result = true;
+	public void S_D_A1T02() throws SQLException, ClassNotFoundException {
+		boolean result = false;
+		List<Boolean> resultList = new ArrayList<Boolean>();
 		openFormular();
 
 		Date date = new Date();
@@ -119,8 +151,8 @@ public class a1_systemtest {
 		String testFirstName = "Test_First_Name_" + d;
 		String testLastName = "Test_Last_Name_" + d;
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[1]/p-dropdown/div/div[2]")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[1]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[1]/li/span")).click();
+		Select genderSelect = new Select(driver.findElement(By.xpath("//*[@id='select-create-employee-gender']")));
+		genderSelect.selectByVisibleText("Frau");
 
 		driver.findElement(By.xpath("//*[@id='input-first-name']")).sendKeys(testFirstName);
 		driver.findElement(By.xpath("//*[@id='input-last-name']")).sendKeys(testLastName);
@@ -129,19 +161,33 @@ public class a1_systemtest {
 
 		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
 
-		try {
-			driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
-		} catch(ElementClickInterceptedException e) {
-			
+		Connection connection = getDatabaseConnection();
+
+		try (PreparedStatement statement = connection.prepareStatement(
+            "SELECT * " +
+            "FROM college_employee " +
+			"WHERE first_name='" + testFirstName + "'"
+        	))
+		{
+    		ResultSet resultSet = statement.executeQuery();
+    		while (resultSet.next()) {
+        		String first_name = resultSet.getString("first_name");
+				resultList.add(first_name.equals(testFirstName));
+
+				String last_name = resultSet.getString("last_name");
+				resultList.add(last_name.equals(testLastName));
+
+				String gender = resultSet.getString("gender");
+				resultList.add(gender.equals("Frau"));
+
+				String mail = resultSet.getString("email");
+				resultList.add(mail.equals(testMail));
+
+				String title = resultSet.getString("title");
+				resultList.add(title.equals(""));
+    		}
 		}
-		
-		try {
-			driver.findElement(By.name("Prof. " + testFirstName + " " + testLastName));
-			driver.findElement(By.name(testMail));
-		} catch (NoSuchElementException noSuchElement) {
-			result = false;
-		}
-		
+		result = !resultList.contains((Boolean) false);
 		Assert.assertEquals(result, true);
 	}
 
@@ -261,7 +307,7 @@ public class a1_systemtest {
 			}
 			andere.findElement(By.xpath("//option[@value='Herr']"));
 			andere.findElement(By.xpath("//option[@value='Frau']"));
-			andere.findElement(By.xpath("//option[@value='Diverse']"));
+			andere.findElement(By.xpath("//option[@value='Divers']"));
 
 		} catch (NoSuchElementException noSuchElement) {
 			result = false;
@@ -449,6 +495,100 @@ public class a1_systemtest {
 			if(!currentUrl.equals(expectedUrl)) {
 				result = false;
 			}
+		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T19() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Florian");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Mittag");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Volkhard.Pfeiffer@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T20() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Volkhard");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Pfeiffer");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Florian.Mittag@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
+		}
+		
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A1T21() {
+		boolean result = true;
+		openFormular();
+		
+		try {
+			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+			andere.selectByValue("Herr");
+			
+			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+			titel.click();
+			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+			
+			WebElement vorname = driver.findElement(By.id("input-first-name"));
+			vorname.sendKeys("Volkhard");
+			
+			WebElement nachname = driver.findElement(By.id("input-last-name"));
+			nachname.sendKeys("Pfeiffer");
+			
+			WebElement email = driver.findElement(By.id("input-email"));
+			email.sendKeys("Florian.Mittag@hs-coburg.de");
+			
+			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+			buttonSpeichern.submit();
+		} catch (Exception e) {
+			result = false;
 		}
 		
 		Assert.assertEquals(result, true);
