@@ -25,7 +25,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-
+import {PickListModule} from 'primeng/picklist';
 
 import {ConfirmationService} from 'primeng/api';
 import { RestApiService } from './services/rest-api.service';
@@ -56,7 +56,7 @@ import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
     EditManualComponent,
     EditManualGeneralComponent,
     EditManualModulesComponent,
-    DynamicListComponent
+    DynamicListComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +73,7 @@ import { DynamicListComponent } from './dynamic-list/dynamic-list.component';
     DataViewModule,
     InputTextModule,
     ConfirmDialogModule,
+    PickListModule
   ],
   providers: [
     FilterService,
