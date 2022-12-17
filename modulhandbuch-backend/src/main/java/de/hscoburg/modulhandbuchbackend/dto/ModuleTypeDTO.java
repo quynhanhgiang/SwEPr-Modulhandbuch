@@ -3,7 +3,7 @@ package de.hscoburg.modulhandbuchbackend.dto;
 import lombok.Data;
 
 @Data
-public class ModuleTypeDTO {
+public class ModuleTypeDTO implements StructureDTO {
 	private Integer id;
 	private String moduleType;
 }
