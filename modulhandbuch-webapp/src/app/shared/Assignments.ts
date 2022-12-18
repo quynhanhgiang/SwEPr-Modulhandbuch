@@ -3,5 +3,5 @@
  */
 export interface Assignment {
   id: number | null,
-  name: string
+  value: string
 }

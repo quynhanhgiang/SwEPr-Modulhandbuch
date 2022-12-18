@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/Assignments';
 import { FileStatus } from '../shared/FileStatus';
 import { ModuleManual } from '../shared/module-manual';
 import { Spo } from '../shared/spo';
@@ -30,9 +31,9 @@ export class EditManualGeneralComponent implements OnInit {
   moduleManual!: ModuleManual;
   spos: Spo[] = [];
 
-  studyphases: string[] = [];
-  moduletypes: string[] = [];
-  requirements: string[] = [];
+  studyphases: Assignment[] = [];
+  moduletypes: Assignment[] = [];
+  requirements: Assignment[] = [];
 
   constructor(private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({

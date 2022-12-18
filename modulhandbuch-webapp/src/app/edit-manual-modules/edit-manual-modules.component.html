@@ -14,16 +14,16 @@
         <div class="col-md-6">
           <label for="select-moduleType" class="form-label">Art des Moduls:</label>
           <select class="form-select" id="select-moduleType" formControlName="moduleType" required>
-            <option *ngFor="let type of moduleTypes" value="{{type}}">
-              {{type}}
+            <option *ngFor="let type of moduleTypes" [ngValue]="type">
+              {{type.value}}
             </option>
           </select>
         </div>
         <div class="col-md-6">
           <label for="select-segment" class="form-label">Studienabschnitt:</label>
           <select class="form-select" id="select-segment" formControlName="segment" required>
-            <option *ngFor="let segment of segments" value="{{segment}}">
-              {{segment}}
+            <option *ngFor="let segment of segments" [ngValue]="segment">
+              {{segment.value}}
             </option>
           </select>
         </div>
@@ -64,8 +64,8 @@
         <div class="col-md-12">
           <label for="select-requirement" class="form-label">Zulassungsvorraussetzung:</label>
           <select class="form-select" id="select-requirement" formControlName="admissionRequirement" required>
-            <option *ngFor="let requirement of requirements" value="{{requirement}}">
-              {{requirement}}
+            <option *ngFor="let requirement of requirements" [ngValue]="requirement">
+              {{requirement.value}}
             </option>
           </select>
         </div>
@@ -143,13 +143,13 @@
             </div>
             <div class="col-6">
               <div class="border rounded-1 p-1">
-                {{manualVar.segment}}
+                {{manualVar.segment.value}}
               </div>
             </div>
 
             <div class="col-6">
               <div class="border rounded-1 p-1">
-                {{manualVar.moduleType}}
+                {{manualVar.moduleType.value}}
               </div>
             </div>
             <div class="col-3">
@@ -170,7 +170,7 @@
 
             <div class="col-11">
               <div class="border rounded-1 p-1">
-                {{manualVar.admissionRequirement}}
+                {{manualVar.admissionRequirement.value}}
               </div>
             </div>
 

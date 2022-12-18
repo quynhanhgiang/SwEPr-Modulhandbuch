@@ -21,7 +21,7 @@ export class EditModuleComponent implements OnInit {
   rendered:boolean = false;
 
   newModule!:Module;
-  
+
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
@@ -39,7 +39,7 @@ export class EditModuleComponent implements OnInit {
   admissionRequirements:String[][]=[];
   moduleTypes:String[][]=[];
   segments:String[][]=[];
-  
+
   private routeSub!: Subscription;
   constructor(private fb: FormBuilder, private restAPI: RestApiService, private route: ActivatedRoute) {
     this.moduleFormGroup = this.fb.group({
@@ -78,7 +78,7 @@ export class EditModuleComponent implements OnInit {
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
-      
+
         for (let i=0;i<resp.length;i++) {
           let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
           displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
@@ -182,12 +182,12 @@ export class EditModuleComponent implements OnInit {
     this.restAPI.updateModule(this.newModule).subscribe(resp => {
       console.log(resp);
       this.hideDialog();
-      this.onSuccessfulSubmission.emit(); 
+      this.onSuccessfulSubmission.emit();
     });
   }
-  
+
   updateModuleManual(id:number, i:number) {
-    this.restAPI.getModuleTypes(id).subscribe(resp => {
+    /*this.restAPI.getModuleTypes(id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
@@ -196,8 +196,8 @@ export class EditModuleComponent implements OnInit {
     });
 
     this.restAPI.getSegments(id).subscribe(resp => {
-      this.segments[i]=resp    
-    });
+      this.segments[i]=resp
+    });*/
   }
 
   get variations(){

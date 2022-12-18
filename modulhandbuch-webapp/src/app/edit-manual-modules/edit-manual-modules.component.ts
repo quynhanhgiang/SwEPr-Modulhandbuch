@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {  Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/Assignments';
 import { ManualVariation } from '../shared/ManualVariation';
 import { ModuleManual } from '../shared/module-manual';
 
@@ -24,20 +25,20 @@ export class EditManualModulesComponent implements OnInit {
   unassignedModules: ManualVariation[] = [];
   assignedModules: ManualVariation[] = [];
 
-  segments: string[] = [];
-  moduleTypes: string[] = [];
-  requirements: string[] = [];
+  segments: Assignment[] = [];
+  moduleTypes: Assignment[] = [];
+  requirements: Assignment[] = [];
 
   constructor(private fb: FormBuilder, private router: Router, private restAPI: RestApiService) {
     this.variationFormGroup = this.fb.group({
       module: {},
       semester: ['', [Validators.required, Validators.min(1), Validators.max(7)]],
-      segment: ['', [Validators.required]],
-      moduleType: ['', [Validators.required]],
+      segment: [{}, [Validators.required]],
+      moduleType: [{}, [Validators.required]],
       sws: ['', [Validators.required, Validators.min(1), Validators.max(40)]],
       ects: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
       workLoad: ['', [Validators.required]],
-      admissionRequirement: ['', [Validators.required]],
+      admissionRequirement: [{}, [Validators.required]],
       isAssigned: false
     });
   }
@@ -118,6 +119,10 @@ export class EditManualModulesComponent implements OnInit {
   editManualVar(manualVar: ManualVariation) {
     this.variationToEdit = manualVar;
     this.variationFormGroup.patchValue(manualVar);
+    this.variationFormGroup.controls["segment"].setValue(this.segments.find(item => item.id == manualVar.segment?.id) ?? null);
+    this.variationFormGroup.controls["moduleType"].setValue(this.moduleTypes.find(item => item.id == manualVar.moduleType?.id) ?? null);
+    this.variationFormGroup.controls["admissionRequirement"].setValue(this.requirements.find(item => item.id == manualVar.admissionRequirement?.id) ?? null);
+
     this.editDialogVisible = true;
   }
 

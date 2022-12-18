@@ -13,11 +13,11 @@ import { displayCollegeEmployee } from './displayCollegeEmployee';
 })
 export class CreateModuleComponent implements OnInit {
   @Output() onSuccessfulSubmission = new EventEmitter();
-  
+
   display: boolean = false;//false == form hidden | true == form visible
 
   newModule!:Module;
-  
+
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
@@ -56,7 +56,7 @@ export class CreateModuleComponent implements OnInit {
       maternityProtection: new FormControl(),
     });
   }
-  
+
   ngOnInit(): void {
     this.selectedProfs=[];
     this.segments=[];
@@ -65,7 +65,7 @@ export class CreateModuleComponent implements OnInit {
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
-      
+
         for (let i=0;i<resp.length;i++) {
           let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
           displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
@@ -122,16 +122,16 @@ export class CreateModuleComponent implements OnInit {
       this.onSuccessfulSubmission.emit();
       console.log(resp);
     });
-    
+
     this.hideDialog();
 
     if(event.submitter.id=="btn-submit-new"){
       this.showDialog();
     }
   }
-  
+
   updateModuleManual(id:number, i:number) {
-      this.restAPI.getModuleTypes(id).subscribe(resp => {
+    /*this.restAPI.getModuleTypes(id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
@@ -140,8 +140,8 @@ export class CreateModuleComponent implements OnInit {
     });
 
     this.restAPI.getSegments(id).subscribe(resp => {
-      this.segments[i]=resp    
-    });
+      this.segments[i]=resp
+    });*/
   }
 
   get variations(){
