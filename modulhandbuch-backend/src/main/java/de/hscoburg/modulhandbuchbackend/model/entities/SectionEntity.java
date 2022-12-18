@@ -35,5 +35,5 @@ public class SectionEntity implements StructureEntity<SectionEntity> {
 	private ModuleManualEntity moduleManual;
 
 	@Column(name = "name", nullable = false)
-	private String name;
+	private String value;
 }
