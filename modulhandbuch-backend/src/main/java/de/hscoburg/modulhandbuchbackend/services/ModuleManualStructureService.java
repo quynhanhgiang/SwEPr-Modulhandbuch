@@ -22,16 +22,16 @@ public class ModuleManualStructureService {
 	private final ModuleManualRepository moduleManualRepository;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
-	public <T extends StructureEntity<T>, R extends StructureDTO> List<R> getStructure(Integer id, Class<R> dtoClass, Function<ModuleManualEntity, T> getFirstEntity) {
+	public <T extends StructureEntity<T>> List<StructureDTO> getStructure(Integer id, Function<ModuleManualEntity, T> getFirstEntity) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
 			
-		List<R> structure = new LinkedList<>();
+		List<StructureDTO> structure = new LinkedList<>();
 
 		T currentEntity = getFirstEntity.apply(moduleManual);
 		while (currentEntity != null) {
-			structure.add(this.modulhandbuchBackendMapper.map(currentEntity, dtoClass));
+			structure.add(this.modulhandbuchBackendMapper.map(currentEntity, StructureDTO.class));
 
 			currentEntity = currentEntity.getNext();
 		}
@@ -39,9 +39,9 @@ public class ModuleManualStructureService {
 		return structure;
 	}
 
-	public <T extends StructureEntity<T>, U extends StructureDTO> void validateIds(Iterator<U> iterator, JpaRepository<T, Integer> repository) {
+	public <T extends StructureEntity<T>> void validateIds(Iterator<StructureDTO> iterator, JpaRepository<T, Integer> repository) {
 		while (iterator.hasNext()) {
-			U currentElement = iterator.next();
+			StructureDTO currentElement = iterator.next();
 			if (currentElement.getId() == null) {
 				continue;
 			}
@@ -63,17 +63,17 @@ public class ModuleManualStructureService {
 		}
 	}
 
-	public <T extends StructureEntity<T>, R extends StructureDTO> List<R> saveStructure(List<R> structure, ModuleManualEntity moduleManual, JpaRepository<T, Integer> structureRepository, ModuleManualRepository moduleManualepository, Class<T> entityClass, Class<R> dtoClass, BiConsumer<ModuleManualEntity, T> setFirstEntity) {
+	public <T extends StructureEntity<T>> List<StructureDTO> saveStructure(List<StructureDTO> structure, ModuleManualEntity moduleManual, JpaRepository<T, Integer> structureRepository, ModuleManualRepository moduleManualepository, Class<T> entityClass, BiConsumer<ModuleManualEntity, T> setFirstEntity) {
 		// save structure in reverse order to retrieve id of successor easily
-		ListIterator<R> iterator = structure.listIterator(structure.size());
-		LinkedList<R> savedStructure = new LinkedList<>();
+		ListIterator<StructureDTO> iterator = structure.listIterator(structure.size());
+		LinkedList<StructureDTO> savedStructure = new LinkedList<>();
 		T successor = null;
 		while (iterator.hasPrevious()) {
 			T currentEntity = this.modulhandbuchBackendMapper.map(iterator.previous(), entityClass);
 			currentEntity.setNext(successor);
 			currentEntity = structureRepository.save(currentEntity);
 
-			savedStructure.addFirst(this.modulhandbuchBackendMapper.map(currentEntity, dtoClass));
+			savedStructure.addFirst(this.modulhandbuchBackendMapper.map(currentEntity, StructureDTO.class));
 
 			successor = currentEntity;
 		}

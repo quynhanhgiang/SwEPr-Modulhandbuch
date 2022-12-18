@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hscoburg.modulhandbuchbackend.dto.ModuleTypeDTO;
-import de.hscoburg.modulhandbuchbackend.dto.SegmentDTO;
+import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
@@ -32,17 +31,17 @@ public class ModuleManualStructureController {
 	private final ModuleManualStructureService moduleManualStructureService;
 
 	@GetMapping("/segments")
-	public List<SegmentDTO> allSegements(@PathVariable Integer id) {
-		return this.moduleManualStructureService.getStructure(id, SegmentDTO.class, moduleManual -> moduleManual.getFirstSection());
+	public List<StructureDTO> allSegements(@PathVariable Integer id) {
+		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstSection());
 	}
 
 	@GetMapping("/module-types")
-	public List<ModuleTypeDTO> allModuleTypes(@PathVariable Integer id) {
-		return this.moduleManualStructureService.getStructure(id, ModuleTypeDTO.class, moduleManual -> moduleManual.getFirstType());
+	public List<StructureDTO> allModuleTypes(@PathVariable Integer id) {
+		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstType());
 	}
 
 	@PutMapping("/segments")
-	public List<SegmentDTO> replaceSegments(@RequestBody List<SegmentDTO> segments, @PathVariable Integer id) {
+	public List<StructureDTO> replaceSegments(@RequestBody List<StructureDTO> segments, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
@@ -64,11 +63,11 @@ public class ModuleManualStructureController {
 		}
 
 		// save all segments
-		return this.moduleManualStructureService.saveStructure(segments, moduleManual, sectionRepository, moduleManualRepository, SectionEntity.class, SegmentDTO.class, (moduleManualInner, section) -> moduleManualInner.setFirstSection((SectionEntity) section));
+		return this.moduleManualStructureService.saveStructure(segments, moduleManual, sectionRepository, moduleManualRepository, SectionEntity.class, (moduleManualInner, section) -> moduleManualInner.setFirstSection((SectionEntity) section));
 	}
 
 	@PutMapping("/module-types")
-	public List<ModuleTypeDTO> replaceModuleTypes(@RequestBody List<ModuleTypeDTO> moduleTypes, @PathVariable Integer id) {
+	public List<StructureDTO> replaceModuleTypes(@RequestBody List<StructureDTO> moduleTypes, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
@@ -90,6 +89,6 @@ public class ModuleManualStructureController {
 		}
 
 		// save all module types
-		return this.moduleManualStructureService.saveStructure(moduleTypes, moduleManual, typeRepository, moduleManualRepository, TypeEntity.class, ModuleTypeDTO.class, (moduleManualInner, type) -> moduleManualInner.setFirstType((TypeEntity) type));
+		return this.moduleManualStructureService.saveStructure(moduleTypes, moduleManual, typeRepository, moduleManualRepository, TypeEntity.class, (moduleManualInner, type) -> moduleManualInner.setFirstType((TypeEntity) type));
 	}
 }

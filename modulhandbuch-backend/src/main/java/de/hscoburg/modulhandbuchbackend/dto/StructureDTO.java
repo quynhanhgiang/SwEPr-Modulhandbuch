@@ -1,5 +1,9 @@
 package de.hscoburg.modulhandbuchbackend.dto;
 
-public interface StructureDTO {
-	Integer getId();
+import lombok.Data;
+
+@Data
+public class StructureDTO {
+	private Integer id;
+	private String value;
 }
