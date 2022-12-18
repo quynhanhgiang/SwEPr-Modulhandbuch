@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ElementNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
@@ -43,14 +44,13 @@ public class ModuleManualStructureController {
 	@PutMapping("/segments")
 	public List<StructureDTO> replaceSegments(@RequestBody List<StructureDTO> segments, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
 
 		// remove all null values in given list
 		segments.removeIf(element -> (element == null));
 
 		// check if all given ids are present or null
-		this.moduleManualStructureService.validateIds(segments.iterator(), this.sectionRepository);
+		this.moduleManualStructureService.validateIds(segments.iterator(), this.sectionRepository, notFoundId -> {throw new ElementNotFoundException(notFoundId, "Segment");});
 
 		// delete all segments associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstSection(), this.sectionRepository);
@@ -69,14 +69,13 @@ public class ModuleManualStructureController {
 	@PutMapping("/module-types")
 	public List<StructureDTO> replaceModuleTypes(@RequestBody List<StructureDTO> moduleTypes, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
 
 		// remove all null values in given list
 		moduleTypes.removeIf(element -> (element == null));
 
 		// check if all given ids are present or null
-		this.moduleManualStructureService.validateIds(moduleTypes.iterator(), this.typeRepository);
+		this.moduleManualStructureService.validateIds(moduleTypes.iterator(), this.typeRepository, notFoundId -> {throw new ElementNotFoundException(notFoundId, "Module type");});
 
 		// delete all module types associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstType(), this.typeRepository);

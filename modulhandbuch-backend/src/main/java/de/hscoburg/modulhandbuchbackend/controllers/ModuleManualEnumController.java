@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.EnumDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ElementNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.AdmissionRequirementEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.AdmissionRequirementRepository;
@@ -31,8 +32,7 @@ public class ModuleManualEnumController {
 	@GetMapping("/requirements")
 	public List<EnumDTO> allRequirements(@PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
 
 		List<AdmissionRequirementEntity> admissionRequirements = this.admissionRequirementRepository.findByModuleManual(moduleManual);
 
@@ -47,8 +47,7 @@ public class ModuleManualEnumController {
 		requirements.removeIf(element -> (element == null));
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
 
 		this.admissionRequirementRepository.deleteByModuleManual(moduleManual);
 

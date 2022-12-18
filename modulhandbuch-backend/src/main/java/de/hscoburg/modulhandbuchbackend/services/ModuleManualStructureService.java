@@ -5,12 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ElementNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
@@ -24,8 +26,7 @@ public class ModuleManualStructureService {
 	
 	public <T extends StructureEntity<T>> List<StructureDTO> getStructure(Integer id, Function<ModuleManualEntity, T> getFirstEntity) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
 			
 		List<StructureDTO> structure = new LinkedList<>();
 
@@ -39,7 +40,7 @@ public class ModuleManualStructureService {
 		return structure;
 	}
 
-	public <T extends StructureEntity<T>> void validateIds(Iterator<StructureDTO> iterator, JpaRepository<T, Integer> repository) {
+	public <T extends StructureEntity<T>> void validateIds(Iterator<StructureDTO> iterator, JpaRepository<T, Integer> repository, Consumer<Integer> elementNotFoundHandler) {
 		while (iterator.hasNext()) {
 			StructureDTO currentElement = iterator.next();
 			if (currentElement.getId() == null) {
@@ -50,8 +51,7 @@ public class ModuleManualStructureService {
 				continue;
 			}
 
-			// TODO own exception and advice
-			throw new RuntimeException(String.format("Id %d for class %s not found.", currentElement.getId(), currentElement.getClass().getSimpleName()));
+			elementNotFoundHandler.accept(currentElement.getId());
 		}
 	}
 
