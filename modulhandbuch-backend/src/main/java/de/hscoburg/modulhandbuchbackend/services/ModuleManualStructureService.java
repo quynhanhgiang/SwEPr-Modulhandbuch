@@ -70,6 +70,7 @@ public class ModuleManualStructureService {
 		T successor = null;
 		while (iterator.hasPrevious()) {
 			T currentEntity = this.modulhandbuchBackendMapper.map(iterator.previous(), entityClass);
+			currentEntity.setModuleManual(moduleManual);
 			currentEntity.setNext(successor);
 			currentEntity = structureRepository.save(currentEntity);
 
