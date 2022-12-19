@@ -81,9 +81,15 @@ public class a3_systemtest {
 	public void S_D_A1T01() {
 		boolean result = true;
 		openFormular();
-		
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/p-paginator/div")).click();
-		
+
+		String user_first_name = "Test_User_1_A3_First_Name";
+		String user_last_name = "Test_User_1_A3_Last_Name";
+
+		String user_mail = " Test_Mail_1@test.com";
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/div[1]/div/span/input"))
+		.sendKeys(user_first_name);
+
 		Assert.assertEquals(result, true);
 	}
 
@@ -91,6 +97,9 @@ public class a3_systemtest {
 	public void S_D_A1T02() {
 		boolean result = true;
 		openFormular();
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-college-employees/div/p-dataview/div/div[1]/div/span/input"))
+		.sendKeys("");
 
 		Assert.assertEquals(result, true);
 	}
