@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -40,18 +42,25 @@ public class ModuleManualStructureService {
 		return structure;
 	}
 
-	public <T extends StructureEntity<T>> void validateIds(Iterator<StructureDTO> iterator, JpaRepository<T, Integer> repository, Consumer<Integer> elementNotFoundHandler) {
+	public <T extends StructureEntity<T>> void validateIds(List<StructureDTO> structure, JpaRepository<T, Integer> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
+		Set<Integer> ids = new TreeSet<>();
+		Iterator<StructureDTO> iterator = structure.iterator();
 		while (iterator.hasNext()) {
 			StructureDTO currentElement = iterator.next();
-			if (currentElement.getId() == null) {
+			Integer currentElementId = currentElement.getId();
+			if (currentElementId == null) {
 				continue;
 			}
 
-			if (repository.existsById(currentElement.getId())) {
+			if (!ids.add(currentElementId)) {
+				duplicateElementsInRequestHandler.accept(currentElementId);
+			}
+
+			if (repository.existsById(currentElementId)) {
 				continue;
 			}
 
-			elementNotFoundHandler.accept(currentElement.getId());
+			elementNotFoundHandler.accept(currentElementId);
 		}
 	}
 

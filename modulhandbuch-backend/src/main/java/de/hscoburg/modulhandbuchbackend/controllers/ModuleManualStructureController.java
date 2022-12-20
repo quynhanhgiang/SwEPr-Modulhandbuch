@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateModuleTypesInRequestException;
+import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateSegmentsInRequestException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleTypeNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.SegmentNotFoundException;
@@ -51,8 +53,8 @@ public class ModuleManualStructureController {
 		// remove all null values in given list
 		segments.removeIf(element -> (element == null));
 
-		// check if all given ids are present or null
-		this.moduleManualStructureService.validateIds(segments.iterator(), this.sectionRepository, notFoundId -> {throw new SegmentNotFoundException(notFoundId);});
+		// check if all given ids are present or null and there are no duplicates of ids
+		this.moduleManualStructureService.validateIds(segments, this.sectionRepository, duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);}, notFoundId -> {throw new SegmentNotFoundException(notFoundId);});
 
 		// delete all segments associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstSection(), this.sectionRepository);
@@ -76,8 +78,8 @@ public class ModuleManualStructureController {
 		// remove all null values in given list
 		moduleTypes.removeIf(element -> (element == null));
 
-		// check if all given ids are present or null
-		this.moduleManualStructureService.validateIds(moduleTypes.iterator(), this.typeRepository, notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);});
+		// check if all given ids are present or null and there are no duplicates of ids
+		this.moduleManualStructureService.validateIds(moduleTypes, this.typeRepository, duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);}, notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);});
 
 		// delete all module types associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstType(), this.typeRepository);

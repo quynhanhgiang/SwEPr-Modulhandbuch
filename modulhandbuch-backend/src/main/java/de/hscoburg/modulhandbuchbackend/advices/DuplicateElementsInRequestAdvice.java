@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import de.hscoburg.modulhandbuchbackend.exceptions.ElementNotFoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateElementsInRequestException;
 
 @ControllerAdvice
-public class ElementNotFoundAdvice {
+public class DuplicateElementsInRequestAdvice {
 	
-	@ExceptionHandler(ElementNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<String> elementNotFoundHandler(ElementNotFoundException exception) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(DuplicateElementsInRequestException.class)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	public ResponseEntity<String> duplicateElementsInRequestHandler(DuplicateElementsInRequestException exception) {
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
 			.contentType(MediaType.TEXT_PLAIN)
 			.body(exception.getMessage());
 	}
