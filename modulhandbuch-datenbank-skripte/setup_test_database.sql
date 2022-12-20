@@ -36,7 +36,10 @@ INSERT IGNORE INTO college_employee VALUES
 	(3, 'Dieter', 'Wißmann', 'Prof. Dr.', 1, 'Dieter.Wissmann@hs-coburg.de'),
 	(4, 'Thomas', 'Wieland', 'Prof. Dr.', 1, 'Thomas.Wieland@hs-coburg.de'),
 	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 1, 'Quirin.Meyer@hs-coburg.de'),
-	(6, 'Michaela', 'Ihlau', '', 2, 'Michaela.Ihlau@hs-coburg.de')
+	(6, 'Michaela', 'Ihlau', '', 2, 'Michaela.Ihlau@hs-coburg.de'),
+	(7, 'Test_User_1_A3_First_Name', 'Test_User_1_A3_Last_Name', '', 1, 'Test_Mail_1@test.com'),
+	(8, 'Test_User_2_A3_First_Name', 'Test_User_2_A3_Last_Name', 'Prof.', 2, 'Test_Mail_1@test.com'),
+	(9, 'Test_1_A5', 'Test_1_A5', 'Prof.', 1, 'Test_1_A5@test.com')
 ;
 
 
@@ -187,7 +190,10 @@ INSERT IGNORE INTO module VALUES
 	'Tafel, Beamer',
 	'<p><span style=\'color: rgb(0, 0, 0);\'>Ullenboom, Christian </span><a href=\'http://openbook.galileocomputing.de/javainsel/\' target=\'_blank\' style=\'color: rgb(0, 0, 0);\'>\'Java ist auch eine Insel\'</a><span style=\'color: rgb(0, 0, 0);\'> Galileo Computing jeweils in der neusten Auflage</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Krüger, Guido </span><a href=\'http://www.javabuch.de/\' target=\'_blank\' style=\'color: rgb(0, 0, 0);\'>\'Handbuch der Java Programmierung\'</a><span style=\'color: rgb(0, 0, 0);\'> Addison Wesley&nbsp;jeweils in der neusten Auflage&nbsp;</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Kathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Schiedermeier R. \'Programmieren mit Java\' Pearson Studium jeweils in der neusten Auflage&nbsp;</span></p>',
 	2
-	)
+	),
+
+	(3, 9, 'Test_1_A5', 'T1A5', 1, 1, 1, NULL, NULL, 
+	'Test_1_A5', 'Test_1_A5', 'Test_1_A5', NULL, 'Test_1_A5', 'Test_1_A5', 2)
 ;
 
 
@@ -230,12 +236,12 @@ INSERT IGNORE INTO module_manual VALUES
 
 
 
-CREATE TABLE IF NOT EXISTS admission_requirements(
+CREATE TABLE IF NOT EXISTS admission_requirement(
 		pk_unique_id INT NOT NULL AUTO_INCREMENT,
 		fk_module_manual_pk_unique_id INT NOT NULL,
 		name VARCHAR(255) NOT NULL,
 		PRIMARY KEY (pk_unique_id),
-		CONSTRAINT admission_requirements_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES admission_requirements (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+		CONSTRAINT admission_requirement_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES admission_requirement (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
 ;
@@ -286,13 +292,13 @@ CREATE TABLE IF NOT EXISTS module_manual_has_module (
 	sws INT NULL,
 	ects INT NOT NULL,
 	workload TEXT NULL,
-	fk_admission_requirements_pk_unique_id INT NULL,
+	fk_admission_requirement_pk_unique_id INT NULL,
 	PRIMARY KEY (fk_module_manual_pk_unique_id, fk_module_pk_unique_id, pk_semester),
 	CONSTRAINT module_manual_has_module_fk_module_pk_unique_id FOREIGN KEY (fk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_manual_has_module_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_manual_has_module_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_manual_has_module_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT module_manual_has_module_fk_admission_requirements_pk_unique_id FOREIGN KEY (fk_admission_requirements_pk_unique_id) REFERENCES admission_requirements (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT module_manual_has_module_fk_admission_requirement_pk_unique_id FOREIGN KEY (fk_admission_requirement_pk_unique_id) REFERENCES admission_requirement (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
 ;
