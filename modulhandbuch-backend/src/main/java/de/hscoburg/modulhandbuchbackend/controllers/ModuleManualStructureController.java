@@ -53,8 +53,8 @@ public class ModuleManualStructureController {
 		// remove all null values in given list
 		segments.removeIf(element -> (element == null));
 
-		// check if all given ids are present or null and there are no duplicates of ids
-		this.moduleManualStructureService.validateIds(segments, this.sectionRepository, duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);}, notFoundId -> {throw new SegmentNotFoundException(notFoundId);});
+		// check if all given ids are present or null and there are no duplicates of ids in request
+		this.moduleManualStructureService.validateIds(segments, moduleManual, this.sectionRepository, duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);}, notFoundId -> {throw new SegmentNotFoundException(notFoundId);});
 
 		// delete all segments associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstSection(), this.sectionRepository);
@@ -78,8 +78,8 @@ public class ModuleManualStructureController {
 		// remove all null values in given list
 		moduleTypes.removeIf(element -> (element == null));
 
-		// check if all given ids are present or null and there are no duplicates of ids
-		this.moduleManualStructureService.validateIds(moduleTypes, this.typeRepository, duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);}, notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);});
+		// check if all given ids are present or null and there are no duplicates of ids in request
+		this.moduleManualStructureService.validateIds(moduleTypes, moduleManual, this.typeRepository, duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);}, notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);});
 
 		// delete all module types associated with the given module manual
 		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstType(), this.typeRepository);

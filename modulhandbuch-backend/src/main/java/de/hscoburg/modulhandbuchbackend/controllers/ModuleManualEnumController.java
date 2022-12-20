@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.EnumDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.AdmissionRequirementNotFoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateAdmissionRequirementsInRequestException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.AdmissionRequirementEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.AdmissionRequirementRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
+import de.hscoburg.modulhandbuchbackend.services.ModuleManualEnumService;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +30,7 @@ import lombok.Data;
 public class ModuleManualEnumController {
 	private final ModuleManualRepository moduleManualRepository;
 	private final AdmissionRequirementRepository admissionRequirementRepository;
+	private final ModuleManualEnumService moduleManualEnumService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
 	@GetMapping("/requirements")
@@ -48,6 +52,9 @@ public class ModuleManualEnumController {
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		// check if all given ids are associated with the given module manual or null and there are no duplicates of ids in request
+		this.moduleManualEnumService.validateIds(requirements, moduleManual, this.admissionRequirementRepository, duplicateId -> {throw new DuplicateAdmissionRequirementsInRequestException(duplicateId);}, notFoundId -> {throw new AdmissionRequirementNotFoundException(notFoundId);});
 
 		this.admissionRequirementRepository.deleteByModuleManual(moduleManual);
 

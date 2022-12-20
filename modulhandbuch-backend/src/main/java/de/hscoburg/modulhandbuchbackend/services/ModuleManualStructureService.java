@@ -18,6 +18,7 @@ import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.StructureRepository;
 import lombok.Data;
 
 @Data
@@ -42,7 +43,7 @@ public class ModuleManualStructureService {
 		return structure;
 	}
 
-	public <T extends StructureEntity<T>> void validateIds(List<StructureDTO> structure, JpaRepository<T, Integer> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
+	public <T extends StructureEntity<T>> void validateIds(List<StructureDTO> structure, ModuleManualEntity moduleManual, StructureRepository<T> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
 		Set<Integer> ids = new TreeSet<>();
 		Iterator<StructureDTO> iterator = structure.iterator();
 		while (iterator.hasNext()) {
@@ -56,7 +57,7 @@ public class ModuleManualStructureService {
 				duplicateElementsInRequestHandler.accept(currentElementId);
 			}
 
-			if (repository.existsById(currentElementId)) {
+			if (repository.existsByIdAndModuleManual(currentElementId, moduleManual)) {
 				continue;
 			}
 

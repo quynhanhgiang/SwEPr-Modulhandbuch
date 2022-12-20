@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "admission_requirement")
-public class AdmissionRequirementEntity {
+public class AdmissionRequirementEntity implements EnumEntity<AdmissionRequirementEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
