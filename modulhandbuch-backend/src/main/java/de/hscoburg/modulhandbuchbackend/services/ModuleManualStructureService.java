@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
-import de.hscoburg.modulhandbuchbackend.exceptions.ElementNotFoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
@@ -26,7 +26,7 @@ public class ModuleManualStructureService {
 	
 	public <T extends StructureEntity<T>> List<StructureDTO> getStructure(Integer id, Function<ModuleManualEntity, T> getFirstEntity) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			.orElseThrow(() -> new ElementNotFoundException(id, "Module manual"));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 			
 		List<StructureDTO> structure = new LinkedList<>();
 
