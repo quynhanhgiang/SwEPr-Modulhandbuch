@@ -154,7 +154,7 @@ public class ModuleController {
 						// TODO own exception
 						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
 					))
-					.collect(Collectors.toList());
+					.collect(Collectors.toList())
 			);
 		}
 
@@ -173,7 +173,7 @@ public class ModuleController {
 					.filter(prof -> prof.getId() != null)
 					// TODO own Exception
 					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.collect(Collectors.toList());
+					.collect(Collectors.toList())
 			);
 		}
 
