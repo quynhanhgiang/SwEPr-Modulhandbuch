@@ -38,9 +38,24 @@ INSERT IGNORE INTO college_employee VALUES
 	(5, 'Quirin', 'Meyer', 'Prof. Dr.', 1, 'Quirin.Meyer@hs-coburg.de'),
 	(6, 'Michaela', 'Ihlau', '', 2, 'Michaela.Ihlau@hs-coburg.de'),
 	(7, 'Test_User_1_A3_First_Name', 'Test_User_1_A3_Last_Name', '', 1, 'Test_Mail_1@test.com'),
-	(8, 'Test_User_2_A3_First_Name', 'Test_User_2_A3_Last_Name', 'Prof.', 2, 'Test_Mail_1@test.com')
+	(8, 'Test_User_2_A3_First_Name', 'Test_User_2_A3_Last_Name', 'Prof.', 2, 'Test_Mail_1@test.com'),
+	(9, 'Test_1_A5', 'Test_1_A5', 'Prof.', 1, 'Test_1_A5@test.com')
 ;
 
+
+
+CREATE TABLE IF NOT EXISTS degree(
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (pk_unique_id)
+)
+COLLATE='utf8mb4_unicode_520_ci'
+;
+
+INSERT IGNORE INTO degree VALUES
+	(1, "Bachelor"),
+	(2, "Master")
+;
 
 
 CREATE TABLE IF NOT EXISTS degree(
@@ -189,7 +204,10 @@ INSERT IGNORE INTO module VALUES
 	'Tafel, Beamer',
 	'<p><span style=\'color: rgb(0, 0, 0);\'>Ullenboom, Christian </span><a href=\'http://openbook.galileocomputing.de/javainsel/\' target=\'_blank\' style=\'color: rgb(0, 0, 0);\'>\'Java ist auch eine Insel\'</a><span style=\'color: rgb(0, 0, 0);\'> Galileo Computing jeweils in der neusten Auflage</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Krüger, Guido </span><a href=\'http://www.javabuch.de/\' target=\'_blank\' style=\'color: rgb(0, 0, 0);\'>\'Handbuch der Java Programmierung\'</a><span style=\'color: rgb(0, 0, 0);\'> Addison Wesley&nbsp;jeweils in der neusten Auflage&nbsp;</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Kathy, Sierra; Bates, Bert; „Java von Kopf bis Fuß“ O‘Reilly jeweils in der neusten Auflage</span></p><p><span style=\'color: rgb(0, 0, 0);\'>Schiedermeier R. \'Programmieren mit Java\' Pearson Studium jeweils in der neusten Auflage&nbsp;</span></p>',
 	2
-	)
+	),
+
+	(3, 9, 'Test_1_A5', 'T1A5', 1, 1, 1, NULL, NULL, 
+	'Test_1_A5', 'Test_1_A5', 'Test_1_A5', NULL, 'Test_1_A5', 'Test_1_A5', 2)
 ;
 
 
