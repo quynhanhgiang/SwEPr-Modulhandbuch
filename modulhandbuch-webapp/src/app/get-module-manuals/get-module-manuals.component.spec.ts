@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClientModule, HttpHandler } from '@angular/common/http';
 import {  ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { RestApiService } from '../services/rest-api.service';
 
@@ -9,7 +9,6 @@ import { of } from 'rxjs';
 import { moduleManuals } from './mock-module-manuals';
 
 describe('GetModuleManualsComponent', () => {
-  let document: Document
   let component: GetModuleManualsComponent;
   let fixture: ComponentFixture<GetModuleManualsComponent>;
 
@@ -24,7 +23,6 @@ describe('GetModuleManualsComponent', () => {
     })
     .compileComponents();
 
-    document = TestBed.inject(DOCUMENT);
     fixture = TestBed.createComponent(GetModuleManualsComponent);
     component = fixture.componentInstance;
   });
@@ -51,7 +49,7 @@ describe('GetModuleManualsComponent', () => {
     const testData: ModuleManual[] = moduleManuals;
     spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testData));
 
-    fixture.detectChanges();  //calls ngOnInit
+    fixture.detectChanges();
 
     expect(component.moduleManuals.length).toBeGreaterThan(0);
     expect(component.emptyMessage).toEqual("Keine Ergebnisse gefunden. Bitte überprüfen Sie die Korrektheit der Eingabe und stellen Sie sicher, dass lediglich das Studienfach gesucht wurde (z.B. 'Visual Computing').");
@@ -65,7 +63,7 @@ describe('GetModuleManualsComponent', () => {
     const testData: ModuleManual[] = [];
     spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testData));
 
-    fixture.detectChanges();  //calls ngOnInit
+    fixture.detectChanges();
 
     expect(component.moduleManuals.length).toBe(0);
     expect(component.emptyMessage).toEqual("Es wurden noch keine Modulhandbücher angelegt. Zum Anlegen bitte auf 'Neues Modulhandbuch' klicken.");
@@ -84,6 +82,9 @@ describe('GetModuleManualsComponent', () => {
    * Testfall A8.2:UT6 Testen, ob die Felder sortOrder und sortKey über die Methode onSortChange korrekt gesetzt werden.
    */
   it("should change the sort-order and -key on select", () => {
+
+    let document = TestBed.inject(DOCUMENT);
+
     let inputEvent1: HTMLInputElement = document.createElement("input");
     inputEvent1.value = "!spo.startDate"
 

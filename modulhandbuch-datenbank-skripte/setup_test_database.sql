@@ -58,6 +58,20 @@ INSERT IGNORE INTO degree VALUES
 ;
 
 
+CREATE TABLE IF NOT EXISTS degree(
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (pk_unique_id)
+)
+COLLATE='utf8mb4_unicode_520_ci'
+;
+
+INSERT IGNORE INTO degree VALUES
+	(1, "Bachelor"),
+	(2, "Master")
+;
+
+
 CREATE TABLE IF NOT EXISTS spo (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	link VARCHAR(255) NOT NULL,
