@@ -83,7 +83,6 @@ public class a3_systemtest {
 	public void S_D_A1T01() {
 		boolean result = false;
 		List<Boolean> resultList = new ArrayList<Boolean>();
-		openFormular();
 
 		String user_first_name = "Test_User_1_A3_First_Name";
 		String user_last_name = "Test_User_1_A3_Last_Name";
@@ -99,13 +98,14 @@ public class a3_systemtest {
 
 		result = !resultList.contains((Boolean) false);
 		Assert.assertEquals(result, true);
+		driver.findElement(By.id("a-home")).click();
+		driver.findElement(By.id("a-user-management")).click();
 	}
 
 	@Test
 	public void S_D_A1T02() {
 		boolean result = false;
 		List<Boolean> resultList = new ArrayList<Boolean>();
-		openFormular();
 
 		String user_first_name = "Test_User_2_A3_First_Name";
 		String user_last_name = "Test_User_2_A3_Last_Name";
