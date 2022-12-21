@@ -28,7 +28,6 @@ import lombok.Data;
 public class ModuleManualController {
 	private final ModuleManualRepository moduleManualRepository;
 	private final SpoRepository spoRepository;
-	
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
 	@GetMapping("")
