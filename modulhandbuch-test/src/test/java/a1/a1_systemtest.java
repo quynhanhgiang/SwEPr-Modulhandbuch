@@ -70,6 +70,7 @@ public class a1_systemtest {
 	public void openFormular() throws TimeoutException, NoSuchElementException {
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Mitarbeiter anlegen']")));
 		driver.findElement(By.xpath("//button[text()='Mitarbeiter anlegen']")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
 	}
 
 	public Connection getDatabaseConnection() throws SQLException, ClassNotFoundException {
@@ -472,7 +473,6 @@ public class a1_systemtest {
 
 			String currentUrl = driver.getCurrentUrl();
 			String expectedUrl = "https://85.214.225.164/dev/user-management";
-			System.out.println(currentUrl);
 			if (!currentUrl.equals(expectedUrl)) {
 				result = false;
 			}
@@ -517,7 +517,6 @@ public class a1_systemtest {
 
 			String currentUrl = driver.getCurrentUrl();
 			String expectedUrl = "https://85.214.225.164/dev/user-management";
-			System.out.println(currentUrl);
 			if (!currentUrl.equals(expectedUrl)) {
 				result = false;
 			}
@@ -562,11 +561,13 @@ public class a1_systemtest {
 			if (alert != null) {
 				result = true;
 			}
-			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[@tabindex='-1']")));
-			WebElement closeButton = driver.findElement(By.xpath("//button[@tabindex='-1']"));
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+					"//button[@class='p-ripple p-element ng-tns-c61-0 p-dialog-header-icon p-dialog-header-close p-link ng-star-inserted']")));
+			WebElement closeButton = driver.findElement(By.xpath(
+					"//button[@class='p-ripple p-element ng-tns-c61-0 p-dialog-header-icon p-dialog-header-close p-link ng-star-inserted']"));
 			closeButton.click();
 		} catch (NoAlertPresentException e) {
-			System.out.println("No alert");
+			result = false;
 		}
 
 		Assert.assertEquals(result, true);
@@ -576,6 +577,7 @@ public class a1_systemtest {
 	public void S_F_A1T21() throws UnexpectedTagNameException, NoSuchElementException, StaleElementReferenceException,
 			TimeoutException {
 		boolean result = false;
+		driver.navigate().refresh();
 		openFormular();
 
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
@@ -622,7 +624,6 @@ public class a1_systemtest {
 
 					String currentUrl = driver.getCurrentUrl();
 					String expectedUrl = "https://85.214.225.164/dev/user-management";
-					System.out.println(currentUrl);
 					if (!currentUrl.equals(expectedUrl)) {
 						result = false;
 					}
