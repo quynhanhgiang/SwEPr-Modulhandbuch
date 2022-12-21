@@ -75,7 +75,7 @@ public class a1_systemtest {
 	public Connection getDatabaseConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection connection = DriverManager.getConnection("jdbc:mariadb://85.214.225.164:3306/swepr_test",
-				"read_only_user_local_host", "car_tree_moon");
+				"read_only_user", "sweprmodulhandbuch2022readonly");
 		return connection;
 	}
 
@@ -104,10 +104,10 @@ public class a1_systemtest {
 				"/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/div[2]/div"))
 				.click();
 		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/div[4]/div[2]/ul/p-multiselectitem[1]/li/span"))
+				"/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/p-overlay/div/div/div/div[2]/ul/p-multiselectitem[1]/li"))
 				.click();
 		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/div[4]/div[1]/button/span"))
+				"/html/body/app-root/main/div/div/app-get-college-employees/div/app-create-college-employee/p-dialog/div/div/div[3]/form/div[1]/div[2]/p-multiselect/div/p-overlay/div/div/div/div[1]/button/span"))
 				.click();
 
 		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
