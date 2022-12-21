@@ -78,10 +78,10 @@ CREATE TABLE IF NOT EXISTS spo (
 	start_date DATE NOT NULL,
 	end_date DATE NULL,
 	course VARCHAR(255) NOT NULL,
-	fk_degree_unique_id INT NOT NULL,
+	fk_degree_pk_unique_id INT NOT NULL,
 	module_plan VARCHAR(255) NULL,
 	PRIMARY KEY (pk_unique_id),
-	CONSTRAINT spo_fk_degree_unique_id FOREIGN KEY (fk_degree_unique_id) REFERENCES degree (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT spo_fk_degree_pk_unique_id FOREIGN KEY (fk_degree_pk_unique_id) REFERENCES degree (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
 ;
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS module_manual (
 	fk_spo_pk_unique_id INT NOT NULL,
 	semester VARCHAR(255) NULL,
 	first_page VARCHAR(255) NULL,
-	preliminary_note TEXT NULL,
+	preliminary_note VARCHAR(255) NULL,
 	generated_pdf VARCHAR(255) NULL,
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_manual_fk_spo_pk_unique_id FOREIGN KEY (fk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
