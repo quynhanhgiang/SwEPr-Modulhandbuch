@@ -5,11 +5,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -432,6 +437,9 @@ public class a1_systemtest {
 		boolean result = false;
 		openFormular();
 
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String input = timeStamp.replace("_", "");
+
 		Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
 		andere.selectByValue("Herr");
 
@@ -441,26 +449,30 @@ public class a1_systemtest {
 		titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
 
 		WebElement vorname = driver.findElement(By.id("input-first-name"));
-		vorname.sendKeys("Florian");
+		vorname.sendKeys("testVorname" + input);
 
 		WebElement nachname = driver.findElement(By.id("input-last-name"));
-		nachname.sendKeys("Mittag");
+		nachname.sendKeys("testNachname" + input);
 
 		WebElement email = driver.findElement(By.id("input-email"));
-		email.sendKeys("Florian.Mittag@hs-coburg.de");
+		email.sendKeys("testEmail" + input + "@hs-coburg.de");
 
 		WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
 		buttonSpeichern.submit();
 
+		WebElement formularNeuenMitarbeiterAnlegen = null;
+
 		try {
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
-			WebElement formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+			formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+		} catch (TimeoutException | NoSuchElementException e) {
 			if (formularNeuenMitarbeiterAnlegen == null) {
 				result = true;
 			}
-		} catch (NoSuchElementException | TimeoutException e) {
+
 			String currentUrl = driver.getCurrentUrl();
 			String expectedUrl = "https://85.214.225.164/dev/user-management";
+			System.out.println(currentUrl);
 			if (!currentUrl.equals(expectedUrl)) {
 				result = false;
 			}
@@ -475,30 +487,37 @@ public class a1_systemtest {
 		boolean result = false;
 		openFormular();
 
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String input = timeStamp.replace("_", "");
+
 		Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
 		andere.selectByValue("Frau");
 
 		WebElement vorname = driver.findElement(By.id("input-first-name"));
-		vorname.sendKeys("Ina");
+		vorname.sendKeys("testVorname" + input);
 
 		WebElement nachname = driver.findElement(By.id("input-last-name"));
-		nachname.sendKeys("Sinterhauf");
+		nachname.sendKeys("testNachname" + input);
 
 		WebElement email = driver.findElement(By.id("input-email"));
-		email.sendKeys("ina.sinterhauf@hs-coburg.de");
+		email.sendKeys("testEmail" + input + "@hs-coburg.de");
 
 		WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
 		buttonSpeichern.submit();
 
+		WebElement formularNeuenMitarbeiterAnlegen = null;
+
 		try {
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
-			WebElement formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+			formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+		} catch (TimeoutException | NoSuchElementException e) {
 			if (formularNeuenMitarbeiterAnlegen == null) {
 				result = true;
 			}
-		} catch (NoSuchElementException | TimeoutException e) {
+
 			String currentUrl = driver.getCurrentUrl();
 			String expectedUrl = "https://85.214.225.164/dev/user-management";
+			System.out.println(currentUrl);
 			if (!currentUrl.equals(expectedUrl)) {
 				result = false;
 			}
@@ -508,31 +527,109 @@ public class a1_systemtest {
 	}
 
 	@Test
-	public void S_F_A1T20() {
+	public void S_F_A1T20() throws UnexpectedTagNameException, NoSuchElementException, StaleElementReferenceException,
+			TimeoutException {
+
 		boolean result = false;
 		openFormular();
 
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String input = timeStamp.replace("_", "");
+
+		Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+		andere.selectByValue("Herr");
+
+		WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+		titel.click();
+		titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+		titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
+
+		WebElement vorname = driver.findElement(By.id("input-first-name"));
+		vorname.sendKeys("testVorname" + input);
+
+		WebElement nachname = driver.findElement(By.id("input-last-name"));
+		nachname.sendKeys("testNachname" + input);
+
+		WebElement email = driver.findElement(By.id("input-email"));
+		email.sendKeys("Volkhard.Pfeiffer@hs-coburg.de");
+
+		WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+		buttonSpeichern.submit();
+
 		try {
-			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
-			andere.selectByValue("Herr");
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+			if (alert != null) {
+				result = true;
+			}
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[@tabindex='-1']")));
+			WebElement closeButton = driver.findElement(By.xpath("//button[@tabindex='-1']"));
+			closeButton.click();
+		} catch (NoAlertPresentException e) {
+			System.out.println("No alert");
+		}
 
-			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
-			titel.click();
-			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
-			titel.findElement(By.xpath("//li[@aria-label='Dr.']")).click();
+		Assert.assertEquals(result, true);
+	}
 
-			WebElement vorname = driver.findElement(By.id("input-first-name"));
-			vorname.sendKeys("Florian");
+	@Test
+	public void S_F_A1T21() throws UnexpectedTagNameException, NoSuchElementException, StaleElementReferenceException,
+			TimeoutException {
+		boolean result = false;
+		openFormular();
 
-			WebElement nachname = driver.findElement(By.id("input-last-name"));
-			nachname.sendKeys("Mittag");
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String input = timeStamp.replace("_", "");
 
-			WebElement email = driver.findElement(By.id("input-email"));
-			email.sendKeys("Volkhard.Pfeiffer@hs-coburg.de");
+		Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+		andere.selectByValue("Herr");
 
-			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
-			buttonSpeichern.submit();
-		} catch (Exception e) {
+		WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+		titel.click();
+		titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+
+		WebElement vorname = driver.findElement(By.id("input-first-name"));
+		vorname.sendKeys("Volkhard");
+
+		WebElement nachname = driver.findElement(By.id("input-last-name"));
+		nachname.sendKeys("Pfeiffer");
+
+		WebElement email = driver.findElement(By.id("input-email"));
+		email.sendKeys("testEmail" + input + "@hs-coburg.de");
+
+		WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+		buttonSpeichern.submit();
+
+		WebElement formularNeuenMitarbeiterAnlegen = null;
+
+		try {
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//span[text()='Namensdopplung Bestätigen']")));
+			WebElement namensdopplungBestätigen = driver
+					.findElement(By.xpath("//span[text()='Namensdopplung Bestätigen']"));
+			if (namensdopplungBestätigen != null) {
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@label='Yes']")));
+				WebElement acceptButton = driver.findElement(By.xpath("//button[@label='Yes']"));
+				acceptButton.click();
+
+				try {
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
+					formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+				} catch (TimeoutException | NoSuchElementException e) {
+					if (formularNeuenMitarbeiterAnlegen == null) {
+						result = true;
+					}
+
+					String currentUrl = driver.getCurrentUrl();
+					String expectedUrl = "https://85.214.225.164/dev/user-management";
+					System.out.println(currentUrl);
+					if (!currentUrl.equals(expectedUrl)) {
+						result = false;
+					}
+				}
+
+			}
+		} catch (TimeoutException | NoSuchElementException e) {
 			result = false;
 		}
 
@@ -540,61 +637,59 @@ public class a1_systemtest {
 	}
 
 	@Test
-	public void S_F_A1T21() {
+	public void S_F_A1T22() throws UnexpectedTagNameException, NoSuchElementException, StaleElementReferenceException,
+			TimeoutException {
 		boolean result = false;
 		openFormular();
 
-		try {
-			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
-			andere.selectByValue("Herr");
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		String input = timeStamp.replace("_", "");
 
-			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
-			titel.click();
-			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
+		Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
+		andere.selectByValue("Herr");
 
-			WebElement vorname = driver.findElement(By.id("input-first-name"));
-			vorname.sendKeys("Volkhard");
+		WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
+		titel.click();
+		titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
 
-			WebElement nachname = driver.findElement(By.id("input-last-name"));
-			nachname.sendKeys("Pfeiffer");
+		WebElement vorname = driver.findElement(By.id("input-first-name"));
+		vorname.sendKeys("Volkhard");
 
-			WebElement email = driver.findElement(By.id("input-email"));
-			email.sendKeys("Florian.Mittag@hs-coburg.de");
+		WebElement nachname = driver.findElement(By.id("input-last-name"));
+		nachname.sendKeys("Pfeiffer");
 
-			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
-			buttonSpeichern.submit();
-		} catch (Exception e) {
-			result = false;
-		}
+		WebElement email = driver.findElement(By.id("input-email"));
+		email.sendKeys("testEmail" + input + "@hs-coburg.de");
 
-		Assert.assertEquals(result, true);
-	}
+		WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
+		buttonSpeichern.submit();
 
-	@Test
-	public void S_F_A1T22() {
-		boolean result = false;
-		openFormular();
+		WebElement formularNeuenMitarbeiterAnlegen = null;
 
 		try {
-			Select andere = new Select(driver.findElement(By.id("select-create-employee-gender")));
-			andere.selectByValue("Herr");
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//span[text()='Namensdopplung Bestätigen']")));
+			WebElement namensdopplungBestätigen = driver
+					.findElement(By.xpath("//span[text()='Namensdopplung Bestätigen']"));
+			if (namensdopplungBestätigen != null) {
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@label='No']")));
+				WebElement backButton = driver.findElement(By.xpath("//button[@label='Yes']"));
+				backButton.click();
 
-			WebElement titel = driver.findElement(By.xpath("//div[text()='Titel auswählen']"));
-			titel.click();
-			titel.findElement(By.xpath("//li[@aria-label='Prof.']")).click();
-
-			WebElement vorname = driver.findElement(By.id("input-first-name"));
-			vorname.sendKeys("Volkhard");
-
-			WebElement nachname = driver.findElement(By.id("input-last-name"));
-			nachname.sendKeys("Pfeiffer");
-
-			WebElement email = driver.findElement(By.id("input-email"));
-			email.sendKeys("Florian.Mittag@hs-coburg.de");
-
-			WebElement buttonSpeichern = driver.findElement(By.id("btn-submit-close"));
-			buttonSpeichern.submit();
-		} catch (Exception e) {
+				try {
+					wait.until(ExpectedConditions
+							.invisibilityOfElementLocated(By.xpath("//span[text()='Namensdopplung Bestätigen']")));
+					formularNeuenMitarbeiterAnlegen = driver.findElement(By.xpath("//div[@role='dialog']"));
+					if (formularNeuenMitarbeiterAnlegen != null) {
+						result = true;
+					}
+				} catch (TimeoutException | NoSuchElementException e) {
+					if (formularNeuenMitarbeiterAnlegen == null) {
+						result = false;
+					}
+				}
+			}
+		} catch (TimeoutException | NoSuchElementException e) {
 			result = false;
 		}
 
