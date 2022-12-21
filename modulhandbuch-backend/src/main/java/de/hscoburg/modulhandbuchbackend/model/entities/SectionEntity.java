@@ -18,35 +18,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "module_manual")
-public class ModuleManualEntity {
+@Table(name = "section")
+public class SectionEntity implements StructureEntity<SectionEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "fk_spo_pk_unique_id", nullable = false)
-	private SpoEntity spo;
-
-	@Column(name = "preliminary_note")
-	private String preliminaryNoteLink;
-
-	@Column(name = "generated_pdf")
-	private String generatedPdfLink;
-
-	@Column(name = "semester", nullable = false)
-	private String semester;
-
-	@Column(name = "module_plan")
-	private String modulePlanLink;
-
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
-	private SectionEntity firstSection;
+	private SectionEntity next;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "fk_type_pk_unique_id")
-	private TypeEntity firstType;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "fk_module_manual_pk_unique_id", nullable = false)
+	private ModuleManualEntity moduleManual;
+
+	@Column(name = "name", nullable = false)
+	private String value;
 }

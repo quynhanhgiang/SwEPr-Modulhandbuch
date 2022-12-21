@@ -1,4 +1,4 @@
-package de.hscoburg.modulhandbuchbackend;
+package de.hscoburg.modulhandbuchbackend.advices;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

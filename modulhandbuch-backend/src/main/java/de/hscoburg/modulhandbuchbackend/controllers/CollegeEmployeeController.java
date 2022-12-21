@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.CollegeEmployeeDTO;
-import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.Data;
 @RequestMapping("/college-employees")
 public class CollegeEmployeeController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
-	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper();
+	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
 	@GetMapping("")
 	List<CollegeEmployeeDTO> allCollegeEmployees() {
