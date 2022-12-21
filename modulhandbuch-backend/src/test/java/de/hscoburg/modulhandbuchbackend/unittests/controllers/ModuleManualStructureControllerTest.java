@@ -52,8 +52,26 @@ public class ModuleManualStructureControllerTest {
 			List<StructureDTO> expectedStructureDTOList;
 		}
 
+		StructureDTO newElement = new StructureDTO();
+		newElement.setId(null);
+		newElement.setValue("New element");
+
+		// StructureDTO
+
 		Set<TestParameters> testData = Set.of(
-			// empty list, null list, list with null, list with double id
+			// // oneModulePlan
+			// new TestParameters((id, structure) -> this.moduleManualDocumentControllerWithMocks.replaceSegments(id, structure), 0, false, null, null, this.fileInfoModulePlan),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 1, false, null, null, new FileInfoDTO()),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 2, true, RuntimeException.class, "Id 2 for module manual not found.", null),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), -1, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), null, true, IllegalArgumentException.class, null, null),
+
+			// // onePreliminaryNote
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 0, false, null, null, this.fileInfoPreliminaryNote),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 1, false, null, null, new FileInfoDTO()),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 2, true, RuntimeException.class, "Id 2 for module manual not found.", null),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), -1, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), null, true, IllegalArgumentException.class, null, null)
 		);
 
 		// initially no module manuals are present
