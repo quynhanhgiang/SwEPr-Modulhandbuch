@@ -46,7 +46,7 @@ describe('CreateCollegeEmployeeComponent', () => {
   });
   
   /**
-  * Testfall A1.3:UT3 Testen, ob Formular nach betätigen des Knopfes 'Neues Modul erzeugen' sichtbar ist.
+  * Testfall A1.3:UT3 Testen, ob Formular nach betätigen des Knopfes 'Mitarbeiter anlegen' sichtbar ist.
   */
     it("should set 'display' on true after call function 'showDialog()'", () => {
     component.showDialog();
@@ -55,7 +55,7 @@ describe('CreateCollegeEmployeeComponent', () => {
 
 
   /**
-  * Testfall A1.3:UT5 Testen, ob reset Form .
+  * Testfall A1.3:UT4 Testen, ob nach Initalisierung der Komponente die richtigen Werte geladen wurden.
   */
    it("should set values for 'genders' and 'titles' after calling 'ngOnInit()'", () => {
     fixture = TestBed.createComponent(CreateCollegeEmployeeComponent);
@@ -159,7 +159,7 @@ describe('CreateCollegeEmployeeComponent', () => {
     });
 
   /**
-  * Testfall A1.3:UT8 Testen ob das Bestätigungsfeld geöffnet wird, wenn versucht wird einen Nutzer mit einem bereits vorhandenne Namne anzulegen
+  * Testfall A1.3:UT8 Testen ob das Bestätigungsfeld geöffnet wird, wenn versucht wird einen Nutzer mit einem bereits vorhandenne Namne anzulegen.
   */
   it("should call 'confirm()' after calling'submit' with a duplicate Name" , () => {
     fixture = TestBed.createComponent(CreateCollegeEmployeeComponent);
@@ -184,7 +184,7 @@ describe('CreateCollegeEmployeeComponent', () => {
 
   
   /**
-  * Testfall A1.3:UT9 Testen ob das Bestätigungsfeld geöffnet wird, wenn versucht wird einen Nutzer mit einem bereits vorhandenne Namne anzulegen
+  * Testfall A1.3:UT9 Testen ob eine Warnung angezeigt wird, wenn versucht wird einen Nutzer mit einer bereits vorhandenne Email anzulegen.
   */
   it("should call 'alert' with:'Ein Nutzer mit dieser Email-Adresse ist bereits angelegt' after calling'onSubmit()' with a duplicate email" , () => {
     fixture = TestBed.createComponent(CreateCollegeEmployeeComponent);
@@ -208,7 +208,7 @@ describe('CreateCollegeEmployeeComponent', () => {
   });
 
   /**
-  * Testfall A1.3:UT10 Testen ob der Nutzer angelegt wird, wenn bei dem Bestätigungsfeld auf 'ja' gedrückt wird
+  * Testfall A1.3:UT10 Testen ob der Nutzer angelegt wird, wenn bei dem Bestätigungsfeld auf 'ja' gedrückt wird.
   */
     it("should create newEmployee after calling 'accept()'" , () => {
       fixture = TestBed.createComponent(CreateCollegeEmployeeComponent);
@@ -242,7 +242,7 @@ describe('CreateCollegeEmployeeComponent', () => {
 
 
   /**
-  * Testfall A1.3:UT10 Testen ob der das Formular zurückgesetzt wird und geöfnnet bleibt, wenn bei dem Bestätigungsfeld auf 'nein' gedrückt wird
+  * Testfall A1.3:UT11 Testen ob der das Formular zurückgesetzt wird und geöfnnet bleibt, wenn bei dem Bestätigungsfeld auf 'nein' gedrückt wird.
   */
       it("should reset employeeFormGroup after calling 'reject()'" , () => {
         fixture = TestBed.createComponent(CreateCollegeEmployeeComponent);
