@@ -58,19 +58,6 @@ INSERT IGNORE INTO degree VALUES
 ;
 
 
-CREATE TABLE IF NOT EXISTS degree(
-	pk_unique_id INT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(255) NOT NULL,
-	PRIMARY KEY (pk_unique_id)
-)
-COLLATE='utf8mb4_unicode_520_ci'
-;
-
-INSERT IGNORE INTO degree VALUES
-	(1, "Bachelor"),
-	(2, "Master")
-;
-
 
 CREATE TABLE IF NOT EXISTS spo (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
@@ -79,7 +66,6 @@ CREATE TABLE IF NOT EXISTS spo (
 	end_date DATE NULL,
 	course VARCHAR(255) NOT NULL,
 	fk_degree_pk_unique_id INT NOT NULL,
-	module_plan VARCHAR(255) NULL,
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT spo_fk_degree_pk_unique_id FOREIGN KEY (fk_degree_pk_unique_id) REFERENCES degree (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -87,10 +73,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO spo VALUES
-	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', 1, NULL),
-	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', 1, NULL),
-	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', 1, NULL),
-	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 1, NULL)
+	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', 1),
+	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', 1),
+	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', 1),
+	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 1)
 ;
 
 
@@ -213,11 +199,11 @@ INSERT IGNORE INTO module VALUES
 
 
 CREATE TABLE IF NOT EXISTS prof (
-	pk_college_employee_pk_unique_id INT NOT NULL,
-	pk_module_pk_unique_id INT NOT NULL,
-	PRIMARY KEY (pk_college_employee_pk_unique_id, pk_module_pk_unique_id),
-	CONSTRAINT prof_fk_college_employee_pk_unique_id FOREIGN KEY (pk_college_employee_pk_unique_id) REFERENCES college_employee (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT prof_fk_module_pk_unique_id FOREIGN KEY (pk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+	fk_college_employee_pk_unique_id INT NOT NULL,
+	fk_module_pk_unique_id INT NOT NULL,
+	PRIMARY KEY (fk_college_employee_pk_unique_id, fk_module_pk_unique_id),
+	CONSTRAINT prof_fk_college_employee_pk_unique_id FOREIGN KEY (fk_college_employee_pk_unique_id) REFERENCES college_employee (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT prof_fk_module_pk_unique_id FOREIGN KEY (fk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
 ;
@@ -236,6 +222,7 @@ CREATE TABLE IF NOT EXISTS module_manual (
 	first_page VARCHAR(255) NULL,
 	preliminary_note VARCHAR(255) NULL,
 	generated_pdf VARCHAR(255) NULL,
+	module_plan VARCHAR(255) NULL,
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_manual_fk_spo_pk_unique_id FOREIGN KEY (fk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -243,9 +230,9 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_manual VALUES
-	(1, 1, "Sommersemester 23", NULL, NULL, NULL),
-	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL),
-	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL)
+	(1, 1, "Sommersemester 23", NULL, NULL, NULL, NULL),
+	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL, NULL),
+	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL, NULL)
 ;
 
 
@@ -289,7 +276,18 @@ COLLATE='utf8mb4_unicode_520_ci'
 CREATE TABLE IF NOT EXISTS module_manual_archive (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
-	generated_pdf BLOB NULL,
+	generated_pdf VARCHAR(255) NULL,
+	PRIMARY KEY (pk_unique_id)
+)
+COLLATE='utf8mb4_unicode_520_ci'
+;
+
+
+
+
+CREATE TABLE IF NOT EXISTS additional_data (
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
+	path VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pk_unique_id)
 )
 COLLATE='utf8mb4_unicode_520_ci'
@@ -298,16 +296,17 @@ COLLATE='utf8mb4_unicode_520_ci'
 
 
 CREATE TABLE IF NOT EXISTS module_manual_has_module (
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	fk_module_manual_pk_unique_id INT NOT NULL,
 	fk_module_pk_unique_id INT NOT NULL,
-	pk_semester INT NOT NULL,
+	semester INT NOT NULL,
 	fk_section_pk_unique_id INT NULL,
 	fk_type_pk_unique_id INT NULL,
 	sws INT NULL,
 	ects INT NOT NULL,
 	workload TEXT NULL,
 	fk_admission_requirement_pk_unique_id INT NULL,
-	PRIMARY KEY (fk_module_manual_pk_unique_id, fk_module_pk_unique_id, pk_semester),
+	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_manual_has_module_fk_module_pk_unique_id FOREIGN KEY (fk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_manual_has_module_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT module_manual_has_module_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -318,8 +317,8 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_manual_has_module VALUES
-	(1, 1, 1, NULL, NULL, 5, 2, '150h', NULL),
-	(1, 2, 1, NULL, NULL, 7, 3, '150h', NULL),
-	(1, 3, 1, NULL, NULL, 2, 1, '150h', NULL)
+	(1, 1, 1, 1, NULL, NULL, 5, 2, '150h', NULL),
+	(2, 1, 2, 1, NULL, NULL, 7, 3, '150h', NULL),
+	(3, 1, 3, 1, NULL, NULL, 2, 1, '150h', NULL)
 ;
 
