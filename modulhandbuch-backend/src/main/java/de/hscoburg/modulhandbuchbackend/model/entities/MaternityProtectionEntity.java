@@ -9,13 +9,15 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "maternity_protection")
-public class MaternityProtectionEntity implements EnumEntity<MaternityProtectionEntity> {
+public class MaternityProtectionEntity extends EnumEntity<MaternityProtectionEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

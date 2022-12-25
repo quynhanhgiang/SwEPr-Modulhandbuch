@@ -9,13 +9,15 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "cycle")
-public class CycleEntity implements EnumEntity<CycleEntity> {
+public class CycleEntity extends EnumEntity<CycleEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

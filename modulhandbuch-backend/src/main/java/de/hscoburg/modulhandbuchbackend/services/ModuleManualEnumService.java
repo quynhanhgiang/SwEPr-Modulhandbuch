@@ -9,16 +9,16 @@ import java.util.function.Consumer;
 import org.springframework.stereotype.Service;
 
 import de.hscoburg.modulhandbuchbackend.dto.EnumDTO;
-import de.hscoburg.modulhandbuchbackend.model.entities.EnumEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
-import de.hscoburg.modulhandbuchbackend.repositories.EnumRepository;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEnumEntity;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository;
 import lombok.Data;
 
 @Data
 @Service
 public class ModuleManualEnumService {
 	
-	public <T extends EnumEntity<T>> void validateIds(List<EnumDTO> enumDto, ModuleManualEntity moduleManual, EnumRepository<T> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
+	public <T extends ModuleManualEnumEntity<T>> void validateIds(List<EnumDTO> enumDto, ModuleManualEntity moduleManual, ModuleManualEnumRepository<T> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
 		Set<Integer> ids = new TreeSet<>();
 		Iterator<EnumDTO> iterator = enumDto.iterator();
 		while (iterator.hasNext()) {

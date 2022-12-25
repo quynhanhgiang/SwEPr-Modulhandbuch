@@ -9,13 +9,15 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "duration")
-public class DurationEntity implements EnumEntity<DurationEntity> {
+public class DurationEntity extends EnumEntity<DurationEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

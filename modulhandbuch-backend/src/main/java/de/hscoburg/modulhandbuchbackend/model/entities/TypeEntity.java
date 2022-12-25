@@ -13,13 +13,15 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "type")
-public class TypeEntity implements StructureEntity<TypeEntity> {
+public class TypeEntity extends StructureEntity<TypeEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,13 +12,15 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "admission_requirement")
-public class AdmissionRequirementEntity implements EnumEntity<AdmissionRequirementEntity> {
+public class AdmissionRequirementEntity extends ModuleManualEnumEntity<AdmissionRequirementEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
