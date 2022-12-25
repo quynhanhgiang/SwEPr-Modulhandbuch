@@ -74,15 +74,15 @@ public class ModuleManualStructureControllerTest {
 			// new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), null, true, IllegalArgumentException.class, null, null)
 		);
 
-		// initially no module manuals are present
-		Mockito.when(this.mockModuleManualRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
-		// IllegalArgumentException if id is null
-		Mockito.when(this.mockModuleManualRepository.findById(null)).thenThrow(new IllegalArgumentException());
-		// TODO
-		// // module manual with id 0 is present and is linked to documents
-		// Mockito.when(this.mockModuleManualRepository.findById(0)).thenReturn(Optional.of(this.moduleManualEntityWithContent));
-		// // module manual with id 1 is present but is not linked to documents
-		// Mockito.when(this.mockModuleManualRepository.findById(1)).thenReturn(Optional.of(this.mockModuleManualEntity));
+		// // initially no module manuals are present
+		// Mockito.when(this.mockModuleManualRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+		// // IllegalArgumentException if id is null
+		// Mockito.when(this.mockModuleManualRepository.findById(null)).thenThrow(new IllegalArgumentException());
+		// // TODO
+		// // // module manual with id 0 is present and is linked to documents
+		// // Mockito.when(this.mockModuleManualRepository.findById(0)).thenReturn(Optional.of(this.moduleManualEntityWithContent));
+		// // // module manual with id 1 is present but is not linked to documents
+		// // Mockito.when(this.mockModuleManualRepository.findById(1)).thenReturn(Optional.of(this.mockModuleManualEntity));
 
 		for (TestParameters testParameters : testData) {
 			if (testParameters.expectedToThrowException) {
