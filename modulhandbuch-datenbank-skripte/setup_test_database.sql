@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS swepr_test_a10_11 /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ;
 
-USE swepr_test_a10_11;
+USE swepr_test;
 
 CREATE TABLE IF NOT EXISTS gender (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
