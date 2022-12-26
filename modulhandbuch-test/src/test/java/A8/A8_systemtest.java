@@ -51,8 +51,8 @@ public class A8_systemtest {
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(By.id("btn-hamburger")));
 			driver.findElement(By.id("btn-hamburger")).click();
-			wait.until(ExpectedConditions.elementToBeClickable(By.id("a-module-management")));
-			driver.findElement(By.id("a-module-management")).click();
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("a-module-manuals")));
+			driver.findElement(By.id("a-module-manuals")).click();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,28 +80,19 @@ public class A8_systemtest {
 	}
 
     @Test
-    public void S_D_A1T1() {
+    public void S_D_A8T1() {
         boolean result = false;
         List<Boolean> resultList = new ArrayList<Boolean>();
 
-        String module_name = "Test_1_A5";
-		String abb = "T1A5";
-		String prof = "Test_1_A5";
+        String module_manual_name = "Test_1_A5";
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/p-table/div/div/table/thead/tr[2]/th[1]/p-columnfilter/div/p-columnfilterformelement/input"))
-		.sendKeys(module_name);
+		driver.findElement(By.id("input-search"))
+		.sendKeys(module_manual_name);
 
-		resultList.add(driver.getPageSource().contains(module_name));
-		resultList.add(driver.getPageSource().contains(abb));
-		resultList.add(driver.getPageSource().contains(prof));
+		resultList.add(driver.getPageSource().contains(module_manual_name));
 
 		result = !resultList.contains((Boolean) false);
         Assert.assertEquals(result, true);
-    }
-
-    @Test
-    public void S_D_A1T2() {
-
     }
 
 }
