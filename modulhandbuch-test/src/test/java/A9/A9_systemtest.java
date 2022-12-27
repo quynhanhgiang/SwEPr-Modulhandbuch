@@ -81,10 +81,28 @@ public class A9_systemtest {
 
     @Test
     public void S_D_A9T1() {
+		openFormular();
         boolean result = false;
         List<Boolean> resultList = new ArrayList<Boolean>();
 
         String module_manual_name = " ";
+
+		String date = null;
+
+		Select semester_spo = new Select(driver.findElement(By.xpath("//*[@id='select-semester-type']")));
+		semester_spo.selectByValue("Sommersemester");
+
+		driver.findElement(By.xpath("//*[@id='input-semester-year']")).sendKeys("9000");
+		driver.findElement(By.xpath("//*[@id='input-spo-link']")).sendKeys("https://85.214.225.164/dev/home");
+		
+		Select degree = new Select(driver.findElement(By.xpath("//*[@id='select-degree']")));
+		degree.selectByValue("Bachelor");
+
+		driver.findElement(By.xpath("//*[@id='select-degree']")).sendKeys("Informatik");
+		driver.findElement(By.xpath("//*[@id='check-end-date']")).click();
+
+		driver.findElement(By.xpath("//*[@id='date-start']")).sendKeys(date);
+
 
 		driver.findElement(By.id("input-search"))
 		.sendKeys(module_manual_name);
