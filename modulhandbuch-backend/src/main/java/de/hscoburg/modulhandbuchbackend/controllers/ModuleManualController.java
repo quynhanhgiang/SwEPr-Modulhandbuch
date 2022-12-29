@@ -16,19 +16,16 @@ import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualVariationDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
-import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
-import de.hscoburg.modulhandbuchbackend.repositories.AdmissionRequirementRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.SectionRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.TypeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.services.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -38,13 +35,11 @@ import lombok.Data;
 @RestController
 @RequestMapping("/module-manuals")
 public class ModuleManualController {
-	private final AdmissionRequirementRepository admissionRequirementRepository;
 	private final ModuleManualRepository moduleManualRepository;
 	private final ModuleRepository moduleRepository;
 	private final SpoRepository spoRepository;
-	private final SectionRepository sectionRepository;
-	private final TypeRepository typeRepository;
 	private final VariationRepository variationRepository;
+	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
 	@GetMapping("")
@@ -125,38 +120,9 @@ public class ModuleManualController {
 
 		// validation
 		variationEntities = variationEntities
-			.filter(variationEntity -> variationEntity.getModule() != null)
-			.filter(variationEntity -> variationEntity.getModule().getId() != null)
-			.peek(variationEntity -> {
-				Integer moduleId = variationEntity.getModule().getId();
-				variationEntity.setModule(this.moduleRepository.findById(moduleId)
-						.orElseThrow(() -> new ModuleNotFoundException(moduleId)));
-			})
-			.peek(variationEntity -> {
-				if ((variationEntity.getType() != null) && (variationEntity.getType().getId() != null)) {
-					Integer typeId = variationEntity.getType().getId();
-					variationEntity.setType(this.typeRepository.findById(typeId).orElse(null));
-				} else {
-					variationEntity.setType(null);
-				}
-			})
-			.peek(variationEntity -> {
-				if ((variationEntity.getSection() != null) && (variationEntity.getSection().getId() != null)) {
-					Integer sectionId = variationEntity.getSection().getId();
-					variationEntity.setSection(this.sectionRepository.findById(sectionId).orElse(null));
-				} else {
-					variationEntity.setSection(null);
-				}
-			})
-			.peek(variationEntity -> {
-				if ((variationEntity.getAdmissionRequirement() != null) && (variationEntity.getAdmissionRequirement().getId() != null)) {
-					Integer admissionRequirementId = variationEntity.getAdmissionRequirement().getId();
-					variationEntity.setAdmissionRequirement(this.admissionRequirementRepository.findById(admissionRequirementId).orElse(null));
-				} else {
-					variationEntity.setAdmissionRequirement(null);
-				}
-			});
-
+			.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+			.filter(variationEntity -> variationEntity != null);
+		
 		return variationEntities
 			.map(variationEntity -> this.variationRepository.save(variationEntity))
 			.map(variationEntity -> this.modulhandbuchBackendMapper.map(variationEntity, ModuleManualVariationDTO.class))

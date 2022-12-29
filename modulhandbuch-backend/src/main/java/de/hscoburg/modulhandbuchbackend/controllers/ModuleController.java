@@ -25,6 +25,7 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.services.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -37,6 +38,7 @@ public class ModuleController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
 	private final ModuleManualRepository moduleManualRepository;
 	private final VariationRepository variationRepository;
+	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
 	@GetMapping("")
@@ -81,12 +83,8 @@ public class ModuleController {
 		// extract only id from module manual and replace other contents of module manual with data from database
 		if (moduleEntity.getVariations() != null) {
 			List<VariationEntity> newVariations = moduleEntity.getVariations().stream()
-				.filter(variation -> variation.getModuleManual() != null)
-				.filter(variation -> variation.getModuleManual().getId() != null)
-				.peek(variation -> variation.setModuleManual(
-					// TODO own exception
-					this.moduleManualRepository.findById(variation.getModuleManual().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
-				))
+				.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+				.filter(variationEntity -> variationEntity != null)
 				.collect(Collectors.toList());
 
 			moduleEntity.setVariations(newVariations);
