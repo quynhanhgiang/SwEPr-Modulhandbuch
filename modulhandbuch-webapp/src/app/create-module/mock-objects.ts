@@ -1,3 +1,4 @@
+import { Assignment } from "../shared/Assignments";
 import { CollegeEmployee } from "../shared/CollegeEmployee";
 import { ModuleManual } from "../shared/module-manual";
 
@@ -88,22 +89,55 @@ export const maternityProtections: string[] = [
     "Rot"
 ]
 
-export const segments: string[] = [
-  "1. Studienabschnitt",
-  "2. Studienabschnitt",
-  "3. Studienabschnitt"
+export const segments: Assignment[] = [
+  {
+    id: 0,
+    value: "1. Studienabschnitt"
+  },
+  {
+    id: 1,
+    value: "2. Studienabschnitt"
+  },
+  {
+    id: 2,
+    value: "3. Studienabschnitt"
+  }
 ]
 
-export const requirements: string[] = [
-  "Zulassungsvorraussetzung nach §4 Abs. 1",
-  "Zulassungsvorraussetzung nach §4 Abs. 2",
-  "Zulassungsvorraussetzung nach §5 Abs. 1",
-  "Zulassungsvorraussetzung nach §5 Abs. 2"
+export const requirements: Assignment[] = [
+  {
+    id: 0,
+    value: "Zulassungsvorraussetzung nach §4 Abs. 1"
+  },
+  {
+    id: 1,
+    value: "Zulassungsvorraussetzung nach §4 Abs. 2"
+  },
+  {
+    id: 2,
+    value: "Zulassungsvorraussetzung nach §5 Abs. 1"
+  },
+  {
+    id: 3,
+    value: "Zulassungsvorraussetzung nach §5 Abs. 2"
+  }
 ]
 
-export const types: string[] = [
-  "Wahlpflichtfach",
-  "Pflichtfach",
-  "Praktikum",
-  "Schlüsselqualifikation"
+export const types: Assignment[] = [
+  {
+    id: 0,
+    value: "Wahlpflichtfach"
+  },
+  {
+    id: 1,
+    value: "Pflichtfach"
+  },
+  {
+    id: 2,
+    value: "Praktikum"
+  },
+  {
+    id: 3,
+    value: "Schlüsselqualifikation"
+  }
 ]

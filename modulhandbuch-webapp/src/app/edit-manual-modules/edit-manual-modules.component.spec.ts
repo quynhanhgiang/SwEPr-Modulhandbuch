@@ -67,14 +67,52 @@ describe('EditManualModulesComponent', () => {
    * Testfall A11.7:UT3 Testen, ob eine valide Modulvariation beliebig verschoben werden kann.
    */
   it('should be possible to assign or unassign a valid manual-variation', () => {
+    const itemTransferEvent: any = {
+      items: [
+        component.assignedModules[0]
+      ]
+    }
 
+    let assignedLength = component.assignedModules.length;
+    let unassignedLength = component.unassignedModules.length;
+
+    component.unassignedModules.push(itemTransferEvent.items[0]);
+    component.assignedModules.splice(component.assignedModules.indexOf(itemTransferEvent.items[0], 0), 1);
+    component.unassignModule(itemTransferEvent);
+
+    expect(itemTransferEvent.items[0].isAssigned).toBeFalse();
+    expect(component.assignedModules.length).toBe(assignedLength - 1);
+    expect(component.unassignedModules.length).toBe(unassignedLength + 1);
+
+    component.assignedModules.push(itemTransferEvent.items[0]);
+    component.unassignedModules.splice(component.unassignedModules.indexOf(itemTransferEvent.items[0], 0), 1);
+    component.assignModule(itemTransferEvent);
+
+    expect(itemTransferEvent.items[0].isAssigned).toBeTrue();
+    expect(component.assignedModules.length).toBe(assignedLength);
+    expect(component.unassignedModules.length).toBe(unassignedLength);
   });
 
   /**
    * Testfall A11.7:UT4 Testen, ob ein nicht-valides Modul (nicht) zugeordnet werden kann.
    */
   it('should not be possible to assign a invalid module', () => {
+    const itemTransferEvent: any = {
+      items: [
+        component.unassignedModules[0]
+      ]
+    }
 
+    let assignedLength = component.assignedModules.length;
+    let unassignedLength = component.unassignedModules.length;
+
+    component.assignedModules.push(itemTransferEvent.items[0]);
+    component.unassignedModules.splice(component.unassignedModules.indexOf(itemTransferEvent.items[0], 0), 1);
+    component.assignModule(itemTransferEvent);
+
+    expect(itemTransferEvent.items[0].isAssigned).toBeFalse();
+    expect(component.assignedModules.length).toBe(assignedLength);
+    expect(component.unassignedModules.length).toBe(unassignedLength);
   });
 
   /**

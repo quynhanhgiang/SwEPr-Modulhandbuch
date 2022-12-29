@@ -50,6 +50,10 @@ export class DynamicListComponent{
    * @param index index of the item to edit.
    */
   editItem(index: number) {
+    if (this.itemToEditIndex != null) {
+      this.resetItem(this.itemToEditIndex);
+    }
+
     this.itemToEditIndex = index;
     this.resetVal = this.list[index].value;
   }
@@ -57,7 +61,11 @@ export class DynamicListComponent{
   /**
    * Closes the edit-view for the currently edited item.
    */
-  closeEdit() {
+  closeEdit(index: number) {
+    if (this.list[index].value.trim().length == 0) {
+      this.list[index].value = this.resetVal;
+    }
+
     this.itemToEditIndex = null;
     this.listChange.emit(this.list);
   }
@@ -67,12 +75,12 @@ export class DynamicListComponent{
    * @param index index of the edited item.
    */
   resetItem(index: number) {
-    this.itemToEditIndex = null;
     this.list[index].value = this.resetVal;
+    this.itemToEditIndex = null;
   }
 
   /**
-   *
+   * Sets the item to delete and opens the delete-warning.
    * @param index
    */
   deleteItem(index: number) {
@@ -80,10 +88,17 @@ export class DynamicListComponent{
     this.showWarning();
   }
 
+  /**
+   * Makes the delete-warning visible.
+   */
   showWarning() {
     this.dialogVisible = true;
   }
 
+  /**
+   * Closes the delete-warning and deletes the item, if the btn-warning-delete was clicked.
+   * @param del if true, the item will be removed from the list
+   */
   closeWarning(del: boolean) {
     if (del) {
       this.list.splice(this.itemToDeleteIndex!, 1);
