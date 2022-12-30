@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/Assignments';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
@@ -30,9 +31,9 @@ export class CreateModuleComponent implements OnInit {
   languages!:String[];
   maternityProtections!:String[];
 
-  admissionRequirements:String[][]=[];
-  moduleTypes:String[][]=[];
-  segments:String[][]=[];
+  admissionRequirements:Assignment[][]=[];
+  moduleTypes:Assignment[][]=[];
+  segments:Assignment[][]=[];
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
@@ -131,7 +132,7 @@ export class CreateModuleComponent implements OnInit {
   }
 
   updateModuleManual(id:number, i:number) {
-    /*this.restAPI.getModuleTypes(id).subscribe(resp => {
+    this.restAPI.getModuleTypes(id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
@@ -141,7 +142,7 @@ export class CreateModuleComponent implements OnInit {
 
     this.restAPI.getSegments(id).subscribe(resp => {
       this.segments[i]=resp
-    });*/
+    });
   }
 
   get variations(){

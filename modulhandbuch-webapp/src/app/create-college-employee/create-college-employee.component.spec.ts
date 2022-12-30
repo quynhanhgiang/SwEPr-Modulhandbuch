@@ -58,7 +58,7 @@ describe('CreateCollegeEmployeeComponent', () => {
     component.ngOnInit();
 
     expect(component.titles).toEqual(["Prof.","Dr.", "Dipl."]);
-    expect(component.genders).toEqual(["Herr","Frau", "Diverse"]);
+    expect(component.genders).toEqual(["Herr","Frau", "Divers"]);
 
   });
 
@@ -99,7 +99,7 @@ describe('CreateCollegeEmployeeComponent', () => {
       title:["Dr.", "Prof.", "Dipl.", "Med.", "Dent."],
       firstName:"Müx",
       lastName:"Müstermann",
-      gender:"Diverse",
+      gender:"Divers",
       email:"müxmüstermann@exmaple.com"
     });
 
