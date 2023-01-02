@@ -166,9 +166,18 @@ export const module: Module =
           sws: 6,
           workLoad: "<p><span style=\"color: rgb(0, 0, 0);\">90 h Präsenz (Seminaristischer Unterricht mit integrierten Übungen)</span></p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">120 h Eigenarbeit (40 h Nachbereitung des Lehrstoffs, 30 h Bearbeitung von Übungsaufgaben, 50 h Prüfungsvorbereitung)</span></p>",
           semester: 1,
-          moduleType: "Pflichtfach",
-          admissionRequirement: "1",
-          segment: "1. Studienabschnitt"
+          moduleType: {
+            "id": 1,
+            "value": "Pflichtfach"
+          },
+          admissionRequirement: {
+            "id": 0,
+            "value": "Zulassungsvorraussetzung nach §4 Abs. 1"
+          },
+          segment: {
+            "id": 0,
+            "value": "1. Studienabschnitt"
+          }
         }
       ],
       cycle: "Jährlich",
