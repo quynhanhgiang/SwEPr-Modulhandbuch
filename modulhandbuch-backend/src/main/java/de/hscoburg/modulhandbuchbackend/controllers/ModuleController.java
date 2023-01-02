@@ -54,8 +54,10 @@ public class ModuleController {
 			ModuleManualEntity moduleManualToIgnore = this.moduleManualRepository.findById(moduleManualToIgnoreId)
 				.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualToIgnoreId));
 			
-			List<ModuleEntity> result = this.moduleRepository.findByModuleManualNot(moduleManualToIgnore);
-			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
+			List<VariationEntity> result = this.variationRepository.findByModuleManualNot(moduleManualToIgnore);
+			return result.stream()
+				.map(variation -> variation.getModule())
+				.map(module -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
 
 		} catch (NumberFormatException | ModuleManualNotFoundException ignored) {}
 
