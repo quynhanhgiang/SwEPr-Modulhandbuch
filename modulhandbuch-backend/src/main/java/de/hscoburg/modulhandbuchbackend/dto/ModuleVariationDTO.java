@@ -3,12 +3,13 @@ package de.hscoburg.modulhandbuchbackend.dto;
 import lombok.Data;
 
 @Data
-public class VariationDTO {
-	private SpoDTO spo;
+public class ModuleVariationDTO {
+	private ModuleManualDTO manual;
 	private Integer semester;
 	private Integer sws;
 	private Integer ects;
 	private String workLoad;
-	private String admissionRequirements;
-	private String category;
+	private StructureDTO moduleType;
+	private StructureDTO segment;
+	private EnumDTO admissionRequirement;
 }

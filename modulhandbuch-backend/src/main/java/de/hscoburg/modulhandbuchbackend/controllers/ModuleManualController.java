@@ -2,6 +2,7 @@ package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
+import de.hscoburg.modulhandbuchbackend.dto.ModuleManualVariationDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.services.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -27,8 +36,10 @@ import lombok.Data;
 @RequestMapping("/module-manuals")
 public class ModuleManualController {
 	private final ModuleManualRepository moduleManualRepository;
+	private final ModuleRepository moduleRepository;
 	private final SpoRepository spoRepository;
-	
+	private final VariationRepository variationRepository;
+	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
 	@GetMapping("")
@@ -43,6 +54,12 @@ public class ModuleManualController {
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
+	}
+
+	@GetMapping("/{id}/modules")
+	public List<ModuleFullDTO> allAssociatedModules(@PathVariable Integer id) {
+		List<ModuleEntity> result = this.moduleRepository.findAll();
+		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFullDTO.class)).collect(Collectors.toList());
 	}
 
 	@PostMapping("")
@@ -90,5 +107,25 @@ public class ModuleManualController {
 
 		ModuleManualEntity result = this.moduleManualRepository.save(moduleManualEntity);
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
+	}
+
+	@PutMapping("/{id}/modules")
+	public List<ModuleManualVariationDTO> replaceVariations(@RequestBody List<ModuleManualVariationDTO> variations, @PathVariable Integer id) {
+		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+		
+		Stream<VariationEntity> variationEntities = variations.stream()
+			.map(variation -> this.modulhandbuchBackendMapper.map(variation, VariationEntity.class))
+			.peek(variationEntity -> variationEntity.setModuleManual(moduleManual));
+
+		// validation
+		variationEntities = variationEntities
+			.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+			.filter(variationEntity -> variationEntity != null);
+		
+		return variationEntities
+			.map(variationEntity -> this.variationRepository.save(variationEntity))
+			.map(variationEntity -> this.modulhandbuchBackendMapper.map(variationEntity, ModuleManualVariationDTO.class))
+			.collect(Collectors.toList());
 	}
 }
