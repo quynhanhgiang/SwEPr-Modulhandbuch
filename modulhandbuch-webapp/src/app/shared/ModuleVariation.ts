@@ -1,3 +1,4 @@
+import { Assignment } from "./Assignments";
 import { ModuleManual } from "./module-manual";
 
 export interface ModuleVariation {
@@ -6,7 +7,7 @@ export interface ModuleVariation {
     sws: number,
     ects: number,
     workLoad: string,
-    moduleType: string,
-    segment: string,
-    admissionRequirement: string
+    moduleType: Assignment,
+    segment: Assignment,
+    admissionRequirement: Assignment
 }
