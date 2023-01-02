@@ -1,8 +1,10 @@
 package de.hscoburg.modulhandbuchbackend.repositories;
 
+import de.hscoburg.modulhandbuchbackend.model.entities.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
+import java.util.List;
 
 public interface VariationRepository extends JpaRepository<VariationEntity, Integer> {
+    List<VariationEntity> findBySectionAndType(SectionEntity section, TypeEntity type);
 }
