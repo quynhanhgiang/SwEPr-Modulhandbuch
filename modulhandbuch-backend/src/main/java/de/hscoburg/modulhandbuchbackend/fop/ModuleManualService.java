@@ -3,6 +3,7 @@ package de.hscoburg.modulhandbuchbackend.fop;
 import de.hscoburg.modulhandbuchbackend.model.entities.*;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
+import lombok.Data;
 import org.apache.fop.apps.FOPException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Attr;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Data
 public class ModuleManualService {
 
     VariationRepository variationRepository;
