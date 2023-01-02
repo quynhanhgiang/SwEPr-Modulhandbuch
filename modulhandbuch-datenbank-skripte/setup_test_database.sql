@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS swepr_test_a10_11 /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
+CREATE DATABASE IF NOT EXISTS swepr_test /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ;
 
 USE swepr_test;
@@ -76,7 +76,8 @@ INSERT IGNORE INTO spo VALUES
 	(1, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20IF%204.pdf', '2020-10-01', NULL, 'IF', 1),
 	(2, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_neu.pdf', '2014-10-01', '2020-09-30', 'IF', 1),
 	(3, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO_B_IF_alt.pdf', NULL, '2014-09-30', 'IF', 1),
-	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 1)
+	(4, 'https://mycampus.hs-coburg.de/sites/default/files/files/documents/SPO%20B%20VC.pdf', '2020-10-01', NULL, 'VC', 1),
+	(5, 'https://85.214.225.164/dev/home', '2022-10-01', NULL, 'IF', 1)
 ;
 
 
@@ -223,6 +224,8 @@ CREATE TABLE IF NOT EXISTS module_manual (
 	preliminary_note VARCHAR(255) NULL,
 	generated_pdf VARCHAR(255) NULL,
 	module_plan VARCHAR(255) NULL,
+	fk_section_pk_unique_id INT NULL,
+	fk_type_pk_unique_id INT NULL,
 	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT module_manual_fk_spo_pk_unique_id FOREIGN KEY (fk_spo_pk_unique_id) REFERENCES spo (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -230,9 +233,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_manual VALUES
-	(1, 1, "Sommersemester 23", NULL, NULL, NULL, NULL),
-	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL, NULL),
-	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL, NULL)
+	(1, 1, "Sommersemester 23", NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 1, "Wintersemester 08/09", NULL, NULL, NULL, NULL, NULL, NULL)
 ;
 
 
@@ -284,7 +288,6 @@ COLLATE='utf8mb4_unicode_520_ci'
 
 
 
-
 CREATE TABLE IF NOT EXISTS additional_data (
 	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	path VARCHAR(255) NOT NULL,
@@ -321,4 +324,9 @@ INSERT IGNORE INTO module_manual_has_module VALUES
 	(2, 1, 2, 1, NULL, NULL, 7, 3, '150h', NULL),
 	(3, 1, 3, 1, NULL, NULL, 2, 1, '150h', NULL)
 ;
+
+
+
+ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
