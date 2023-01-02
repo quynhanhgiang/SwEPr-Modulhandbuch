@@ -1,5 +1,6 @@
 package de.hscoburg.modulhandbuchbackend.fop;
 
+import lombok.Data;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -15,22 +16,11 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
 @Service
+@Data
 public class PDFService {
     // TODO Pfade überarbeiten
     FopFactory fopFactory = FopFactory.newInstance(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\fop.xconf"));
     OutputStream out = new BufferedOutputStream(new FileOutputStream(new File("C:\\tmp\\test.pdf")));
-
-    public static void main(String[] args){
-        File xsl = new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\module_style.xsl");
-        File xml = new File("C:\\tmp\\spielwieseFop\\muster_modul.xml");
-
-        try{
-            PDFService pdfService = new PDFService();
-            //pdfService.processPDF(xsl, xml);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public PDFService() throws IOException, SAXException {
     }
