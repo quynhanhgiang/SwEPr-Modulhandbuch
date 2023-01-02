@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface VariationRepository extends JpaRepository<VariationEntity, Integer> {
     List<VariationEntity> findBySectionAndType(SectionEntity section, TypeEntity type);
+    List<VariationEntity> findByModuleManual(ModuleManualEntity moduleManual);
+    List<VariationEntity> findByModuleManualNot(ModuleManualEntity moduleManual);
 }
