@@ -10,7 +10,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import de.hscoburg.modulhandbuchbackend.dto.StructureDTO;
@@ -43,7 +42,7 @@ public class ModuleManualStructureService {
 		return structure;
 	}
 
-	public <T extends StructureEntity<T>> void validateIds(List<StructureDTO> structure, ModuleManualEntity moduleManual, StructureRepository<T> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
+	private <T extends StructureEntity<T>> void validateIds(List<StructureDTO> structure, ModuleManualEntity moduleManual, StructureRepository<T> repository, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
 		Set<Integer> ids = new TreeSet<>();
 		Iterator<StructureDTO> iterator = structure.iterator();
 		while (iterator.hasNext()) {
@@ -65,7 +64,7 @@ public class ModuleManualStructureService {
 		}
 	}
 
-	public <T extends StructureEntity<T>> void deleteCurrentStructure(T firstEntity, JpaRepository<T, Integer> repository) {
+	private <T extends StructureEntity<T>> void deleteCurrentStructure(T firstEntity, StructureRepository<T> repository) {
 		T currentEntity = firstEntity;
 		while (currentEntity != null) {
 			repository.deleteById(currentEntity.getId());
@@ -73,7 +72,7 @@ public class ModuleManualStructureService {
 		}
 	}
 
-	public <T extends StructureEntity<T>> List<StructureDTO> saveStructure(List<StructureDTO> structure, ModuleManualEntity moduleManual, JpaRepository<T, Integer> structureRepository, ModuleManualRepository moduleManualepository, Class<T> entityClass, BiConsumer<ModuleManualEntity, T> setFirstEntity) {
+	private <T extends StructureEntity<T>> List<StructureDTO> saveStructure(List<StructureDTO> structure, ModuleManualEntity moduleManual, StructureRepository<T> structureRepository, Class<T> entityClass, BiConsumer<ModuleManualEntity, T> setFirstEntity) {
 		// save structure in reverse order to retrieve id of successor easily
 		ListIterator<StructureDTO> iterator = structure.listIterator(structure.size());
 		LinkedList<StructureDTO> savedStructure = new LinkedList<>();
@@ -90,8 +89,29 @@ public class ModuleManualStructureService {
 		}
 
 		setFirstEntity.accept(moduleManual, successor);
-		moduleManualRepository.save(moduleManual);
+		this.moduleManualRepository.save(moduleManual);
 
 		return savedStructure;
+	}
+
+	public <T extends StructureEntity<T>> List<StructureDTO> updateStructure(List<StructureDTO> structure, ModuleManualEntity moduleManual, Function<ModuleManualEntity, T> getFirstElement, BiConsumer<ModuleManualEntity, T> setFirstElement, StructureRepository<T> repository, Class<T> structureEntityClass, Consumer<Integer> duplicateElementsInRequestHandler, Consumer<Integer> elementNotFoundHandler) {
+		// remove all null values in given list
+		structure.removeIf(element -> (element == null));
+
+		// if the passed list is empty no saving is required
+		if (structure.size() == 0) {
+			return structure;
+		}
+
+		// check if all given ids are present or null and there are no duplicates of ids in request
+		this.validateIds(structure, moduleManual, repository, duplicateElementsInRequestHandler, elementNotFoundHandler);
+
+		// delete all elements of structure associated with the given module manual
+		this.deleteCurrentStructure(getFirstElement.apply(moduleManual), repository);
+		setFirstElement.accept(moduleManual, null);
+		moduleManual = this.moduleManualRepository.save(moduleManual);
+
+		// save all elements of structure
+		return this.saveStructure(structure, moduleManual, repository, structureEntityClass, setFirstElement);
 	}
 }
