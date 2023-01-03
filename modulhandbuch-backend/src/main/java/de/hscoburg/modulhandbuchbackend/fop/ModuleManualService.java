@@ -22,8 +22,8 @@ import java.util.List;
 @Data
 public class ModuleManualService {
 
-    VariationRepository variationRepository;
-    PDFService pdfService;
+    private final VariationRepository variationRepository;
+    private final PDFService pdfService;
 
 
     public void generateModuleManual(ModuleManualEntity moduleManual) throws ParserConfigurationException {
@@ -74,7 +74,7 @@ public class ModuleManualService {
                     moduleNode.setAttributeNode(moduleNameAttr);
 
                     createChildAttribute(document, moduleNode, "Modulbezeichnung", module.getModuleName());
-                    createChildAttribute(document, moduleNode, "Kürzel", module.getAbbreviation());
+                    createChildAttribute(document, moduleNode, "Kuerzel", module.getAbbreviation());
                     createChildAttribute(document, moduleNode, "Lehrform / SWS", variation.getSws().toString());
                     createChildAttribute(document, moduleNode, "Leistungspunkte", variation.getEcts().toString());
                     createChildAttribute(document, moduleNode, "Arbeitsaufwand", variation.getWorkLoad());
@@ -88,7 +88,7 @@ public class ModuleManualService {
                     createChildAttribute(document, moduleNode, "Inhaltliche Voraussetzungen", module.getKnowledgeRequirements());
                     createChildAttribute(document, moduleNode, "Qualifikationsziele", module.getSkills());
                     createChildAttribute(document, moduleNode, "Lehrinhalte", module.getContent());
-                    createChildAttribute(document, moduleNode, "Endnotenbildende Studien-/ Prüfungsleistungen", module.getExamType());
+                    createChildAttribute(document, moduleNode, "Endnotenbildende Studien-/ Pruefungsleistungen", module.getExamType());
                     createChildAttribute(document, moduleNode, "Sonstige Leistungsnachweise", module.getCertificates());
                     createChildAttribute(document, moduleNode, "Medienformen", module.getMediaType());
                     createChildAttribute(document, moduleNode, "Literatur", module.getLiterature());
