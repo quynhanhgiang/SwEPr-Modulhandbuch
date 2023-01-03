@@ -25,7 +25,7 @@ public class FopTestEndpoint {
 
     @GetMapping("")
     void generatePDF() {
-        ModuleManualEntity moduleManual = moduleManualRepository.findById(0).orElse(null);
+        ModuleManualEntity moduleManual = moduleManualRepository.findById(1).orElse(null);
         try {
             moduleManualService.generateModuleManual(moduleManual);
         } catch (ParserConfigurationException e) {

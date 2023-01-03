@@ -20,14 +20,15 @@ import java.io.*;
 public class PDFService {
     // TODO Pfade überarbeiten
     FopFactory fopFactory = FopFactory.newInstance(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\fop.xconf"));
-    OutputStream out = new BufferedOutputStream(new FileOutputStream(new File("C:\\tmp\\test.pdf")));
 
     public PDFService() throws IOException, SAXException {
     }
 
+
     public void processPDF(File xslFile, Document xml) throws FOPException, TransformerException, IOException {
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(new File("C:\\tmp\\test.pdf")));
+
         Source xslSource = new StreamSource(xslFile);
-        //Source xmlSource = new StreamSource(xmlFile);
         Source xmlSource = new DOMSource(xml);
 
         try {
