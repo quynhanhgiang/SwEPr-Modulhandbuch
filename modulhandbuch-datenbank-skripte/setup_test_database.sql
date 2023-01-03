@@ -39,7 +39,8 @@ INSERT IGNORE INTO college_employee VALUES
 	(6, 'Michaela', 'Ihlau', '', 2, 'Michaela.Ihlau@hs-coburg.de'),
 	(7, 'Test_User_1_A3_First_Name', 'Test_User_1_A3_Last_Name', '', 1, 'Test_Mail_1@test.com'),
 	(8, 'Test_User_2_A3_First_Name', 'Test_User_2_A3_Last_Name', 'Prof.', 2, 'Test_Mail_1@test.com'),
-	(9, 'Test_1_A5', 'Test_1_A5', 'Prof.', 1, 'Test_1_A5@test.com')
+	(9, 'Test_1_A5', 'Test_1_A5', 'Prof.', 1, 'Test_1_A5@test.com'),
+	(10, 'Test_PDF_User', 'Test_PDF_User', 'Prof. Dr.', 1, 'Test_PDF_User@mail.com')
 ;
 
 
@@ -193,8 +194,14 @@ INSERT IGNORE INTO module VALUES
 	2
 	),
 
-	(3, 9, 'Test_1_A5', 'T1A5', 1, 1, 1, NULL, NULL, 
-	'Test_1_A5', 'Test_1_A5', 'Test_1_A5', NULL, 'Test_1_A5', 'Test_1_A5', 2)
+	(3, 10, 'Test_1_A5', 'T1A5', 1, 1, 1, NULL, NULL, 
+	'Test_1_A5', 'Test_1_A5', 'Test_1_A5', NULL, 'Test_1_A5', 'Test_1_A5', 2),
+	(4, 10, 'Test_Module_PDF_1', 'TMP1', 1, 1, 1, NULL, NULL, 
+	'Test_Module_PDF_1', 'Test_Module_PDF_1', 'Test_Module_PDF_1', NULL, 'Test_Module_PDF_1', 'Test_Module_PDF_1', 2),
+	(5, 10, 'Test_Module_PDF_2', 'TMP2', 1, 1, 1, NULL, NULL, 
+	'Test_Module_PDF_2', 'Test_Module_PDF_2', 'Test_Module_PDF_2', NULL, 'Test_Module_PDF_2', 'Test_Module_PDF_2', 2),
+	(6, 10, 'Test_Module_PDF_3', 'TMP3', 1, 1, 1, NULL, NULL, 
+	'Test_Module_PDF_3', 'Test_Module_PDF_3', 'Test_Module_PDF_3', NULL, 'Test_Module_PDF_3', 'Test_Module_PDF_3', 2)
 ;
 
 
@@ -211,7 +218,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 
 INSERT IGNORE INTO prof VALUES
 	(1, 1),
-	(2, 5)
+	(2, 5),
+	(10, 4),
+	(10, 5),
+	(10, 6)
 ;
 
 
@@ -236,7 +246,8 @@ INSERT IGNORE INTO module_manual VALUES
 	(1, 1, "Sommersemester 23", NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 2, "Wintersemester 22/23", NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 3, "Wintersemester 22/23", NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 1, "Wintersemester 08/09", NULL, NULL, NULL, NULL, NULL, NULL)
+	(4, 5, "Wintersemester 08/09", NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 5, "Sommersemester 01", NULL, NULL, NULL, NULL, NULL, NULL)
 ;
 
 
@@ -263,6 +274,11 @@ CREATE TABLE IF NOT EXISTS section(
 COLLATE='utf8mb4_unicode_520_ci'
 ;
 
+INSERT IGNORE INTO section VALUES
+	(1, NULL, 5, '1. Studienabschnitt'),
+	(2, 1, 5, '2. Studienabschnitt')
+;
+
 CREATE TABLE IF NOT EXISTS type(
 		pk_unique_id INT NOT NULL AUTO_INCREMENT,
 		fk_type_pk_unique_id INT NULL,
@@ -273,6 +289,11 @@ CREATE TABLE IF NOT EXISTS type(
 		CONSTRAINT type_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES module_manual (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
+;
+
+INSERT IGNORE INTO section VALUES
+	(1, NULL, 5, 'Pflichtfach'),
+	(2, 1, 5, 'Wahlpflichtfach')
 ;
 
 
@@ -322,7 +343,10 @@ COLLATE='utf8mb4_unicode_520_ci'
 INSERT IGNORE INTO module_manual_has_module VALUES
 	(1, 1, 1, 1, NULL, NULL, 5, 2, '150h', NULL),
 	(2, 1, 2, 1, NULL, NULL, 7, 3, '150h', NULL),
-	(3, 1, 3, 1, NULL, NULL, 2, 1, '150h', NULL)
+	(3, 1, 3, 1, NULL, NULL, 2, 1, '150h', NULL),
+	(4, 5, 4, 1, 1, 1, 5, 2, '150h', NULL),
+	(5, 5, 5, 2, 1, 2, 5, 2, '150h', NULL),
+	(6, 5, 6, 3, 2, 1, 5, 2, '150h', NULL)
 ;
 
 
@@ -330,3 +354,4 @@ INSERT IGNORE INTO module_manual_has_module VALUES
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+UPDATE module_manual SET fk_section_pk_unique_id = 1, fk_section_pk_unique_id = 1 WHERE pk_unique_id = 5;
