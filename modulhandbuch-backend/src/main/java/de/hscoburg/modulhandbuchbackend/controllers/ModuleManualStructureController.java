@@ -1,6 +1,9 @@
 package de.hscoburg.modulhandbuchbackend.controllers;
 
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,24 +53,13 @@ public class ModuleManualStructureController {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
-		// remove all null values in given list
-		segments.removeIf(element -> (element == null));
+		Function<ModuleManualEntity, SectionEntity> getFirstSection = moduleManualInner -> moduleManualInner.getFirstSection();
+		BiConsumer<ModuleManualEntity, SectionEntity> setFirstSection = (moduleManualInner, section) -> moduleManualInner.setFirstSection(section);
 
-		// check if all given ids are present or null and there are no duplicates of ids in request
-		this.moduleManualStructureService.validateIds(segments, moduleManual, this.sectionRepository, duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);}, notFoundId -> {throw new SegmentNotFoundException(notFoundId);});
+		Consumer<Integer> duplicateSegmentsInRequestHandler = duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);};
+		Consumer<Integer> segmentNotFoundHandler = notFoundId -> {throw new SegmentNotFoundException(notFoundId);};
 
-		// delete all segments associated with the given module manual
-		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstSection(), this.sectionRepository);
-		moduleManual.setFirstSection(null);
-		moduleManual = this.moduleManualRepository.save(moduleManual);
-
-		// if the passed list is empty no saving is required
-		if (segments.size() == 0) {
-			return segments;
-		}
-
-		// save all segments
-		return this.moduleManualStructureService.saveStructure(segments, moduleManual, sectionRepository, moduleManualRepository, SectionEntity.class, (moduleManualInner, section) -> moduleManualInner.setFirstSection((SectionEntity) section));
+		return this.moduleManualStructureService.updateStructure(segments, moduleManual, getFirstSection, setFirstSection, this.sectionRepository, SectionEntity.class, duplicateSegmentsInRequestHandler, segmentNotFoundHandler);
 	}
 
 	@PutMapping("/module-types")
@@ -75,23 +67,12 @@ public class ModuleManualStructureController {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
-		// remove all null values in given list
-		moduleTypes.removeIf(element -> (element == null));
+		Function<ModuleManualEntity, TypeEntity> getFirstType = moduleManualInner -> moduleManualInner.getFirstType();
+		BiConsumer<ModuleManualEntity, TypeEntity> setFirstType = (moduleManualInner, section) -> moduleManualInner.setFirstType(section);
 
-		// check if all given ids are present or null and there are no duplicates of ids in request
-		this.moduleManualStructureService.validateIds(moduleTypes, moduleManual, this.typeRepository, duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);}, notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);});
+		Consumer<Integer> duplicateModuleTypesInRequestHandler = duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);};
+		Consumer<Integer> moduleTypeNotFoundHandler = notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);};
 
-		// delete all module types associated with the given module manual
-		this.moduleManualStructureService.deleteCurrentStructure(moduleManual.getFirstType(), this.typeRepository);
-		moduleManual.setFirstType(null);
-		moduleManual = this.moduleManualRepository.save(moduleManual);
-
-		// if the passed list is empty no saving is required
-		if (moduleTypes.size() == 0) {
-			return moduleTypes;
-		}
-
-		// save all module types
-		return this.moduleManualStructureService.saveStructure(moduleTypes, moduleManual, typeRepository, moduleManualRepository, TypeEntity.class, (moduleManualInner, type) -> moduleManualInner.setFirstType((TypeEntity) type));
+		return this.moduleManualStructureService.updateStructure(moduleTypes, moduleManual, getFirstType, setFirstType, this.typeRepository, TypeEntity.class, duplicateModuleTypesInRequestHandler, moduleTypeNotFoundHandler);
 	}
 }
