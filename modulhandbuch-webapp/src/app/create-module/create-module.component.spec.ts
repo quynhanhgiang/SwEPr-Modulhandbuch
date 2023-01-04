@@ -121,18 +121,18 @@ describe('CreateModuleComponent', () => {
 
     component.ngOnInit();
 
-    expect(testModuleManuals.length).toBe(2);
-    expect(testEmplyees.length).toBe(2);
-    expect(testCycles.length).toBe(2);
-    expect(testDurations.length).toBe(2);
-    expect(testLanguages.length).toBe(3);
-    expect(testMaternityProtections.length).toBe(3);
+    expect(testModuleManuals).toEqual(component.moduleManuals);
+    expect(testEmplyees).toEqual(component.profs);
+    expect(testCycles.length).toBe(component.cycles.length);
+    expect(testDurations.length).toBe(component.durations.length);
+    expect(testLanguages.length).toBe(component.languages.length);
+    expect(testMaternityProtections.length).toBe(component.maternityProtections.length);
     expect(component.variations.length).toBe(1);
     expect(component.displayProfs.length).toBe(component.profs.length);
   });
 
   /**
-  * Testfall A4.3:UT7 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
+  * Testfall A4.3:UT7 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird.
   */
   it("should show alert message'Es muss mindestens ein Dozent zugewiesen werden' when submitting without any selected prof", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
@@ -305,7 +305,7 @@ describe('CreateModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT9 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
+  * Testfall A4.3:UT9 Testen, ob die Werte für Modulhandbücher korrekt geladen werden.
   */
   it("should get correct values after calling 'updateModuleManual(id,i)'", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
