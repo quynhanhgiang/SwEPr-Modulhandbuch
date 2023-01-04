@@ -152,10 +152,7 @@ export class EditModuleComponent implements OnInit {
             segment: module.variations[i].segment,
           })
         );
-        let id =module.variations[i].manual.id
-        if(id!=null){
-          this.updateModuleManual(id,i);
-        }
+          this.updateModuleManual(i);
       }
       this.rendered = true;
     });
@@ -186,16 +183,16 @@ export class EditModuleComponent implements OnInit {
     });
   }
   
-  updateModuleManual(id:number, i:number) {
-    this.restAPI.getModuleTypes(id).subscribe(resp => {
+  updateModuleManual(i:number) {
+    this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
-    this.restAPI.getRequirements(id).subscribe(resp => {
+    this.restAPI.getRequirements(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
       this.admissionRequirements[i]= resp;
     });
 
-    this.restAPI.getSegments(id).subscribe(resp => {
+    this.restAPI.getSegments(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
       this.segments[i]=resp    
     });
   }
