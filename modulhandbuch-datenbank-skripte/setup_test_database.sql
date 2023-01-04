@@ -355,3 +355,4 @@ ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id F
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 UPDATE module_manual SET fk_section_pk_unique_id = 1, fk_section_pk_unique_id = 1 WHERE pk_unique_id = 5;
+UPDATE module_manual SET fk_type_pk_unique_id = 1, fk_type_pk_unique_id = 1 WHERE pk_unique_id = 5;
