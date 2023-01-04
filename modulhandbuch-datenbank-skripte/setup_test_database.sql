@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS type(
 COLLATE='utf8mb4_unicode_520_ci'
 ;
 
-INSERT IGNORE INTO section VALUES
+INSERT IGNORE INTO type VALUES
 	(1, NULL, 5, 'Pflichtfach'),
 	(2, 1, 5, 'Wahlpflichtfach')
 ;
