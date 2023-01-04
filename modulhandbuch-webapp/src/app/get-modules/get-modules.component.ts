@@ -12,17 +12,23 @@ import { FlatModule } from '../shared/FlatModule';
 export class GetModulesComponent implements OnInit {
   
   matchModeOptions!: SelectItem[];
-
   selectedModule!:FlatModule;
-
-  modules!: FlatModule[];
+  message:string ="Module werden geladen...";
+  modules: FlatModule[]=[];
   
   constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
     this.restAPI.getModulesOverview().subscribe(modules => {
       this.modules = modules;
+      
+      if(this.modules.length>0){
+        this.message = "Keine Ergebnisse gefunden. Bitte überprüfen Sie die Korrektheit der Eingabe."
+      }else{
+        this.message = "Es wurden noch keine Module angelegt. Zum Anlegen bitte auf 'Neues Modul erstellen' klicken."
+      }
     });
+
 
     this.matchModeOptions = [//translate column filter-names to german
       { label: "beginnt mit", value: FilterMatchMode.STARTS_WITH },
@@ -32,4 +38,5 @@ export class GetModulesComponent implements OnInit {
       { label: "beinhaltet nicht", value: FilterMatchMode.NOT_CONTAINS },
     ];
   }
+  
 }

@@ -15,6 +15,13 @@ export class MenubarComponent implements OnInit {
   }
 
   toggleSidebar() {
+    const hamburger = document.getElementById("btn-hamburger") as HTMLButtonElement;
+
+    if (!hamburger.disabled) {
+      hamburger.disabled = true;
+      setTimeout(() => hamburger.disabled = false, 500);
+    }
+
     this.showSidebar = !this.showSidebar;
   }
 }

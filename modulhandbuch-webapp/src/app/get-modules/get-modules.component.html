@@ -1,6 +1,6 @@
-<app-create-module></app-create-module>
-
-<div id="div-module-list">
+<div id="div-module-list" class="container pb-4 pt-4">
+    <app-create-module (onSuccessfulSubmission)="ngOnInit()"></app-create-module>
+    <hr>
     <p-table [value]="modules" [rows]="10" [paginator]="true" id="table-module-list">
         <ng-template pTemplate="header">
             <tr>
@@ -20,6 +20,11 @@
                     <td id="td-abbreviation"> {{module.abbreviation}}</td>
                     <td id="td-moduleOwner" >{{module.moduleOwner}}</td>
                 </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3">{{message}}</td>
+            </tr>
         </ng-template>
     </p-table>
 </div>

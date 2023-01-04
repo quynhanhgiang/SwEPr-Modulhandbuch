@@ -1,0 +1,29 @@
+<div class="container pt-4 pb-4">
+  <app-create-college-employee (onSuccessfulSubmission)="ngOnInit()"></app-create-college-employee>
+  <hr>
+    <ng-container *ngIf="loaded==true">   
+        <p-dataView #dv [value]="displayEmployees" [paginator]="true" [rows]="6" [emptyMessage]="message" filterBy="name" filterPlaceholder="Suchen nach name">
+            <ng-template pTemplate="header">
+                <div class="d-flex flex-row justify-content-between">
+                    <span class="p-input-icon-left mb-2 md:mb-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Name" (input)="dv.filter($event.target.value, 'contains')">
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template let-displayEmployee pTemplate="listItem">
+                <div class="d-flex p-3">
+                    <div>
+                        <div class="mb-1">
+                            <h5>{{displayEmployee.name}}</h5>
+                        </div>
+                        <div class="text-secondary">
+                            <i class="pi pi-envelope" style="margin-right:4px ;margin-left: 15px;"></i>
+                            <a href= "mailto:{{displayEmployee.email}}" class="link-secondary">{{displayEmployee.email}}</a>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </ng-container>
+</div>

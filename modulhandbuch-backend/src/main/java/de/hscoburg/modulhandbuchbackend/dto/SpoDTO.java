@@ -1,6 +1,6 @@
 package de.hscoburg.modulhandbuchbackend.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -8,8 +8,8 @@ import lombok.Data;
 public class SpoDTO {
 	private Integer id;
 	private String link;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private String course;
 	private String degree;
 }

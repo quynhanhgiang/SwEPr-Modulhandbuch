@@ -1,0 +1,43 @@
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()"><!--Pop-up dialog for form-->
+    <ng-template pTemplate="header">
+        <h3>Neuen Mitarbeiter anlegen</h3>
+    </ng-template>
+    <form id="form-create-employee" (ngSubmit)="onSubmit()" [formGroup]="employeeFormGroup" ngNativeValidate>
+        <div class="row">
+            <div class="mb-3 col">
+                <select class="form-select" formControlName="gender" id="select-create-employee-gender"  required>
+                    <option *ngFor="let gender of genders; let i=index" value="{{gender}}">{{gender}}</option>
+                </select>
+            </div>
+            <div class="mb-3 col">
+                <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen" ></p-multiSelect>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="input-first-name" placeholder="name@example.com" formControlName="firstName" required="true">
+            <label for="input-first-name">Vorname des Mitarbeiters</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="input-last-name" placeholder="name@example.com" formControlName="lastName" required="true">
+            <label for="input-last-name">Nachname des Mitarbeiters</label>
+            </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="input-email" placeholder="name@example.com" formControlName="email" required="true">
+            <label for="input-email">Email des Mitarbeiters</label>
+        </div>
+        <hr>
+        <div class="text-center">
+            <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit" style="width: 95%;">Speichern</button>
+        </div>
+        <p-confirmDialog header="Namensdopplung Bestätigen" icon="pi pi-exclamation-triangle">
+            <ng-template pTemplate="footer">
+                <button type="button" pButton icon="pi pi-times" label="No" (click)="reject()"></button>
+                <button type="button" pButton icon="pi pi-check" label="Yes" (click)="accept()"></button>
+            </ng-template>
+        </p-confirmDialog>
+    </form>
+</p-dialog>
+
+<div id="div-create-college-employee"><!--Triggers the function showDialog() wich makes the form visible-->
+    <button id="btn-create-college-employee" class="btn btn-lg btn-outline-secondary" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="margin-right:5px ;"></i>Mitarbeiter anlegen</button>
+</div>
