@@ -55,7 +55,7 @@ public class CollegeEmployeeController {
 		}
 
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.save(collegeEmployeeEntity);
-    return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
+    	return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
 	}
 
 }
