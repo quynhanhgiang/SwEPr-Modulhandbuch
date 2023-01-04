@@ -350,6 +350,23 @@ INSERT IGNORE INTO module_manual_has_module VALUES
 ;
 
 
+CREATE TABLE IF NOT EXISTS easteregg (
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NULL,
+	PRIMARY KEY (pk_unique_id)
+)
+;
+INSETRT IGNORE INTO easteregg VALUES
+	(1, 'Severin Dippold'),
+	(2, 'Guido Gebhard'),
+	(3, 'Lennart Köpper'),
+	(4, 'Felix Ebert'),
+	(5, 'Simon Vetter'),
+	(6, 'Quynh Anh Giang'),
+	(7, 'Christoph Euskirchen')
+;
+
+
 
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
