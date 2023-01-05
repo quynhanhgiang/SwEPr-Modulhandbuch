@@ -14,15 +14,6 @@ import lombok.Data;
 @Service
 public class EnumService {
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
-	
-	public <T extends EnumEntity<T>> T getEnumEntityFromString(String value, EnumRepository<T> repository) {
-		List<T> enumList = repository.findByValue(value);
-		if (enumList.isEmpty()) {
-			return null;
-		}
-
-		return enumList.get(0);
-	}
 
 	public EnumDTO getEnumDTOFromString(String value) {
 		EnumDTO enumDTO = new EnumDTO();

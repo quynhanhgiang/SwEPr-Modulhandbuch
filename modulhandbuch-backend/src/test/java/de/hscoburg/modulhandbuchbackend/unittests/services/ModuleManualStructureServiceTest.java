@@ -43,7 +43,7 @@ public class ModuleManualStructureServiceTest {
 	@Mock
 	private ModuleManualRepository mockModuleManualRepository;
 	@Spy
-	private ModulhandbuchBackendMapper modulhandbuchBackendMapper;
+	ModulhandbuchBackendMapper mapper = new ModulhandbuchBackendMapper(null, null, null, null, null, null, null);
 	@InjectMocks
 	private ModuleManualStructureService moduleManualStructureServiceWithMocks;
 

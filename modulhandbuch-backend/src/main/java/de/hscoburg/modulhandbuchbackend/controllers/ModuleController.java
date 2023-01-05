@@ -80,18 +80,10 @@ public class ModuleController {
 		}
 
 		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(newModule, ModuleEntity.class);
+		List<VariationEntity> newVariations = moduleEntity.getVariations();
+		moduleEntity.setVariations(null);
 
 		// TODO extract doubled contents in method (next three blocks)
-		// extract only id from module manual and replace other contents of module manual with data from database
-		if (moduleEntity.getVariations() != null) {
-			List<VariationEntity> newVariations = moduleEntity.getVariations().stream()
-				.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
-				.filter(variationEntity -> variationEntity != null)
-				.collect(Collectors.toList());
-
-			moduleEntity.setVariations(newVariations);
-		}
-
 		// extract only id from moduleOwner and replace other contents of moduleOwner with data from database
 		if ((moduleEntity.getModuleOwner() != null) && (moduleEntity.getModuleOwner().getId() != null)) {
 			moduleEntity.setModuleOwner(
@@ -112,34 +104,42 @@ public class ModuleController {
 		}
 
 		ModuleEntity result = this.moduleRepository.save(moduleEntity);
+
+		// extract only id from module manual and replace other contents of module manual with data from database
+		if (newVariations != null) {
+			List<VariationEntity> newVariationsCleaned = newVariations.stream()
+				.peek(variation -> variation.setModule(result))
+				.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+				.filter(variationEntity -> variationEntity != null)
+				.map(variation -> this.variationRepository.save(variation))
+				.collect(Collectors.toList());
+
+			result.setVariations(newVariationsCleaned);
+		}
+
 		return modulhandbuchBackendMapper.map(result, ModuleFullDTO.class);
 	}
 
 	@PutMapping("/{id}")
 	ModuleFullDTO replaceModule(@RequestBody ModuleFullDTO updatedModule, @PathVariable Integer id) {
-		this.moduleRepository.findById(id).orElseThrow(() -> {
+		ModuleEntity moduleToUpdate = this.moduleRepository.findById(id).orElseThrow(() -> {
 			// TODO own exception and advice
 			throw new RuntimeException(String.format("ID %d is not mapped for any module. For creating a new module please use a POST request.", id));
 		});
 
+		// delete current variationss
+		List<VariationEntity> currentVariations = moduleToUpdate.getVariations();
+		currentVariations.stream()
+			.forEach(variation -> this.variationRepository.delete(variation));
+		currentVariations = null;
+		moduleToUpdate.setVariations(currentVariations);
+
 		updatedModule.setId(id);
 		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(updatedModule, ModuleEntity.class);
+		List<VariationEntity> newVariations = moduleEntity.getVariations();
+		moduleEntity.setVariations(null);
 
 		// TODO extract doubled contents in method (next three blocks)
-		// extract only id from module manual and replace other contents of module manual with data from database
-		if (moduleEntity.getVariations() != null) {
-			List<VariationEntity> newVariations = moduleEntity.getVariations().stream()
-				.filter(variation -> variation.getModuleManual() != null)
-				.filter(variation -> variation.getModuleManual().getId() != null)
-				.peek(variation -> variation.setModuleManual(
-					// TODO own exception
-					this.moduleManualRepository.findById(variation.getModuleManual().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
-				))
-				.collect(Collectors.toList());
-
-			moduleEntity.setVariations(newVariations);
-		}
-
 		// extract only id from moduleOwner and replace other contents of moduleOwner with data from database
 		if ((moduleEntity.getModuleOwner() != null) && (moduleEntity.getModuleOwner().getId() != null)) {
 			moduleEntity.setModuleOwner(
@@ -160,6 +160,19 @@ public class ModuleController {
 		}
 
 		ModuleEntity result = this.moduleRepository.save(moduleEntity);
+
+		// extract only id from module manual and replace other contents of module manual with data from database
+		if (newVariations != null) {
+			List<VariationEntity> newVariationsCleaned = newVariations.stream()
+				.peek(variation -> variation.setModule(result))
+				.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+				.filter(variationEntity -> variationEntity != null)
+				.map(variation -> this.variationRepository.save(variation))
+				.collect(Collectors.toList());
+
+			result.setVariations(newVariationsCleaned);
+		}
+
 		return modulhandbuchBackendMapper.map(result, ModuleFullDTO.class);
 	}
 }
