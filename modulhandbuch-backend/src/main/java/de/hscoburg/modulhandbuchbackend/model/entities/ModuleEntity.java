@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -80,7 +81,11 @@ public class ModuleEntity {
 	@JoinColumn(name = "fk_maternity_protection_pk_unique_id", nullable = false)
 	private MaternityProtectionEntity maternityProtection;
 
-	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "modules")
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(
+		name = "prof",
+		joinColumns = @JoinColumn(name = "fk_module_pk_unique_id", nullable = false),
+		inverseJoinColumns = @JoinColumn(name = "fk_college_employee_pk_unique_id", nullable = false))
     private List<CollegeEmployeeEntity> profs;
 
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "module")

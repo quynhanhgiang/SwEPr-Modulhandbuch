@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.CollegeEmployeeDTO;
-import de.hscoburg.modulhandbuchbackend.services.EnumService;
-import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import de.hscoburg.modulhandbuchbackend.exceptions.EmailAlreadyBoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.GenderRepository;
+import de.hscoburg.modulhandbuchbackend.services.EnumService;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -27,7 +26,6 @@ import lombok.Data;
 @RequestMapping("/college-employees")
 public class CollegeEmployeeController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
-	private final GenderRepository genderRepository;
 	private final EnumService enumService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
@@ -53,7 +51,6 @@ public class CollegeEmployeeController {
 		}
 
 		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);
-		collegeEmployeeEntity.setGender(this.enumService.getEnumEntityFromString(newCollegeEmployee.getGender(), this.genderRepository));
 		// TODO test if needed
 		// collegeEmployeeEntity.setModules(null);
 

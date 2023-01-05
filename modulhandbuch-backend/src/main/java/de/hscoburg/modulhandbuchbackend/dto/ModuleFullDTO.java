@@ -11,7 +11,7 @@ public class ModuleFullDTO extends ModuleDTO {
 	private Integer id;
 	private String abbreviation;
 	private String moduleName;
-	private String moduleOwner;
+	private CollegeEmployeeDTO moduleOwner;
 	private List<ModuleVariationDTO> variations;
 	private String cycle;
 	private String duration;

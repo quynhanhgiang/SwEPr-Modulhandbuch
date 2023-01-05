@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -46,11 +45,7 @@ public class CollegeEmployeeEntity {
 	@Column(name = "email", nullable = false)
 	private String email;
 
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(
-		name = "prof",
-		joinColumns = @JoinColumn(name = "fk_college_employee_pk_unique_id", nullable = false),
-		inverseJoinColumns = @JoinColumn(name = "fk_module_pk_unique_id", nullable = false))
+	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "profs")
     private List<ModuleEntity> modules;
 
 	public String toString() {

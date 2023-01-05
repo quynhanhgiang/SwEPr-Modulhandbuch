@@ -38,11 +38,11 @@ public class VariationEntity {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
-	private SectionEntity section;
+	private SectionEntity segment;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_type_pk_unique_id")
-	private TypeEntity type;
+	private TypeEntity moduleType;
 
 	@Column(name = "sws")
 	private Integer sws;
