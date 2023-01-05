@@ -38,18 +38,18 @@ public class VariationService {
 		this.moduleManualRepository.findById(moduleManualId)
 			.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualId));
 
-		if ((variation.getType() != null) && (variation.getType().getId() != null)) {
-			Integer typeId = variation.getType().getId();
-			variation.setType(this.typeRepository.findById(typeId).orElse(null));
+		if ((variation.getModuleType() != null) && (variation.getModuleType().getId() != null)) {
+			Integer typeId = variation.getModuleType().getId();
+			variation.setModuleType(this.typeRepository.findById(typeId).orElse(null));
 		} else {
-			variation.setType(null);
+			variation.setModuleType(null);
 		}
 
-		if ((variation.getSection() != null) && (variation.getSection().getId() != null)) {
-			Integer sectionId = variation.getSection().getId();
-			variation.setSection(this.sectionRepository.findById(sectionId).orElse(null));
+		if ((variation.getSegment() != null) && (variation.getSegment().getId() != null)) {
+			Integer sectionId = variation.getSegment().getId();
+			variation.setSegment(this.sectionRepository.findById(sectionId).orElse(null));
 		} else {
-			variation.setSection(null);
+			variation.setSegment(null);
 		}
 		
 		if ((variation.getAdmissionRequirement() != null) && (variation.getAdmissionRequirement().getId() != null)) {
