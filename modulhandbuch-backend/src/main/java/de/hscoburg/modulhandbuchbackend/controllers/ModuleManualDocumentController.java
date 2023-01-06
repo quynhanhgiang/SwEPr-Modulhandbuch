@@ -45,7 +45,7 @@ public class ModuleManualDocumentController {
 		}
 	}
 
-	@GetMapping("/perliminary-note")
+	@GetMapping("/preliminary-note")
 	public FileInfoDTO onePreliminaryNote(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
