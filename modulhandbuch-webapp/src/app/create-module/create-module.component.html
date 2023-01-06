@@ -146,7 +146,7 @@
                     <div class="col-4 text-start"><label>Modulart</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
-                            <option *ngFor="let moduleType of moduleTypes[i]" value="{{moduleType}}">{{moduleType}}</option>
+                            <option *ngFor="let moduleType of moduleTypes[i]" [ngValue]="moduleType">{{moduleType.value}}</option>
                         </select>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
-                            <option *ngFor="let admissionRequirement of admissionRequirements[i]" value="{{admissionRequirement}}">{{admissionRequirement}}</option>
+                            <option *ngFor="let admissionRequirement of admissionRequirements[i]"[ngValue]="admissionRequirement">{{admissionRequirement.value}}</option>
                         </select>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                     <div class="col-4 text-start"><label>Studienabschnitt</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="segment" id="select-create-module-segment" required>
-                            <option *ngFor="let segment of segments[i]" value="{{segment}}">{{segment}}</option>
+                            <option *ngFor="let segment of segments[i]" [ngValue]="segment">{{segment.value}}</option>
                         </select>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+import { Assignment } from "../shared/Assignments";
 import { FileStatus } from "../shared/FileStatus";
 import { ModuleManual } from "../shared/module-manual";
 import { Spo } from "../shared/spo";
@@ -103,22 +104,55 @@ export const nullStatusMock: FileStatus = {
   timestamp: null
 };
 
-export const segmentsMock: string[] = [
-  "1. Studienabschnitt",
-  "2. Studienabschnitt",
-  "3. Studienabschnitt"
+export const segmentsMock: Assignment[] = [
+  {
+    id: 0,
+    value: "1. Studienabschnitt"
+  },
+  {
+    id: 1,
+    value: "2. Studienabschnitt"
+  },
+  {
+    id: 2,
+    value: "3. Studienabschnitt"
+  }
 ];
 
-export const moduleTypesMock: string[] = [
-  "Wahlpflichtfach",
-  "Pflichtfach",
-  "Praktikum",
-  "Schlüsselqualifikation"
+export const moduleTypesMock: Assignment[] = [
+  {
+    id: 0,
+    value: "Wahlpflichtfach"
+  },
+  {
+    id: 1,
+    value: "Pflichtfach"
+  },
+  {
+    id: 2,
+    value: "Praktikum"
+  },
+  {
+    id: 3,
+    value: "Schlüsselqualifikation"
+  }
 ];
 
-export const requirementsMock: string[] = [
-  "Zulassungsvorraussetzung nach §4 Abs. 1",
-  "Zulassungsvorraussetzung nach §4 Abs. 2",
-  "Zulassungsvorraussetzung nach §5 Abs. 1",
-  "Zulassungsvorraussetzung nach §5 Abs. 2"
+export const requirementsMock: Assignment[] = [
+  {
+    id: 0,
+    value: "Zulassungsvorraussetzung nach §4 Abs. 1"
+  },
+  {
+    id: 1,
+    value: "Zulassungsvorraussetzung nach §4 Abs. 2"
+  },
+  {
+    id: 2,
+    value: "Zulassungsvorraussetzung nach §5 Abs. 1"
+  },
+  {
+    id: 3,
+    value: "Zulassungsvorraussetzung nach §5 Abs. 2"
+  }
 ];

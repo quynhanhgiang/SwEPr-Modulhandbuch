@@ -2,14 +2,14 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
-import { requirements } from '../edit-module/mock-objects';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/Assignments';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
 
 import { CreateModuleComponent } from './create-module.component';
-import { cycles, durations, languages, maternityProtections, moduleManuals, profs, segments, types } from './mock-objects';
+import { cycles, durations, languages, maternityProtections, moduleManuals, profs, requirements, segments, types } from './mock-objects';
 
 describe('CreateModuleComponent', () => {
   let component: CreateModuleComponent;
@@ -209,7 +209,7 @@ describe('CreateModuleComponent', () => {
 
     const testModuleManuals: ModuleManual[] = moduleManuals;
     spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testModuleManuals));
-    
+
     const testEmplyees: CollegeEmployee[] = profs;
     spyOn(restApiService, 'getCollegeEmployees').and.returnValue(of(testEmplyees));
 
@@ -288,11 +288,11 @@ describe('CreateModuleComponent', () => {
 
     expect(component.moduleFormGroup.value.profs[0].id).toBe(1);
     expect(component.moduleFormGroup.value.profs[1].id).toBe(2);
-    
+
 
     let btnSaveOpen = document.getElementById("btn-submit-new") as HTMLButtonElement;
     let submit = new SubmitEvent("submit", { submitter: btnSaveOpen });
-    
+
     const testNewModule: Module = component.moduleFormGroup.value;
     spyOn(restApiService, 'createModule').and.returnValue(of(testNewModule));
 
@@ -310,16 +310,16 @@ describe('CreateModuleComponent', () => {
   it("should get correct values after calling 'updateModuleManual(i)'", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
     component = fixture.componentInstance;
-    
+
     const restApiService = TestBed.inject(RestApiService);
-  
-    const testTypes: string[] = types;
+
+    const testTypes: Assignment[] = types;
     spyOn(restApiService, 'getModuleTypes').and.returnValue(of(testTypes));
 
-    const testSegments: string[] = segments;
+    const testSegments: Assignment[] = segments;
     spyOn(restApiService, 'getSegments').and.returnValue(of(testSegments));
 
-    const testRequirements: string[] = requirements;
+    const testRequirements: Assignment[] = requirements;
     spyOn(restApiService, 'getRequirements').and.returnValue(of(testRequirements));
 
     const testModuleManuals: ModuleManual[] = moduleManuals;

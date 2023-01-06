@@ -9,6 +9,7 @@ import { ModuleManual } from '../shared/module-manual';
 import { EditModuleComponent } from './edit-module.component';
 import { types, segments, requirements, cycles, durations, languages, maternityProtections, moduleManuals, profs, module } from './mock-objects';
 import { HttpClient, HttpHandler } from '@angular/common/http';
+import { Assignment } from '../shared/Assignments';
 
 describe('EditModuleComponent', () => {
   let component: EditModuleComponent;
@@ -44,7 +45,7 @@ describe('EditModuleComponent', () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
-    
+
   /**
   * Testfall A6:UT2 Testen, ob Formular nach initialisierung unsichtbar ist.
   */
@@ -69,14 +70,14 @@ describe('EditModuleComponent', () => {
     component = fixture.componentInstance;
 
     const restApiService = TestBed.inject(RestApiService);
-  
-    const testTypes: string[] = types;
+
+    const testTypes: Assignment[] = types;
     spyOn(restApiService, 'getModuleTypes').and.returnValue(of(testTypes));
 
-    const testSegments: string[] = segments;
+    const testSegments: Assignment[] = segments;
     spyOn(restApiService, 'getSegments').and.returnValue(of(testSegments));
 
-    const testRequirements: string[] = requirements;
+    const testRequirements: Assignment[] = requirements;
     spyOn(restApiService, 'getRequirements').and.returnValue(of(testRequirements));
 
     const testModuleManuals: ModuleManual[] = moduleManuals;
@@ -125,7 +126,7 @@ describe('EditModuleComponent', () => {
   it("should show alert message'Es muss mindestens ein Dozent zugewiesen werden' when submitting without any selected prof", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
     component = fixture.componentInstance;
-  
+
     component.moduleFormGroup.patchValue(    {
       id: 0,
       moduleName: "Analysis",
@@ -175,7 +176,7 @@ describe('EditModuleComponent', () => {
       literature: "<p><span style=\color: rgb(0, 0, 0);\>T. Arens et al., „Mathematik“, Spektrum, Heidelberg, 2008 </span></p><p><span style=\color: rgb(51, 51, 51);\>G. Teschl, S. Teschl, „Mathematik für Informatiker“, Band 1 und 2, Springer Spektrum Berlin, Heidelberg, 2013</span></p><p><span style=\color: rgb(51, 51, 51);\>W. Struckmann, D. Wätjen, „Mathematik für Informatiker“, Springer Vieweg Berlin, Heidelberg, 2016</span></p><p><span style=\color: rgb(51, 51, 51);\>R. Berghammer, „Mathematik für Informatiker“, Springer Vieweg Wiesbaden, 2014</span></p><p>&nbsp;</p><p><span style=\color: rgb(51, 51, 51);\>E. Weitz, „Konkrete Mathematik (nicht nur) für Informatiker“, Springer Spektrum Wiesbaden, 2018</span></p><p>&nbsp;</p><p><span style=\color: rgb(0, 0, 0);\>O. Forster, „Analysis 1“, Vieweg, Wiesbaden, 2004</span></p>",
       maternityProtection: "Grün"
     });
-    
+
     spyOn(window, 'alert');
 
     component.onSubmit();
@@ -266,7 +267,7 @@ describe('EditModuleComponent', () => {
       gender: "Sehr geehrter",
       email: "Volkhard.Pfeiffer@hs-coburg.de"
     }
-  ]  
+  ]
 
   const restApiService = TestBed.inject(RestApiService);
 
@@ -283,16 +284,16 @@ describe('EditModuleComponent', () => {
     it("should add variation after calling 'addVariation()'and delete variation after calling 'deleteVAriation(i)", () => {
       fixture = TestBed.createComponent(EditModuleComponent);
       component = fixture.componentInstance;
-      
+
       expect(component.variations.length).toBe(0);
-  
+
       component.addVariation();
       component.addVariation();
-  
+
       expect(component.variations.length).toBe(2);
-  
+
       component.deleteVariation(component.variations.length-1);
-  
+
       expect(component.variations.length).toBe(1);
     });
 
@@ -307,7 +308,7 @@ describe('EditModuleComponent', () => {
 
     const testModuleManuals: ModuleManual[] = moduleManuals;
     spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testModuleManuals));
-   
+
     const testEmplyees: CollegeEmployee[] = profs;
     spyOn(restApiService, 'getCollegeEmployees').and.returnValue(of(testEmplyees));
 
@@ -326,13 +327,13 @@ describe('EditModuleComponent', () => {
     const testModule: Module = module;
     spyOn(restApiService, 'getModule').and.returnValue(of(testModule));
 
-    const testTypes: string[] = types;
+    const testTypes: Assignment[] = types;
     spyOn(restApiService, 'getModuleTypes').and.returnValue(of(testTypes));
 
-    const testSegments: string[] = segments;
+    const testSegments: Assignment[] = segments;
     spyOn(restApiService, 'getSegments').and.returnValue(of(testSegments));
 
-    const testRequirements: string[] = requirements;
+    const testRequirements: Assignment[] = requirements;
     spyOn(restApiService, 'getRequirements').and.returnValue(of(testRequirements));
 
     component.ngOnInit();

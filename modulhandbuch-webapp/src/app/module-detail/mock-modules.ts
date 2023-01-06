@@ -23,9 +23,18 @@ export const modules: Module[] = [
             sws: 6,
             workLoad: "<p><span style=\color: rgb(0, 0, 0);\>90 h Präsenz (Seminaristischer Unterricht mit integrierten Übungen)</span></p><p><br></p><p><span style=\color: rgb(0, 0, 0);\>120 h Eigenarbeit (40 h Nachbereitung des Lehrstoffs, 30 h Bearbeitung von Übungsaufgaben, 50 h Prüfungsvorbereitung)</span></p>",
             semester: 1,
-            moduleType: "Pflichtfach",
-            admissionRequirement: "1",
-            segment: "1. Abschnitt"
+            moduleType: {
+              "id": 1,
+              "value": "Pflichtfach"
+            },
+            admissionRequirement: {
+              "id": 0,
+              "value": "Zulassungsvorraussetzung nach §4 Abs. 1"
+            },
+            segment: {
+              "id": 0,
+              "value": "1. Studienabschnitt"
+            }
           }
         ],
         cycle: "Jährlich",
@@ -81,9 +90,18 @@ export const modules: Module[] = [
             sws: 4,
             workLoad: "<p><span style=\color: rgb(0, 0, 0);\>150 h,&nbsp;davon </span></p><ul><li><span style=\color: rgb(0, 0, 0);\>60 h Präsenz (30 h Seminaristischer Unterricht, 30 h Übung)</span></li><li><span style=\color: rgb(0, 0, 0);\>90 h Eigenarbeit (30h Vor- und Nachbereitung des Lehrstoffs, 30h Lösung&nbsp;von Übungsaufgaben, 30h Prüfungsvorbereitung)</span></li></ul>",
             semester: 1,
-            moduleType: "Pflichtfach",
-            admissionRequirement: "",
-            segment: "1. Abschnitt"
+            moduleType: {
+              "id": 1,
+              "value": "Pflichtfach"
+            },
+            admissionRequirement: {
+              "id": 0,
+              "value": "Zulassungsvorraussetzung nach §4 Abs. 1"
+            },
+            segment: {
+              "id": 0,
+              "value": "1. Studienabschnitt"
+            }
           }
         ],
         cycle: "Jährlich",

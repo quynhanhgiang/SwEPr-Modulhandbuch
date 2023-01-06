@@ -54,9 +54,18 @@ export const invalidManualVariations: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "1. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 0,
+      value: "1. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 0,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 1"
+    },
     isAssigned: true
   },
   {
@@ -89,9 +98,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "1. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 0,
+      value: "1. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   },
   {
@@ -105,9 +123,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Wahlpflichtfach",
-    segment: "2. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 0,
+      value: "Wahlpflichtfach"
+    },
+    segment: {
+      id: 1,
+      value: "2. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   },
   {
@@ -121,9 +148,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Wahlpflichtfach",
-    segment: "2. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 0,
+      value: "Wahlpflichtfach"
+    },
+    segment: {
+      id: 1,
+      value: "2. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   },
   {
@@ -137,9 +173,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "1. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 0,
+      value: "1. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   },
   {
@@ -153,9 +198,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "1. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 0,
+      value: "1. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 0,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 1"
+    },
     isAssigned: true
   },
   {
@@ -169,9 +223,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "1. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 0,
+      value: "1. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   },
   {
@@ -185,9 +248,18 @@ export const assignedModules: ManualVariation[] = [
     sws: 6,
     ects: 30,
     workLoad: "60h Präsenz, 90h Selbststudium",
-    moduleType: "Pflichtfach",
-    segment: "2. Studienabschnitt",
-    admissionRequirement: "Zulassungsvorraussetzung nach §xy Abs. z",
+    moduleType: {
+      id: 1,
+      value: "Pflichtfach"
+    },
+    segment: {
+      id: 1,
+      value: "2. Studienabschnitt"
+    },
+    admissionRequirement: {
+      id: 1,
+      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+    },
     isAssigned: true
   }
 ]

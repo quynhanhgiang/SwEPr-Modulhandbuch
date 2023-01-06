@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { RestApiService } from '../services/rest-api.service';
+import { Assignment } from '../shared/Assignments';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { Module } from '../shared/module';
 import { ModuleManual } from '../shared/module-manual';
@@ -13,11 +14,11 @@ import { displayCollegeEmployee } from './displayCollegeEmployee';
 })
 export class CreateModuleComponent implements OnInit {
   @Output() onSuccessfulSubmission = new EventEmitter();
-  
+
   display: boolean = false;//false == form hidden | true == form visible
 
   newModule!:Module;
-  
+
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
@@ -30,9 +31,9 @@ export class CreateModuleComponent implements OnInit {
   languages!:String[];
   maternityProtections!:String[];
 
-  admissionRequirements:String[][]=[];
-  moduleTypes:String[][]=[];
-  segments:String[][]=[];
+  admissionRequirements:Assignment[][]=[];
+  moduleTypes:Assignment[][]=[];
+  segments:Assignment[][]=[];
 
   constructor(private fb: FormBuilder, private restAPI: RestApiService) {
     this.moduleFormGroup = this.fb.group({
@@ -56,7 +57,7 @@ export class CreateModuleComponent implements OnInit {
       maternityProtection: new FormControl(),
     });
   }
-  
+
   ngOnInit(): void {
     this.selectedProfs=[];
     this.segments=[];
@@ -65,7 +66,7 @@ export class CreateModuleComponent implements OnInit {
 
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
-      
+
         for (let i=0;i<resp.length;i++) {
           let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
           displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
@@ -122,7 +123,7 @@ export class CreateModuleComponent implements OnInit {
       this.onSuccessfulSubmission.emit();
       console.log(resp);
     });
-    
+
     this.hideDialog();
 
     if(event.submitter.id=="btn-submit-new"){
