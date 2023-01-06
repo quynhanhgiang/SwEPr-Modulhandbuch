@@ -130,19 +130,19 @@ export class CreateModuleComponent implements OnInit {
       this.showDialog();
     }
   }
+  
+  updateModuleManual( i:number) {
+        this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+          this.moduleTypes[i]=(resp);
+      });
 
-  updateModuleManual(id:number, i:number) {
-    this.restAPI.getModuleTypes(id).subscribe(resp => {
-        this.moduleTypes[i]=(resp);
-    });
+      this.restAPI.getRequirements(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+        this.admissionRequirements[i]= resp;
+      });
 
-    this.restAPI.getRequirements(id).subscribe(resp => {
-      this.admissionRequirements[i]= resp;
-    });
-
-    this.restAPI.getSegments(id).subscribe(resp => {
-      this.segments[i]=resp
-    });
+      this.restAPI.getSegments(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+        this.segments[i]=resp    
+      });
   }
 
   get variations(){

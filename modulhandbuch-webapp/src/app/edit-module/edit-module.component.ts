@@ -169,8 +169,6 @@ export class EditModuleComponent implements OnInit {
     this.restAPI.getLanguages().subscribe(resp => {
       this.languages = resp;
     });
-
-
   }
 
   onSubmit(): void {//create new Module with form data
@@ -196,18 +194,18 @@ export class EditModuleComponent implements OnInit {
       this.onSuccessfulSubmission.emit();
     });
   }
-
-  updateModuleManual(id:number, i:number) {
-    this.restAPI.getModuleTypes(id).subscribe(resp => {
+  
+  updateModuleManual(i:number) {
+    this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
     });
 
-    this.restAPI.getRequirements(id).subscribe(resp => {
+    this.restAPI.getRequirements(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
       this.admissionRequirements[i]= resp;
     });
 
-    this.restAPI.getSegments(id).subscribe(resp => {
-      this.segments[i]=resp
+    this.restAPI.getSegments(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+      this.segments[i]=resp    
     });
   }
 

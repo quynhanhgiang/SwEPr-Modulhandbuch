@@ -517,6 +517,30 @@
       "title": "Prof. Dr.",
       "gender": "Sehr geehrter",
       "email": "Michael.Geisler@hs-coburg.de"
+    },
+    {
+      "id": 5,
+      "title": "Prof. Dr. Dipl.",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "felixebert@outlook.com",
+      "gender": "Herr"
+    },
+    {
+      "id": 6,
+      "title": "",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "felixebert@outlook.co",
+      "gender": "Frau"
+    },
+    {
+      "id": 7,
+      "title": "",
+      "firstName": "Felix",
+      "lastName": "Ebert",
+      "email": "felixbert@outlook.com",
+      "gender": "Herr"
     }
   ],
   "spos": [

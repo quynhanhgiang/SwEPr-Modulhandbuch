@@ -10,7 +10,7 @@
             </div>
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Kürzel</label></div>
-                <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="10" id="input-create-module-abbreviation"></div>
+                <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="7" id="input-create-module-abbreviation"></div>
             </div>
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Angebotsturnus</label></div>
@@ -129,7 +129,7 @@
         </div>
 
         <div class="row p-2">
-            <div class="text-center p-4 col"><h4>Felder sie auf je ein Modulhandbuch beziehen</h4></div>
+            <div class="text-center p-4 col"><h4>Felder, sich auf je ein Modulhandbuch beziehen</h4></div>
         </div>
 
         <ul formGroupName="variations" class="list-group" style="width: 100%;">
@@ -137,13 +137,13 @@
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Modulhandbuch</label></div>
                     <div class="col-8">
-                        <select  class="form-select" id="select-create-module-manual" required formControlName="manual" (change)="updateModuleManual($event.target.value.id,i)">
+                        <select  class="form-select" id="select-create-module-manual" required formControlName="manual" (change)="updateModuleManual(i)">
                             <option *ngFor="let moduleManual of moduleManuals" [ngValue]="moduleManual">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}(von {{moduleManual.spo.startDate}} bis zum {{moduleManual.spo.endDate}})</option>
                         </select>
                     </div>
                 </div>
                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Modul Typ</label></div>
+                    <div class="col-4 text-start"><label>Modulart</label></div>
                     <div class="col-8">
                         <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
                             <option *ngFor="let moduleType of moduleTypes[i]" [ngValue]="moduleType">{{moduleType.value}}</option>

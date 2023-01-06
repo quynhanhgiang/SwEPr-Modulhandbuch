@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.CollegeEmployeeDTO;
-import de.hscoburg.modulhandbuchbackend.mappers.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.exceptions.EmailAlreadyBoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
+import de.hscoburg.modulhandbuchbackend.services.EnumService;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -24,7 +26,8 @@ import lombok.Data;
 @RequestMapping("/college-employees")
 public class CollegeEmployeeController {
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
-	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper();
+	private final EnumService enumService;
+	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
 	@GetMapping("")
 	List<CollegeEmployeeDTO> allCollegeEmployees() {
@@ -48,9 +51,15 @@ public class CollegeEmployeeController {
 		}
 
 		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);
+		// TODO test if needed
+		// collegeEmployeeEntity.setModules(null);
+
+		if (this.collegeEmployeeRepository.findByEmail(collegeEmployeeEntity.getEmail()).size() > 0) {
+			throw new EmailAlreadyBoundException(collegeEmployeeEntity.getEmail(), String.join(" ", collegeEmployeeEntity.getFirstName(), collegeEmployeeEntity.getLastName()));
+		}
 
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.save(collegeEmployeeEntity);
-    return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
+    	return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
 	}
 
 }

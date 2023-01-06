@@ -14,13 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
+import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
+import de.hscoburg.modulhandbuchbackend.services.ModuleService;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
+import de.hscoburg.modulhandbuchbackend.services.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -31,145 +37,69 @@ import lombok.Data;
 public class ModuleController {
 	private final ModuleRepository moduleRepository;
 	private final CollegeEmployeeRepository collegeEmployeeRepository;
-	private final SpoRepository spoRepository;
+	private final ModuleManualRepository moduleManualRepository;
 	private final VariationRepository variationRepository;
+	private final ModuleService moduleService;
+	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
-	// TODO better return type?
 	@GetMapping("")
-	List<?> allModules(@RequestParam(name="flat", required = false, defaultValue = "") String flat) {
+	public List<ModuleDTO> allModules(@RequestParam(name = "flat", required = false, defaultValue = "") String flat,
+		@RequestParam(name = "not-in-manual", required = false, defaultValue = "") String moduleManualToIgnoreString) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.moduleRepository.findAll();
-			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleDTO.class)).collect(Collectors.toList());
+			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFullDTO.class)).collect(Collectors.toList());
 		}
+
+		try {
+			Integer moduleManualToIgnoreId = Integer.valueOf(moduleManualToIgnoreString);
+			ModuleManualEntity moduleManualToIgnore = this.moduleManualRepository.findById(moduleManualToIgnoreId)
+				.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualToIgnoreId));
+			
+			List<VariationEntity> result = this.variationRepository.findByModuleManualNot(moduleManualToIgnore);
+			return result.stream()
+				.map(variation -> variation.getModule())
+				.map(module -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
+
+		} catch (NumberFormatException | ModuleManualNotFoundException ignored) {}
 
 		List<ModuleEntity> result = this.moduleRepository.findAll();
 		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
-	ModuleDTO oneModule(@PathVariable Integer id) {
+	ModuleFullDTO oneModule(@PathVariable Integer id) {
 		ModuleEntity result = this.moduleRepository.findById(id)
 			.orElseThrow(() -> new ModuleNotFoundException(id));
-		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
+		return modulhandbuchBackendMapper.map(result, ModuleFullDTO.class);
 	}
 
 	@PostMapping("")
-	ModuleDTO newModule(@RequestBody ModuleDTO newModule) {
+	ModuleFullDTO newModule(@RequestBody ModuleFullDTO newModule) {
 		if (newModule.getId() != null) {
 			// TODO own exception and advice
 			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
 		}
 
-		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(newModule, ModuleEntity.class);
-
-		// TODO extract doubled contents in method (next three blocks)
-		// extract only id from spo and replace other contents of spo with data from database
-		if (moduleEntity.getVariations() != null) {
-			moduleEntity.setVariations(
-				moduleEntity.getVariations().stream()
-					.filter(variation -> variation.getSpo() != null)
-					.filter(variation -> variation.getSpo().getId() != null)
-					.peek(variation -> variation.setSpo(
-						// TODO own exception
-						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
-					))
-					.collect(Collectors.toList())
-			);
-		}
-
-		// extract only id from moduleOwner and replace other contents of moduleOwner with data from database
-		if ((moduleEntity.getModuleOwner() != null) && (moduleEntity.getModuleOwner().getId() != null)) {
-			moduleEntity.setModuleOwner(
-				// TODO own exception
-				this.collegeEmployeeRepository.findById(moduleEntity.getModuleOwner().getId()).orElseThrow(() -> new RuntimeException("Id for college employee not found"))
-			);
-		}
-
-		// extract only id from profs and replace other contents of profs with data from database
-		if (moduleEntity.getProfs() != null) {
-			moduleEntity.setProfs(
-				moduleEntity.getProfs().stream()
-					.filter(prof -> prof.getId() != null)
-					// TODO own Exception
-					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.collect(Collectors.toList())
-			);
-		}
-
-		ModuleEntity result = this.moduleRepository.save(moduleEntity);
-		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
+		return this.moduleService.saveModule(newModule);
 	}
 
-	// TODO
-	// @PutMapping("/{id}")
-	// ModuleEntity replaceModule(@RequestBody ModuleEntity newModule, @PathVariable Integer id) {
-	// 	return this.repository.findById(id)
-	// 	// .map(module -> {							// TODO
-	// 	// 	module.setName(newEmployee.getName());
-	// 	// 	module.setRole(newEmployee.getRole());
-	// 	// 	return this.repository.save(module);
-	// 	// })
-	// 	.map(module -> {
-	// 		return this.repository.save(module);
-	// 	})
-	// 	.orElseGet(() -> {
-	// 		newModule.setId(id);
-	// 		return this.repository.save(newModule);
-	// 	});
-	// }
-
 	@PutMapping("/{id}")
-	ModuleDTO replaceModule(@RequestBody ModuleDTO updatedModule, @PathVariable Integer id) {
-		this.moduleRepository.findById(id).orElseThrow(() -> {
+	ModuleFullDTO replaceModule(@RequestBody ModuleFullDTO updatedModule, @PathVariable Integer id) {
+		updatedModule.setId(id);
+
+		ModuleEntity moduleToUpdate = this.moduleRepository.findById(id).orElseThrow(() -> {
 			// TODO own exception and advice
 			throw new RuntimeException(String.format("ID %d is not mapped for any module. For creating a new module please use a POST request.", id));
 		});
 
-		updatedModule.setId(id);
-		ModuleEntity moduleEntity = modulhandbuchBackendMapper.map(updatedModule, ModuleEntity.class);
+		// delete current variations
+		List<VariationEntity> currentVariations = moduleToUpdate.getVariations();
+		currentVariations.stream()
+			.forEach(variation -> this.variationRepository.delete(variation));
+		currentVariations = null;
+		moduleToUpdate.setVariations(currentVariations);
 
-		// TODO extract doubled contents in method (next three blocks)
-		// extract only id from spo and replace other contents of spo with data from database
-		if (moduleEntity.getVariations() != null) {
-			moduleEntity.setVariations(
-				moduleEntity.getVariations().stream()
-					.filter(variation -> variation.getSpo() != null)
-					.filter(variation -> variation.getSpo().getId() != null)
-					.peek(variation -> variation.setSpo(
-						// TODO own exception
-						this.spoRepository.findById(variation.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
-					))
-					.collect(Collectors.toList())
-			);
-		}
-
-		// extract only id from moduleOwner and replace other contents of moduleOwner with data from database
-		if ((moduleEntity.getModuleOwner() != null) && (moduleEntity.getModuleOwner().getId() != null)) {
-			moduleEntity.setModuleOwner(
-				// TODO own exception
-				this.collegeEmployeeRepository.findById(moduleEntity.getModuleOwner().getId()).orElseThrow(() -> new RuntimeException("Id for college employee not found"))
-			);
-		}
-
-		// extract only id from profs and replace other contents of profs with data from database
-		if (moduleEntity.getProfs() != null) {
-			moduleEntity.setProfs(
-				moduleEntity.getProfs().stream()
-					.filter(prof -> prof.getId() != null)
-					// TODO own Exception
-					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElseThrow(() -> new RuntimeException("Id not found")))
-					.collect(Collectors.toList())
-			);
-		}
-
-		ModuleEntity result = this.moduleRepository.save(moduleEntity);
-		return modulhandbuchBackendMapper.map(result, ModuleDTO.class);
+		return this.moduleService.saveModule(updatedModule);
 	}
-
-	// TODO
-	// @DeleteMapping("/{id}")
-	// void deleteModule(@PathVariable Integer id) {
-	// 	this.repository.deleteById(id);
-	// }
 }

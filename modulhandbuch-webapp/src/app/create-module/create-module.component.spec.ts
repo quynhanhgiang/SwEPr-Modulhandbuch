@@ -121,18 +121,18 @@ describe('CreateModuleComponent', () => {
 
     component.ngOnInit();
 
-    expect(testModuleManuals.length).toBe(2);
-    expect(testEmplyees.length).toBe(2);
-    expect(testCycles.length).toBe(2);
-    expect(testDurations.length).toBe(2);
-    expect(testLanguages.length).toBe(3);
-    expect(testMaternityProtections.length).toBe(3);
+    expect(testModuleManuals).toEqual(component.moduleManuals);
+    expect(testEmplyees).toEqual(component.profs);
+    expect(testCycles.length).toBe(component.cycles.length);
+    expect(testDurations.length).toBe(component.durations.length);
+    expect(testLanguages.length).toBe(component.languages.length);
+    expect(testMaternityProtections.length).toBe(component.maternityProtections.length);
     expect(component.variations.length).toBe(1);
     expect(component.displayProfs.length).toBe(component.profs.length);
   });
 
   /**
-  * Testfall A4.3:UT7 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
+  * Testfall A4.3:UT7 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird.
   */
   it("should show alert message'Es muss mindestens ein Dozent zugewiesen werden' when submitting without any selected prof", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
@@ -305,9 +305,9 @@ describe('CreateModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT9 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
+  * Testfall A4.3:UT9 Testen, ob die Werte für Modulhandbücher korrekt geladen werden.
   */
-  it("should get correct values after calling 'updateModuleManual(id,i)'", () => {
+  it("should get correct values after calling 'updateModuleManual(i)'", () => {
     fixture = TestBed.createComponent(CreateModuleComponent);
     component = fixture.componentInstance;
 
@@ -322,7 +322,36 @@ describe('CreateModuleComponent', () => {
     const testRequirements: Assignment[] = requirements;
     spyOn(restApiService, 'getRequirements').and.returnValue(of(testRequirements));
 
-    component.updateModuleManual(1,0);
+    const testModuleManuals: ModuleManual[] = moduleManuals;
+    spyOn(restApiService, 'getModuleManuals').and.returnValue(of(testModuleManuals));
+    
+    const testEmplyees: CollegeEmployee[] = profs;
+    spyOn(restApiService, 'getCollegeEmployees').and.returnValue(of(testEmplyees));
+
+    const testCycles:string[] = cycles;
+    spyOn(restApiService, 'getCycles').and.returnValue(of(testCycles));
+
+    const testDurations: string[] = durations;
+    spyOn(restApiService, 'getDurations').and.returnValue(of(testDurations));
+
+    const testLanguages: string[] = languages;
+    spyOn(restApiService, 'getLanguages').and.returnValue(of(testLanguages));
+
+    const testMaternityProtections: string[] = maternityProtections;
+    spyOn(restApiService, 'getMaternityProtections').and.returnValue(of(testMaternityProtections));
+
+    component.ngOnInit();
+
+    component.moduleFormGroup.patchValue(    {
+      variations: [
+        {
+          manual: {
+            id: 1,
+          },
+        }
+      ]
+    });
+    component.updateModuleManual(0);
 
     expect(testRequirements.length).toBe(4);
     expect(testSegments.length).toBe(3)

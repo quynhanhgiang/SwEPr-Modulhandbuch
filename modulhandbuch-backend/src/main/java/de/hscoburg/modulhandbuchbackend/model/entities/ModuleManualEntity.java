@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -41,11 +42,11 @@ public class ModuleManualEntity {
 	@Column(name = "module_plan")
 	private String modulePlanLink;
 
-	public ModuleManualEntity(SpoEntity spo, String preliminaryNoteLink, String generatedPdfLink, String semester, String modulePlanLink) {
-		this.spo = spo;
-		this.preliminaryNoteLink = preliminaryNoteLink;
-		this.generatedPdfLink = generatedPdfLink;
-		this.semester = semester;
-		this.modulePlanLink = modulePlanLink;
-	}	
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "fk_section_pk_unique_id")
+	private SectionEntity firstSection;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "fk_type_pk_unique_id")
+	private TypeEntity firstType;
 }

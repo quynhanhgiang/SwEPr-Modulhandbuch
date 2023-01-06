@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
 import { RestApiService } from '../services/rest-api.service';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
 
@@ -14,13 +15,15 @@ export class CreateCollegeEmployeeComponent implements OnInit {
   display: boolean = false;//false == form hidden | true == form visible
 
   newCollegeEmployee!:CollegeEmployee;
+  employees!:CollegeEmployee[];
 
   employeeFormGroup: FormGroup;
   titles:string[]=[];
   genders:string[]=[];
   title:string=""
+  doubleName:Boolean=false;
 
-  constructor(private fb: FormBuilder, private restAPI: RestApiService) {
+  constructor(private fb: FormBuilder, private restAPI: RestApiService,private confirmationService: ConfirmationService) {
     this.employeeFormGroup = this.fb.group({
       id: null,
       title:new FormControl(""),
@@ -34,12 +37,35 @@ export class CreateCollegeEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.titles=["Prof.","Dr.", "Dipl."]
     this.genders=["Herr","Frau", "Divers"]
+
+    this.restAPI.getCollegeEmployees().subscribe(employees => {
+      this.employees = employees;
+    });
   }
 
   onSubmit(): void {//create new Module with form data
-    console.log("submit");
+
 
     this.newCollegeEmployee = this.employeeFormGroup.value;
+    if(this.newCollegeEmployee.title==null){
+      this.newCollegeEmployee.title="";
+    }
+
+    for(let employee of this.employees){
+      if(employee.email==this.newCollegeEmployee.email){
+        window.alert("Ein Nutzer mit dieser Email-Adresse ist bereits angelegt")
+        return;
+      }
+    }
+
+    for(let employee of this.employees){
+      if(employee.firstName+employee.lastName==this.newCollegeEmployee.firstName+this.newCollegeEmployee.lastName&&this.doubleName==false){
+        this.confirm();
+        return;
+      }
+    }
+
+    this.doubleName=false;
 
     if(this.newCollegeEmployee.title.length>0){
       for (let i=0;i<this.newCollegeEmployee.title.length;i++) {
@@ -61,6 +87,26 @@ export class CreateCollegeEmployeeComponent implements OnInit {
     this.title="";
     this.hideDialog();
     this.resetForm();
+    this.ngOnInit();
+  }
+
+  confirm(): void{
+    this.confirmationService.confirm({
+        message: 'Ein Nutzer mit diesem Namen wurde schon angelegt. Wollen sie trozdem fortfahren?',
+    });
+  }
+
+  accept(){
+    this.doubleName = true;
+    this.confirmationService.close();
+    this.onSubmit();
+  }
+
+  reject(){
+    this.title="";
+    this.employeeFormGroup.reset();
+    this.doubleName = false;
+    this.confirmationService.close();
   }
 
   resetForm(){
