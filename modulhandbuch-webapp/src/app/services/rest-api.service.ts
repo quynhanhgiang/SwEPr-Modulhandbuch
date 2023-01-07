@@ -131,6 +131,15 @@ export class RestApiService {
     return this.http.put<ModuleManual>(this.apiURL + '/module-manuals/' + moduleManual.id, JSON.stringify(moduleManual), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
+  /**
+   * Method for requesting the "/module-manuals/{{manual_id}}/pdf"-api-endpoint per GET.
+   * Generates the corresponding .pdf for a given module-manual.
+   * @param id the id of the requested module-manual
+   * @returns ...
+   */
+  generatePDF(id: number): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/module-manuals/' + id + '/pdf').pipe(retry(1), catchError(this.handleError));
+  }
 
   // ########## Module-Manuals-API: Documents ##########
 
