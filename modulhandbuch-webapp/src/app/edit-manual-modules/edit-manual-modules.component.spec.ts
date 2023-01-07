@@ -186,7 +186,7 @@ describe('EditManualModulesComponent', () => {
    */
   it('should load the data of the currently selected manual-variation-object into the form', () => {
     component.editManualVar(component.assignedModules[0]);
-
+    fixture.detectChanges();
     expect(component.variationFormGroup.getRawValue()).toEqual(component.assignedModules[0]);
   });
 
