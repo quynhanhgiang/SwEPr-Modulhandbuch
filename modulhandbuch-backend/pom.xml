@@ -122,7 +122,7 @@
 					<jdk>${java-version}</jdk>
 					<reportDescriptor>clover-report.xml</reportDescriptor>
 				</configuration>
-				<executions>
+				<!-- <executions>
 					<execution>
 						<id>clover-report</id>
 						<phase>test</phase>
@@ -131,7 +131,7 @@
 							<goal>clover</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 		<resources>

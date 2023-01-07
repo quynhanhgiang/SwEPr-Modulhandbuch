@@ -41,7 +41,7 @@ public class ModuleManualEnumController {
 		List<AdmissionRequirementEntity> admissionRequirements = this.admissionRequirementRepository.findByModuleManual(moduleManual);
 
 		return admissionRequirements.stream()
-			.map(admissionRequirement -> this.modulhandbuchBackendMapper.map(admissionRequirements, EnumDTO.class))
+			.map(admissionRequirement -> this.modulhandbuchBackendMapper.map(admissionRequirement, EnumDTO.class))
 			.collect(Collectors.toList());
 	}
 	
