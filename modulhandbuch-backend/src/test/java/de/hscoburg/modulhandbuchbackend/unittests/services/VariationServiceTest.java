@@ -261,172 +261,172 @@ public class VariationServiceTest {
 		// no section, no admission requirement
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		// section with no id, no admission requirement
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdNoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		// section with id 0, no admission requirement
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0NoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0NoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0NoAdmissionRequirement.getAdmissionRequirement()).thenReturn(null);
 
 		// no section, admission requirement with no id
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		// section with no id, admission requirement with no id
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		// section with id 0, admission requirement with no id
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementNoId.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityNoId);
 
 		// no section, admission requirement with id 0
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityNoTypeNoSectionWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdNoSectionWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getSection()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getSegment()).thenReturn(null);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0NoSectionWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		// section with no id, admission requirement with id 0
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionNoIdWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionNoIdWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityNoId);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionNoIdWithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		// section with id 0, admission requirement with id 0
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getType()).thenReturn(null);
-		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getModuleType()).thenReturn(null);
+		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityNoTypeWithSectionWithId0WithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityNoId);
-		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityNoId);
+		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeNoIdWithSectionWithId0WithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getModule()).thenReturn(this.mockModuleEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getModuleManual()).thenReturn(this.mockModuleManualEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getType()).thenReturn(this.mockTypeEntityWithId0);
-		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getSection()).thenReturn(this.mockSectionEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getModuleType()).thenReturn(this.mockTypeEntityWithId0);
+		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getSegment()).thenReturn(this.mockSectionEntityWithId0);
 		Mockito.when(this.mockVariationEntityWithTypeWithId0WithSectionWithId0WithAdmissionRequirementWithId0.getAdmissionRequirement()).thenReturn(this.mockAdmissionRequirementEntityWithId0);
 
 		for (TestParameters testParameters : testData) {
