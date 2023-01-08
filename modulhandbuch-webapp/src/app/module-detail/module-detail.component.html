@@ -34,11 +34,23 @@
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
-                    <div class="col-8"><p>{{module.usage}}</p></div>
+                    <div class="col-8">
+                        <p>
+                           <ng-container *ngIf="module.usage!=null" >
+                              {{module.usage}}
+                           </ng-container>
+                        </p>
+                     </div>
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
-                    <div class="col-8"><p>{{module.knowledgeRequirements}}</p></div>
+                     <div class="col-8">
+                        <p>
+                           <ng-container *ngIf="module.knowledgeRequirements!=null" >
+                              {{module.knowledgeRequirements}}
+                           </ng-container>
+                        </p>
+                     </div>
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
@@ -54,11 +66,23 @@
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Sonstige Leistungsnachweise</label></div>
-                    <div class="col-8"><p>{{module.certificates}}</p></div>
+                     <div class="col-8">
+                        <p>
+                           <ng-container *ngIf="module.certificates!=null" >
+                              {{module.certificates}}
+                           </ng-container>
+                        </p>
+                     </div>
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Medienform</label></div>
-                    <div class="col-8"><p>{{module.mediaType}}</p></div>
+                     <div class="col-8">
+                        <p>
+                           <ng-container *ngIf="module.mediaType!=null" >
+                           {{module.mediaType}}
+                           </ng-container>
+                        </p>
+                     </div>
                  </div>
                  <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Literatur</label></div>
