@@ -36,10 +36,6 @@ public class DocumentsController {
 		}
 
 		MediaType mimeType = MediaType.parseMediaType(URLConnection.guessContentTypeFromName(resource.getFilename()));
-		if (mimeType == null) {
-			// default mimeType for all files
-			mimeType = MediaType.APPLICATION_OCTET_STREAM;
-		}
 
 		return ResponseEntity.ok()
 			// download file
