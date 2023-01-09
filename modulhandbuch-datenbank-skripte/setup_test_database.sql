@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS admission_requirement(
 		fk_module_manual_pk_unique_id INT NOT NULL,
 		name VARCHAR(255) NOT NULL,
 		PRIMARY KEY (pk_unique_id),
-		CONSTRAINT admission_requirement_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES admission_requirement (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
+		CONSTRAINT admission_requirement_fk_module_manual_pk_unique_id FOREIGN KEY (fk_module_manual_pk_unique_id) REFERENCES module_manual (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_unicode_520_ci'
 ;
@@ -356,7 +356,7 @@ CREATE TABLE IF NOT EXISTS easteregg (
 	PRIMARY KEY (pk_unique_id)
 )
 ;
-INSETRT IGNORE INTO easteregg VALUES
+INSERT IGNORE INTO easteregg VALUES
 	(1, 'Severin Dippold'),
 	(2, 'Guido Gebhard'),
 	(3, 'Lennart Köpper'),
@@ -366,6 +366,11 @@ INSETRT IGNORE INTO easteregg VALUES
 	(7, 'Christoph Euskirchen')
 ;
 
+
+INSERT IGNORE INTO admission_requirement VALUES
+	(1, 1, 'TestAdmissionRequirement'),
+	(2, 5, 'Test')
+;
 
 
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
