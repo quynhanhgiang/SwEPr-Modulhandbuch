@@ -207,9 +207,10 @@ INSERT IGNORE INTO module VALUES
 
 
 CREATE TABLE IF NOT EXISTS prof (
+	pk_unique_id INT NOT NULL AUTO_INCREMENT,
 	fk_college_employee_pk_unique_id INT NOT NULL,
 	fk_module_pk_unique_id INT NOT NULL,
-	PRIMARY KEY (fk_college_employee_pk_unique_id, fk_module_pk_unique_id),
+	PRIMARY KEY (pk_unique_id),
 	CONSTRAINT prof_fk_college_employee_pk_unique_id FOREIGN KEY (fk_college_employee_pk_unique_id) REFERENCES college_employee (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT prof_fk_module_pk_unique_id FOREIGN KEY (fk_module_pk_unique_id) REFERENCES module (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -217,11 +218,11 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO prof VALUES
-	(1, 1),
-	(2, 5),
-	(10, 4),
-	(10, 5),
-	(10, 6)
+	(1, 1, 1),
+	(2, 2, 5),
+	(3, 10, 4),
+	(4, 10, 5),
+	(5, 10, 6)
 ;
 
 
@@ -275,8 +276,22 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO section VALUES
-	(1, NULL, 5, '1. Studienabschnitt'),
-	(2, 1, 5, '2. Studienabschnitt')
+	(2, NULL, 5, '2. Studienabschnitt'),
+	(1, 2, 5, '1. Studienabschnitt'),
+	(4, NULL, 1, '2. Studienabschnitt'),
+	(3, 4, 1, '1. Studienabschnitt'),
+	(6, NULL, 5, '2. Studienabschnitt'),
+	(5, 6, 5, '1. Studienabschnitt'),
+	(8, NULL, 1, '2. Studienabschnitt'),
+	(7, 8, 1, '1. Studienabschnitt'),
+	(10, NULL, 5, '2. Studienabschnitt'),
+	(9, 10, 5, '1. Studienabschnitt'),
+	(12, NULL, 1, '2. Studienabschnitt'),
+	(11, 12, 1, '1. Studienabschnitt'),
+	(14, NULL, 5, '2. Studienabschnitt'),
+	(13, 14, 5, '1. Studienabschnitt'),
+	(16, NULL, 1, '2. Studienabschnitt'),
+	(15, 16, 1, '1. Studienabschnitt')
 ;
 
 CREATE TABLE IF NOT EXISTS type(
@@ -292,8 +307,23 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO type VALUES
-	(1, NULL, 5, 'Pflichtfach'),
-	(2, 1, 5, 'Wahlpflichtfach')
+	(2, NULL, 5, 'Wahlpflichtfach'),
+	(1, 2, 5, 'Pflichtfach'),
+	(4, NULL, 1, 'Praktischer Studienabschnitt'),
+	(3, 4, 1, 'Pflichtfach'),
+	(17, 3, 1, 'Wahlpflichtfach'),
+	(6, NULL, 5, 'Wahlpflichtfach'),
+	(5, 6, 5, 'Pflichtfach'),
+	(8, NULL, 1, 'Wahlpflichtfach'),
+	(7, 8, 1, 'Pflichtfach'),
+	(10, NULL, 5, 'Wahlpflichtfach'),
+	(9, 10, 5, 'Pflichtfach'),
+	(12, NULL, 1, 'Wahlpflichtfach'),
+	(11, 12, 1, 'Pflichtfach'),
+	(14, NULL, 5, 'Wahlpflichtfach'),
+	(13, 14, 5, 'Pflichtfach'),
+	(16, NULL, 1, 'Wahlpflichtfach'),
+	(15, 16, 1, 'Pflichtfach')
 ;
 
 
@@ -371,6 +401,7 @@ INSERT IGNORE INTO admission_requirement VALUES
 	(1, 1, 'TestAdmissionRequirement'),
 	(2, 5, 'Test')
 ;
+
 
 
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id FOREIGN KEY (fk_section_pk_unique_id) REFERENCES section (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
