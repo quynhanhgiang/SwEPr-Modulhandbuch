@@ -11,18 +11,16 @@ import { displayCollegeEmployee } from './display-college-employee';
 })
 export class GetCollegeEmployeesComponent implements OnInit {
   
+  loaded:boolean=false;
   employees:CollegeEmployee[]=[];
   displayEmployees:displayCollegeEmployee[]=[];
   message:string ="Mitarbeiter werden geladen...";
 
-  sortOptions!: SelectItem[];
-  sortKey: string = "";
-  sortField: string = "";
-  sortOrder: number = 1;
-
   constructor(private restAPI: RestApiService) { }
 
   ngOnInit(): void {
+    this.displayEmployees=[];
+    this.loaded=false;
     this.restAPI.getCollegeEmployees().subscribe(employees => {
       this.employees = employees;
       if(employees.length>0){
@@ -39,11 +37,8 @@ export class GetCollegeEmployeesComponent implements OnInit {
       }else{
         this.message = "Es wurden noch keine Mitarbeiter angelegt. Zum Anlegen bitte auf 'Neuen Mitarbeiter anlegen' klicken."
       }
+      this.loaded=true;
     });
 
-    this.sortOptions = [
-      {label: 'Name aufsteigend', value: 'displayEmployee.name'},
-      {label: 'Name absteigend', value: '!displayEmployee.name'}
-    ];
   }
 }

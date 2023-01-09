@@ -39,21 +39,21 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT1 Testen, ob Komponente erzeugt wird.
+  * Testfall A6:UT1 Testen, ob Komponente erzeugt wird.
   */
   it("should create", () => {
     expect(component).toBeTruthy();
   });
     
   /**
-  * Testfall A4.3:UT2 Testen, ob Formular nach initialisierung unsichtbar ist.
+  * Testfall A6:UT2 Testen, ob Formular nach initialisierung unsichtbar ist.
   */
   it("should set 'display' on false after initialization", () => {
     expect(component.display).toEqual(false);
   });
 
   /**
-  * Testfall A4.3:UT3 Testen, ob Formular nach Aufrufen von 'showDialog()'
+  * Testfall A6:UT3 Testen, ob Formular nach Aufrufen von 'showDialog()' sichtbar ist.
   */
     it("should set 'display' on true after calling 'showDialog()'", () => {
       expect(component.display).toEqual(false);
@@ -62,7 +62,7 @@ describe('EditModuleComponent', () => {
     });
 
   /**
-  * Testfall A4.3:UT4 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
+  * Testfall A6:UT4 Testen, ob die Werte für Modulhandbücher korrekt geladen werden
   */
   it("should get correct values after calling 'updateModuleManual(id,i)'", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
@@ -87,7 +87,7 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT5 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
+  * Testfall A6:UT5 Testen, ob nach Absenden des Formulars ohne ausgewählte Dozenten eine Fehlermeldung angezeigt wird
   */
   it("should show alert message'Es muss mindestens ein Dozent zugewiesen werden' when submitting without any selected prof", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
@@ -151,7 +151,7 @@ describe('EditModuleComponent', () => {
   });
 
  /**
-  * Testfall A4.3:UT6 Testen, ob das displayProf Objekt nach Absenden des Formulars korrekt umgewandelt wird.
+  * Testfall A6:UT6 Testen, ob das displayProf Objekt nach Absenden des Formulars korrekt umgewandelt wird.
   */
  it("should convert displayEmployee object to CollegeEmployee after submitting", () => {
   fixture = TestBed.createComponent(EditModuleComponent);
@@ -245,7 +245,7 @@ describe('EditModuleComponent', () => {
   });
 
   /**
-  * Testfall A4.3:UT7 Testen, ob Variationen hinzugefügt und gelöscht werden können
+  * Testfall A6:UT7 Testen, ob Variationen hinzugefügt und gelöscht werden können
   */
     it("should add variation after calling 'addVariation()'and delete variation after calling 'deleteVAriation(i)", () => {
       fixture = TestBed.createComponent(EditModuleComponent);
@@ -264,7 +264,7 @@ describe('EditModuleComponent', () => {
     });
 
   /**
-  * Testfall A4.3:UT8 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
+  * Testfall A6:UT8 Testen, ob nach Aufruf von ngOnInit() alles korrekt initialisiert wurde.
   */
   it("should initialize all values correct after calling 'ngOnInit()'", () => {
     fixture = TestBed.createComponent(EditModuleComponent);
@@ -304,7 +304,7 @@ describe('EditModuleComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.moduleFormGroup.value.id).toBe(testModule.id);
+    expect(component.moduleFormGroup.value).toEqual(testModule);
     expect(component.selectedProfs.length).toBe(testModule.profs.length);
   });
 });
