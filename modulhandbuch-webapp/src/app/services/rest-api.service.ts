@@ -442,7 +442,7 @@ export class RestApiService {
 
   handleError(errorResp: ErrorMessage) {
     let message = "Error Code: " + errorResp.status
-      + "\nMessage: " + errorResp.error;
+      + "\nMessage: " + errorResp.error.toString();
 
     window.alert(message);
 
