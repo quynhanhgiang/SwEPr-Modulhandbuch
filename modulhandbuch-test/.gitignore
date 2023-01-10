@@ -43,17 +43,20 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-# Eclipse m2e generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
+##############################
+## TestNG
+##############################
+test-output
+test-output-tests
+testng.iml
 
 !**/src/main/**/target/
 !**/src/test/**/target/
 **/application.properties
 
-### STS ###
+##############################
+## STS
+##############################
 .apt_generated
 .classpath
 .factorypath
@@ -62,13 +65,17 @@ buildNumber.properties
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+##############################
+## IntelliJ IDEA
+##############################
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+##############################
+## NetBeans
+##############################
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -78,5 +85,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+
+##############################
+## VS Code
+##############################
 .vscode/

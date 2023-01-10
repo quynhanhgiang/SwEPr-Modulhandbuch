@@ -1,26 +1,26 @@
 package a4;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.concurrent.TimeUnit;
-
+import org.openqa.selenium.NoSuchElementException;
+import io.netty.handler.timeout.TimeoutException;
+import java.time.Duration;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class a4_systemtest {
 	private WebDriver driver;
+	private WebDriverWait wait;
 
 	@BeforeTest
 	public void openWebsite() {
@@ -36,13 +36,26 @@ public class a4_systemtest {
 			driver = new ChromeDriver();
 			driver.get("https://85.214.225.164/dev");
 			driver.manage().window().maximize();
+			driver.findElement(By.id("details-button")).click();
+			driver.findElement(By.id("proceed-link")).click();
 		}
-		driver.findElement(By.id("details-button")).click();
-		driver.findElement(By.id("proceed-link")).click();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.findElement(By.id("btn-hamburger")).click();
-		driver.findElement(By.id("a-module-management")).click();
-		driver.findElement(By.id("btn-create-module")).click();
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("btn-hamburger")));
+			driver.findElement(By.id("btn-hamburger")).click();
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("a-module-management")));
+			driver.findElement(By.id("a-module-management")).click();
+		} catch (TimeoutException | NoSuchElementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void openFormular() throws TimeoutException, NoSuchElementException {
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Neues Modul erstellen']")));
+		driver.findElement(By.xpath("//button[text()='Neues Modul erstellen']")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
 	}
 
 	@Test
@@ -130,16 +143,34 @@ public class a4_systemtest {
 	}
 
 	@Test
-	public void S_F_A4T01() {
-		WebElement dialog = driver.findElement(By.xpath("//div[@role='dialog']"));
-		String dialogTitle = driver.findElement(By.cssSelector(".p-dialog .p-dialog-header")).getText();
-		boolean result = !dialog.equals(null) && dialogTitle.contentEquals("Neues Modul erstellen");
+	public void S_F_A4T01() throws NoSuchElementException{
+		boolean result = false;
+
+		WebElement modulErstellenButton = driver.findElement(By.xpath("//button[text()='Neues Modul erstellen']"));
+		if (modulErstellenButton != null) {
+			result = true;
+		}
+
+		Assert.assertEquals(result, true);
+	}
+	
+	@Test
+	public void S_F_A4T02() throws NoSuchElementException, TimeoutException {
+		boolean result = false;
+		openFormular();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
+		driver.findElement(By.xpath("//div[@role='dialog']"));
+		WebElement dialogTitle = driver.findElement(By.cssSelector(".p-dialog .p-dialog-header"));
+		String dialogTitleText = dialogTitle.getText();
+		result = dialogTitleText.contentEquals("Neues Modul erstellen");
+
 		Assert.assertEquals(result, true);
 	}
 
 	@Test
 
-	public void S_F_A4T02() {
+	public void S_F_A4T03() {
 		WebElement modulbezeichnung = driver.findElement(By.xpath("//input[@formcontrolname='moduleName']"));
 		boolean modulbezeichnungRequired = Boolean.valueOf(modulbezeichnung.getAttribute("required"));
 
