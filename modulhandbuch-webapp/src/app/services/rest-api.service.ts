@@ -11,6 +11,7 @@ import { CollegeEmployee } from '../shared/CollegeEmployee';
 import { FileStatus } from '../shared/FileStatus';
 import { ManualVariation } from '../shared/ManualVariation';
 import { Assignment } from '../shared/Assignments';
+import { ErrorMessage } from '../shared/ErrorMessage';
 
 
 @Injectable({
@@ -439,13 +440,14 @@ export class RestApiService {
 
   // ########## Error-Handling ##########
 
-  handleError(errorResp: any) {
-    let errorMessage = `Error Code: ${errorResp.status}\nMessage: ${errorResp.error}`;
+  handleError(errorResp: ErrorMessage) {
+    let message = "Error Code: " + errorResp.status
+      + "\nMessage: " + errorResp.error;
 
-    window.alert(errorMessage);
+    window.alert(message);
 
     return throwError(() => {
-      return errorMessage;
+      return message;
     });
   }
 }
