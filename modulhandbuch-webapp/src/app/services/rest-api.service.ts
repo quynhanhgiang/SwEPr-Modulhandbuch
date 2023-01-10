@@ -440,9 +440,9 @@ export class RestApiService {
 
   // ########## Error-Handling ##########
 
-  handleError(errorResp: ErrorMessage) {
-    let message = "Error Code: " + errorResp.status
-      + "\nMessage: " + JSON.stringify(errorResp.error);
+  handleError(errorObj: any) {
+    let message = "Error Code: " + errorObj.error.status
+      + "\nMessage: " + errorObj.error.error;
 
     window.alert(message);
 
