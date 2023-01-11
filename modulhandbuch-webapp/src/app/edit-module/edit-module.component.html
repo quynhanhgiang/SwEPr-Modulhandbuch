@@ -47,7 +47,7 @@
                     <div class="col-4 text-start"><label>Sprache</label></div>
                     <div class="col-8">
                         <select class="form-select"formControlName="language" id="select-create-module-language" required  placeholder="Sprache auswählen">
-                            <option *ngFor="let language of languages; let i=index">{{language}}</option>
+                            <option *ngFor="let language of languages; let i=index" value="{{language}}">{{language}}</option>
                         </select>
                     </div>
                 </div>
