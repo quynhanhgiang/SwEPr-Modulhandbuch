@@ -94,7 +94,15 @@ public class A6_systemtest {
 
 		driver.findElement(By.xpath("//td[.='" + module_name + "']")).click();
 
-		driver.findElement(By.xpath("//*[@id='btn-edit-module']")).click();
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(By.id("btn-edit-module")));
+			driver.findElement(By.id("btn-edit-module")).click();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Button to open the form does not work");
+			e.printStackTrace();
+		}
+
 		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).clear();
 		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).sendKeys(changed);
 
@@ -107,6 +115,8 @@ public class A6_systemtest {
 		driver.findElement(By.xpath("//*[@id='btn-edit-module']")).click();
 		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).clear();
 		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).sendKeys(changed_re);
+
+		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
 
 		result = !resultList.contains((Boolean) false);
         Assert.assertEquals(result, true);
