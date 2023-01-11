@@ -203,7 +203,8 @@ export class RestApiService {
    * @returns the assigned modules as ManualVariation[]
    */
   updateAssignedModules(manualID: number, manualVariations: any[]): Observable<ManualVariation[]> {
-    return this.http.put<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(manualVariations)).pipe(retry(1), catchError(this.handleError));
+    const reducedVariations = manualVariations.map(({isAssigned, ...rest}) => rest)
+    return this.http.put<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(reducedVariations)).pipe(retry(1), catchError(this.handleError));
   }
 
   // ########## Module-Manuals-API: Segments ##########
