@@ -97,7 +97,12 @@
                 <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Modulhandbuch</label></div>
-                        <div class="col-8"><p>{{variation.manual.spo.degree}} {{variation.manual.spo.course}} vom {{variation.manual.spo.startDate}} bis zum {{variation.manual.spo.endDate}}</p></div>
+                        <div class="col-8">
+                           <p>
+                              <ng-container *ngIf="variation.manual.spo.endDate==null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} gültig ab: {{variation.manual.spo.startDate}} gültig für das {{variation.manual.semester}}</ng-container>
+                              <ng-container *ngIf="variation.manual.spo.endDate!=null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} vom: {{variation.manual.spo.startDate}} bis zum: {{variation.manual.spo.endDate}} für das {{variation.manual.semester}}</ng-container>
+                           </p>
+                        </div>
                     </div>
                     <div class="row border-bottom p-2 m-3 align-items-center">
                         <div class="col-4 text-start"><label>Semester</label></div>
