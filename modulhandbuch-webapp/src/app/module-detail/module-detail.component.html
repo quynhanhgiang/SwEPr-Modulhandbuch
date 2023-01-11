@@ -2,144 +2,142 @@
     <div id="div-detail-module" class="container pt-4 pb-4">
         <app-edit-module  (onSuccessfulSubmission)="ngOnInit()"></app-edit-module>
         <hr>
-        <table id="table-detail-module">
-            <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Modulbezeichnung</label></div>
-                    <div class="col-8"><p >{{module.moduleName}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Kürzel</label></div>
-                    <div class="col-8"><p>{{module.abbreviation}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Angebotsturnus</label></div>
-                    <div class="col-8"><p>{{module.cycle}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Dauer des Moduls</label></div>
-                    <div class="col-8"><p>{{module.duration}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
-                    <div class="col-8"><p>{{module.moduleOwner.title}} {{module.moduleOwner.firstName}} {{module.moduleOwner.lastName}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Dozent(in)</label></div>
-                    <div class="col-8"><p *ngFor="let prof of module.profs">{{prof.title}} {{prof.firstName}} {{prof.lastName}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Sprache</label></div>
-                    <div class="col-8"><p>{{module.language}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
-                    <div class="col-8">
-                        <p>
-                           <ng-container *ngIf="module.usage!=null" >
-                              {{module.usage}}
-                           </ng-container>
-                        </p>
-                     </div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
+         <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Modulbezeichnung</label></div>
+                  <div class="col-8"><p >{{module.moduleName}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Kürzel</label></div>
+                  <div class="col-8"><p>{{module.abbreviation}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Angebotsturnus</label></div>
+                  <div class="col-8"><p>{{module.cycle}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Dauer des Moduls</label></div>
+                  <div class="col-8"><p>{{module.duration}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Modulverantwortliche(r)</label></div>
+                  <div class="col-8"><p>{{module.moduleOwner.title}} {{module.moduleOwner.firstName}} {{module.moduleOwner.lastName}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Dozent(in)</label></div>
+                  <div class="col-8"><p *ngFor="let prof of module.profs">{{prof.title}} {{prof.firstName}} {{prof.lastName}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Sprache</label></div>
+                  <div class="col-8"><p>{{module.language}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
+                  <div class="col-8">
+                     <p>
+                        <ng-container *ngIf="module.usage!=null" >
+                           {{module.usage}}
+                        </ng-container>
+                     </p>
+                  </div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
+                  <div class="col-8">
+                     <p>
+                        <ng-container *ngIf="module.knowledgeRequirements!=null" >
+                           {{module.knowledgeRequirements}}
+                        </ng-container>
+                     </p>
+                  </div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
+                  <div class="col-8"><p [innerHTML]="module.skills  | sanitizeHtml"></p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Lehrinhalte</label></div>
+                  <div class="col-8"><p [innerHTML]="module.content  | sanitizeHtml"></p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Endnotenbildende Studien-/Prüfungsleistung</label></div>
+                  <div class="col-8"><p>{{module.examType}}</p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Sonstige Leistungsnachweise</label></div>
+                  <div class="col-8">
+                     <p>
+                        <ng-container *ngIf="module.certificates!=null" >
+                           {{module.certificates}}
+                        </ng-container>
+                     </p>
+                  </div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Medienform</label></div>
+                  <div class="col-8">
+                     <p>
+                        <ng-container *ngIf="module.mediaType!=null" >
+                        {{module.mediaType}}
+                        </ng-container>
+                     </p>
+                  </div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Literatur</label></div>
+                  <div class="col-8"><p [innerHTML]="module.literature  | sanitizeHtml"></p></div>
+               </div>
+               <div class="row border-bottom p-2 m-3 align-items-center">
+                  <div class="col-4 text-start"><label>Mutterschutz</label></div>
+                  <div class="col-8"><p>{{module.maternityProtection}}</p></div>
+               </div>
+         </div>
+         <ng-container *ngFor="let variation of module.variations">
+               <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Modulhandbuch</label></div>
                      <div class="col-8">
                         <p>
-                           <ng-container *ngIf="module.knowledgeRequirements!=null" >
-                              {{module.knowledgeRequirements}}
-                           </ng-container>
+                           <ng-container *ngIf="variation.manual.spo.endDate==null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} gültig ab: {{variation.manual.spo.startDate}} gültig für das {{variation.manual.semester}}</ng-container>
+                           <ng-container *ngIf="variation.manual.spo.endDate!=null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} vom: {{variation.manual.spo.startDate}} bis zum: {{variation.manual.spo.endDate}} für das {{variation.manual.semester}}</ng-container>
                         </p>
                      </div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
-                    <div class="col-8"><p [innerHTML]="module.skills  | sanitizeHtml"></p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Lehrinhalte</label></div>
-                    <div class="col-8"><p [innerHTML]="module.content  | sanitizeHtml"></p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Endnotenbildende Studien-/Prüfungsleistung</label></div>
-                    <div class="col-8"><p>{{module.examType}}</p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Sonstige Leistungsnachweise</label></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Semester</label></div>
+                     <div class="col-8"><p>{{variation.semester}}</p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
+                     <div class="col-8"><p>{{variation.sws}}</p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
+                     <div class="col-8"><p>{{variation.ects}}</p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
+                     <div class="col-8"><p [innerHTML]="variation.workLoad | sanitizeHtml"></p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Modulart</label></div>
+                     <div class="col-8"><p>{{variation.moduleType.value}}</p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Studienabschnitt</label></div>
+                     <div class="col-8"><p>{{variation.segment.value}}</p></div>
+                  </div>
+                  <div class="row border-bottom p-2 m-3 align-items-center">
+                     <div class="col-4 text-start"><label>Zulassungsvorraussetzungen</label></div>
                      <div class="col-8">
                         <p>
-                           <ng-container *ngIf="module.certificates!=null" >
-                              {{module.certificates}}
+                           <ng-container *ngIf="variation.admissionRequirement!=null" >
+                              {{variation.admissionRequirement.value}}
                            </ng-container>
                         </p>
                      </div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Medienform</label></div>
-                     <div class="col-8">
-                        <p>
-                           <ng-container *ngIf="module.mediaType!=null" >
-                           {{module.mediaType}}
-                           </ng-container>
-                        </p>
-                     </div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Literatur</label></div>
-                    <div class="col-8"><p [innerHTML]="module.literature  | sanitizeHtml"></p></div>
-                 </div>
-                 <div class="row border-bottom p-2 m-3 align-items-center">
-                    <div class="col-4 text-start"><label>Mutterschutz</label></div>
-                    <div class="col-8"><p>{{module.maternityProtection}}</p></div>
-                 </div>
-            </div>
-            <ng-container *ngFor="let variation of module.variations">
-                <div  class="border border-dark list-group-item mb-4 border-top brder-bottom">
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Modulhandbuch</label></div>
-                        <div class="col-8">
-                           <p>
-                              <ng-container *ngIf="variation.manual.spo.endDate==null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} gültig ab: {{variation.manual.spo.startDate}} gültig für das {{variation.manual.semester}}</ng-container>
-                              <ng-container *ngIf="variation.manual.spo.endDate!=null">{{variation.manual.spo.degree}} {{variation.manual.spo.course}} vom: {{variation.manual.spo.startDate}} bis zum: {{variation.manual.spo.endDate}} für das {{variation.manual.semester}}</ng-container>
-                           </p>
-                        </div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Semester</label></div>
-                        <div class="col-8"><p>{{variation.semester}}</p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
-                        <div class="col-8"><p>{{variation.sws}}</p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
-                        <div class="col-8"><p>{{variation.ects}}</p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
-                        <div class="col-8"><p [innerHTML]="variation.workLoad | sanitizeHtml"></p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Modulart</label></div>
-                        <div class="col-8"><p>{{variation.moduleType.value}}</p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Studienabschnitt</label></div>
-                        <div class="col-8"><p>{{variation.segment.value}}</p></div>
-                    </div>
-                    <div class="row border-bottom p-2 m-3 align-items-center">
-                        <div class="col-4 text-start"><label>Zulassungsvorraussetzungen</label></div>
-                        <div class="col-8">
-                           <p>
-                              <ng-container *ngIf="variation.admissionRequirement!=null" >
-                                 {{variation.admissionRequirement.value}}
-                              </ng-container>
-                           </p>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-        </table>
+                  </div>
+               </div>
+         </ng-container>
     </div>
 </ng-container>
