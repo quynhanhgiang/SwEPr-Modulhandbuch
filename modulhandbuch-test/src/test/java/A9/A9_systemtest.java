@@ -85,12 +85,17 @@ public class A9_systemtest {
         boolean result = false;
         List<Boolean> resultList = new ArrayList<Boolean>();
 
+		Date date_d = new Date();
+		String d = date_d.toString().replaceAll(" ", "_").replaceAll(":", "_");
+
         String module_manual_name = "Sommersemester 9000";
 
 		String date = "01012000";
-		String date_format = "01.01.2000";
+		String date_year = "2000";
+		String date_month = "Januar";
+		String date_day = "1.";
 		String degree = "Bachelor";
-		String course = "Informatik";
+		String course = "Informatik_Systemtest_A9_"+d;
 
 		Select semester_spo = new Select(driver.findElement(By.xpath("//*[@id='select-semester-type']")));
 		semester_spo.selectByValue("Sommersemester");
@@ -110,11 +115,14 @@ public class A9_systemtest {
 
 
 		driver.findElement(By.id("input-search"))
-		.sendKeys(degree + " " + course);
+		.sendKeys(course);
 
 		resultList.add(driver.getPageSource().contains(module_manual_name));
-		resultList.add(driver.getPageSource().contains(date_format));
-
+		resultList.add(driver.getPageSource().contains(date_day));
+		resultList.add(driver.getPageSource().contains(date_month));
+		resultList.add(driver.getPageSource().contains(date_year));
+		resultList.add(driver.getPageSource().contains(degree));
+		resultList.add(driver.getPageSource().contains(course));
 
 		result = !resultList.contains((Boolean) false);
         Assert.assertEquals(result, true);
