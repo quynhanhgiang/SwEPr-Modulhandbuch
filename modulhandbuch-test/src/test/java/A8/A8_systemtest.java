@@ -84,7 +84,7 @@ public class A8_systemtest {
         boolean result = false;
         List<Boolean> resultList = new ArrayList<Boolean>();
 
-        String module_manual_name = "Test_1_A5";
+        String module_manual_name = "Systemtest_A8";
 
 		driver.findElement(By.id("input-search"))
 		.sendKeys(module_manual_name);
