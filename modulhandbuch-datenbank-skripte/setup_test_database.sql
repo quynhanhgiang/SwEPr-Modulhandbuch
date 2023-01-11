@@ -119,7 +119,8 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO duration VALUES
-	(1, "Einsemestrig")
+	(1, "Einsemestrig"),
+	(2, "Zweisemestrig")
 ;
 
 CREATE TABLE IF NOT EXISTS language(
@@ -201,7 +202,8 @@ INSERT IGNORE INTO module VALUES
 	(5, 10, 'Test_Module_PDF_2', 'TMP2', 1, 1, 1, NULL, NULL, 
 	'Test_Module_PDF_2', 'Test_Module_PDF_2', 'Test_Module_PDF_2', NULL, 'Test_Module_PDF_2', 'Test_Module_PDF_2', 2),
 	(6, 10, 'Test_Module_PDF_3', 'TMP3', 1, 1, 1, NULL, NULL, 
-	'Test_Module_PDF_3', 'Test_Module_PDF_3', 'Test_Module_PDF_3', NULL, 'Test_Module_PDF_3', 'Test_Module_PDF_3', 2)
+	'Test_Module_PDF_3', 'Test_Module_PDF_3', 'swepr_testswepr_testTest_Module_PDF_3', NULL, 'Test_Module_PDF_3', 'Test_Module_PDF_3', 2),
+	(7, 10, 'Systemtest_A6', 'SA6', 1, 1, 1, 'Systemtest_A6', 'Systemtest_A6', '<p>Systemtest_A6</p>', '<p>Systemtest_A6</p>', 'Systemtest_A6', 'Systemtest_A6', 'Systemtest_A6', '<p>Systemtest_A6</p>', 2)
 ;
 
 
@@ -280,14 +282,14 @@ INSERT IGNORE INTO section VALUES
 	(1, 2, 5, '1. Studienabschnitt'),
 	(4, NULL, 1, '2. Studienabschnitt'),
 	(3, 4, 1, '1. Studienabschnitt'),
-	(6, NULL, 5, '2. Studienabschnitt'),
-	(5, 6, 5, '1. Studienabschnitt'),
-	(8, NULL, 1, '2. Studienabschnitt'),
-	(7, 8, 1, '1. Studienabschnitt'),
-	(10, NULL, 5, '2. Studienabschnitt'),
-	(9, 10, 5, '1. Studienabschnitt'),
-	(12, NULL, 1, '2. Studienabschnitt'),
-	(11, 12, 1, '1. Studienabschnitt'),
+	(6, NULL, 2, '2. Studienabschnitt'),
+	(5, 6, 2, '1. Studienabschnitt'),
+	(8, NULL, 3, '2. Studienabschnitt'),
+	(7, 8, 3, '1. Studienabschnitt'),
+	(10, NULL, 4, '2. Studienabschnitt'),
+	(9, 10, 4, '1. Studienabschnitt'),
+	(12, NULL, 6, '2. Studienabschnitt'),
+	(11, 12, 6, '1. Studienabschnitt'),
 	(14, NULL, 5, '2. Studienabschnitt'),
 	(13, 14, 5, '1. Studienabschnitt'),
 	(16, NULL, 1, '2. Studienabschnitt'),
@@ -312,14 +314,14 @@ INSERT IGNORE INTO type VALUES
 	(4, NULL, 1, 'Praktischer Studienabschnitt'),
 	(3, 4, 1, 'Pflichtfach'),
 	(17, 3, 1, 'Wahlpflichtfach'),
-	(6, NULL, 5, 'Wahlpflichtfach'),
-	(5, 6, 5, 'Pflichtfach'),
-	(8, NULL, 1, 'Wahlpflichtfach'),
-	(7, 8, 1, 'Pflichtfach'),
-	(10, NULL, 5, 'Wahlpflichtfach'),
-	(9, 10, 5, 'Pflichtfach'),
-	(12, NULL, 1, 'Wahlpflichtfach'),
-	(11, 12, 1, 'Pflichtfach'),
+	(6, NULL, 2, 'Wahlpflichtfach'),
+	(5, 6, 2, 'Pflichtfach'),
+	(8, NULL, 3, 'Wahlpflichtfach'),
+	(7, 8, 3, 'Pflichtfach'),
+	(10, NULL, 4, 'Wahlpflichtfach'),
+	(9, 10, 4, 'Pflichtfach'),
+	(12, NULL, 6, 'Wahlpflichtfach'),
+	(11, 12, 6, 'Pflichtfach'),
 	(14, NULL, 5, 'Wahlpflichtfach'),
 	(13, 14, 5, 'Pflichtfach'),
 	(16, NULL, 1, 'Wahlpflichtfach'),
@@ -371,9 +373,9 @@ COLLATE='utf8mb4_unicode_520_ci'
 ;
 
 INSERT IGNORE INTO module_manual_has_module VALUES
-	(1, 1, 1, 1, NULL, NULL, 5, 2, '150h', NULL),
-	(2, 1, 2, 1, NULL, NULL, 7, 3, '150h', NULL),
-	(3, 1, 3, 1, NULL, NULL, 2, 1, '150h', NULL),
+	(1, 1, 1, 1, 3, 4, 5, 2, '150h', NULL),
+	(2, 1, 2, 1, 3, 17, 7, 3, '150h', NULL),
+	(3, 1, 3, 1, 4, 4, 2, 1, '150h', NULL),
 	(4, 5, 4, 1, 1, 1, 5, 2, '150h', NULL),
 	(5, 5, 5, 2, 1, 2, 5, 2, '150h', NULL),
 	(6, 5, 6, 3, 2, 1, 5, 2, '150h', NULL)
@@ -408,3 +410,4 @@ ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_section_pk_unique_id F
 ALTER TABLE module_manual ADD CONSTRAINT module_manual_fk_type_pk_unique_id FOREIGN KEY (fk_type_pk_unique_id) REFERENCES type (pk_unique_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 UPDATE module_manual SET fk_section_pk_unique_id = 1, fk_type_pk_unique_id = 1 WHERE pk_unique_id = 5;
+UPDATE module_manual SET fk_section_pk_unique_id = 3, fk_type_pk_unique_id = 3 WHERE pk_unique_id = 1;
