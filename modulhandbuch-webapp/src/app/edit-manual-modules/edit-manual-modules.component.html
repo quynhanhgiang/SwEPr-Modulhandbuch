@@ -48,7 +48,7 @@
 
         <div class="col-md-12">
           <label for="editor-workload" class="form-label">Arbeitsaufwand:</label>
-          <p-editor id="editor-workload" formControlName="workLoad" required="true" name="editor-workload">
+          <p-editor id="editor-workload" formControlName="workLoad" name="editor-workload">
             <p-header>
                 <span class="ql-formats">
                     <button class="ql-bold" aria-label="Bold"></button>
@@ -63,7 +63,7 @@
 
         <div class="col-md-12">
           <label for="select-requirement" class="form-label">Zulassungsvorraussetzung:</label>
-          <select class="form-select" id="select-requirement" formControlName="admissionRequirement" required>
+          <select class="form-select" id="select-requirement" formControlName="admissionRequirement">
             <option [ngValue]="null">keine</option>
             <option *ngFor="let requirement of requirements" [ngValue]="requirement">
               {{requirement.value}}
@@ -165,7 +165,7 @@
             </div>
 
             <div class="col-12">
-              <div class="border rounded-1 p-1" [innerHTML]="manualVar.workLoad">
+              <div class="border rounded-1 p-1" [innerHTML]="manualVar.workLoad ?? ''">
               </div>
             </div>
 
