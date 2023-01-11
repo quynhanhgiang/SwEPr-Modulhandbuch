@@ -57,9 +57,12 @@ public class ModuleManualController {
 	}
 
 	@GetMapping("/{id}/modules")
-	public List<ModuleFullDTO> allAssociatedModules(@PathVariable Integer id) {
-		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFullDTO.class)).collect(Collectors.toList());
+	public List<ModuleManualVariationDTO> allAssociatedModules(@PathVariable Integer id) {
+		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		List<VariationEntity> result = this.variationRepository.findByModuleManual(moduleManual);
+		return result.stream().map(variation -> modulhandbuchBackendMapper.map(variation, ModuleManualVariationDTO.class)).collect(Collectors.toList());
 	}
 
 	@PostMapping("")
