@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -108,22 +109,29 @@ public class a4_systemtest {
 		duration.selectByValue(duration_string);
 
 		Select owner = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
-		owner.selectByValue(module_owner);
+		owner.selectByIndex(0);
 
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/app-create-module/p-dialog/div/div/div[3]/form/div[1]/div[6]/div[2]/p-multiselect/div/div[2]/div")).click();
 		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/app-create-module/p-dialog/div/div/div[3]/form/div[1]/div[6]/div[2]/p-multiselect/div/p-overlay/div/div/div/div[2]/ul/p-multiselectitem[1]/li/span")).click();
 		
-		Select language = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
-		language.selectByValue(language_string);
+		Select language = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-language']")));
+		language.selectByIndex(0);
 
 		driver.findElement(By.xpath("//*[@id='input-create-module-usage']")).sendKeys(usage);
 		driver.findElement(By.xpath("//*[@id='input-create-module-knowledge-requirements']")).sendKeys(kr);
 		driver.findElement(By.xpath("//*[@id='input-create-module-exam-type']")).sendKeys(exam);
-		driver.findElement(By.xpath("//*[@id='input-create-module-certificates']")).sendKeys(cert);
+		driver.findElement(By.xpath("//*[@id='input-create-certificates']")).sendKeys(cert);
 		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).sendKeys(cert);
 
-		Select mat = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
-		mat.selectByValue(mat_string);
+		Select mat = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-maternityProtection']")));
+		mat.selectByVisibleText(mat_string);
+
+
+		driver.findElement(By.xpath("//*[@id='btn-remove-variations']")).click();
+		driver.findElement(By.xpath("//*[@id='btn-submit-close']")).click();
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/p-table/div/div/table/thead/tr[2]/th[1]/p-columnfilter/div/p-columnfilterformelement/input")).sendKeys(module_name);
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/p-table/div/div/table/thead/tr[2]/th[1]/p-columnfilter/div/p-columnfilterformelement/input")).sendKeys(Keys.ENTER);
 	
 		resultList.add(driver.getPageSource().contains(module_name));
 
