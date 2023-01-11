@@ -2,7 +2,15 @@ package a4;
 
 import org.openqa.selenium.NoSuchElementException;
 import io.netty.handler.timeout.TimeoutException;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -46,7 +54,7 @@ public class a4_systemtest {
 			driver.findElement(By.id("btn-hamburger")).click();
 			wait.until(ExpectedConditions.elementToBeClickable(By.id("a-module-management")));
 			driver.findElement(By.id("a-module-management")).click();
-		} catch (TimeoutException | NoSuchElementException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -58,88 +66,69 @@ public class a4_systemtest {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='dialog']")));
 	}
 
+	public Connection getDatabaseConnection() throws SQLException, ClassNotFoundException {
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(
+			"jdbc:mariadb://85.214.225.164:3306/swepr_test",
+			"read_only_user_local_host", "car_tree_moon"
+		);
+		return connection;
+	}
+
 	@Test
 	public void S_D_A4T01() {
-		driver.findElement(By.id("input-create-module-moduleName"))
-			.sendKeys("Programmieren 1");
+		openFormular();
+		boolean result = false;
+        List<Boolean> resultList = new ArrayList<Boolean>();
 
-		driver.findElement(By.xpath(
-				"/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[2]/td[2]/input"))
-				.sendKeys("Prog 1");
+		Date date_d = new Date();
+		String d = date_d.toString().replaceAll(" ", "_").replaceAll(":", "_");
 
-		driver.findElement(By.id("pr_id_4_label")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[1]/td[2]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[5]/li/span")).click();
 
-		Select category = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[2]/td[2]/select")));
-		category.selectByVisibleText("Pflichtfach");
+		String abb = "Abb_ST_A4";
+		String module_name = "Module_Systemtest_A4" + d;
+		String cycle_string = "Jährlich";
+		String duration_string = "Einsemestrig";
+		String module_owner = "Prof. Volkhard Pfeiffer";
+		String language_string = "Deutsch";
+		String usage = "Systemtest_A4_Usage";
+		String kr = "Systemtest_A4_KnwoledgeRequirements";
+		String exam = "Systemtest_A4_Exam";
+		String cert = "Systemtest_A4_Certificates";
+		String media = "Systemtest_A4_media_type";
+		String mat_string = "Grün";
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[3]/td[2]/input"))
-			.sendKeys("5");
+
+
+		driver.findElement(By.id("input-create-module-moduleName")).sendKeys(module_name);
+		driver.findElement(By.xpath("//*[@id='input-create-module-abbreviation']")).sendKeys(abb);
+		Select cycle = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-cycle']")));
+		cycle.selectByValue(cycle_string);
+		Select duration = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-duration']")));
+		duration.selectByValue(duration_string);
+
+		Select owner = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
+		owner.selectByValue(module_owner);
+
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/app-create-module/p-dialog/div/div/div[3]/form/div[1]/div[6]/div[2]/p-multiselect/div/div[2]/div")).click();
+		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/div/app-create-module/p-dialog/div/div/div[3]/form/div[1]/div[6]/div[2]/p-multiselect/div/p-overlay/div/div/div/div[2]/ul/p-multiselectitem[1]/li/span")).click();
 		
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[4]/td[2]/input"))
-			.sendKeys("6");
+		Select language = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
+		language.selectByValue(language_string);
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[5]/td[2]/p-editor/div/div[2]/div[1]"))
-			.sendKeys("150 Stunden, davon:\n50 in Präsenz\n100 Selbststudium");
+		driver.findElement(By.xpath("//*[@id='input-create-module-usage']")).sendKeys(usage);
+		driver.findElement(By.xpath("//*[@id='input-create-module-knowledge-requirements']")).sendKeys(kr);
+		driver.findElement(By.xpath("//*[@id='input-create-module-exam-type']")).sendKeys(exam);
+		driver.findElement(By.xpath("//*[@id='input-create-module-certificates']")).sendKeys(cert);
+		driver.findElement(By.xpath("//*[@id='input-create-module-media-type']")).sendKeys(cert);
 
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[5]/td/ul/li/tr[6]/td[2]/input"))
-			.sendKeys("1");
-
-		Select cycle = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[7]/td[2]/select")));
-		cycle.selectByVisibleText("Jährlich");
-
-		Select duration = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[8]/td[2]/select")));
-		duration.selectByVisibleText("Einsemestrig");
-
-		driver.findElement(By.id("pr_id_3_label")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[9]/td[2]/p-dropdown/div/div[3]/div/ul/p-dropdownitem[2]/li/span")).click();
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[2]")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[4]/div[2]/ul/p-multiselectitem[1]/li/span")).click();
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[10]/td[2]/p-multiselect/div/div[4]/div[2]/ul/p-multiselectitem[2]/li/span")).click();
-
-		Select language = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[11]/td[2]/select")));
-		language.selectByVisibleText("Deutsch");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[12]/td[2]/input"))
-			.sendKeys("TEST Nutzung in anderen Studiengängen");
-
-		Select req2 = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[13]/td[2]/select")));
-		req2.selectByVisibleText("Vorrückensberechtigung nach §5 Abs. 1 SPO (IF)");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[14]/td[2]/input"))
-			.sendKeys("TEST Inhaltliche Voraussetzung");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[15]/td[2]/p-editor/div/div[2]/div[1]/p"))
-			.sendKeys("TEST Qualifikationsziele/Kompetenzen");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[16]/td[2]/p-editor/div/div[2]/div[1]/p"))
-			.sendKeys("TEST Lehrinhalte");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[17]/td[2]/input"))
-			.sendKeys("TEST Endnotenbildung Studien-/Prüfungsleistungen");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[18]/td[2]/input"))
-			.sendKeys("TEST Sonstige Leistungsnachweise");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[19]/td[2]/input"))
-			.sendKeys("TEST Medienform");
-
-		driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[20]/td[2]/p-editor/div/div[2]/div[1]/p"))
-			.sendKeys("TEST Literatur");
-
-		Select mat = new Select(driver.findElement(By.xpath("/html/body/app-root/main/div/div/app-get-modules/app-create-module/p-dialog/div/div/div[3]/form/table/tr[21]/td[2]/select")));
-		mat.selectByVisibleText("Grün");
-
-		driver.findElement(By.id("bt-submit-new")).click();
-
-
-
-		//Database Stuff
-
-
+		Select mat = new Select(driver.findElement(By.xpath("//*[@id='select-create-module-moduleOwner']")));
+		mat.selectByValue(mat_string);
 	
-		Assert.assertEquals(true, true);
+		resultList.add(driver.getPageSource().contains(module_name));
+
+		result = !resultList.contains((Boolean) false);
+        Assert.assertEquals(result, true);
 	}
 
 	@Test
