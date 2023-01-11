@@ -37,8 +37,8 @@ export class EditManualModulesComponent implements OnInit {
       moduleType: [{}, [Validators.required]],
       sws: ['', [Validators.required, Validators.min(1), Validators.max(40)]],
       ects: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
-      workLoad: ['', [Validators.required]],
-      admissionRequirement: [{}, [Validators.required]],
+      workLoad: [''],
+      admissionRequirement: [{}],
       isAssigned: false
     });
   }
