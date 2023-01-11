@@ -80,14 +80,17 @@ public class A9_systemtest {
 	}
 
     @Test
-    public void S_D_A9T1() {
+    public void S_D_A9T01() {
 		openFormular();
         boolean result = false;
         List<Boolean> resultList = new ArrayList<Boolean>();
 
-        String module_manual_name = " ";
+        String module_manual_name = "Sommersemester 9000";
 
-		String date = null;
+		String date = "01012000";
+		String date_format = "01.01.2000";
+		String degree = "Bachelor";
+		String course = "Informatik";
 
 		Select semester_spo = new Select(driver.findElement(By.xpath("//*[@id='select-semester-type']")));
 		semester_spo.selectByValue("Sommersemester");
@@ -95,19 +98,23 @@ public class A9_systemtest {
 		driver.findElement(By.xpath("//*[@id='input-semester-year']")).sendKeys("9000");
 		driver.findElement(By.xpath("//*[@id='input-spo-link']")).sendKeys("https://85.214.225.164/dev/home");
 		
-		Select degree = new Select(driver.findElement(By.xpath("//*[@id='select-degree']")));
-		degree.selectByValue("Bachelor");
+		Select degree_select = new Select(driver.findElement(By.xpath("//*[@id='select-degree']")));
+		degree_select.selectByValue(degree);
 
-		driver.findElement(By.xpath("//*[@id='select-degree']")).sendKeys("Informatik");
+		driver.findElement(By.xpath("//*[@id='input-course']")).sendKeys(course);
 		driver.findElement(By.xpath("//*[@id='check-end-date']")).click();
 
 		driver.findElement(By.xpath("//*[@id='date-start']")).sendKeys(date);
 
+		driver.findElement(By.xpath("//*[@id='bt-submit-close']")).click();
+
 
 		driver.findElement(By.id("input-search"))
-		.sendKeys(module_manual_name);
+		.sendKeys(degree + " " + course);
 
 		resultList.add(driver.getPageSource().contains(module_manual_name));
+		resultList.add(driver.getPageSource().contains(date_format));
+
 
 		result = !resultList.contains((Boolean) false);
         Assert.assertEquals(result, true);
