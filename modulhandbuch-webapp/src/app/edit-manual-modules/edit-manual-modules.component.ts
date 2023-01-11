@@ -188,7 +188,7 @@ export class EditManualModulesComponent implements OnInit {
    * @returns true, if valid, false otherwise
    */
   isValidVariation(manualVar: ManualVariation): boolean {
-    let {admissionRequirement, ...reducedVar} = manualVar;
+    let {admissionRequirement, workLoad, ...reducedVar} = manualVar;
 
     return Object.values(reducedVar).every(val => val !== null);
   }
