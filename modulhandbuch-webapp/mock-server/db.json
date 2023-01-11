@@ -69,10 +69,7 @@
         "id": 0,
         "value": "1. Studienabschnitt"
       },
-      "admissionRequirement": {
-        "id": 0,
-        "value": "Zulassungsvorraussetzung nach §4 Abs. 1"
-      }
+      "admissionRequirement": null
     },
     {
       "module": {
