@@ -64,6 +64,7 @@
         <div class="col-md-12">
           <label for="select-requirement" class="form-label">Zulassungsvorraussetzung:</label>
           <select class="form-select" id="select-requirement" formControlName="admissionRequirement" required>
+            <option [ngValue]="null">keine</option>
             <option *ngFor="let requirement of requirements" [ngValue]="requirement">
               {{requirement.value}}
             </option>
@@ -170,7 +171,7 @@
 
             <div class="col-11">
               <div class="border rounded-1 p-1">
-                {{manualVar.admissionRequirement.value}}
+                {{manualVar.admissionRequirement === null ? "keine Zulassungsvorraussetzung" : manualVar.admissionRequirement}}
               </div>
             </div>
 
