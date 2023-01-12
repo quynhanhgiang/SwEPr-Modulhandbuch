@@ -116,6 +116,9 @@ public class ModuleManualController {
 	public List<ModuleManualVariationDTO> replaceVariations(@RequestBody List<ModuleManualVariationDTO> variations, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		// delete previous mappings
+		this.variationRepository.deleteByModuleManual(moduleManual);
 		
 		Stream<VariationEntity> variationEntities = variations.stream()
 			.map(variation -> this.modulhandbuchBackendMapper.map(variation, VariationEntity.class))
