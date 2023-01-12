@@ -10,4 +10,5 @@ import de.hscoburg.modulhandbuchbackend.model.entities.EnumEntity;
 @NoRepositoryBean
 public interface EnumRepository<T extends EnumEntity<T>> extends JpaRepository<T, Integer> {
 	List<T> findByValue(String value);
+	boolean existsByValue(String value);
 }
