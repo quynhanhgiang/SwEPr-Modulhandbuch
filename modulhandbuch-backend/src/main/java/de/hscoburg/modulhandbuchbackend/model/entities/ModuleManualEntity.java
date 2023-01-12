@@ -13,7 +13,9 @@ import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,10 +44,14 @@ public class ModuleManualEntity {
 	@Column(name = "module_plan")
 	private String modulePlanLink;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
 	private SectionEntity firstSection;
 
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_type_pk_unique_id")
 	private TypeEntity firstType;
