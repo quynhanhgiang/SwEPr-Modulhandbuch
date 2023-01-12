@@ -1,27 +1,34 @@
 package de.hscoburg.modulhandbuchbackend.unittests.services;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
+import java.util.function.BiFunction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.hscoburg.modulhandbuchbackend.dto.EnumDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.AdmissionRequirementNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateAdmissionRequirementsInRequestException;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.AdmissionRequirementEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEnumEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.AdmissionRequirementRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModuleManualEnumService;
+import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -29,44 +36,58 @@ import lombok.ToString;
 @ExtendWith(MockitoExtension.class)
 public class ModuleManualEnumServiceTest {
 
+	@Mock
+	private AdmissionRequirementRepository mockAdmissionRequirementRepository;
+	@Mock
+	private ModuleManualRepository mockModuleManualRepository;
+	@Mock
+	private VariationRepository mockVariationRepository;
+	@Spy
+	ModulhandbuchBackendMapper modulhandbuchBackendMapper = new ModulhandbuchBackendMapper(null, null, null, null, null, null, null);
 	@InjectMocks
 	private ModuleManualEnumService moduleManualEnumServiceWithMocks;
 
 	@Mock
 	private ModuleManualEntity mockModuleManualEntity;
 	@Mock
-	private AdmissionRequirementRepository mockAdmissionRequirementRepository;
+	private AdmissionRequirementEntity mockAdmissionRequirementEntityWithId1;
+	@Mock
+	private VariationEntity mockVariationEntity;
 	
 	@Test
-	public void testValidateIds() {
+	public void testReplaceModuleManualEnum() {
 		@AllArgsConstructor
 		@EqualsAndHashCode
 		@ToString
-		class TestParameters<T extends ModuleManualEnumEntity<T>> {
-			List<EnumDTO> enumDto;
-			ModuleManualEntity moduleManual;
-			ModuleManualEnumRepository<T> repository;
-			Consumer<Integer> duplicateElementsInRequestHandler;
-			Consumer<Integer> elementNotFoundHandler;
+		class TestParameters {
+			BiFunction<List<EnumDTO>, Integer, List<EnumDTO>> method;
+			List<EnumDTO> moduleManualEnum;
+			Integer moduleManualId;
 			@EqualsAndHashCode.Exclude
 			boolean expectedToThrowException;
 			@EqualsAndHashCode.Exclude
 			Class<? extends Exception> expectedException;
 			@EqualsAndHashCode.Exclude
 			String expectedExceptionMessage;
+			@EqualsAndHashCode.Exclude
+			List<EnumDTO> expectedModuleManualEnum;
 		}
 
 		EnumDTO newElement = new EnumDTO();
 		newElement.setId(null);
 		newElement.setValue("New element");
 
+		EnumDTO newElementAfterPersistence = new EnumDTO();
+		newElementAfterPersistence.setId(null);
+		newElementAfterPersistence.setValue(newElement.getValue());
+
 		EnumDTO existingElement1 = new EnumDTO();
 		existingElement1.setId(1);
 		existingElement1.setValue("Existing element 1");
 
-		EnumDTO notExistingElement2 = new EnumDTO();
-		notExistingElement2.setId(2);
-		notExistingElement2.setValue("Not existing element 2");
+		EnumDTO notExistingElement10 = new EnumDTO();
+		notExistingElement10.setId(10);
+		notExistingElement10.setValue("Not existing element 10");
 
 		EnumDTO duplicateExistingElement1 = new EnumDTO();
 		duplicateExistingElement1.setId(1);
@@ -77,7 +98,14 @@ public class ModuleManualEnumServiceTest {
 			newElement
 		);
 
+		List<EnumDTO> expectedResultForEnumNormal = Arrays.asList(
+			existingElement1,
+			newElementAfterPersistence
+		);
+
 		List<EnumDTO> enumEmpty = Arrays.asList();
+
+		List<EnumDTO> expectedResultForEnumEmpty = Arrays.asList();
 
 		List<EnumDTO> enumWithNull = Arrays.asList(
 			existingElement1,
@@ -85,10 +113,15 @@ public class ModuleManualEnumServiceTest {
 			null
 		);
 
+		List<EnumDTO> expectedResultForEnumWithNull = Arrays.asList(
+			existingElement1,
+			newElementAfterPersistence
+		);
+
 		List<EnumDTO> enumWithAbsentId = Arrays.asList(
 			existingElement1,
 			newElement,
-			notExistingElement2
+			notExistingElement10
 		);
 
 		List<EnumDTO> enumWithDuplicate = Arrays.asList(
@@ -97,122 +130,75 @@ public class ModuleManualEnumServiceTest {
 			duplicateExistingElement1
 		);
 
-		Consumer<Integer> duplicateAdmissionRequirementsInRequestHandler = id -> {throw new DuplicateAdmissionRequirementsInRequestException(id);};
-		Consumer<Integer> admissionRequirementNotFoundHandler = id -> {throw new AdmissionRequirementNotFoundException(id);};
+		Set<TestParameters> testData = Set.of(
+			// replaceRequirements
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumNormal), 0, false, null, null, expectedResultForEnumNormal),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumNormal), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumNormal), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumNormal), null, true, IllegalArgumentException.class, null, null),
 
-		// AdmissionRequirementEntity
-		Set<TestParameters<AdmissionRequirementEntity>> testDataAdmissionRequirementEntity = Set.of(
-			// enumNormal
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, null, false, null, null),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, this.mockModuleManualEntity, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumEmpty), 0, false, null, null, expectedResultForEnumEmpty),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumEmpty), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumEmpty), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumEmpty), null, true, IllegalArgumentException.class, null, null),
 
-			new TestParameters<>(enumNormal, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumNormal, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumNormal, null, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumNormal, null, this.mockAdmissionRequirementRepository, null, null, false, null, null),
-			new TestParameters<>(enumNormal, null, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, null, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, null, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumNormal, null, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithNull), 0, false, null, null, expectedResultForEnumWithNull),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithNull), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithNull), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithNull), null, true, IllegalArgumentException.class, null, null),
 
-			// enumEmpty
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, null, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, null, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, this.mockModuleManualEntity, null, null, null, false, null, null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithAbsentId), 0, true, AdmissionRequirementNotFoundException.class, "Admission requirement with id 10 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithAbsentId), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithAbsentId), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithAbsentId), null, true, IllegalArgumentException.class, null, null),
 
-			new TestParameters<>(enumEmpty, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumEmpty, null, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, null, this.mockAdmissionRequirementRepository, null, null, false, null, null),
-			new TestParameters<>(enumEmpty, null, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, null, null, duplicateAdmissionRequirementsInRequestHandler, null, false, null, null),
-			new TestParameters<>(enumEmpty, null, null, null, admissionRequirementNotFoundHandler, false, null, null),
-			new TestParameters<>(enumEmpty, null, null, null, null, false, null, null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithDuplicate), 0, true, DuplicateAdmissionRequirementsInRequestException.class, "Admission requirement with id 1 has duplicates in request.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithDuplicate), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithDuplicate), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), new LinkedList<>(enumWithDuplicate), null, true, IllegalArgumentException.class, null, null),
 
-			// enumWithNull
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, this.mockModuleManualEntity, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-
-			new TestParameters<>(enumWithNull, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, null, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, null, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.dto.EnumDTO.getId()\" because \"currentElement\" is null"),
-			new TestParameters<>(enumWithNull, null, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, null, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, null, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithNull, null, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-
-			// enumWithAbsentId
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, AdmissionRequirementNotFoundException.class, "Admission requirement with id 2 not found."),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"elementNotFoundHandler\" is null"),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, AdmissionRequirementNotFoundException.class, "Admission requirement with id 2 not found."),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"elementNotFoundHandler\" is null"),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, this.mockModuleManualEntity, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-
-			new TestParameters<>(enumWithAbsentId, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, AdmissionRequirementNotFoundException.class, "Admission requirement with id 2 not found."),
-			new TestParameters<>(enumWithAbsentId, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"elementNotFoundHandler\" is null"),
-			new TestParameters<>(enumWithAbsentId, null, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, AdmissionRequirementNotFoundException.class, "Admission requirement with id 2 not found."),
-			new TestParameters<>(enumWithAbsentId, null, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"elementNotFoundHandler\" is null"),
-			new TestParameters<>(enumWithAbsentId, null, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, null, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, null, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithAbsentId, null, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-
-			// enumWithDuplicate
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, DuplicateAdmissionRequirementsInRequestException.class, "Admission requirement with id 1 has duplicates in request."),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, DuplicateAdmissionRequirementsInRequestException.class, "Admission requirement with id 1 has duplicates in request."),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"duplicateElementsInRequestHandler\" is null"),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"duplicateElementsInRequestHandler\" is null"),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, this.mockModuleManualEntity, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-
-			new TestParameters<>(enumWithDuplicate, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, DuplicateAdmissionRequirementsInRequestException.class, "Admission requirement with id 1 has duplicates in request."),
-			new TestParameters<>(enumWithDuplicate, null, this.mockAdmissionRequirementRepository, duplicateAdmissionRequirementsInRequestHandler, null, true, DuplicateAdmissionRequirementsInRequestException.class, "Admission requirement with id 1 has duplicates in request."),
-			new TestParameters<>(enumWithDuplicate, null, this.mockAdmissionRequirementRepository, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"duplicateElementsInRequestHandler\" is null"),
-			new TestParameters<>(enumWithDuplicate, null, this.mockAdmissionRequirementRepository, null, null, true, NullPointerException.class, "Cannot invoke \"java.util.function.Consumer.accept(Object)\" because \"duplicateElementsInRequestHandler\" is null"),
-			new TestParameters<>(enumWithDuplicate, null, null, duplicateAdmissionRequirementsInRequestHandler, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, null, null, duplicateAdmissionRequirementsInRequestHandler, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, null, null, null, admissionRequirementNotFoundHandler, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null"),
-			new TestParameters<>(enumWithDuplicate, null, null, null, null, true, NullPointerException.class, "Cannot invoke \"de.hscoburg.modulhandbuchbackend.repositories.ModuleManualEnumRepository.existsByIdAndModuleManual(java.lang.Integer, de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity)\" because \"repository\" is null")
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), null, 0, true, NullPointerException.class, "Cannot invoke \"java.util.List.removeIf(java.util.function.Predicate)\" because \"moduleManualEnum\" is null", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), null, 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), null, -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((requirements, id) -> this.moduleManualEnumServiceWithMocks.replaceRequirements(requirements, id), null, null, true, IllegalArgumentException.class, null, null)
 		);
+
+		// initially no module manuals are present
+		Mockito.when(this.mockModuleManualRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+		// IllegalArgumentException if id is null
+		Mockito.when(this.mockModuleManualRepository.findById(null)).thenThrow(new IllegalArgumentException());
+		// module manual with id 0 is present
+		Mockito.when(this.mockModuleManualRepository.findById(0)).thenReturn(Optional.of(this.mockModuleManualEntity));
+
+		Mockito.when(this.mockVariationRepository.findByAdmissionRequirement(Mockito.any(AdmissionRequirementEntity.class))).thenReturn(List.of(this.mockVariationEntity));
 
 		// initially no admission requirements are present
 		Mockito.when(this.mockAdmissionRequirementRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
 		// admission requirement with id 1 is present
 		Mockito.when(this.mockAdmissionRequirementRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
 
-		for (TestParameters<AdmissionRequirementEntity> testParameters : testDataAdmissionRequirementEntity) {
+		Mockito.when(this.mockAdmissionRequirementRepository.findById(1)).thenReturn(Optional.of(this.mockAdmissionRequirementEntityWithId1));
+
+		Mockito.when(this.mockAdmissionRequirementRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockAdmissionRequirementEntityWithId1));
+
+		// return input
+		Mockito.when(this.mockAdmissionRequirementRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
+
+		Mockito.when(this.mockAdmissionRequirementEntityWithId1.getId()).thenReturn(1);
+		Mockito.when(this.mockAdmissionRequirementEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
+
+		for (TestParameters testParameters : testData) {
 			if (testParameters.expectedToThrowException) {
-				Exception exception = Assertions.assertThrows(testParameters.expectedException,() -> this.moduleManualEnumServiceWithMocks.validateIds(testParameters.enumDto, testParameters.moduleManual, testParameters.repository, testParameters.duplicateElementsInRequestHandler, testParameters.elementNotFoundHandler), testParameters.toString());
+				Exception exception = Assertions.assertThrows(testParameters.expectedException, () -> testParameters.method.apply(testParameters.moduleManualEnum, testParameters.moduleManualId), testParameters.toString());
 
 				Assertions.assertEquals(testParameters.expectedExceptionMessage, exception.getMessage(), testParameters.toString());
 
 				continue;
 			}
 
-			Assertions.assertDoesNotThrow(() -> this.moduleManualEnumServiceWithMocks.validateIds(testParameters.enumDto, testParameters.moduleManual, testParameters.repository, testParameters.duplicateElementsInRequestHandler, testParameters.elementNotFoundHandler), testParameters.toString());
+			List<EnumDTO> receivedModuleManualEnum = Assertions.assertDoesNotThrow(() -> testParameters.method.apply(testParameters.moduleManualEnum, testParameters.moduleManualId), testParameters.toString());
+
+			Assertions.assertEquals(testParameters.expectedModuleManualEnum, receivedModuleManualEnum, testParameters.toString());
 		}
 	}
 }
