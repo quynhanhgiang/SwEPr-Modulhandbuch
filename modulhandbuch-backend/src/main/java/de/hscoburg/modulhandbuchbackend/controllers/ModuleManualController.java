@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualVariationDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
-import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
