@@ -28,6 +28,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SectionRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.TypeRepository;
@@ -57,13 +58,11 @@ public class ModuleManualStructureServiceTest {
 	@Mock
 	private ModuleManualEntity mockModuleManualEntity;
 	@Mock
-	private SectionEntity mockSectionEntity;
+	private SectionEntity mockSectionEntityWithId1;
 	@Mock
-	private SectionEntity mockSectionEntityWithId;
+	private TypeEntity mockTypeEntityWithId1;
 	@Mock
-	private TypeEntity mockTypeEntity;
-	@Mock
-	private TypeEntity mockTypeEntityWithId;
+	private VariationEntity mockVariationEntity;
 	
 	@Test
 	public void testGetStructure() {
@@ -109,8 +108,8 @@ public class ModuleManualStructureServiceTest {
 		// module manual with id 0 is present
 		Mockito.when(this.mockModuleManualRepository.findById(0)).thenReturn(Optional.of(this.mockModuleManualEntity));
 
-		Mockito.when(this.mockModuleManualEntity.getFirstSection()).thenReturn(this.mockSectionEntity);
-		Mockito.when(this.mockModuleManualEntity.getFirstType()).thenReturn(this.mockTypeEntity);
+		Mockito.when(this.mockModuleManualEntity.getFirstSection()).thenReturn(this.mockSectionEntityWithId1);
+		Mockito.when(this.mockModuleManualEntity.getFirstType()).thenReturn(this.mockTypeEntityWithId1);
 
 		for (TestParameters<?> testParameters : testData) {
 			if (testParameters.expectedToThrowException) {
@@ -150,13 +149,17 @@ public class ModuleManualStructureServiceTest {
 		newElement.setId(null);
 		newElement.setValue("New element");
 
+		StructureDTO newElementAfterPersistence = new StructureDTO();
+		newElementAfterPersistence.setId(null);
+		newElementAfterPersistence.setValue(newElement.getValue());
+
 		StructureDTO existingElement1 = new StructureDTO();
 		existingElement1.setId(1);
 		existingElement1.setValue("Existing element 1");
 
-		StructureDTO notExistingElement2 = new StructureDTO();
-		notExistingElement2.setId(2);
-		notExistingElement2.setValue("Not existing element 2");
+		StructureDTO notExistingElement10 = new StructureDTO();
+		notExistingElement10.setId(10);
+		notExistingElement10.setValue("Not existing element 10");
 
 		StructureDTO duplicateExistingElement1 = new StructureDTO();
 		duplicateExistingElement1.setId(1);
@@ -169,7 +172,7 @@ public class ModuleManualStructureServiceTest {
 
 		List<StructureDTO> expectedResultForStructureNormal = Arrays.asList(
 			existingElement1,
-			newElement
+			newElementAfterPersistence
 		);
 
 		List<StructureDTO> structureEmpty = Arrays.asList();
@@ -184,13 +187,13 @@ public class ModuleManualStructureServiceTest {
 
 		List<StructureDTO> expectedResultForStructureWithNull = Arrays.asList(
 			existingElement1,
-			newElement
+			newElementAfterPersistence
 		);
 
 		List<StructureDTO> structureWithAbsentId = Arrays.asList(
 			existingElement1,
 			newElement,
-			notExistingElement2
+			notExistingElement10
 		);
 
 		List<StructureDTO> structureWithDuplicate = Arrays.asList(
@@ -216,7 +219,7 @@ public class ModuleManualStructureServiceTest {
 			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithNull), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithNull), null, true, IllegalArgumentException.class, null, null),
 
-			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithAbsentId), 0, true, SegmentNotFoundException.class, "Segment with id 2 not found.", null),
+			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithAbsentId), 0, true, SegmentNotFoundException.class, "Segment with id 10 not found.", null),
 			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithAbsentId), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
 			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithAbsentId), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((segments, id) -> this.moduleManualStructureServiceWithMocks.replaceSegments(segments, id), new LinkedList<>(structureWithAbsentId), null, true, IllegalArgumentException.class, null, null),
@@ -247,7 +250,7 @@ public class ModuleManualStructureServiceTest {
 			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithNull), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithNull), null, true, IllegalArgumentException.class, null, null),
 
-			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithAbsentId), 0, true, ModuleTypeNotFoundException.class, "Module type with id 2 not found.", null),
+			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithAbsentId), 0, true, ModuleTypeNotFoundException.class, "Module type with id 10 not found.", null),
 			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithAbsentId), 1, true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
 			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithAbsentId), -1, true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((moduleTypes, id) -> this.moduleManualStructureServiceWithMocks.replaceModuleTypes(moduleTypes, id), new LinkedList<>(structureWithAbsentId), null, true, IllegalArgumentException.class, null, null),
@@ -273,23 +276,38 @@ public class ModuleManualStructureServiceTest {
 		// return input
 		Mockito.when(this.mockModuleManualRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
+		Mockito.when(this.mockVariationRepository.findBySegment(Mockito.any(SectionEntity.class))).thenReturn(List.of(this.mockVariationEntity));
+		Mockito.when(this.mockVariationRepository.findByModuleType(Mockito.any(TypeEntity.class))).thenReturn(List.of(this.mockVariationEntity));
+
 		// initially no sections are present
 		Mockito.when(this.mockSectionRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
 		// section with id 1 is present
 		Mockito.when(this.mockSectionRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
 
+		Mockito.when(this.mockSectionRepository.findById(1)).thenReturn(Optional.of(this.mockSectionEntityWithId1));
+		
+		Mockito.when(this.mockSectionRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockSectionEntityWithId1));
+
 		// return input
 		Mockito.when(this.mockSectionRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
+		Mockito.when(this.mockSectionEntityWithId1.getId()).thenReturn(1);
+		Mockito.when(this.mockSectionEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
+
 		// initially no types are present
 		Mockito.when(this.mockTypeRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
-		// type with id 1 is present
+		// tpye with id 1 is present
 		Mockito.when(this.mockTypeRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
+
+		Mockito.when(this.mockTypeRepository.findById(1)).thenReturn(Optional.of(this.mockTypeEntityWithId1));
+
+		Mockito.when(this.mockTypeRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockTypeEntityWithId1));
 
 		// return input
 		Mockito.when(this.mockTypeRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
-		Mockito.when(this.mockModuleManualEntity.getFirstSection()).thenReturn(this.mockSectionEntity);
+		Mockito.when(this.mockTypeEntityWithId1.getId()).thenReturn(1);
+		Mockito.when(this.mockTypeEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
 
 		for (TestParameters testParameters : testData) {
 			if (testParameters.expectedToThrowException) {
@@ -300,7 +318,7 @@ public class ModuleManualStructureServiceTest {
 				continue;
 			}
 
-			List<StructureDTO> receivedStructureDTOList = Assertions.assertDoesNotThrow(() -> testParameters.method.apply(testParameters.structure, testParameters.id));
+			List<StructureDTO> receivedStructureDTOList = Assertions.assertDoesNotThrow(() -> testParameters.method.apply(testParameters.structure, testParameters.id), testParameters.toString());
 
 			Assertions.assertEquals(testParameters.expectedStructureDTOList, receivedStructureDTOList, testParameters.toString());
 		}
