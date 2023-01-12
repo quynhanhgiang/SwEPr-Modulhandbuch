@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.EnumDTO;
-import de.hscoburg.modulhandbuchbackend.exceptions.AdmissionRequirementNotFoundException;
-import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateAdmissionRequirementsInRequestException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.AdmissionRequirementEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
@@ -47,25 +45,6 @@ public class ModuleManualEnumController {
 	
 	@PutMapping("/requirements")
 	public List<EnumDTO> replaceRequirements(@RequestBody List<EnumDTO> requirements, @PathVariable Integer id) {
-		// remove all null values in given list
-		requirements.removeIf(element -> (element == null));
-
-		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			.orElseThrow(() -> new ModuleManualNotFoundException(id));
-
-		// check if all given ids are associated with the given module manual or null and there are no duplicates of ids in request
-		this.moduleManualEnumService.validateIds(requirements, moduleManual, this.admissionRequirementRepository, duplicateId -> {throw new DuplicateAdmissionRequirementsInRequestException(duplicateId);}, notFoundId -> {throw new AdmissionRequirementNotFoundException(notFoundId);});
-
-		this.admissionRequirementRepository.deleteByModuleManual(moduleManual);
-
-		// save all requirements and update values for return
-		return requirements.stream()
-			.map(requirement -> {
-				AdmissionRequirementEntity admissionRequirement = this.modulhandbuchBackendMapper.map(requirement, AdmissionRequirementEntity.class);
-				admissionRequirement.setModuleManual(moduleManual);
-				admissionRequirement = this.admissionRequirementRepository.save(admissionRequirement);
-				return this.modulhandbuchBackendMapper.map(admissionRequirement, EnumDTO.class);
-			})
-			.collect(Collectors.toList());
+		return this.moduleManualEnumService.replaceRequirements(requirements, id);
 	}
 }
