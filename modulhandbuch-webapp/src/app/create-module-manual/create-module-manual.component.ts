@@ -120,11 +120,11 @@ export class CreateModuleManualComponent implements OnInit {
       if(event.submitter.id=="bt-submit-new"){
         this.spoFormGroup.enable();
         this.resetForm();
+        this.onSuccessfulSubmission.emit(); // benachrichtigt die Parent-Component, dass neue Daten vorliegen
         return;
       }
 
-      this.onSuccessfulSubmission.emit(); // benachrichtigt die Parent-Component, dass neue Daten vorliegen
-
+      this.onSuccessfulSubmission.emit();
       this.hideDialog();
     });
   }

@@ -93,8 +93,12 @@ export class EditManualGeneralComponent implements OnInit {
     });
   }
 
-  handleFileInput(files: FileList, file: File | null) {
-    file = files.item(0);
+  handleModulePlanFileInput(files: FileList) {
+    this.modulePlanFile = files.item(0);
+  }
+
+  handlePreliminaryNoteFileInput(files: FileList) {
+    this.preliminaryNoteFile = files.item(0);
   }
 
   /**
