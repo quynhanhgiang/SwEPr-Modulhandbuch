@@ -24,4 +24,5 @@ public interface VariationRepository extends JpaRepository<VariationEntity, Inte
 	List<VariationEntity> findBySegment(SectionEntity segment);
 	List<VariationEntity> findByModuleType(TypeEntity moduleType);
 	List<VariationEntity> findByAdmissionRequirement(AdmissionRequirementEntity admissionRequirement);
+	List<VariationEntity> findBySectionAndType(SectionEntity section, TypeEntity type);
 }
