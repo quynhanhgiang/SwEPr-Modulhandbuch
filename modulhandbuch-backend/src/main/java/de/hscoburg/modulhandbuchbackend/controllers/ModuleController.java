@@ -1,5 +1,6 @@
 package de.hscoburg.modulhandbuchbackend.controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
-import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
@@ -48,23 +47,38 @@ public class ModuleController {
 		@RequestParam(name = "not-in-manual", required = false, defaultValue = "") String moduleManualToIgnoreString) {
 		if (!flat.equals("true")) {
 			List<ModuleEntity> result = this.moduleRepository.findAll();
-			return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFullDTO.class)).collect(Collectors.toList());
+			return result.stream()
+				.map(module -> this.modulhandbuchBackendMapper.map(module, ModuleFullDTO.class))
+				.collect(Collectors.toList());
 		}
 
 		try {
+			// on NumberFormatException moduleManualToIgnore was not set (or not a number) so return all modules
 			Integer moduleManualToIgnoreId = Integer.valueOf(moduleManualToIgnoreString);
-			ModuleManualEntity moduleManualToIgnore = this.moduleManualRepository.findById(moduleManualToIgnoreId)
-				.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualToIgnoreId));
 			
-			List<VariationEntity> result = this.variationRepository.findByModuleManualNot(moduleManualToIgnore);
-			return result.stream()
-				.map(variation -> variation.getModule())
-				.map(module -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
+			List<ModuleEntity> allModules = this.moduleRepository.findAll();
+			List<ModuleEntity> modulesNotInModuleManual = new LinkedList<>();
+			for (ModuleEntity module : allModules) {
+				List<VariationEntity> variations = this.variationRepository.findByModule(module);
+				long countOfVariationWithModuleManualToIgnore = variations.stream()
+					.filter(variation -> variation.getModuleManual().getId() == moduleManualToIgnoreId)
+					.count();
 
-		} catch (NumberFormatException | ModuleManualNotFoundException ignored) {}
+				if (countOfVariationWithModuleManualToIgnore == 0) {
+					modulesNotInModuleManual.add(module);
+				}
+			}
+
+			return modulesNotInModuleManual.stream()
+				.map(module -> this.modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class))
+				.collect(Collectors.toList());
+
+		} catch (NumberFormatException ignored) {}
 
 		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class)).collect(Collectors.toList());
+		return result.stream()
+			.map(module -> this.modulhandbuchBackendMapper.map(module, ModuleFlatDTO.class))
+			.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
