@@ -88,7 +88,7 @@
         </div>
         <ng-template #modulePlanStatusMessage>
           <div class="text-success p-1">
-            Datei "<a href="{{modulePlanStatus.link}}" class="link-success">{{modulePlanStatus.filename}}</a>" wurde am {{modulePlanStatus.timestamp}} hochgeladen.
+            Datei "<a href="{{modulePlanStatus.link}}" class="link-success">{{modulePlanStatus.filename}}</a>" wurde am {{getLocaleDate(modulePlanStatus.timestamp!)}} hochgeladen.
           </div>
         </ng-template>
       </div>
@@ -107,7 +107,7 @@
         </div>
         <ng-template #preliminaryNoteStatusMessage>
           <div class="text-success p-1">
-            Datei "<a href="{{preliminaryNoteStatus.link}}" class="link-success">{{preliminaryNoteStatus.filename}}</a>" wurde am {{preliminaryNoteStatus.timestamp}} hochgeladen.
+            Datei "<a href="{{preliminaryNoteStatus.link}}" class="link-success">{{preliminaryNoteStatus.filename}}</a>" wurde am {{getLocaleDate(preliminaryNoteStatus.timestamp!)}} hochgeladen.
           </div>
         </ng-template>
       </div>
