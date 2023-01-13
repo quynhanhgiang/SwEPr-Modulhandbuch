@@ -65,7 +65,7 @@ public class ModuleManualService {
                 typeAttr.setValue((sectionCounter) + "." + (++typeCounter) + ". " + currentType.getValue());
                 moduleTypeNode.setAttributeNode(typeAttr);
 
-                List<VariationEntity> variations = variationRepository.findBySectionAndType(currentSection, currentType);
+                List<VariationEntity> variations = variationRepository.findBySegmentAndModuleType(currentSection, currentType);
                 variations.stream().sorted((a,b)->a.getModule().getModuleName().compareTo(b.getModule().getModuleName())).forEach(variation -> {
                     ModuleEntity module = variation.getModule();
                     Element moduleNode = document.createElement("module");
