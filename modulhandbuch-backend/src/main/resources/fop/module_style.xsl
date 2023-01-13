@@ -23,10 +23,10 @@
                 <fo:simple-page-master master-name="DIN-A4"
                                        page-height="29.7cm" page-width="21cm"
                                        margin-top="2cm"     margin-bottom="2cm"
-                                       margin-left="2.5cm"  margin-right="2.5cm">
+                                       margin-left="1cm"  margin-right="1cm">
                     <fo:region-body
                             margin-top="1.5cm" margin-bottom="1.8cm"
-                            margin-left="2cm"  margin-right="2.5cm"/>
+                            margin-left="1cm"  margin-right="1cm"/>
                     <fo:region-before region-name="header" extent="1.3cm"/>
                     <fo:region-after  region-name="footer" extent="1.5cm"/>
                     <fo:region-start  region-name="left"   extent="1cm"/>
@@ -62,14 +62,15 @@
 
     <xs:template match="moduleManual/modules">
         <xs:for-each select="section">
-            <fo:block font-size="14pt">
+            <fo:block font-weight="bold" font-size="14pt">
                 <xs:value-of select="@section"/>
             </fo:block>
             <xs:for-each select="moduleType">
-                <fo:block font-size="14pt">
+                <fo:block font-weight="bold" font-size="14pt">
                     <xs:value-of select="@type"/>
                 </fo:block>
                 <xs:for-each select="module">
+                    <xs:value-of select="@module"/>
                     <fo:table border-style="solid" table-layout="fixed" width="100%">
                         <fo:table-column column-width="30%"/>
                         <fo:table-column column-width="70%"/>
@@ -83,7 +84,7 @@
                                     </fo:table-cell>
                                     <fo:table-cell xs:use-attribute-sets="cell-style">
                                         <fo:block xs:use-attribute-sets="block-style">
-                                            <xs:value-of select="@value"/>
+                                            <xs:value-of select="@value" disable-output-escaping="yes"/>
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>

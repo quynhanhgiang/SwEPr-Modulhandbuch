@@ -44,23 +44,25 @@ public class ModuleManualService {
         rootElement.appendChild(modulesNode);
 
         SectionEntity currentSection = moduleManual.getFirstSection();
+        int sectionCounter = 0;
         while(currentSection != null){
             Element section = document.createElement("section");
             modulesNode.appendChild(section);
 
             // section xml-Attribute
             Attr sectionAttr = document.createAttribute("section");
-            sectionAttr.setValue(currentSection.getValue());
+            sectionAttr.setValue((++sectionCounter) + ". " + currentSection.getValue());
             modulesNode.setAttributeNode(sectionAttr);
 
             TypeEntity currentType = moduleManual.getFirstType();
+            int typeCounter = 0;
             while(currentType != null){
                 Element moduleTypeNode = document.createElement("moduleType");
                 section.appendChild(moduleTypeNode);
 
                 // type xml-Attribute
                 Attr typeAttr = document.createAttribute("type");
-                typeAttr.setValue(currentType.getValue());
+                typeAttr.setValue((sectionCounter) + "." + (++typeCounter) + ". " + currentType.getValue());
                 moduleTypeNode.setAttributeNode(typeAttr);
 
                 List<VariationEntity> variations = variationRepository.findBySectionAndType(currentSection, currentType);
@@ -84,7 +86,7 @@ public class ModuleManualService {
                     createChildAttribute(document, moduleNode, "Modulverantwortlicher", module.getModuleOwner().toString());
                     createChildAttribute(document, moduleNode, "Dozent", module.getProfs().toString());
                     createChildAttribute(document, moduleNode, "Sprache", module.getLanguage().toString());
-                    createChildAttribute(document, moduleNode, "Zulassungsvoraussetzungen", variation.getAdmissionRequirement().toString());
+                    if(variation.getAdmissionRequirement() != null) createChildAttribute(document, moduleNode, "Zulassungsvoraussetzungen", variation.getAdmissionRequirement().toString());
                     createChildAttribute(document, moduleNode, "Inhaltliche Voraussetzungen", module.getKnowledgeRequirements());
                     createChildAttribute(document, moduleNode, "Qualifikationsziele", module.getSkills());
                     createChildAttribute(document, moduleNode, "Lehrinhalte", module.getContent());

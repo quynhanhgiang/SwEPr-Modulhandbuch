@@ -17,7 +17,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "module_has_module_manual")
+//@Table(name = "module_has_module_manual") // TODO rauswerfen bidde
+@Table(name = "module_manual_has_module")
 public class VariationEntity {
 
 	@Id
