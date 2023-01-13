@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../services/rest-api.service';
 import { Assignment } from '../shared/Assignments';
 import { CollegeEmployee } from '../shared/CollegeEmployee';
@@ -18,7 +19,6 @@ export class CreateModuleComponent implements OnInit {
   display: boolean = false;//false == form hidden | true == form visible
 
   newModule!:Module;
-
   moduleFormGroup: FormGroup;
 
   profs!:CollegeEmployee[];
@@ -35,7 +35,7 @@ export class CreateModuleComponent implements OnInit {
   moduleTypes:Assignment[][]=[];
   segments:Assignment[][]=[];
 
-  constructor(private fb: FormBuilder, private restAPI: RestApiService) {
+  constructor(private fb: FormBuilder, private restAPI: RestApiService,  private route: ActivatedRoute, private router: Router) {
     this.moduleFormGroup = this.fb.group({
       id: null,
       moduleName: new FormControl(),
@@ -105,11 +105,6 @@ export class CreateModuleComponent implements OnInit {
   onSubmit(event: {submitter:any }): void {//create new Module with form data
     this.newModule = this.moduleFormGroup.value;
 
-    if(this.newModule.profs.length<1){
-      window.alert("Es muss mindestens ein Dozent zugewiesen werden");
-      return;
-    }
-
     for(let i=0;i<this.newModule.profs.length;i++){
       for(let j=0;j<this.profs.length;j++){
         if(this.newModule.profs[i].id==this.profs[j].id){
@@ -122,13 +117,18 @@ export class CreateModuleComponent implements OnInit {
     this.restAPI.createModule(this.newModule).subscribe(resp => {
       this.onSuccessfulSubmission.emit();
       console.log(resp);
+
+      this.hideDialog();
+
+      if(event.submitter.id=="btn-submit-new"){
+        this.showDialog();
+      }
+
+      if(event.submitter.id=="btn-submit-open"){
+        this.router.navigate(['/module-detail-view',resp.id]);
+      }
+
     });
-
-    this.hideDialog();
-
-    if(event.submitter.id=="btn-submit-new"){
-      this.showDialog();
-    }
   }
   
   updateModuleManual( i:number) {
