@@ -56,5 +56,10 @@ export class GetModuleManualsComponent implements OnInit {
         this.sortOrder = 1;
         this.sortField = value;
     }
-}
+  }
+
+  onGeneratePdfClick(id: number) {
+    alert("Die PDF wird generiert. Dieser Prozess dauert einen Moment.")
+    this.restAPI.generatePDF(id).subscribe();
+  }
 }

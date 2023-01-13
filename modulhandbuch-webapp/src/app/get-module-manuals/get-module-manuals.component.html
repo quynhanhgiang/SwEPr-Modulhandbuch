@@ -32,14 +32,17 @@
                         <div class="fw-bold fs-5">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}</div>
 
                         <!-- MH-Zeitraum -->
-                        <span *ngIf="moduleManual.spo.endDate === null; else endDate" class="fs-6 ms-4">
-                            Gültig für Studienanfänger ab dem <i>{{getGermanDate(moduleManual.spo.startDate)}}</i>
-                        </span>
+                        <div *ngIf="moduleManual.spo.endDate === null; else endDate" class="fs-6 ms-4">
+                            Gültig für das <i>{{moduleManual.semester}}</i>.
+                            <br>
+                            Für Studienanfänger ab dem <i>{{getGermanDate(moduleManual.spo.startDate)}}</i>
+                        </div>
                         <ng-template #endDate>
-                            <span class="fs-6  ms-4">
-                                Gültig für Studienanfänger im Zeitraum
-                                <i>{{getGermanDate(moduleManual.spo.startDate)}} - {{getGermanDate(moduleManual.spo.endDate)}}</i>
-                            </span>
+                            <div class="fs-6  ms-4">
+                              Gültig für das <i>{{moduleManual.semester}}</i>.
+                              <br>
+                              Für Studienanfänger im Zeitraum <i>{{getGermanDate(moduleManual.spo.startDate)}} - {{getGermanDate(moduleManual.spo.endDate)}}</i>
+                            </div>
                         </ng-template>
 
                         <!-- MH-SPO-Link -->
@@ -49,7 +52,10 @@
                     </div>
 
                     <!-- MH-Semester-->
-                    <span class="badge bg-success rounded-pill">{{moduleManual.semester}}</span>
+                    <button type="button" class="btn btn-outline-secondary pb-1 pt-1" id="btn-pdf-{{i}}" (click)="onGeneratePdfClick(moduleManual.id)">
+                      <i class="bi bi-filetype-pdf fs-5"></i>
+                      PDF
+                    </button>
                 </div>
             </div>
         </ng-template>
