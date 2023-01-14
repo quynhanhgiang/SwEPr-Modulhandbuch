@@ -111,8 +111,7 @@ public class ModuleManualService {
 
     public OutputStream generateModuleManualPDF(ModuleManualEntity moduleManual) throws PDFGenerationException {
         try {
-            Document xml = null;
-            xml = generateModuleManualXML(moduleManual);
+            Document xml = generateModuleManualXML(moduleManual);
             return pdfService.processPDF(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\module_style.xsl"), xml);
         } catch (FOPException e) {
             throw new PDFGenerationException(e);
