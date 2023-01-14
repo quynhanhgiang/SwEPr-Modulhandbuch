@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { saveAs } from '@progress/kendo-file-saver';
 import { SelectItem } from 'primeng/api/selectitem';
 import { RestApiService } from '../services/rest-api.service';
 import { ModuleManual } from '../shared/module-manual';
@@ -60,6 +61,9 @@ export class GetModuleManualsComponent implements OnInit {
 
   onGeneratePdfClick(id: number) {
     alert("Die PDF wird generiert. Dieser Prozess dauert einen Moment.")
-    this.restAPI.generatePDF(id).subscribe();
+    this.restAPI.generatePDF(id).subscribe(data => {
+      let blob: Blob = new Blob([data], {type: 'application/pdf'});
+      saveAs(blob, "Modulhandbuch.pdf");
+    });
   }
 }
