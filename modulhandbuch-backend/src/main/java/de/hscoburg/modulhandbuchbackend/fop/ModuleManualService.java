@@ -1,24 +1,19 @@
 package de.hscoburg.modulhandbuchbackend.fop;
 
 import de.hscoburg.modulhandbuchbackend.model.entities.*;
-import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
-import org.apache.fop.apps.FOPException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.File;
+
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 @Service

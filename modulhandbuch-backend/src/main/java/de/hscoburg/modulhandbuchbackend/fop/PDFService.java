@@ -5,10 +5,7 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.aspectj.apache.bcel.util.ClassPath;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -34,7 +31,6 @@ public class PDFService {
             Source xslSource = new StreamSource(xslFile);
             Source xmlSource = new DOMSource(xml);
 
-            //Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
             TransformerFactory factory = TransformerFactory.newInstance();
