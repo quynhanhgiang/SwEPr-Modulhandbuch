@@ -6,7 +6,11 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import de.hscoburg.modulhandbuchbackend.dto.FileInfoDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
+import de.hscoburg.modulhandbuchbackend.fop.ModuleManualService;
+import de.hscoburg.modulhandbuchbackend.fop.PDFGenerationException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.services.DocumentService;
@@ -29,6 +36,7 @@ import lombok.Data;
 public class ModuleManualDocumentController {
 	private final ModuleManualRepository moduleManualRepository;
 	private final DocumentService documentService;
+	private final ModuleManualService moduleManualService;
 	private final ServletContext servletContext;
 
 	@GetMapping("/module-plan")
@@ -57,6 +65,21 @@ public class ModuleManualDocumentController {
 				// TODO own exception and advice, better handling of exception
 				throw new RuntimeException(e);
 			}
+	}
+
+	@GetMapping("/pdf")
+	public ResponseEntity<Resource> generatePdf(@PathVariable Integer id) throws PDFGenerationException, IOException {
+		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		byte[] pdf = this.moduleManualService.generateModuleManualPDF(moduleManual);
+		Resource resource = new ByteArrayResource(pdf);
+
+		return ResponseEntity.ok()
+			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+			.contentLength(resource.contentLength())
+			.contentType(MediaType.APPLICATION_PDF)
+			.body(resource);
 	}
 
 	// TODO move to other controller
