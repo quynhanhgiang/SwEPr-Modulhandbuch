@@ -10,12 +10,14 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -26,7 +28,7 @@ public class ModuleManualService {
     private final PDFService pdfService;
 
 
-    public void generateModuleManual(ModuleManualEntity moduleManual) throws ParserConfigurationException {
+    public Document generateModuleManualXML(ModuleManualEntity moduleManual) throws ParserConfigurationException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         Document document = documentBuilder.newDocument();
@@ -104,16 +106,21 @@ public class ModuleManualService {
             currentSection = currentSection.getNext();
         }
 
-        try {
-            pdfService.processPDF(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\module_style.xsl"), document);
-        } catch (FOPException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return document;
+    }
 
+    public OutputStream generateModuleManualPDF(ModuleManualEntity moduleManual) throws PDFGenerationException {
+        try {
+            Document xml = null;
+            xml = generateModuleManualXML(moduleManual);
+            return pdfService.processPDF(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\module_style.xsl"), xml);
+        } catch (FOPException e) {
+            throw new PDFGenerationException(e);
+        } catch (TransformerException e) {
+            throw new PDFGenerationException(e);
+        } catch (ParserConfigurationException e) {
+            throw new PDFGenerationException(e);
+        }
     }
 
     private void createChildAttribute(Document document, Element parentNode, String title, String value){
