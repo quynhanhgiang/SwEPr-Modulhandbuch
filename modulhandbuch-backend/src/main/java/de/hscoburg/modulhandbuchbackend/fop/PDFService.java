@@ -24,15 +24,11 @@ import java.net.URISyntaxException;
 public class PDFService {
     // TODO Pfade überarbeiten
     //FopFactory fopFactory = FopFactory.newInstance(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\fop.xconf"));
-    FopFactory fopFactory = FopFactory.newInstance(new File(new ClassPathResource("fop/fop.xconf").getURI()));
+    FopFactory fopFactory = FopFactory.newInstance(new File(new ClassPathResource("/fop.xconf").getURI()));
     //FopFactory fopFactory = FopFactory.newInstance(new File(this.getClass().getResource("/fop/fop.xconf").toURI()));
     //FopFactory fopFactory = FopFactory.newInstance(new File("src/main"));
 
-    @Value("classpath:data/resource-data.txt")
-    Resource resource;
-
     public PDFService() throws IOException, SAXException, URISyntaxException {
-        new ClassPathResource("fop/fop.xconf").getPath();
     }
 
 

@@ -27,8 +27,8 @@ public class FopTestEndpoint {
     void generatePDF() {
         ModuleManualEntity moduleManual = moduleManualRepository.findById(1).orElse(null);
         try {
-            moduleManualService.generateModuleManual(moduleManual);
-        } catch (ParserConfigurationException e) {
+            moduleManualService.generateModuleManualPDF(moduleManual);
+        } catch (PDFGenerationException e) {
             e.printStackTrace();
         }
     }
