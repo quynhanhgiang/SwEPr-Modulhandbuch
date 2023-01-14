@@ -155,6 +155,7 @@
                         <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
                         <div class="col-8">
                             <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
+                                <option value="null">-</option>
                                 <option *ngFor="let admissionRequirement of admissionRequirements[i]" [ngValue]="admissionRequirement">{{admissionRequirement.value}}</option>
                             </select>
                         </div>
