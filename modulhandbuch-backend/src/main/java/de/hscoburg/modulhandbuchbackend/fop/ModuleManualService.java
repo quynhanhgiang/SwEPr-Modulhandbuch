@@ -5,6 +5,7 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 import org.apache.fop.apps.FOPException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -28,98 +29,102 @@ public class ModuleManualService {
     private final PDFService pdfService;
 
 
-    public Document generateModuleManualXML(ModuleManualEntity moduleManual) throws ParserConfigurationException {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.newDocument();
+    public Document generateModuleManualXML(ModuleManualEntity moduleManual) throws PDFGenerationException {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-        //root Element
-        Element rootElement = document.createElement("moduleManual");
-        document.appendChild(rootElement);
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
 
-        // TODO Titelseite
+            //root Element
+            Element rootElement = document.createElement("moduleManual");
+            document.appendChild(rootElement);
 
-        // TODO Inhaltsverzeichnis
+            // TODO Titelseite
 
-        // Module
-        Element modulesNode = document.createElement("modules");
-        rootElement.appendChild(modulesNode);
+            // TODO Inhaltsverzeichnis
 
-        SectionEntity currentSection = moduleManual.getFirstSection();
-        int sectionCounter = 0;
-        while(currentSection != null){
-            Element section = document.createElement("section");
-            modulesNode.appendChild(section);
+            // Module
+            Element modulesNode = document.createElement("modules");
+            rootElement.appendChild(modulesNode);
 
-            // section xml-Attribute
-            Attr sectionAttr = document.createAttribute("section");
-            sectionAttr.setValue((++sectionCounter) + ". " + currentSection.getValue());
-            modulesNode.setAttributeNode(sectionAttr);
+            SectionEntity currentSection = moduleManual.getFirstSection();
+            int sectionCounter = 0;
+            while (currentSection != null) {
+                Element section = document.createElement("section");
+                modulesNode.appendChild(section);
 
-            TypeEntity currentType = moduleManual.getFirstType();
-            int typeCounter = 0;
-            while(currentType != null){
-                Element moduleTypeNode = document.createElement("moduleType");
-                section.appendChild(moduleTypeNode);
+                // section xml-Attribute
+                Attr sectionAttr = document.createAttribute("section");
+                sectionAttr.setValue((++sectionCounter) + ". " + currentSection.getValue());
+                modulesNode.setAttributeNode(sectionAttr);
 
-                // type xml-Attribute
-                Attr typeAttr = document.createAttribute("type");
-                typeAttr.setValue((sectionCounter) + "." + (++typeCounter) + ". " + currentType.getValue());
-                moduleTypeNode.setAttributeNode(typeAttr);
+                TypeEntity currentType = moduleManual.getFirstType();
+                int typeCounter = 0;
+                while (currentType != null) {
+                    Element moduleTypeNode = document.createElement("moduleType");
+                    section.appendChild(moduleTypeNode);
 
-                List<VariationEntity> variations = variationRepository.findBySegmentAndModuleType(currentSection, currentType);
-                variations.stream().sorted((a,b)->a.getModule().getModuleName().compareTo(b.getModule().getModuleName())).forEach(variation -> {
-                    ModuleEntity module = variation.getModule();
-                    Element moduleNode = document.createElement("module");
-                    moduleTypeNode.appendChild(moduleNode);
+                    // type xml-Attribute
+                    Attr typeAttr = document.createAttribute("type");
+                    typeAttr.setValue((sectionCounter) + "." + (++typeCounter) + ". " + currentType.getValue());
+                    moduleTypeNode.setAttributeNode(typeAttr);
 
-                    Attr moduleNameAttr = document.createAttribute("module");
-                    moduleNameAttr.setValue(module.getModuleName());
-                    moduleNode.setAttributeNode(moduleNameAttr);
+                    List<VariationEntity> variations = variationRepository.findBySegmentAndModuleType(currentSection, currentType);
+                    variations.stream().sorted((a, b) -> a.getModule().getModuleName().compareTo(b.getModule().getModuleName())).forEach(variation -> {
+                        ModuleEntity module = variation.getModule();
+                        Element moduleNode = document.createElement("module");
+                        moduleTypeNode.appendChild(moduleNode);
 
-                    createChildAttribute(document, moduleNode, "Modulbezeichnung", module.getModuleName());
-                    createChildAttribute(document, moduleNode, "Kuerzel", module.getAbbreviation());
-                    createChildAttribute(document, moduleNode, "Lehrform / SWS", variation.getSws().toString());
-                    createChildAttribute(document, moduleNode, "Leistungspunkte", variation.getEcts().toString());
-                    createChildAttribute(document, moduleNode, "Arbeitsaufwand", variation.getWorkLoad());
-                    createChildAttribute(document, moduleNode, "Fachsemester", variation.getSemester().toString());
-                    createChildAttribute(document, moduleNode, "Angebotsturnus", module.getCycle().toString());
-                    createChildAttribute(document, moduleNode, "Dauer des Moduls", module.getDuration().toString());
-                    createChildAttribute(document, moduleNode, "Modulverantwortlicher", module.getModuleOwner().toString());
-                    createChildAttribute(document, moduleNode, "Dozent", module.getProfs().toString());
-                    createChildAttribute(document, moduleNode, "Sprache", module.getLanguage().toString());
-                    if(variation.getAdmissionRequirement() != null) createChildAttribute(document, moduleNode, "Zulassungsvoraussetzungen", variation.getAdmissionRequirement().toString());
-                    createChildAttribute(document, moduleNode, "Inhaltliche Voraussetzungen", module.getKnowledgeRequirements());
-                    createChildAttribute(document, moduleNode, "Qualifikationsziele", module.getSkills());
-                    createChildAttribute(document, moduleNode, "Lehrinhalte", module.getContent());
-                    createChildAttribute(document, moduleNode, "Endnotenbildende Studien-/ Pruefungsleistungen", module.getExamType());
-                    createChildAttribute(document, moduleNode, "Sonstige Leistungsnachweise", module.getCertificates());
-                    createChildAttribute(document, moduleNode, "Medienformen", module.getMediaType());
-                    createChildAttribute(document, moduleNode, "Literatur", module.getLiterature());
-                });
+                        Attr moduleNameAttr = document.createAttribute("module");
+                        moduleNameAttr.setValue(module.getModuleName());
+                        moduleNode.setAttributeNode(moduleNameAttr);
 
-                // currentType inkrementieren
-                currentType = currentType.getNext();
+                        createChildAttribute(document, moduleNode, "Modulbezeichnung", module.getModuleName());
+                        createChildAttribute(document, moduleNode, "Kuerzel", module.getAbbreviation());
+                        createChildAttribute(document, moduleNode, "Lehrform / SWS", variation.getSws().toString());
+                        createChildAttribute(document, moduleNode, "Leistungspunkte", variation.getEcts().toString());
+                        createChildAttribute(document, moduleNode, "Arbeitsaufwand", variation.getWorkLoad());
+                        createChildAttribute(document, moduleNode, "Fachsemester", variation.getSemester().toString());
+                        createChildAttribute(document, moduleNode, "Angebotsturnus", module.getCycle().toString());
+                        createChildAttribute(document, moduleNode, "Dauer des Moduls", module.getDuration().toString());
+                        createChildAttribute(document, moduleNode, "Modulverantwortlicher", module.getModuleOwner().toString());
+                        createChildAttribute(document, moduleNode, "Dozent", module.getProfs().toString());
+                        createChildAttribute(document, moduleNode, "Sprache", module.getLanguage().toString());
+                        if (variation.getAdmissionRequirement() != null)
+                            createChildAttribute(document, moduleNode, "Zulassungsvoraussetzungen", variation.getAdmissionRequirement().toString());
+                        createChildAttribute(document, moduleNode, "Inhaltliche Voraussetzungen", module.getKnowledgeRequirements());
+                        createChildAttribute(document, moduleNode, "Qualifikationsziele", module.getSkills());
+                        createChildAttribute(document, moduleNode, "Lehrinhalte", module.getContent());
+                        createChildAttribute(document, moduleNode, "Endnotenbildende Studien-/ Pruefungsleistungen", module.getExamType());
+                        createChildAttribute(document, moduleNode, "Sonstige Leistungsnachweise", module.getCertificates());
+                        createChildAttribute(document, moduleNode, "Medienformen", module.getMediaType());
+                        createChildAttribute(document, moduleNode, "Literatur", module.getLiterature());
+                    });
+
+                    // currentType inkrementieren
+                    currentType = currentType.getNext();
+                }
+
+                // currentSection inkrementieren
+                currentSection = currentSection.getNext();
             }
 
-            // currentSection inkrementieren
-            currentSection = currentSection.getNext();
+            return document;
+        }catch(ParserConfigurationException e){
+            throw new PDFGenerationException(e);
         }
-
-        return document;
     }
 
-    public OutputStream generateModuleManualPDF(ModuleManualEntity moduleManual) throws PDFGenerationException {
-        try {
+    public byte[] generateModuleManualPDF(ModuleManualEntity moduleManual) throws PDFGenerationException {
+
+        try{
             Document xml = generateModuleManualXML(moduleManual);
-            return pdfService.processPDF(new File("C:\\Users\\ChristophEuskirchen\\IdeaProjects\\SwEPr-Modulhandbuch\\modulhandbuch-backend\\src\\main\\resources\\fop\\module_style.xsl"), xml);
-        } catch (FOPException e) {
-            throw new PDFGenerationException(e);
-        } catch (TransformerException e) {
-            throw new PDFGenerationException(e);
-        } catch (ParserConfigurationException e) {
+            return pdfService.processPDF(new ClassPathResource("fop/module_style.xsl").getFile(), xml);
+        }catch(IOException e){
             throw new PDFGenerationException(e);
         }
+
     }
 
     private void createChildAttribute(Document document, Element parentNode, String title, String value){

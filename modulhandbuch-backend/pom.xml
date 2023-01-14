@@ -145,6 +145,13 @@
 				<directory>src/main/resources/configs</directory>
 				<filtering>true</filtering>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>src/main/resources/configs/*</exclude>
+				</excludes>
+			</resource>
 		</resources>
 		<testResources>
 			<testResource>
