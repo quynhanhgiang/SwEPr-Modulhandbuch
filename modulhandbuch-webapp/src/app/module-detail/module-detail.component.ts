@@ -12,18 +12,31 @@ import { Module } from '../shared/module';
 
 export class ModuleDetailComponent implements OnInit {
 
-  module!: Module;
-  rendered:boolean=false;
-  id:number=0;
+  // ### container-control ###
+  rendered:boolean=false;           // true: container is visible, false: container is invisible
 
-  private routeSub!: Subscription;
+  // ### asynchronous data ###
+  module!: Module;                  //Module by id
+  id:number=0;                      //id of then module
+  private routeSub!: Subscription;  //Subscription to acces url parameters
+  
+  /**
+   * 
+   * @param route ActivatedRoute to been able to acces url
+   * @param restAPI rest-api for receiving Data
+   */
   constructor(private route: ActivatedRoute, private restAPI: RestApiService) { }
 
+  /**
+   * initalize all Data
+   */
   ngOnInit():void {
+    //get id of module form url
     this.routeSub = this.route.params.subscribe(params => {
       this.id =params['id'];
     });
 
+    //recive Manual form Rest-Api with the given id
     this.restAPI.getModule(this.id).subscribe(module => {
       this.module = module;
       this.rendered=true;

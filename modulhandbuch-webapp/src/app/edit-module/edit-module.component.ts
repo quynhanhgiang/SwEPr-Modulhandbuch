@@ -17,31 +17,46 @@ import { ModuleManual } from '../shared/module-manual';
 export class EditModuleComponent implements OnInit {
   @Output() onSuccessfulSubmission = new EventEmitter();
 
-  display: boolean = false;//false == form hidden | true == form visible
-  moduleName!:string;
-  rendered:boolean = false;
+  // ### dialog-control ###
+  display: boolean = false;                 //true: dialog is visible, false: dialog is invisible
 
-  newModule!:Module;
+  // ### container-control ###
+  rendered:boolean = false;                 //true: container is visible, false: container is invisible
 
-  moduleFormGroup: FormGroup;
+  // ### asynchronous data ###
+  editModule!:Module;                       //module to be edited
+  profs!:CollegeEmployee[];                 //list of all created profs
+  moduleName!:string;                       //name of the module to be edited
+  private routeSub!: Subscription;          //Subscription to acces url parameters
 
-  profs!:CollegeEmployee[];
-  displayProfs:displayCollegeEmployee[]=[];
-  selectedProfs:displayCollegeEmployee[]=[];
+  // ### form-groups ###
+  moduleFormGroup: FormGroup;               //main-formgroup
 
-  moduleManuals!:ModuleManual[];
-  moduleOwners!:CollegeEmployee[];
+  // ### form-controll ###
+  selectedProfs:displayCollegeEmployee[]=[];// selected Profs of then loaded Module
 
-  cycles!:String[];
-  durations!:String[];
-  languages!:String[];
-  maternityProtections!:String[];
+  // ### form-select ###
+  // ### Multidimensional Arrays ###
+  // admissionRequirements[0] = list of all admissionRequirements for the firstVariation
+  // admissionRequirements[1] = list of all admissionRequirements for the secondVariation
+  admissionRequirements:Assignment[][]=[];  //list of all moduleManuals for each Variation
+  moduleTypes:Assignment[][]=[];            //list of all moduleManuals for each Variation
+  segments:Assignment[][]=[];               //list of all moduleManuals for each Variation
+  // ### Array ###
+  moduleManuals!:ModuleManual[];            //list of all moduleManuals
+  moduleOwners!:CollegeEmployee[];          //list of all ModuleOwners
+  cycles!:String[];                         //list of all Cycles
+  durations!:String[];                      //list of all duration
+  languages!:String[];                      //list of all languages
+  displayProfs:displayCollegeEmployee[]=[]; //list of all profs but with a converted name
+  maternityProtections!:String[];           //list of all maternityProtections
 
-  admissionRequirements:Assignment[][]=[];
-  moduleTypes:Assignment[][]=[];
-  segments:Assignment[][]=[];
-
-  private routeSub!: Subscription;
+  /**
+   * 
+   * @param fb formbuilder for moduleFormGroup
+   * @param restAPI rest-api for submitting and receiving Data
+   * @param router Router for reciving the module id form the url
+  */
   constructor(private fb: FormBuilder, private restAPI: RestApiService, private route: ActivatedRoute) {
     this.moduleFormGroup = this.fb.group({
       id: null,
@@ -65,20 +80,27 @@ export class EditModuleComponent implements OnInit {
     });
   }
 
+  /**
+   * initalize all Data
+  */
   ngOnInit(): void {
+    //reset compontent
     this.segments=[];
     this.moduleTypes=[];
     this.admissionRequirements=[];
     this.profs = [];
-
     let id=0;
+
+    //get id of module form url
     this.routeSub = this.route.params.subscribe(params => {
       id =params['id'];
     });
 
+    //get a list of all employees
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
 
+        //convert collegeEmployees to displayCollegeEmployees
         for (let i=0;i<resp.length;i++) {
           let displayProf:displayCollegeEmployee={id:resp[i].id, name:""};
           displayProf.name=this.profs[i].title +" " + this.profs[i].firstName +" " +this.profs[i].lastName;
@@ -86,21 +108,25 @@ export class EditModuleComponent implements OnInit {
         }
     });
 
+    //nested Rest-Api-Calls so it is garanteed that all needed data has been loaded
     this.restAPI.getModuleManuals().subscribe(resp => {
         this.moduleManuals = resp;
 
         this.restAPI.getCollegeEmployees().subscribe(resp => {
           this.moduleOwners = resp;
   
+          //get Module by id
           this.restAPI.getModule(id).subscribe(module => {
             this.moduleName = module.moduleName;
       
+            //convert all selected profs of type collegeEmployee to type displayCollegeEmployee
             for (let i=0;i<module.profs.length;i++) {
               let displayProf:displayCollegeEmployee={id:module.profs[i].id, name:""};
               displayProf.name=module.profs[i].title +" " + module.profs[i].firstName +" " +module.profs[i].lastName;
               this.selectedProfs.push(displayProf);
             }
       
+            //update moduleFormGroup values with the values of the recived module
             this.moduleFormGroup.patchValue({
               id: module.id,
               moduleName: module.moduleName,
@@ -121,10 +147,15 @@ export class EditModuleComponent implements OnInit {
               maternityProtection: module.maternityProtection,
             });
       
+            //for every variation in module do
             for(let i=0;i<module.variations.length;i++){
+
+              //get id form moduleManual
               let id =module.variations[i].manual.id
       
               if(id!=null){
+
+                //nested Rest-Api-Calls so it is garanteed that all needed data has been loaded
                 this.restAPI.getModuleTypes(id).subscribe(resp => {
                   this.moduleTypes[i]=(resp);
                   this.restAPI.getRequirements(id!).subscribe(resp => {
@@ -132,6 +163,7 @@ export class EditModuleComponent implements OnInit {
                     this.restAPI.getSegments(id!).subscribe(resp => {
                       this.segments[i]=resp
                       
+                      //create variation and add it to the moduleform group
                       this.variations.push(
                         this.fb.group({
                           manual:this.moduleManuals.find(item => item.id == module.variations[i].manual?.id) ?? null,
@@ -149,6 +181,7 @@ export class EditModuleComponent implements OnInit {
                 });
               }
             }
+            //all neded data has been loaded container can be visible
             this.rendered = true;
           });
       });
@@ -171,25 +204,36 @@ export class EditModuleComponent implements OnInit {
     });
   }
 
+  /**
+   * opdate new Module form the given input 
+   * @param event submitevent wich contains the pressed Button
+  */
   onSubmit(): void {//create new Module with form data
-    this.newModule = this.moduleFormGroup.value;
+    this.editModule = this.moduleFormGroup.value;
 
-    for(let i=0;i<this.newModule.profs.length;i++){
+    //convert displayCollegeEmployees back to collegeEmployees
+    for(let i=0;i<this.editModule.profs.length;i++){
       for(let j=0;j<this.profs.length;j++){
-        if(this.newModule.profs[i].id==this.profs[j].id){
-          this.newModule.profs[i]=this.profs[j];
+        if(this.editModule.profs[i].id==this.profs[j].id){
+          this.editModule.profs[i]=this.profs[j];
           break;
         }
       }
     }
 
-    this.restAPI.updateModule(this.newModule).subscribe(resp => {
+    //update module
+    this.restAPI.updateModule(this.editModule).subscribe(resp => {
       console.log(resp);
       this.hideDialog();
       this.onSuccessfulSubmission.emit();
     });
   }
   
+  /**
+   * will be triggert if a manual is beeing selected
+   * recives moduleType, Requirements and Segemts wich belongs to the specific selected manual
+   * @param i index of variation
+  */
   updateModuleManual(i:number) {
     this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
         this.moduleTypes[i]=(resp);
@@ -204,10 +248,16 @@ export class EditModuleComponent implements OnInit {
     });
   }
 
+  /**
+   * return all variation as an FormArray
+  */
   get variations(){
     return (this.moduleFormGroup.get("variations") as FormArray);
   }
 
+  /**
+   * create a new variation as a formGroup
+  */
   addVariation() {
     this.variations.push(
       this.fb.group({
@@ -223,18 +273,26 @@ export class EditModuleComponent implements OnInit {
     );
   }
 
+  /**
+   * delete variation a index i
+   * @param index index of variation
+  */
   deleteVariation(index:number){
       this.variations.removeAt(index);
-      this.moduleTypes.splice(index,1)//testing
-      this.admissionRequirements.splice(index,1)//testing
-      this.segments.splice(index,1)//Testing
+
+      //removes list from Multidimensional Array and close the gap
+      this.moduleTypes.splice(index,1);
+      this.admissionRequirements.splice(index,1);
+      this.segments.splice(index,1);
   }
 
-  showDialog() {//make form visible
+  //shows pop-up-dialog
+  showDialog() {
       this.display = true;
   }
 
-  hideDialog() {//hide form
+  //hides pop-up-dialog
+  hideDialog() {
     this.display = false;
   }
 

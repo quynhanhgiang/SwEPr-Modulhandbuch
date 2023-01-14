@@ -1,8 +1,15 @@
-<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()"><!--Pop-up dialog for form-->
+<!--Pop-up dialog for creating a new Employee-->
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="resetForm()">
+    
+    <!--Header with Heading-->
     <ng-template pTemplate="header">
         <h3>Neuen Mitarbeiter anlegen</h3>
     </ng-template>
+
+    <!--Form for Data input for creating a new Employee-->
     <form id="form-create-employee" (ngSubmit)="onSubmit()" [formGroup]="employeeFormGroup" ngNativeValidate>
+
+        <!--select and multiselect for entering gender and title-->
         <div class="row">
             <div class="mb-3 col">
                 <select class="form-select" formControlName="gender" id="select-create-employee-gender"  required>
@@ -13,6 +20,8 @@
                 <p-multiSelect formControlName="title" [options]="titles" placeholder="Titel auswählen" ></p-multiSelect>
             </div>
         </div>
+
+        <!--input fields for entering name, sirname and email-->
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="input-first-name" placeholder="name@example.com" formControlName="firstName" required="true">
             <label for="input-first-name">Vorname des Mitarbeiters</label>
@@ -20,17 +29,22 @@
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="input-last-name" placeholder="name@example.com" formControlName="lastName" required="true">
             <label for="input-last-name">Nachname des Mitarbeiters</label>
-            </div>
+        </div>
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="input-email" placeholder="name@example.com" formControlName="email" required="true">
             <label for="input-email">Email des Mitarbeiters</label>
         </div>
         <hr>
+
+        <!--button for submitting the form-->
         <div class="text-center">
             <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit" style="width: 95%;">Speichern</button>
         </div>
+
+        <!--pop-up-dialog if a duplicate name is detected-->
         <p-confirmDialog header="Namensdopplung Bestätigen" icon="pi pi-exclamation-triangle">
             <ng-template pTemplate="footer">
+                <!--confonfirm or deny duplicate name-->
                 <button type="button" pButton icon="pi pi-times" label="No" (click)="reject()"></button>
                 <button type="button" pButton icon="pi pi-check" label="Yes" (click)="accept()"></button>
             </ng-template>
@@ -38,6 +52,7 @@
     </form>
 </p-dialog>
 
-<div id="div-create-college-employee"><!--Triggers the function showDialog() wich makes the form visible-->
+<!--button wich makes the pup-up-dialog visible-->
+<div id="div-create-college-employee">
     <button id="btn-create-college-employee" class="btn btn-lg btn-outline-secondary" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="margin-right:5px ;"></i>Mitarbeiter anlegen</button>
 </div>
