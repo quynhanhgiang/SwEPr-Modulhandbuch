@@ -138,7 +138,10 @@ export class RestApiService {
    * @returns ...
    */
   generatePDF(id: number): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/module-manuals/' + id + '/pdf').pipe(retry(1), catchError(this.handleError));
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+
+    return this.http.get(this.apiURL + '/module-manuals/' + id + '/pdf', {headers: headers, responseType: 'blob'}).pipe(retry(1), catchError(this.handleError));
   }
 
   // ########## Module-Manuals-API: Documents ##########
