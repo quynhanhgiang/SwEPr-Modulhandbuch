@@ -155,7 +155,7 @@ export class RestApiService {
     const formData: FormData = new FormData();
     formData.append('modulePlanFile', file, file.name);
 
-    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -179,7 +179,7 @@ export class RestApiService {
     const formData: FormData = new FormData();
     formData.append('preliminaryNoteFile', file, file.name);
 
-    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
   }
 
 
