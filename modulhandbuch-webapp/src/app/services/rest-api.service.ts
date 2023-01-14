@@ -135,7 +135,7 @@ export class RestApiService {
    * Method for requesting the "/module-manuals/{{manual_id}}/pdf"-api-endpoint per GET.
    * Generates the corresponding .pdf for a given module-manual.
    * @param id the id of the requested module-manual
-   * @returns ...
+   * @returns the requested and generated .pdf
    */
   generatePDF(id: number): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
