@@ -37,8 +37,8 @@ export class EditManualModulesComponent implements OnInit {
       moduleType: [{}, [Validators.required]],
       sws: ['', [Validators.required, Validators.min(1), Validators.max(40)]],
       ects: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
-      workLoad: ['', [Validators.required]],
-      admissionRequirement: [{}, [Validators.required]],
+      workLoad: [''],
+      admissionRequirement: [{}],
       isAssigned: false
     });
   }
@@ -188,7 +188,9 @@ export class EditManualModulesComponent implements OnInit {
    * @returns true, if valid, false otherwise
    */
   isValidVariation(manualVar: ManualVariation): boolean {
-    return Object.values(manualVar).every(val => val !== null);
+    let {admissionRequirement, workLoad, ...reducedVar} = manualVar;
+
+    return Object.values(reducedVar).every(val => val !== null);
   }
 }
 

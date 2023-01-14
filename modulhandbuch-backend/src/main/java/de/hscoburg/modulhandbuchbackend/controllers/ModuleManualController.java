@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualVariationDTO;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
-import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
@@ -57,9 +55,12 @@ public class ModuleManualController {
 	}
 
 	@GetMapping("/{id}/modules")
-	public List<ModuleFullDTO> allAssociatedModules(@PathVariable Integer id) {
-		List<ModuleEntity> result = this.moduleRepository.findAll();
-		return result.stream().map((module) -> modulhandbuchBackendMapper.map(module, ModuleFullDTO.class)).collect(Collectors.toList());
+	public List<ModuleManualVariationDTO> allAssociatedModules(@PathVariable Integer id) {
+		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		List<VariationEntity> result = this.variationRepository.findByModuleManual(moduleManual);
+		return result.stream().map(variation -> modulhandbuchBackendMapper.map(variation, ModuleManualVariationDTO.class)).collect(Collectors.toList());
 	}
 
 	@PostMapping("")
@@ -113,6 +114,9 @@ public class ModuleManualController {
 	public List<ModuleManualVariationDTO> replaceVariations(@RequestBody List<ModuleManualVariationDTO> variations, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			.orElseThrow(() -> new ModuleManualNotFoundException(id));
+
+		// delete previous mappings
+		this.variationRepository.deleteByModuleManual(moduleManual);
 		
 		Stream<VariationEntity> variationEntities = variations.stream()
 			.map(variation -> this.modulhandbuchBackendMapper.map(variation, VariationEntity.class))

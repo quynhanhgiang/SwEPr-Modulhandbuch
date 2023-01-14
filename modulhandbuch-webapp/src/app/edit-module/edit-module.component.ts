@@ -174,11 +174,6 @@ export class EditModuleComponent implements OnInit {
   onSubmit(): void {//create new Module with form data
     this.newModule = this.moduleFormGroup.value;
 
-    if(this.newModule.profs.length<1){
-      window.alert("Es muss mindestens ein Dozent zugewiesen werden");
-      return;
-    }
-
     for(let i=0;i<this.newModule.profs.length;i++){
       for(let j=0;j<this.profs.length;j++){
         if(this.newModule.profs[i].id==this.profs[j].id){

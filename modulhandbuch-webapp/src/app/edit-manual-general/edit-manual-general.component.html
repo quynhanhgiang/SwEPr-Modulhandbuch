@@ -79,7 +79,7 @@
         <label for="fileinput-moduleplan" class="form-label"><h6>Modulplan (.pdf, .png, .jpeg):</h6></label>
 
         <div class="input-group">
-          <input class="form-control" type="file" id="fileinput-moduleplan" (change)="handleFileInput($event.target.files, modulePlanFile)">
+          <input class="form-control" type="file" id="fileinput-moduleplan" (change)="handleModulePlanFileInput($event.target.files)">
           <button class="btn btn-outline-secondary" type="button" id="btn-upload-module-plan" (click)="submitModulePlan()">Hochladen</button>
         </div>
 
@@ -88,7 +88,7 @@
         </div>
         <ng-template #modulePlanStatusMessage>
           <div class="text-success p-1">
-            Datei "<a href="{{modulePlanStatus.link}}" class="link-success">{{modulePlanStatus.filename}}</a>" wurde am {{modulePlanStatus.timestamp}} hochgeladen.
+            Datei "<a href="{{modulePlanStatus.link}}" class="link-success">{{modulePlanStatus.filename}}</a>" wurde am {{getLocaleDate(modulePlanStatus.timestamp!)}} hochgeladen.
           </div>
         </ng-template>
       </div>
@@ -98,7 +98,7 @@
         <label for="fileinput-preliminary-note" class="form-label"><h6>Vorbemerkungen (.txt, .md):</h6></label>
 
         <div class="input-group">
-          <input class="form-control" type="file" id="fileinput-preliminary-note" (change)="handleFileInput($event.target.files, preliminaryNoteFile)">
+          <input class="form-control" type="file" id="fileinput-preliminary-note" (change)="handlePreliminaryNoteFileInput($event.target.files)">
           <button class="btn btn-outline-secondary" type="button" id="btn-upload-preliminary-note" (click)="submitPreliminaryNote()">Hochladen</button>
         </div>
 
@@ -107,7 +107,7 @@
         </div>
         <ng-template #preliminaryNoteStatusMessage>
           <div class="text-success p-1">
-            Datei "<a href="{{preliminaryNoteStatus.link}}" class="link-success">{{preliminaryNoteStatus.filename}}</a>" wurde am {{preliminaryNoteStatus.timestamp}} hochgeladen.
+            Datei "<a href="{{preliminaryNoteStatus.link}}" class="link-success">{{preliminaryNoteStatus.filename}}</a>" wurde am {{getLocaleDate(preliminaryNoteStatus.timestamp!)}} hochgeladen.
           </div>
         </ng-template>
       </div>

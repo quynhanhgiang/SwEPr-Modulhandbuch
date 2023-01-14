@@ -105,21 +105,21 @@ public class ModuleManualDocumentController {
 	// }
 
 	@PutMapping(path = "/module-plan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public FileInfoDTO replaceModulePlan(@PathVariable Integer id, @RequestPart MultipartFile modulePlan) {
+	public FileInfoDTO replaceModulePlan(@PathVariable Integer id, @RequestPart MultipartFile modulePlanFile) {
 		Set<MediaType> allowedContentTypes = Set.of(
 			MediaType.APPLICATION_PDF
 		);
 
-		this.documentService.validateContentType(modulePlan, allowedContentTypes);
+		this.documentService.validateContentType(modulePlanFile, allowedContentTypes);
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
 
-		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "module-plan", modulePlan.getOriginalFilename()).normalize();
+		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "module-plan", modulePlanFile.getOriginalFilename()).normalize();
 		
 		try {
-			this.documentService.saveDocument(modulePlan, relativePath);
+			this.documentService.saveDocument(modulePlanFile, relativePath);
 
 			moduleManual.setModulePlanLink(relativePath.toString());
 			this.moduleManualRepository.save(moduleManual);
@@ -132,21 +132,21 @@ public class ModuleManualDocumentController {
 	}
 
 	@PutMapping(path = "/preliminary-note", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public FileInfoDTO replacePreliminaryNote(@PathVariable Integer id, @RequestPart MultipartFile preliminaryNote) {
+	public FileInfoDTO replacePreliminaryNote(@PathVariable Integer id, @RequestPart MultipartFile preliminaryNoteFile) {
 		Set<MediaType> allowedContentTypes = Set.of(
 			MediaType.valueOf("text/*")
 		);
 
-		this.documentService.validateContentType(preliminaryNote, allowedContentTypes);
+		this.documentService.validateContentType(preliminaryNoteFile, allowedContentTypes);
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
 			// TODO own exception and advice
 			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
 
-		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "preliminary-note", preliminaryNote.getOriginalFilename()).normalize();
+		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "preliminary-note", preliminaryNoteFile.getOriginalFilename()).normalize();
 		
 		try {
-			this.documentService.saveDocument(preliminaryNote, relativePath);
+			this.documentService.saveDocument(preliminaryNoteFile, relativePath);
 
 			moduleManual.setPreliminaryNoteLink(relativePath.toString());
 			this.moduleManualRepository.save(moduleManual);

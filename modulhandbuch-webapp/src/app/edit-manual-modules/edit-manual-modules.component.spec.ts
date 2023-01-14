@@ -135,7 +135,25 @@ describe('EditManualModulesComponent', () => {
       sws: 10,
       ects: 20,
       workLoad: "<p>Test123</p>",
-      admissionRequirement: null, //invalid
+      admissionRequirement: null,
+    });
+
+    expect(component.variationFormGroup.valid).toBeFalse();
+
+    form.triggerEventHandler("ngSubmit", null);
+
+    fixture.detectChanges();
+    expect(component.variationFormGroup.getRawValue()).not.toEqual(component.unassignedModules[0]);
+    expect(component.unassignedModules[0]).toEqual(oldObj);
+
+    component.variationFormGroup.patchValue({
+      semester: 7,
+      segment: segmentsMock[0],
+      moduleType: null, //invalid
+      sws: 10,
+      ects: 20,
+      workLoad: "<p>Test123</p>",
+      admissionRequirement: null,
     });
 
     expect(component.variationFormGroup.valid).toBeFalse();
@@ -153,25 +171,7 @@ describe('EditManualModulesComponent', () => {
       sws: 10,
       ects: 20,
       workLoad: "<p>Test123</p>",
-      admissionRequirement: null, //invalid
-    });
-
-    expect(component.variationFormGroup.valid).toBeFalse();
-
-    form.triggerEventHandler("ngSubmit", null);
-
-    fixture.detectChanges();
-    expect(component.variationFormGroup.getRawValue()).not.toEqual(component.unassignedModules[0]);
-    expect(component.unassignedModules[0]).toEqual(oldObj);
-
-    component.variationFormGroup.patchValue({
-      semester: 7,
-      segment: segmentsMock[0],
-      moduleType: moduleTypesMock[0],
-      sws: 10,
-      ects: 20,
-      workLoad: "<p>Test123</p>",
-      admissionRequirement: requirementsMock[0],
+      admissionRequirement: null,
     });
 
     expect(component.variationFormGroup.valid).toBeTrue();
@@ -186,7 +186,7 @@ describe('EditManualModulesComponent', () => {
    */
   it('should load the data of the currently selected manual-variation-object into the form', () => {
     component.editManualVar(component.assignedModules[0]);
-
+    fixture.detectChanges();
     expect(component.variationFormGroup.getRawValue()).toEqual(component.assignedModules[0]);
   });
 

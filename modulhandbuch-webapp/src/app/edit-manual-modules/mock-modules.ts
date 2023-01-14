@@ -64,7 +64,7 @@ export const invalidManualVariations: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 0,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 1"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 2"
     },
     isAssigned: true
   },
@@ -108,7 +108,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 2"
     },
     isAssigned: true
   },
@@ -133,7 +133,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 2"
     },
     isAssigned: true
   },
@@ -158,7 +158,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 2"
     },
     isAssigned: true
   },
@@ -183,7 +183,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §5 Abs. 2"
     },
     isAssigned: true
   },
@@ -208,7 +208,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 0,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 1"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 1"
     },
     isAssigned: true
   },
@@ -233,7 +233,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §5 Abs. 1"
     },
     isAssigned: true
   },
@@ -258,7 +258,7 @@ export const assignedModules: ManualVariation[] = [
     },
     admissionRequirement: {
       id: 1,
-      value: "Zulassungsvorraussetzung nach §xy Abs. 2"
+      value: "Zulassungsvorraussetzung nach §4 Abs. 1"
     },
     isAssigned: true
   }

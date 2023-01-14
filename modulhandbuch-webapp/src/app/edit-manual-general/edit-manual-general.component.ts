@@ -34,6 +34,7 @@ export class EditManualGeneralComponent implements OnInit {
   studyphases: Assignment[] = [];
   moduletypes: Assignment[] = [];
   requirements: Assignment[] = [];
+new: any;
 
   constructor(private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({
@@ -93,8 +94,12 @@ export class EditManualGeneralComponent implements OnInit {
     });
   }
 
-  handleFileInput(files: FileList, file: File | null) {
-    file = files.item(0);
+  handleModulePlanFileInput(files: FileList) {
+    this.modulePlanFile = files.item(0);
+  }
+
+  handlePreliminaryNoteFileInput(files: FileList) {
+    this.preliminaryNoteFile = files.item(0);
   }
 
   /**
@@ -141,6 +146,13 @@ export class EditManualGeneralComponent implements OnInit {
     }
 
     return 'von ' + new Date(spo.startDate).getFullYear() + ' bis ' + new Date(spo.endDate!).getFullYear();
+  }
+
+  /**
+   * Converts a datestring to german date format.
+   */
+  getLocaleDate(datestring: string): string {
+    return new Date(datestring).toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
   }
 
 }

@@ -164,7 +164,7 @@ export class RestApiService {
     const formData: FormData = new FormData();
     formData.append('modulePlanFile', file, file.name);
 
-    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/module-plan", formData).pipe(retry(1), catchError(this.handleError));
   }
 
   /**
@@ -188,7 +188,7 @@ export class RestApiService {
     const formData: FormData = new FormData();
     formData.append('preliminaryNoteFile', file, file.name);
 
-    return this.http.post<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
+    return this.http.put<FileStatus>(this.apiURL + "/module-manuals/" + manualID + "/preliminary-note", formData).pipe(retry(1), catchError(this.handleError));
   }
 
 
@@ -212,7 +212,8 @@ export class RestApiService {
    * @returns the assigned modules as ManualVariation[]
    */
   updateAssignedModules(manualID: number, manualVariations: any[]): Observable<ManualVariation[]> {
-    return this.http.put<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(manualVariations)).pipe(retry(1), catchError(this.handleError));
+    const reducedVariations = manualVariations.map(({isAssigned, ...rest}) => rest)
+    return this.http.put<ManualVariation[]>(this.apiURL + "/module-manuals/" + manualID + "/modules", JSON.stringify(reducedVariations), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
   // ########## Module-Manuals-API: Segments ##########
@@ -448,13 +449,14 @@ export class RestApiService {
 
   // ########## Error-Handling ##########
 
-  handleError(error: any) {
-    let errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  handleError(errorObj: any) {
+    let message = "Error Code: " + errorObj.error.status
+      + "\nMessage: " + errorObj.error.error;
 
-    window.alert(errorMessage);
+    window.alert(message);
 
     return throwError(() => {
-      return errorMessage;
+      return message;
     });
   }
 }

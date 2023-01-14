@@ -61,7 +61,7 @@
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
                 <div class="col-8">
-                    <p-editor required="true" formControlName="skills" id="editor-create-module-skills">
+                    <p-editor formControlName="skills" id="editor-create-module-skills">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -77,7 +77,7 @@
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Lehrinhalte</label></div>
                 <div class="col-8">
-                    <p-editor required="true" formControlName="content" id="editor-create-module-content">
+                    <p-editor formControlName="content" id="editor-create-module-content">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -105,7 +105,7 @@
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Literatur</label></div>
                 <div class="col-8">
-                    <p-editor required="true" formControlName="literature" id="editor-create-module-literature">
+                    <p-editor formControlName="literature" id="editor-create-module-literature">
                         <p-header>
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
@@ -145,7 +145,7 @@
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Modulart</label></div>
                     <div class="col-8">
-                        <select class="form-select" formControlName="moduleType" id="select-create-module-type" required>
+                        <select class="form-select" formControlName="moduleType" id="select-create-module-type" required [attr.disabled]="moduleFormGroup.value.variations[i].manual==null ? '' : null">
                             <option *ngFor="let moduleType of moduleTypes[i]" [ngValue]="moduleType">{{moduleType.value}}</option>
                         </select>
                     </div>
@@ -153,7 +153,8 @@
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Zulassungsvoraussetzungen</label></div>
                     <div class="col-8">
-                        <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements">
+                        <select class="form-select" formControlName="admissionRequirement" id="select-create-module-admissionRequirements" [attr.disabled]="moduleFormGroup.value.variations[i].manual==null ? '' : null">
+                            <option value="null">-</option>
                             <option *ngFor="let admissionRequirement of admissionRequirements[i]"[ngValue]="admissionRequirement">{{admissionRequirement.value}}</option>
                         </select>
                     </div>
@@ -161,7 +162,7 @@
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Studienabschnitt</label></div>
                     <div class="col-8">
-                        <select class="form-select" formControlName="segment" id="select-create-module-segment" required>
+                        <select class="form-select" formControlName="segment" id="select-create-module-segment" required [attr.disabled]="moduleFormGroup.value.variations[i].manual==null ? '' : null">
                             <option *ngFor="let segment of segments[i]" [ngValue]="segment">{{segment.value}}</option>
                         </select>
                     </div>
@@ -177,7 +178,7 @@
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
                     <div class="col-8">
-                        <p-editor required="true" formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
+                        <p-editor formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
                             <p-header>
                                 <span class="ql-formats">
                                     <button class="ql-bold" aria-label="Bold"></button>
@@ -192,7 +193,7 @@
                 </div>
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Fachsemester</label></div>
-                    <div class="col-8"><input type="number" class="form-control" min="1" max="7" formControlName="semester" id="input-create-module-semester"></div>
+                    <div class="col-8"><input type="number" class="form-control" min="1" max="7" required formControlName="semester" id="input-create-module-semester"></div>
                 </div>
                 <div class="row p-2 border-top align-items-center">
                     <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
