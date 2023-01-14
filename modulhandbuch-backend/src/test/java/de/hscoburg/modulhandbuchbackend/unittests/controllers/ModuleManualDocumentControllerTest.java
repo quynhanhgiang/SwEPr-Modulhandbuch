@@ -147,12 +147,12 @@ public class ModuleManualDocumentControllerTest {
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 0, this.pdfFile, false, null, null, this.fileInfoModulePlan),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 0, this.plainTextFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 0, this.htmlFile, false, null, null, new FileInfoDTO()),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 0, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"modulePlan\" is null", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 0, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"modulePlanFile\" is null", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, this.pdfFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, this.plainTextFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, this.htmlFile, false, null, null, new FileInfoDTO()),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"modulePlan\" is null", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"modulePlanFile\" is null", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.pdfFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
@@ -173,12 +173,12 @@ public class ModuleManualDocumentControllerTest {
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 0, this.pdfFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 0, this.plainTextFile, false, null, null, this.fileInfoPreliminaryNote),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 0, this.htmlFile, false, null, null, new FileInfoDTO()),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 0, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"preliminaryNote\" is null", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 0, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"preliminaryNoteFile\" is null", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, this.pdfFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, this.plainTextFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, this.htmlFile, false, null, null, new FileInfoDTO()),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"preliminaryNote\" is null", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"preliminaryNoteFile\" is null", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.pdfFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
