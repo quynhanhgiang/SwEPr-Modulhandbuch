@@ -46,19 +46,19 @@ public class ModuleManualService {
             SectionEntity currentSection = moduleManual.getFirstSection();
             int sectionCounter = 0;
             while (currentSection != null) {
-                Element section = document.createElement("section");
-                modulesNode.appendChild(section);
+                Element sectionNode = document.createElement("section");
+                modulesNode.appendChild(sectionNode);
 
                 // section xml-Attribute
                 Attr sectionAttr = document.createAttribute("section");
                 sectionAttr.setValue((++sectionCounter) + ". " + currentSection.getValue());
-                modulesNode.setAttributeNode(sectionAttr);
+                sectionNode.setAttributeNode(sectionAttr);
 
                 TypeEntity currentType = moduleManual.getFirstType();
                 int typeCounter = 0;
                 while (currentType != null) {
                     Element moduleTypeNode = document.createElement("moduleType");
-                    section.appendChild(moduleTypeNode);
+                    sectionNode.appendChild(moduleTypeNode);
 
                     // type xml-Attribute
                     Attr typeAttr = document.createAttribute("type");
