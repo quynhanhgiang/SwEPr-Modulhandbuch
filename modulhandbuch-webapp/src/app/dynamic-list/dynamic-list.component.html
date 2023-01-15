@@ -1,0 +1,81 @@
+<div class="border rounded p-2">
+  <h6>{{header}}</h6>
+
+  <hr />
+
+  <!-- input-list -->
+  <div class="input-group p-1" *ngFor="let item of list; let i=index">
+
+    <!-- item-input -->
+    <input type="text" class="form-control" id="input-item-{{i}}-{{header}}" name="input-item-{{i}}-{{header}}"
+      [(ngModel)]="item.value" [disabled]="itemToEditIndex != i" focus>
+
+    <!-- left-icon: edit or close -->
+    <span class="input-group-text p-1">
+      <div *ngIf="itemToEditIndex != i; else close">
+        <button class="btn text-primary p-0 m-0" type="button" id="btn-edit-{{i}}-{{header}}" (click)="editItem(i)">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      </div>
+      <ng-template #close>
+        <button class="btn text-success p-0 m-0" type="button" id="btn-close-{{i}}-{{header}}" (click)="closeEdit(i)">
+          <i class="bi bi-check-square-fill"></i>
+        </button>
+      </ng-template>
+    </span>
+
+    <!-- right-icon: delete or reset -->
+    <span class="input-group-text p-1">
+      <div *ngIf="itemToEditIndex != i; else reset">
+        <button class="btn text-danger p-0 m-0" type="button" id="btn-del-{{i}}-{{header}}" (click)="deleteItem(i)">
+          <i class="bi bi-trash3"></i>
+        </button>
+      </div>
+      <ng-template #reset>
+        <button class="btn text-dark p-0 m-0" type="button" id="btn-save-{{i}}-{{header}}" (click)="resetItem(i)">
+          <i class="bi bi-x-square-fill"></i>
+        </button>
+      </ng-template>
+    </span>
+
+  </div>
+
+  <hr />
+
+  <!-- add-new-input -->
+  <form class="needs-validation mb-2" (ngSubmit)="addItem()">
+    <div class="input-group has-validation">
+      <input class="form-control" placeholder="..." [(ngModel)]="newVal" name="input-add-{{header}}" id="input-add-{{header}}" [ngClass]="valid ? '' : 'is-invalid'" required>
+      <button class="btn btn-outline-secondary" type="submit" id="btn-add-{{header}}">
+        Hinzufügen
+      </button>
+      <div class="invalid-feedback">
+        Bitte einen nicht-leeren Wert eingeben.
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- warning dialog for deleting items-->
+<p-dialog [(visible)]="dialogVisible" [transitionOptions]="'150ms'" [modal]="true"
+  [style]="{maxWidth: '50vw'}" (onHide)="closeWarning(false)">
+
+  <!-- dialog-header -->
+  <ng-template pTemplate="header">
+    <h3>Achtung!</h3>
+  </ng-template>
+
+  <!-- dialog-body -->
+  <div class="card p-3 mt-2">
+      Beim Löschen eines Zuordnungswertes werden alle Module, die diesem Modulhandbuch bereits mit dem entsprechenden Wert zugeordnet wurden,
+      wieder ungültig und müssen im Anschluss erneut zugeordnet werden. <br/>
+      Möchten Sie den Zuordnungswert trotzdem löschen?
+  </div>
+
+  <!-- delete-button -->
+  <div class="row justify-content-center p-3">
+    <button type="button" id="btn-warning-delete" class="btn btn-outline-danger" (click)="closeWarning(true)" style="width: 200px;">
+      Trotzdem Löschen
+    </button>
+  </div>
+</p-dialog>
