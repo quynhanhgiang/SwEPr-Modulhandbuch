@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import de.hscoburg.modulhandbuchbackend.model.entities.AdmissionRequirementEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.SegmentEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleTypeEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 
 public interface VariationRepository extends JpaRepository<VariationEntity, Integer> {
@@ -21,7 +21,7 @@ public interface VariationRepository extends JpaRepository<VariationEntity, Inte
 	@Transactional
 	List<VariationEntity> deleteByModuleManual(ModuleManualEntity moduleManual);
 
-	List<VariationEntity> findBySegment(SectionEntity segment);
-	List<VariationEntity> findByModuleType(TypeEntity moduleType);
+	List<VariationEntity> findBySegment(SegmentEntity segment);
+	List<VariationEntity> findByModuleType(ModuleTypeEntity moduleType);
 	List<VariationEntity> findByAdmissionRequirement(AdmissionRequirementEntity admissionRequirement);
 }

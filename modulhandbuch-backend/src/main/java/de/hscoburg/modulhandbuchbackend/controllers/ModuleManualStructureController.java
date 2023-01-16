@@ -23,12 +23,12 @@ public class ModuleManualStructureController {
 
 	@GetMapping("/segments")
 	public List<StructureDTO> allSegements(@PathVariable Integer id) {
-		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstSection());
+		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstSegment());
 	}
 
 	@GetMapping("/module-types")
 	public List<StructureDTO> allModuleTypes(@PathVariable Integer id) {
-		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstType());
+		return this.moduleManualStructureService.getStructure(id, moduleManual -> moduleManual.getFirstModuleType());
 	}
 
 	@PutMapping("/segments")
