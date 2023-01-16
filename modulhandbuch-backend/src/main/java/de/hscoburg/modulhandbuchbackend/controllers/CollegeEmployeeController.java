@@ -38,7 +38,7 @@ public class CollegeEmployeeController {
 	}
 	
 	@GetMapping("/{id}")
-	CollegeEmployeeDTO oneModule(@PathVariable Integer id) {
+	CollegeEmployeeDTO oneCollegeEmployee(@PathVariable Integer id) {
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.findById(id)
 			.orElseThrow(() -> new CollegeEmployeeNotFoundException(id));
       return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);

@@ -14,7 +14,7 @@ public class EmailAlreadyBoundAdvice {
 
 	@ExceptionHandler(EmailAlreadyBoundException.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
-	public ResponseEntity<String> moduleNotFoundHandler(EmailAlreadyBoundException exception) {
+	public ResponseEntity<String> emailAlreadyBoundHandler(EmailAlreadyBoundException exception) {
 		return ResponseEntity.status(HttpStatus.CONFLICT)
 			.contentType(MediaType.TEXT_PLAIN)
 			.body(exception.getMessage());
