@@ -157,7 +157,7 @@ public class VariationServiceTest {
 		Set<TestParameters> testData = Set.of(
 			new TestParameters(this.mockVariationEntityNoModule, false, null, null),
 			new TestParameters(this.mockVariationEntityWithModuleNoId, false, null, null),
-			new TestParameters(this.mockVariationEntityWithModuleWithId1, true, ModuleNotFoundException.class, "Could not find module 1"),
+			new TestParameters(this.mockVariationEntityWithModuleWithId1, true, ModuleNotFoundException.class, "Module with id 1 not found."),
 
 			new TestParameters(this.mockVariationEntityNoModuleManual, false, null, null),
 			new TestParameters(this.mockVariationEntityWithModuleManualNoId, false, null, null),

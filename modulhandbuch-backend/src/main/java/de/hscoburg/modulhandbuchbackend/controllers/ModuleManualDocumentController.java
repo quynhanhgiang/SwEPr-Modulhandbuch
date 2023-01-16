@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import de.hscoburg.modulhandbuchbackend.dto.FileInfoDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.services.DocumentService;
@@ -34,8 +35,7 @@ public class ModuleManualDocumentController {
 	@GetMapping("/module-plan")
 	public FileInfoDTO oneModulePlan(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 		
 		try {
 			return this.documentService.getDocumentInfo(result.getModulePlanLink());
@@ -48,8 +48,7 @@ public class ModuleManualDocumentController {
 	@GetMapping("/preliminary-note")
 	public FileInfoDTO onePreliminaryNote(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
 			try {
 				return this.documentService.getDocumentInfo(result.getPreliminaryNoteLink());
@@ -90,8 +89,7 @@ public class ModuleManualDocumentController {
 		this.documentService.validateContentType(modulePlanFile, allowedContentTypes);
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
 		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "module-plan", modulePlanFile.getOriginalFilename()).normalize();
 		
@@ -117,8 +115,7 @@ public class ModuleManualDocumentController {
 		this.documentService.validateContentType(preliminaryNoteFile, allowedContentTypes);
 
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
 		Path relativePath = Path.of("documents", "module-manuals", id.toString(), "preliminary-note", preliminaryNoteFile.getOriginalFilename()).normalize();
 		

@@ -1,8 +1,8 @@
 package de.hscoburg.modulhandbuchbackend.exceptions;
 
-public class ModuleNotFoundException extends RuntimeException {
+public class ModuleNotFoundException extends ElementNotFoundException {
 	
 	public ModuleNotFoundException(Integer id) {
-		super("Could not find module " + id);
+		super(id, "Module");
 	}
 }

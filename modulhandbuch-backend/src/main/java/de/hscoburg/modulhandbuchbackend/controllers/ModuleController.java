@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFlatDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleFullDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.IdsViaPostRequestNotSupportedException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
@@ -91,8 +92,7 @@ public class ModuleController {
 	@PostMapping("")
 	ModuleFullDTO newModule(@RequestBody ModuleFullDTO newModule) {
 		if (newModule.getId() != null) {
-			// TODO own exception and advice
-			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
+			throw new IdsViaPostRequestNotSupportedException();
 		}
 
 		return this.moduleService.saveModule(newModule);
@@ -102,10 +102,8 @@ public class ModuleController {
 	ModuleFullDTO replaceModule(@RequestBody ModuleFullDTO updatedModule, @PathVariable Integer id) {
 		updatedModule.setId(id);
 
-		ModuleEntity moduleToUpdate = this.moduleRepository.findById(id).orElseThrow(() -> {
-			// TODO own exception and advice
-			throw new RuntimeException(String.format("ID %d is not mapped for any module. For creating a new module please use a POST request.", id));
-		});
+		ModuleEntity moduleToUpdate = this.moduleRepository.findById(id)
+			.orElseThrow(() -> new ModuleNotFoundException(id));
 
 		// delete current variations
 		List<VariationEntity> currentVariations = moduleToUpdate.getVariations();

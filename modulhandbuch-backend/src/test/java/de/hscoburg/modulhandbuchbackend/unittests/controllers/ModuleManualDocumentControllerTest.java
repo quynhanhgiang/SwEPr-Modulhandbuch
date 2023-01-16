@@ -81,15 +81,15 @@ public class ModuleManualDocumentControllerTest {
 			// oneModulePlan
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 0, false, null, null, this.fileInfoModulePlan),
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 1, false, null, null, new FileInfoDTO()),
-			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 2, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), -1, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), 2, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), -1, true, RuntimeException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.oneModulePlan(id), null, true, IllegalArgumentException.class, null, null),
 
 			// onePreliminaryNote
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 0, false, null, null, this.fileInfoPreliminaryNote),
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 1, false, null, null, new FileInfoDTO()),
-			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 2, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), -1, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), 2, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), -1, true, RuntimeException.class, "Module manual with id -1 not found.", null),
 			new TestParameters((id) -> this.moduleManualDocumentControllerWithMocks.onePreliminaryNote(id), null, true, IllegalArgumentException.class, null, null)
 		);
 
@@ -154,15 +154,15 @@ public class ModuleManualDocumentControllerTest {
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, this.htmlFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"modulePlanFile\" is null", null),
 
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.pdfFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.htmlFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, null, true, RuntimeException.class, "Id 2 for module manual not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.pdfFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, this.htmlFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), 2, null, true, RuntimeException.class, "Module manual with id 2 not found.", null),
 
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.pdfFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.plainTextFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.htmlFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, null, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.pdfFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.plainTextFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, this.htmlFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), -1, null, true, RuntimeException.class, "Module manual with id -1 not found.", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), null, this.pdfFile, true, IllegalArgumentException.class, null, null),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replaceModulePlan(id, file), null, this.plainTextFile, true, IllegalArgumentException.class, null, null),
@@ -180,15 +180,15 @@ public class ModuleManualDocumentControllerTest {
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, this.htmlFile, false, null, null, new FileInfoDTO()),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 1, null, true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getOriginalFilename()\" because \"preliminaryNoteFile\" is null", null),
 
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.pdfFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.htmlFile, true, RuntimeException.class, "Id 2 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, null, true, RuntimeException.class, "Id 2 for module manual not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.pdfFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.plainTextFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, this.htmlFile, true, RuntimeException.class, "Module manual with id 2 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), 2, null, true, RuntimeException.class, "Module manual with id 2 not found.", null),
 
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.pdfFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.plainTextFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.htmlFile, true, RuntimeException.class, "Id -1 for module manual not found.", null),
-			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, null, true, RuntimeException.class, "Id -1 for module manual not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.pdfFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.plainTextFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, this.htmlFile, true, RuntimeException.class, "Module manual with id -1 not found.", null),
+			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), -1, null, true, RuntimeException.class, "Module manual with id -1 not found.", null),
 
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), null, this.pdfFile, true, IllegalArgumentException.class, null, null),
 			new TestParameters((id, file) -> this.moduleManualDocumentControllerWithMocks. replacePreliminaryNote(id, file), null, this.plainTextFile, true, IllegalArgumentException.class, null, null),
