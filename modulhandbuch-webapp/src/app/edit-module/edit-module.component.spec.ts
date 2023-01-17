@@ -276,5 +276,33 @@ describe('EditModuleComponent', () => {
 
     expect(component.moduleFormGroup.value).toEqual(testModule);
     expect(component.selectedProfs.length).toBe(testModule.profs.length);
+
+    for(let temp of testEmplyees){
+      temp.id=null;
+    }
+
+    for(let temp of testModuleManuals){
+      temp.id=null;
+    }
+
+    for(let temp of testRequirements){
+      temp.id=null;
+    }
+
+    for(let temp of testModule.variations){
+      temp.segment.id=null;
+    }
+
+    for(let temp of testModule.variations){
+      temp.moduleType.id=null;
+    }
+
+    for(let temp of testModule.variations){
+      temp.admissionRequirement.id=null;
+    }
+
+    component.ngOnInit();
+
   });
+
 });
