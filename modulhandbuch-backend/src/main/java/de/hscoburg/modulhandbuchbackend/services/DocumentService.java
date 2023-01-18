@@ -5,6 +5,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -12,6 +13,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -63,11 +65,14 @@ public class DocumentService {
 	}
 
 	public void validateContentType(MultipartFile file, Set<MediaType> allowedContentTypes) {
-		String contentType = file.getContentType();
+		String contentTypeValue = file.getContentType();
+		if (contentTypeValue == null) {
+			throw new UnsupportedMediaTypeStatusException("The mediaType of the file could not be read.");
+		}
 
-		if ((contentType == null) || allowedContentTypes.stream().noneMatch(mediaType -> mediaType.includes(MediaType.valueOf(contentType)))) {
-			// TODO own exception and advice
-			throw new RuntimeException(String.format("Content type %s not supported", contentType));
+		MediaType contentType = MediaType.valueOf(contentTypeValue);
+		if (allowedContentTypes.stream().noneMatch(mediaType -> mediaType.includes(contentType))) {
+			throw new UnsupportedMediaTypeStatusException(contentType, new ArrayList<>(allowedContentTypes));
 		}
 	}
 

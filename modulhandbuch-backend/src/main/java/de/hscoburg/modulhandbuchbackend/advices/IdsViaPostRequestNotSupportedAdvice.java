@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import de.hscoburg.modulhandbuchbackend.exceptions.EmailAlreadyBoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.IdsViaPostRequestNotSupportedException;
 
 @ControllerAdvice
-public class EmailAlreadyBoundAdvice {
-
-	@ExceptionHandler(EmailAlreadyBoundException.class)
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public ResponseEntity<String> emailAlreadyBoundHandler(EmailAlreadyBoundException exception) {
-		return ResponseEntity.status(HttpStatus.CONFLICT)
+public class IdsViaPostRequestNotSupportedAdvice {
+	
+	@ExceptionHandler(IdsViaPostRequestNotSupportedException.class)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	public ResponseEntity<String> idsViaPostRequestNotSupportedHandler(IdsViaPostRequestNotSupportedException exception) {
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
 			.contentType(MediaType.TEXT_PLAIN)
 			.body(exception.getMessage());
 	}

@@ -22,14 +22,14 @@ import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleTypeNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.SegmentNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.SegmentEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleTypeEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.SectionRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.SegmentRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.StructureRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.TypeRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleTypeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 
@@ -37,8 +37,8 @@ import lombok.Data;
 @Service
 public class ModuleManualStructureService {
 	private final ModuleManualRepository moduleManualRepository;
-	private final SectionRepository sectionRepository;
-	private final TypeRepository typeRepository;
+	private final SegmentRepository segmentRepository;
+	private final ModuleTypeRepository moduleTypeRepository;
 	private final VariationRepository variationRepository;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
@@ -159,28 +159,28 @@ public class ModuleManualStructureService {
 	}
 
 	public List<StructureDTO> replaceSegments(List<StructureDTO> segments, Integer moduleManualId) {
-		BiConsumer<ModuleManualEntity, SectionEntity> moduleManualSetFirstSection = (moduleManual, section) -> moduleManual.setFirstSection(section);
+		BiConsumer<ModuleManualEntity, SegmentEntity> moduleManualSetFirstSegment = (moduleManual, segment) -> moduleManual.setFirstSegment(segment);
 
-		BiConsumer<VariationEntity, SectionEntity> variationSetSection = (variation, section) -> variation.setSegment(section);
+		BiConsumer<VariationEntity, SegmentEntity> variationSetSegment = (variation, segment) -> variation.setSegment(segment);
 
-		Function<SectionEntity, List<VariationEntity>> variationRepositoryFindBySection = section -> this.variationRepository.findBySegment(section);
+		Function<SegmentEntity, List<VariationEntity>> variationRepositoryFindBySegment = segment -> this.variationRepository.findBySegment(segment);
 
 		Consumer<Integer> duplicateSegmentsInRequestHandler = duplicateId -> {throw new DuplicateSegmentsInRequestException(duplicateId);};
 		Consumer<Integer> segmentNotFoundHandler = notFoundId -> {throw new SegmentNotFoundException(notFoundId);};
 
-		return this.replaceStructure(segments, moduleManualId, moduleManualSetFirstSection, this.sectionRepository, variationSetSection, variationRepositoryFindBySection, SectionEntity.class, duplicateSegmentsInRequestHandler, segmentNotFoundHandler);
+		return this.replaceStructure(segments, moduleManualId, moduleManualSetFirstSegment, this.segmentRepository, variationSetSegment, variationRepositoryFindBySegment, SegmentEntity.class, duplicateSegmentsInRequestHandler, segmentNotFoundHandler);
 	}
 
 	public List<StructureDTO> replaceModuleTypes(@RequestBody List<StructureDTO> moduleTypes, @PathVariable Integer moduleManualId) {
-		BiConsumer<ModuleManualEntity, TypeEntity> moduleManualSetFirstType = (moduleManual, type) -> moduleManual.setFirstType(type);
+		BiConsumer<ModuleManualEntity, ModuleTypeEntity> moduleManualSetFirstModuleType = (moduleManual, moduleType) -> moduleManual.setFirstModuleType(moduleType);
 
-		BiConsumer<VariationEntity, TypeEntity> variationSetType = (variation, type) -> variation.setModuleType(type);
+		BiConsumer<VariationEntity, ModuleTypeEntity> variationSetModuleType = (variation, moduleType) -> variation.setModuleType(moduleType);
 
-		Function<TypeEntity, List<VariationEntity>> variationRepositoryFindByType = type -> this.variationRepository.findByModuleType(type);
+		Function<ModuleTypeEntity, List<VariationEntity>> variationRepositoryFindByModuleType = moduleType -> this.variationRepository.findByModuleType(moduleType);
 
 		Consumer<Integer> duplicateModuleTypesInRequestHandler = duplicateId -> {throw new DuplicateModuleTypesInRequestException(duplicateId);};
 		Consumer<Integer> moduleTypeNotFoundHandler = notFoundId -> {throw new ModuleTypeNotFoundException(notFoundId);};
 
-		return this.replaceStructure(moduleTypes, moduleManualId, moduleManualSetFirstType, this.typeRepository, variationSetType, variationRepositoryFindByType, TypeEntity.class, duplicateModuleTypesInRequestHandler, moduleTypeNotFoundHandler);
+		return this.replaceStructure(moduleTypes, moduleManualId, moduleManualSetFirstModuleType, this.moduleTypeRepository, variationSetModuleType, variationRepositoryFindByModuleType, ModuleTypeEntity.class, duplicateModuleTypesInRequestHandler, moduleTypeNotFoundHandler);
 	}
 }

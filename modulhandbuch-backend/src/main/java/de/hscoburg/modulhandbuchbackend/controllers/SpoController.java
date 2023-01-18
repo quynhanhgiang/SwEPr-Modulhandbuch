@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.SpoDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.IdsViaPostRequestNotSupportedException;
+import de.hscoburg.modulhandbuchbackend.exceptions.SpoNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
@@ -35,16 +37,14 @@ public class SpoController {
 	@GetMapping("/{id}")
 	SpoDTO oneSpo(@PathVariable Integer id) {
 		SpoEntity result = this.spoRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for spo not found.", id)));
+			.orElseThrow(() -> new SpoNotFoundException(id));
 		return modulhandbuchBackendMapper.map(result, SpoDTO.class);
 	}
 
 	@PostMapping("")
 	SpoDTO newSpo(@RequestBody SpoDTO newSpo) {
 		if (newSpo.getId() != null) {
-			// TODO own exception and advice
-			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
+			throw new IdsViaPostRequestNotSupportedException();
 		}
 
 		SpoEntity spoEntity = modulhandbuchBackendMapper.map(newSpo, SpoEntity.class);

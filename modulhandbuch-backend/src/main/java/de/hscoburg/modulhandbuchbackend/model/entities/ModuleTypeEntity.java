@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "type")
-public class TypeEntity extends StructureEntity<TypeEntity> {
+public class ModuleTypeEntity extends StructureEntity<ModuleTypeEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class TypeEntity extends StructureEntity<TypeEntity> {
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_type_pk_unique_id")
-	private TypeEntity next;
+	private ModuleTypeEntity next;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_module_manual_pk_unique_id", nullable = false)

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.CollegeEmployeeDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.CollegeEmployeeNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.EmailAlreadyBoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.IdsViaPostRequestNotSupportedException;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.CollegeEmployeeRepository;
 import de.hscoburg.modulhandbuchbackend.services.EnumService;
@@ -36,18 +38,16 @@ public class CollegeEmployeeController {
 	}
 	
 	@GetMapping("/{id}")
-	CollegeEmployeeDTO oneModule(@PathVariable Integer id) {
+	CollegeEmployeeDTO oneCollegeEmployee(@PathVariable Integer id) {
 		CollegeEmployeeEntity result = this.collegeEmployeeRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for college employee not found.", id)));
+			.orElseThrow(() -> new CollegeEmployeeNotFoundException(id));
       return modulhandbuchBackendMapper.map(result, CollegeEmployeeDTO.class);
 	}
 
 	@PostMapping("")
 	CollegeEmployeeDTO newCollegeEmployee(@RequestBody CollegeEmployeeDTO newCollegeEmployee) {
 		if (newCollegeEmployee.getId() != null) {
-			// TODO own exception and advice
-			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
+			throw new IdsViaPostRequestNotSupportedException();
 		}
 
 		CollegeEmployeeEntity collegeEmployeeEntity = modulhandbuchBackendMapper.map(newCollegeEmployee, CollegeEmployeeEntity.class);

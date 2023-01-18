@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualDTO;
 import de.hscoburg.modulhandbuchbackend.dto.ModuleManualVariationDTO;
+import de.hscoburg.modulhandbuchbackend.exceptions.IdsViaPostRequestNotSupportedException;
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException;
+import de.hscoburg.modulhandbuchbackend.exceptions.SpoNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.SpoEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
@@ -49,8 +51,7 @@ public class ModuleManualController {
 	@GetMapping("/{id}")
 	ModuleManualDTO oneModuleManual(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
-			// TODO own exception and advice
-			.orElseThrow(() -> new RuntimeException(String.format("Id %d for module manual not found.", id)));
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
 	}
 
@@ -66,8 +67,7 @@ public class ModuleManualController {
 	@PostMapping("")
 	ModuleManualDTO newModuleManual(@RequestBody ModuleManualDTO newModuleManual) {
 		if (newModuleManual.getId() != null) {
-			// TODO own exception and advice
-			throw new RuntimeException("Sending IDs via POST requests is not supported. Please consider to use a PUT request or set the ID to null");
+			throw new IdsViaPostRequestNotSupportedException();
 		}
 
 		ModuleManualEntity moduleManualEntity = modulhandbuchBackendMapper.map(newModuleManual, ModuleManualEntity.class);
@@ -78,10 +78,11 @@ public class ModuleManualController {
 				SpoEntity result = this.spoRepository.save(moduleManualEntity.getSpo());
 				moduleManualEntity.setSpo(result);
 			} else {
-				// extract only id from spo and replace other contents of spo with data from database
+				// extract only id from spo and replace other contents of spo with data from 
+				Integer spoId = moduleManualEntity.getSpo().getId();
 				moduleManualEntity.setSpo(
-					// TODO own exception
-					this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found"))
+					this.spoRepository.findById(spoId)
+						.orElseThrow(() -> new SpoNotFoundException(spoId))
 				);
 			}
 		}
@@ -92,18 +93,18 @@ public class ModuleManualController {
 
 	@PutMapping("/{id}")
 	ModuleManualDTO replaceModuleManual(@RequestBody ModuleManualDTO updatedModuleManual, @PathVariable Integer id) {
-		this.moduleManualRepository.findById(id).orElseThrow(() -> {
-			// TODO own exception and advice
-			throw new RuntimeException(String.format("ID %d is not mapped for any module manual. For creating a new module manual please use a POST request.", id));
-		});
+		this.moduleManualRepository.findById(id)
+			.orElseThrow(() -> new ModuleManualNotFoundException(id));
 
 		updatedModuleManual.setId(id);
 		ModuleManualEntity moduleManualEntity = modulhandbuchBackendMapper.map(updatedModuleManual, ModuleManualEntity.class);
 
 		// extract only id from spo and replace other contents of spo with data from database
 		if ((moduleManualEntity.getSpo() != null) && (moduleManualEntity.getSpo().getId() != null)) {
-			// TODO own exception
-			moduleManualEntity.setSpo(this.spoRepository.findById(moduleManualEntity.getSpo().getId()).orElseThrow(() -> new RuntimeException("Id for spo not found")));
+			Integer spoId = moduleManualEntity.getSpo().getId();
+			moduleManualEntity.setSpo(
+				this.spoRepository.findById(spoId)
+					.orElseThrow(() -> new SpoNotFoundException(spoId)));
 		}
 
 		ModuleManualEntity result = this.moduleManualRepository.save(moduleManualEntity);

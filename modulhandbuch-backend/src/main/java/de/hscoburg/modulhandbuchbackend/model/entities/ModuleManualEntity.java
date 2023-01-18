@@ -48,11 +48,11 @@ public class ModuleManualEntity {
 	@EqualsAndHashCode.Exclude
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
-	private SectionEntity firstSection;
+	private SegmentEntity firstSegment;
 
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_type_pk_unique_id")
-	private TypeEntity firstType;
+	private ModuleTypeEntity firstModuleType;
 }

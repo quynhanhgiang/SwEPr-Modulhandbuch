@@ -23,6 +23,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import de.hscoburg.modulhandbuchbackend.dto.FileInfoDTO;
@@ -56,6 +57,8 @@ public class DocumentServiceTest {
 	private MultipartFile htmlFile;
 	@Mock
 	private MultipartFile svgFile;
+	@Mock
+	private MultipartFile mockFileNoContentType;
 
 	@BeforeEach
 	public void setup() {
@@ -234,59 +237,73 @@ public class DocumentServiceTest {
 		Set<TestParameters> testData = Set.of(
 			// file pdfFile
 			new TestParameters(this.pdfFile, Set.of(MediaType.APPLICATION_PDF), false, null, null),
-			new TestParameters(this.pdfFile, Set.of(MediaType.TEXT_PLAIN), true, RuntimeException.class, "Content type application/pdf not supported"),
-			new TestParameters(this.pdfFile, Set.of(MediaType.TEXT_HTML), true, RuntimeException.class, "Content type application/pdf not supported"),
-			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("image/svg+xml")), true, RuntimeException.class, "Content type application/pdf not supported"),
+			new TestParameters(this.pdfFile, Set.of(MediaType.TEXT_PLAIN), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
+			new TestParameters(this.pdfFile, Set.of(MediaType.TEXT_HTML), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
+			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("image/svg+xml")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
 			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("application/*")), false, null, null),
-			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("text/*")), true, RuntimeException.class, "Content type application/pdf not supported"),
-			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("image/*")), true, RuntimeException.class, "Content type application/pdf not supported"),
+			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("text/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
+			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("image/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
 			new TestParameters(this.pdfFile, Set.of(MediaType.APPLICATION_PDF, MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.valueOf("image/svg+xml")), false, null, null),
 			new TestParameters(this.pdfFile, Set.of(MediaType.valueOf("*/*")), false, null, null),
-			new TestParameters(this.pdfFile, Set.of(), true, RuntimeException.class, "Content type application/pdf not supported"),
+			new TestParameters(this.pdfFile, Set.of(), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'application/pdf' not supported\""),
 			new TestParameters(this.pdfFile, new HashSet<>(Arrays.asList((MediaType) null)), true, NullPointerException.class, "Cannot invoke \"org.springframework.http.MediaType.includes(org.springframework.http.MediaType)\" because \"mediaType\" is null"),
 			new TestParameters(this.pdfFile, null, true, NullPointerException.class, "Cannot invoke \"java.util.Set.stream()\" because \"allowedContentTypes\" is null"),
 
 			// file plainTextFile
-			new TestParameters(this.plainTextFile, Set.of(MediaType.APPLICATION_PDF), true, RuntimeException.class, "Content type text/plain not supported"),
+			new TestParameters(this.plainTextFile, Set.of(MediaType.APPLICATION_PDF), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
 			new TestParameters(this.plainTextFile, Set.of(MediaType.TEXT_PLAIN), false, null, null),
-			new TestParameters(this.plainTextFile, Set.of(MediaType.TEXT_HTML), true, RuntimeException.class, "Content type text/plain not supported"),
-			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("image/svg+xml")), true, RuntimeException.class, "Content type text/plain not supported"),
-			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("application/*")), true, RuntimeException.class, "Content type text/plain not supported"),
+			new TestParameters(this.plainTextFile, Set.of(MediaType.TEXT_HTML), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
+			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("image/svg+xml")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
+			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("application/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
 			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("text/*")), false, null, null),
-			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("image/*")), true, RuntimeException.class, "Content type text/plain not supported"),
+			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("image/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
 			new TestParameters(this.plainTextFile, Set.of(MediaType.APPLICATION_PDF, MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.valueOf("image/svg+xml")), false, null, null),
 			new TestParameters(this.plainTextFile, Set.of(MediaType.valueOf("*/*")), false, null, null),
-			new TestParameters(this.plainTextFile, Set.of(), true, RuntimeException.class, "Content type text/plain not supported"),
+			new TestParameters(this.plainTextFile, Set.of(), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/plain' not supported\""),
 			new TestParameters(this.plainTextFile, new HashSet<>(Arrays.asList((MediaType) null)), true, NullPointerException.class, "Cannot invoke \"org.springframework.http.MediaType.includes(org.springframework.http.MediaType)\" because \"mediaType\" is null"),
 			new TestParameters(this.plainTextFile, null, true, NullPointerException.class, "Cannot invoke \"java.util.Set.stream()\" because \"allowedContentTypes\" is null"),
 
 			// file htmlFile
-			new TestParameters(this.htmlFile, Set.of(MediaType.APPLICATION_PDF), true, RuntimeException.class, "Content type text/html not supported"),
-			new TestParameters(this.htmlFile, Set.of(MediaType.TEXT_PLAIN), true, RuntimeException.class, "Content type text/html not supported"),
+			new TestParameters(this.htmlFile, Set.of(MediaType.APPLICATION_PDF), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
+			new TestParameters(this.htmlFile, Set.of(MediaType.TEXT_PLAIN), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
 			new TestParameters(this.htmlFile, Set.of(MediaType.TEXT_HTML), false, null, null),
-			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("image/svg+xml")), true, RuntimeException.class, "Content type text/html not supported"),
-			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("application/*")), true, RuntimeException.class, "Content type text/html not supported"),
+			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("image/svg+xml")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
+			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("application/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
 			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("text/*")), false, null, null),
-			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("image/*")), true, RuntimeException.class, "Content type text/html not supported"),
+			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("image/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
 			new TestParameters(this.htmlFile, Set.of(MediaType.APPLICATION_PDF, MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.valueOf("image/svg+xml")), false, null, null),
 			new TestParameters(this.htmlFile, Set.of(MediaType.valueOf("*/*")), false, null, null),
-			new TestParameters(this.htmlFile, Set.of(), true, RuntimeException.class, "Content type text/html not supported"),
+			new TestParameters(this.htmlFile, Set.of(), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'text/html' not supported\""),
 			new TestParameters(this.htmlFile, new HashSet<>(Arrays.asList((MediaType) null)), true, NullPointerException.class, "Cannot invoke \"org.springframework.http.MediaType.includes(org.springframework.http.MediaType)\" because \"mediaType\" is null"),
 			new TestParameters(this.htmlFile, null, true, NullPointerException.class, "Cannot invoke \"java.util.Set.stream()\" because \"allowedContentTypes\" is null"),
 
 			// file svgFile
-			new TestParameters(this.svgFile, Set.of(MediaType.APPLICATION_PDF), true, RuntimeException.class, "Content type image/svg+xml not supported"),
-			new TestParameters(this.svgFile, Set.of(MediaType.TEXT_PLAIN), true, RuntimeException.class, "Content type image/svg+xml not supported"),
-			new TestParameters(this.svgFile, Set.of(MediaType.TEXT_HTML), true, RuntimeException.class, "Content type image/svg+xml not supported"),
+			new TestParameters(this.svgFile, Set.of(MediaType.APPLICATION_PDF), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
+			new TestParameters(this.svgFile, Set.of(MediaType.TEXT_PLAIN), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
+			new TestParameters(this.svgFile, Set.of(MediaType.TEXT_HTML), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
 			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("image/svg+xml")), false, null, null),
-			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("application/*")), true, RuntimeException.class, "Content type image/svg+xml not supported"),
-			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("text/*")), true, RuntimeException.class, "Content type image/svg+xml not supported"),
+			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("application/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
+			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("text/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
 			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("image/*")), false, null, null),
 			new TestParameters(this.svgFile, Set.of(MediaType.APPLICATION_PDF, MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.valueOf("image/svg+xml")), false, null, null),
 			new TestParameters(this.svgFile, Set.of(MediaType.valueOf("*/*")), false, null, null),
-			new TestParameters(this.svgFile, Set.of(), true, RuntimeException.class, "Content type image/svg+xml not supported"),
+			new TestParameters(this.svgFile, Set.of(), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"Content type 'image/svg+xml' not supported\""),
 			new TestParameters(this.svgFile, new HashSet<>(Arrays.asList((MediaType) null)), true, NullPointerException.class, "Cannot invoke \"org.springframework.http.MediaType.includes(org.springframework.http.MediaType)\" because \"mediaType\" is null"),
 			new TestParameters(this.svgFile, null, true, NullPointerException.class, "Cannot invoke \"java.util.Set.stream()\" because \"allowedContentTypes\" is null"),
+
+			// file mockFileNoContentType
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.APPLICATION_PDF), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.TEXT_PLAIN), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.TEXT_HTML), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.valueOf("image/svg+xml")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.valueOf("application/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.valueOf("text/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.valueOf("image/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.APPLICATION_PDF, MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.valueOf("image/svg+xml")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(MediaType.valueOf("*/*")), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, Set.of(), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, new HashSet<>(Arrays.asList((MediaType) null)), true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
+			new TestParameters(this.mockFileNoContentType, null, true, UnsupportedMediaTypeStatusException.class, "415 UNSUPPORTED_MEDIA_TYPE \"The mediaType of the file could not be read.\""),
 
 			// file null
 			new TestParameters(null, Set.of(MediaType.APPLICATION_PDF), true, NullPointerException.class, "Cannot invoke \"org.springframework.web.multipart.MultipartFile.getContentType()\" because \"file\" is null"),
@@ -307,6 +324,7 @@ public class DocumentServiceTest {
 		Mockito.when(this.plainTextFile.getContentType()).thenReturn(MediaType.TEXT_PLAIN_VALUE);
 		Mockito.when(this.htmlFile.getContentType()).thenReturn(MediaType.TEXT_HTML_VALUE);
 		Mockito.when(this.svgFile.getContentType()).thenReturn("image/svg+xml");
+		Mockito.when(this.mockFileNoContentType.getContentType()).thenReturn(null);
 
 		for (TestParameters testParameters : testData) {
 			if (testParameters.expectedToThrowException) {

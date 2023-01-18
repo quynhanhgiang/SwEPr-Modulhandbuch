@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "section")
-public class SectionEntity extends StructureEntity<SectionEntity> {
+public class SegmentEntity extends StructureEntity<SegmentEntity> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class SectionEntity extends StructureEntity<SectionEntity> {
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
-	private SectionEntity next;
+	private SegmentEntity next;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_module_manual_pk_unique_id", nullable = false)
