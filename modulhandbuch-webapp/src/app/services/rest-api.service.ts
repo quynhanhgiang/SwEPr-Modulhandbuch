@@ -440,6 +440,11 @@ export class RestApiService {
 
   // ########## Error-Handling ##########
 
+  /**
+   * Shows an alert presenting the error-code and error-message.
+   * @param errorObj Error-Object
+   * @returns Error-Message
+   */
   handleError(errorObj: any) {
     let message = "Error Code: " + errorObj.error.status
       + "\nMessage: " + errorObj.error.error;

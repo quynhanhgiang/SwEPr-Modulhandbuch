@@ -21,7 +21,7 @@ export class CreateModuleManualComponent implements OnInit {
   manualFormGroup!: FormGroup;    // main-formgroup
   spoFormGroup!: FormGroup;       // sub-formgroup
 
-  // ### form-controls ###
+  // ### form-control ###
   selectedSpoIndex: string = "0"; // the index of the currently selected spo in spos-list; binded to spo-select
   spoDisabled: boolean = false;   // true: spo-form-group is disabled & spo-selct enabled, false: vice versa; binded to spo-select-checkbox
   endDateEnabled: boolean = true; // true: end-date-picker enabled, false: end-date-picker disabled (null)
@@ -29,10 +29,19 @@ export class CreateModuleManualComponent implements OnInit {
   // ### asynchronous data ###
   spos: Spo[] = [];               //spos for spo-select
 
+  /**
+   * Inject Services and initialize form-groups.
+   * @param fb FormBuilder-Service
+   * @param restAPI REST-Api-Service
+   * @param router Router-Service
+   */
   constructor(private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
     this.initFormGroups();
   }
 
+  /**
+   * Initialize spo-list.
+   */
   ngOnInit(): void {
     this.restAPI.getSPOs().subscribe((resp) => {
      this.spos = resp;
@@ -112,18 +121,22 @@ export class CreateModuleManualComponent implements OnInit {
     }
 
     this.restAPI.createModuleManual(newManual).subscribe((resp) => {
+
+      //submit-open -> navigate to manual-edit-view
       if(event.submitter.id=="bt-submit-open"){
         this.router.navigate(['/manual-edit', resp.id]);
         return;
       }
 
+      //submit-new -> reset form and send notification (new data) to parent-component
       if(event.submitter.id=="bt-submit-new"){
         this.spoFormGroup.enable();
         this.resetForm();
-        this.onSuccessfulSubmission.emit(); // benachrichtigt die Parent-Component, dass neue Daten vorliegen
+        this.onSuccessfulSubmission.emit();
         return;
       }
 
+      //submit -> send notification (new data) to parent-component and hide dialog
       this.onSuccessfulSubmission.emit();
       this.hideDialog();
     });

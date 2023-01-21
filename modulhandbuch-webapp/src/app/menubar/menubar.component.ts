@@ -14,9 +14,13 @@ export class MenubarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Toggles the visibility of the sidebar.
+   */
   toggleSidebar() {
     const hamburger = document.getElementById("btn-hamburger") as HTMLButtonElement;
 
+    // debounce hamburger-button (disable for 500ms)
     if (!hamburger.disabled) {
       hamburger.disabled = true;
       setTimeout(() => hamburger.disabled = false, 500);

@@ -10,8 +10,6 @@ import { ModuleManual } from '../shared/module-manual';
 })
 export class GetModuleManualsComponent implements OnInit {
 
-  moduleManuals: ModuleManual[] = [];
-
   sortOptions: SelectItem[] = [];
   sortKey: string = "";
   sortField: string = "";
@@ -19,8 +17,18 @@ export class GetModuleManualsComponent implements OnInit {
 
   emptyMessage = "Modulhandbücher werden geladen..."
 
+  //### asynchronous data ###
+  moduleManuals: ModuleManual[] = [];
+
+  /**
+   * Injects REST-Api-Service.
+   * @param restAPI REST-Api-Service
+   */
   constructor(private restAPI: RestApiService) { }
 
+  /**
+   * Initializes module-manuals-list, empty-message and sort-options.
+   */
   ngOnInit(): void {
     this.restAPI.getModuleManuals().subscribe(resp => {
       this.moduleManuals = resp;
@@ -38,11 +46,20 @@ export class GetModuleManualsComponent implements OnInit {
     ];
   }
 
+  /**
+   * Converts an iso-date-string to german formatted date-string.
+   * @param isoDate iso-date-string
+   * @returns german formatted date-string
+   */
   getGermanDate(isoDate: string): string {
     let d: Date = new Date(isoDate);
     return d.toLocaleDateString("de", {timeZone:'Europe/Berlin', year: 'numeric', month: 'long', day: 'numeric' })
   }
 
+  /**
+   * Changes the sort attributes 'sortOrder' and 'sortField' according to the selected sort-option.
+   * @param select calling input-element (event-emitter)
+   */
   onSortChange(select: HTMLInputElement) {
     let value = select.value;
 

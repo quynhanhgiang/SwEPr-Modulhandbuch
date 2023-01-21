@@ -20,15 +20,18 @@
       <h6>
         Modulhandbuch
       </h6>
+
       <div class="row g-3">
         <!-- input-group: semester-select and semester-years -->
         <div class="col-md-12">
           <div class="input-group">
             <span class="input-group-text">Gültig für das</span>
+
             <select class="form-select" id="select-semester-type" formControlName="semesterType" required>
               <option value="Wintersemester" selected>Wintersemester</option>
               <option value="Sommersemester">Sommersemester</option>
             </select>
+
             <input type="text" class="form-control" id="input-semester-year" placeholder="2022/2023"
               formControlName="semesterYears" required />
           </div>
@@ -48,13 +51,16 @@
         <!-- spo-select, only visible if spo-select-checkbox is checked -->
         <div class="col-md-7" [ngStyle]="{'visibility': spoDisabled? 'visible' : 'hidden'}">
           <div class="input-group">
+
             <span class="input-group-text">SPO:</span>
+
             <select class="form-select" id="select-spo" (change)="updateSpoForm($event.target.value)"
               [value]="selectedSpoIndex">
               <option *ngFor="let spo of spos; let i=index" value="{{i}}">{{spo.degree}} {{spo.course}}
                 [{{getSpoTimespan(spo)}}]
               </option>
             </select>
+
           </div>
         </div>
       </div>
