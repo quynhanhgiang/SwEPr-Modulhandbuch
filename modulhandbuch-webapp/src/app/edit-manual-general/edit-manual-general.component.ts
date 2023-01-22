@@ -28,14 +28,19 @@ export class EditManualGeneralComponent implements OnInit {
   firstFormSuccess: boolean = false;
   thirdFormSuccess: boolean = false;
 
+  // ### asynchronous data ###
   moduleManual!: ModuleManual;
   spos: Spo[] = [];
 
   studyphases: Assignment[] = [];
   moduletypes: Assignment[] = [];
   requirements: Assignment[] = [];
-new: any;
 
+  /**
+   * Inject Services and initialize form-groups.
+   * @param restAPI REST-APi Service
+   * @param fb FormBuilder-Service
+   */
   constructor(private restAPI: RestApiService, private fb: FormBuilder) {
     this.spoFormGroup = this.fb.group({
       id: [{value: ''}],
@@ -53,6 +58,9 @@ new: any;
     })
   }
 
+  /**
+   * Initialize asynchronous-data.
+   */
   ngOnInit(): void {
     this.restAPI.getSPOs().subscribe(spos => {
       this.spos = spos;
@@ -94,16 +102,24 @@ new: any;
     });
   }
 
+  /**
+   * Sets the modulePlanFile-attribute to the selected file.
+   * @param files FileList-Object representing a selected module-plan
+   */
   handleModulePlanFileInput(files: FileList) {
     this.modulePlanFile = files.item(0);
   }
 
+  /**
+   * Sets the preliminaryNote-attribute to the selected file.
+   * @param files FileList-Object representing a selected preliminary-note
+   */
   handlePreliminaryNoteFileInput(files: FileList) {
     this.preliminaryNoteFile = files.item(0);
   }
 
   /**
-   * Submits the second form (files-section).
+   * Submits the selected module-plan.
    */
   submitModulePlan() {
     if (this.modulePlanFile == null)
@@ -113,7 +129,7 @@ new: any;
   }
 
   /**
-   * Submits the second form (files-section).
+   * Submits the selected preliminary-note.
    */
   submitPreliminaryNote() {
     if (this.preliminaryNoteFile == null)
@@ -138,7 +154,7 @@ new: any;
 
   /**
    * Helper-function to clearly display the validity-period of a spo.
-   * @param spo
+   * @param spo spo-object
    */
    getSpoTimespan(spo: Spo): string {
     if (spo.endDate == null) {

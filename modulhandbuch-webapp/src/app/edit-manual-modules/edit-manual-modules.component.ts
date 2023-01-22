@@ -20,6 +20,7 @@ export class EditManualModulesComponent implements OnInit {
   variationToEdit!: ManualVariation;
   variationFormGroup: FormGroup;
 
+  // ### asynchronous data ###
   moduleManual!: ModuleManual;
 
   unassignedModules: ManualVariation[] = [];
@@ -29,6 +30,12 @@ export class EditManualModulesComponent implements OnInit {
   moduleTypes: Assignment[] = [];
   requirements: Assignment[] = [];
 
+  /**
+   * Inject Services and initialize form-group.
+   * @param restAPI REST-APi Service
+   * @param fb FormBuilder-Service
+   * @param router Router-Service
+   */
   constructor(private fb: FormBuilder, private router: Router, private restAPI: RestApiService) {
     this.variationFormGroup = this.fb.group({
       module: {},
@@ -43,6 +50,9 @@ export class EditManualModulesComponent implements OnInit {
     });
   }
 
+  /**
+   * Initialize asynchronous data.
+   */
   ngOnInit(): void {
 
     this.restAPI.getModuleManual(this.id).subscribe(manual => {
@@ -50,6 +60,8 @@ export class EditManualModulesComponent implements OnInit {
     });
 
     this.restAPI.getModulesAssignableTo(this.id).subscribe(modules => {
+
+      // put unasssigned modules into unassigned manualVariation-Object
       for (let mod of modules) {
         this.unassignedModules.push({
           module: mod,
@@ -68,6 +80,8 @@ export class EditManualModulesComponent implements OnInit {
     });
 
     this.restAPI.getAssignedModules(this.id).subscribe(modules => {
+
+      // set assigned-attribute of assigned manualVariation-Objects (modules)
       for(let mod of modules) {
         mod.isAssigned = true;
       }

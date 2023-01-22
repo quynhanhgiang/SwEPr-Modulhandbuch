@@ -29,6 +29,8 @@ export class DynamicListComponent{
    * Adds a new item to the assignment-list.
    */
   addItem() {
+
+    // item is not valid if length = 0 -> item is not added
     if (this.newVal.trim().length == 0) {
       this.valid = false;
       setTimeout(() => this.valid = true, 3000);

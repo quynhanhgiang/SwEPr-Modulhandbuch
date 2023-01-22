@@ -15,13 +15,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table
+ * `admission_requirement`.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "admission_requirement")
 public class AdmissionRequirementEntity extends ModuleManualEnumEntity<AdmissionRequirementEntity> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")

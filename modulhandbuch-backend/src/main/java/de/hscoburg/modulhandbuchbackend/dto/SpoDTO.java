@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import lombok.Data;
 
+/**
+ * This class is a data transfer object (DTO) for an spo.
+ */
 @Data
 public class SpoDTO {
 	private Integer id;

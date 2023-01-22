@@ -7,6 +7,9 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import de.hscoburg.modulhandbuchbackend.model.entities.EnumEntity;
 
+/**
+ * This class is the interface for the database communication regarding enums.
+ */
 @NoRepositoryBean
 public interface EnumRepository<T extends EnumEntity<T>> extends JpaRepository<T, Integer> {
 	List<T> findByValue(String value);

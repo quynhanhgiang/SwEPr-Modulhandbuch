@@ -16,13 +16,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table `section`.
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "section")
-public class SectionEntity extends StructureEntity<SectionEntity> {
-	
+public class SegmentEntity extends StructureEntity<SegmentEntity> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")
@@ -30,7 +33,7 @@ public class SectionEntity extends StructureEntity<SectionEntity> {
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_section_pk_unique_id")
-	private SectionEntity next;
+	private SegmentEntity next;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fk_module_manual_pk_unique_id", nullable = false)

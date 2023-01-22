@@ -25,13 +25,13 @@ import de.hscoburg.modulhandbuchbackend.exceptions.ModuleManualNotFoundException
 import de.hscoburg.modulhandbuchbackend.exceptions.ModuleTypeNotFoundException;
 import de.hscoburg.modulhandbuchbackend.exceptions.SegmentNotFoundException;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.SectionEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.SegmentEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.StructureEntity;
-import de.hscoburg.modulhandbuchbackend.model.entities.TypeEntity;
+import de.hscoburg.modulhandbuchbackend.model.entities.ModuleTypeEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.SectionRepository;
-import de.hscoburg.modulhandbuchbackend.repositories.TypeRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.SegmentRepository;
+import de.hscoburg.modulhandbuchbackend.repositories.ModuleTypeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import de.hscoburg.modulhandbuchbackend.services.ModuleManualStructureService;
 import de.hscoburg.modulhandbuchbackend.services.ModulhandbuchBackendMapper;
@@ -45,9 +45,9 @@ public class ModuleManualStructureServiceTest {
 	@Mock
 	private ModuleManualRepository mockModuleManualRepository;
 	@Mock
-	private SectionRepository mockSectionRepository;
+	private SegmentRepository mockSegmentRepository;
 	@Mock
-	private TypeRepository mockTypeRepository;
+	private ModuleTypeRepository mockModuleTypeRepository;
 	@Mock
 	private VariationRepository mockVariationRepository;
 	@Spy
@@ -58,9 +58,9 @@ public class ModuleManualStructureServiceTest {
 	@Mock
 	private ModuleManualEntity mockModuleManualEntity;
 	@Mock
-	private SectionEntity mockSectionEntityWithId1;
+	private SegmentEntity mockSegmentEntityWithId1;
 	@Mock
-	private TypeEntity mockTypeEntityWithId1;
+	private ModuleTypeEntity mockModuleTypeEntityWithId1;
 	@Mock
 	private VariationEntity mockVariationEntity;
 	
@@ -88,17 +88,17 @@ public class ModuleManualStructureServiceTest {
 		List<StructureDTO> expectedResult = List.of(element);
 
 		Set<TestParameters<? extends StructureEntity<?>>> testData = Set.of(
-			new TestParameters<SectionEntity>(0, moduleManual -> moduleManual.getFirstSection(), false, null, null, expectedResult),
-			new TestParameters<TypeEntity>(0, moduleManual -> moduleManual.getFirstType(), false, null, null, expectedResult),
+			new TestParameters<SegmentEntity>(0, moduleManual -> moduleManual.getFirstSegment(), false, null, null, expectedResult),
+			new TestParameters<ModuleTypeEntity>(0, moduleManual -> moduleManual.getFirstModuleType(), false, null, null, expectedResult),
 			
-			new TestParameters<SectionEntity>(1, moduleManual -> moduleManual.getFirstSection(), true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
-			new TestParameters<TypeEntity>(1, moduleManual -> moduleManual.getFirstType(), true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters<SegmentEntity>(1, moduleManual -> moduleManual.getFirstSegment(), true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
+			new TestParameters<ModuleTypeEntity>(1, moduleManual -> moduleManual.getFirstModuleType(), true, ModuleManualNotFoundException.class, "Module manual with id 1 not found.", null),
 
-			new TestParameters<SectionEntity>(-1, moduleManual -> moduleManual.getFirstSection(), true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
-			new TestParameters<TypeEntity>(-1, moduleManual -> moduleManual.getFirstType(), true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters<SegmentEntity>(-1, moduleManual -> moduleManual.getFirstSegment(), true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
+			new TestParameters<ModuleTypeEntity>(-1, moduleManual -> moduleManual.getFirstModuleType(), true, ModuleManualNotFoundException.class, "Module manual with id -1 not found.", null),
 
-			new TestParameters<SectionEntity>(null, moduleManual -> moduleManual.getFirstSection(), true, IllegalArgumentException.class, null, null),
-			new TestParameters<TypeEntity>(null, moduleManual -> moduleManual.getFirstType(), true, IllegalArgumentException.class, null, null)
+			new TestParameters<SegmentEntity>(null, moduleManual -> moduleManual.getFirstSegment(), true, IllegalArgumentException.class, null, null),
+			new TestParameters<ModuleTypeEntity>(null, moduleManual -> moduleManual.getFirstModuleType(), true, IllegalArgumentException.class, null, null)
 		);
 
 		// initially no module manuals are present
@@ -108,8 +108,8 @@ public class ModuleManualStructureServiceTest {
 		// module manual with id 0 is present
 		Mockito.when(this.mockModuleManualRepository.findById(0)).thenReturn(Optional.of(this.mockModuleManualEntity));
 
-		Mockito.when(this.mockModuleManualEntity.getFirstSection()).thenReturn(this.mockSectionEntityWithId1);
-		Mockito.when(this.mockModuleManualEntity.getFirstType()).thenReturn(this.mockTypeEntityWithId1);
+		Mockito.when(this.mockModuleManualEntity.getFirstSegment()).thenReturn(this.mockSegmentEntityWithId1);
+		Mockito.when(this.mockModuleManualEntity.getFirstModuleType()).thenReturn(this.mockModuleTypeEntityWithId1);
 
 		for (TestParameters<?> testParameters : testData) {
 			if (testParameters.expectedToThrowException) {
@@ -276,38 +276,38 @@ public class ModuleManualStructureServiceTest {
 		// return input
 		Mockito.when(this.mockModuleManualRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
-		Mockito.when(this.mockVariationRepository.findBySegment(Mockito.any(SectionEntity.class))).thenReturn(List.of(this.mockVariationEntity));
-		Mockito.when(this.mockVariationRepository.findByModuleType(Mockito.any(TypeEntity.class))).thenReturn(List.of(this.mockVariationEntity));
+		Mockito.when(this.mockVariationRepository.findBySegment(Mockito.any(SegmentEntity.class))).thenReturn(List.of(this.mockVariationEntity));
+		Mockito.when(this.mockVariationRepository.findByModuleType(Mockito.any(ModuleTypeEntity.class))).thenReturn(List.of(this.mockVariationEntity));
 
-		// initially no sections are present
-		Mockito.when(this.mockSectionRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
-		// section with id 1 is present
-		Mockito.when(this.mockSectionRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
+		// initially no segments are present
+		Mockito.when(this.mockSegmentRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
+		// segment with id 1 is present
+		Mockito.when(this.mockSegmentRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
 
-		Mockito.when(this.mockSectionRepository.findById(1)).thenReturn(Optional.of(this.mockSectionEntityWithId1));
+		Mockito.when(this.mockSegmentRepository.findById(1)).thenReturn(Optional.of(this.mockSegmentEntityWithId1));
 		
-		Mockito.when(this.mockSectionRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockSectionEntityWithId1));
+		Mockito.when(this.mockSegmentRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockSegmentEntityWithId1));
 
 		// return input
-		Mockito.when(this.mockSectionRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
+		Mockito.when(this.mockSegmentRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
-		Mockito.when(this.mockSectionEntityWithId1.getId()).thenReturn(1);
-		Mockito.when(this.mockSectionEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
+		Mockito.when(this.mockSegmentEntityWithId1.getId()).thenReturn(1);
+		Mockito.when(this.mockSegmentEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
 
 		// initially no types are present
-		Mockito.when(this.mockTypeRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
+		Mockito.when(this.mockModuleTypeRepository.existsByIdAndModuleManual(Mockito.anyInt(), Mockito.any())).thenReturn(false);
 		// tpye with id 1 is present
-		Mockito.when(this.mockTypeRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
+		Mockito.when(this.mockModuleTypeRepository.existsByIdAndModuleManual(Mockito.eq(1), Mockito.any())).thenReturn(true);
 
-		Mockito.when(this.mockTypeRepository.findById(1)).thenReturn(Optional.of(this.mockTypeEntityWithId1));
+		Mockito.when(this.mockModuleTypeRepository.findById(1)).thenReturn(Optional.of(this.mockModuleTypeEntityWithId1));
 
-		Mockito.when(this.mockTypeRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockTypeEntityWithId1));
+		Mockito.when(this.mockModuleTypeRepository.findByModuleManual(mockModuleManualEntity)).thenReturn(List.of(this.mockModuleTypeEntityWithId1));
 
 		// return input
-		Mockito.when(this.mockTypeRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
+		Mockito.when(this.mockModuleTypeRepository.save(Mockito.any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
 
-		Mockito.when(this.mockTypeEntityWithId1.getId()).thenReturn(1);
-		Mockito.when(this.mockTypeEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
+		Mockito.when(this.mockModuleTypeEntityWithId1.getId()).thenReturn(1);
+		Mockito.when(this.mockModuleTypeEntityWithId1.getValue()).thenReturn(existingElement1.getValue());
 
 		for (TestParameters testParameters : testData) {
 			if (testParameters.expectedToThrowException) {

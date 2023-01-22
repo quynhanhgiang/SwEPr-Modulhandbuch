@@ -1,8 +1,12 @@
 package de.hscoburg.modulhandbuchbackend.exceptions;
 
-public class ModuleNotFoundException extends RuntimeException {
-	
+/**
+ * This class is a custom exception that is thrown when a module is
+ * not found.
+ */
+public class ModuleNotFoundException extends ElementNotFoundException {
+
 	public ModuleNotFoundException(Integer id) {
-		super("Could not find module " + id);
+		super(id, "Module");
 	}
 }

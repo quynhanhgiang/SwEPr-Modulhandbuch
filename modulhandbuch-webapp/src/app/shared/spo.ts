@@ -1,3 +1,6 @@
+/**
+ * "Spo"-Interface
+ */
 export interface Spo{
     id: number;
     link: string;
@@ -5,5 +8,4 @@ export interface Spo{
     endDate: string | null;
     course: string;
     degree: string;
-   // modulePlan: ;
 }

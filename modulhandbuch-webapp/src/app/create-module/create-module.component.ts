@@ -16,26 +16,42 @@ import { displayCollegeEmployee } from './displayCollegeEmployee';
 export class CreateModuleComponent implements OnInit {
   @Output() onSuccessfulSubmission = new EventEmitter();
 
-  display: boolean = false;//false == form hidden | true == form visible
+  // ### dialog-control ###
+  display: boolean = false;                 // true: dialog is visible, false: dialog is invisible
 
-  newModule!:Module;
-  moduleFormGroup: FormGroup;
+  // ### form-groups ###
+  moduleFormGroup: FormGroup;               //main-formgroup
 
-  profs!:CollegeEmployee[];
-  displayProfs:displayCollegeEmployee[]=[];
+  // ### asynchronous data ###
+  newModule!:Module;                        //new generated Module
+  profs!:CollegeEmployee[];                 //list of all created profs
+
+  // ### form-controll ###
   selectedProfs!:[];
-  moduleManuals!:ModuleManual[];
-  moduleOwners!:CollegeEmployee[];
-  cycles!:String[];
-  durations!:String[];
-  languages!:String[];
-  maternityProtections!:String[];
+ 
+  // ### form-select ###
+  // ### Multidimensional Arrays ###
+  // admissionRequirements[0] = list of all admissionRequirements for the firstVariation
+  // admissionRequirements[1] = list of all admissionRequirements for the secondVariation
+  admissionRequirements:Assignment[][]=[];  //list of all moduleManuals for each Variation
+  moduleTypes:Assignment[][]=[];            //list of all moduleManuals for each Variation
+  segments:Assignment[][]=[];               //list of all moduleManuals for each Variation
+  // ### Array ###
+  moduleManuals!:ModuleManual[];            //list of all moduleManuals
+  moduleOwners!:CollegeEmployee[];          //list of all ModuleOwners
+  cycles!:String[];                         //list of all Cycles
+  durations!:String[];                      //list of all duration
+  languages!:String[];                      //list of all languages
+  displayProfs:displayCollegeEmployee[]=[]; //list of all profs but with a converted name
+  maternityProtections!:String[];           //list of all maternityProtections
 
-  admissionRequirements:Assignment[][]=[];
-  moduleTypes:Assignment[][]=[];
-  segments:Assignment[][]=[];
-
-  constructor(private fb: FormBuilder, private restAPI: RestApiService,  private route: ActivatedRoute, private router: Router) {
+  /**
+   * 
+   * @param fb formbuilder for moduleFormGroup
+   * @param restAPI rest-api for submitting and receiving Data
+   * @param router Router for redirecting to a diffrent url
+   */
+  constructor(private fb: FormBuilder, private restAPI: RestApiService, private router: Router) {
     this.moduleFormGroup = this.fb.group({
       id: null,
       moduleName: new FormControl(),
@@ -58,12 +74,16 @@ export class CreateModuleComponent implements OnInit {
     });
   }
 
+  /**
+   * initalize all Data
+   */
   ngOnInit(): void {
     this.selectedProfs=[];
     this.segments=[];
     this.moduleTypes=[];
     this.admissionRequirements=[];
 
+    //get all profs and convert them do a displayCollegeEmployee object
     this.restAPI.getCollegeEmployees().subscribe(resp => {
         this.profs = resp;
 
@@ -102,9 +122,14 @@ export class CreateModuleComponent implements OnInit {
     this.addVariation();
   }
 
-  onSubmit(event: {submitter:any }): void {//create new Module with form data
+  /**
+   * create new Module form the given input 
+   * @param event submitevent wich contains the pressed Button
+   */
+  onSubmit(event: {submitter:any }): void {
     this.newModule = this.moduleFormGroup.value;
 
+    //convert displayCollegeEmployees back to collegeEmployees
     for(let i=0;i<this.newModule.profs.length;i++){
       for(let j=0;j<this.profs.length;j++){
         if(this.newModule.profs[i].id==this.profs[j].id){
@@ -114,41 +139,54 @@ export class CreateModuleComponent implements OnInit {
       }
     }
 
+    //create new module
     this.restAPI.createModule(this.newModule).subscribe(resp => {
       this.onSuccessfulSubmission.emit();
       console.log(resp);
 
       this.hideDialog();
 
+      //if pressed button had the id'btn-submit-new' then 
       if(event.submitter.id=="btn-submit-new"){
         this.showDialog();
       }
 
+      //if pressed button had the id'btn-submit-open' then redirect to url
       if(event.submitter.id=="btn-submit-open"){
         this.router.navigate(['/module-detail-view',resp.id]);
       }
-
     });
   }
   
+  /**
+   * will be triggert if a manual is beeing selected
+   * recives moduleType, Requirements and Segemts wich belongs to the specific selected manual
+   * @param i index of variation
+   */
   updateModuleManual( i:number) {
-        this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
-          this.moduleTypes[i]=(resp);
-      });
+    this.restAPI.getModuleTypes(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+      this.moduleTypes[i]=(resp);
+    });
 
-      this.restAPI.getRequirements(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
-        this.admissionRequirements[i]= resp;
-      });
+    this.restAPI.getRequirements(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+      this.admissionRequirements[i]= resp;
+    });
 
-      this.restAPI.getSegments(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
-        this.segments[i]=resp    
-      });
+    this.restAPI.getSegments(this.moduleFormGroup.value.variations[i].manual.id).subscribe(resp => {
+      this.segments[i]=resp    
+    });
   }
 
+  /**
+   * return all variation as an FormArray
+   */
   get variations(){
     return (this.moduleFormGroup.get("variations") as FormArray);
   }
 
+  /**
+   * create a new variation as a formGroup
+   */
   addVariation() {
     this.variations.push(
       this.fb.group({
@@ -164,17 +202,25 @@ export class CreateModuleComponent implements OnInit {
     );
   }
 
+  /**
+   * delete variation a index i
+   * @param index index of variation
+   */
   deleteVariation(index:number){
     this.variations.removeAt(index);
+
+    //removes list from Multidimensional Array and close the gap
     this.moduleTypes.splice(index,1)
     this.admissionRequirements.splice(index,1)
     this.segments.splice(index,1)
   }
 
-  showDialog() {//make form visible
+  //shows pop-up-dialog
+  showDialog() {
     this.display = true;
   }
 
+  //hides pop-up-dialog and reset Component
   hideDialog() {//hide form
     this.display = false;
     this.moduleFormGroup.reset();

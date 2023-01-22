@@ -1,10 +1,12 @@
 
-<main>  
+<main>
     <app-menubar></app-menubar>
     <div class = "d-flex" style="height: calc(100% - 110px);" >
         <app-sidebar></app-sidebar>
+
+        <!-- component depending on the current route -->
         <div class="flex-grow-1">
             <router-outlet></router-outlet>
         </div>
-    </div>  
+    </div>
 </main>

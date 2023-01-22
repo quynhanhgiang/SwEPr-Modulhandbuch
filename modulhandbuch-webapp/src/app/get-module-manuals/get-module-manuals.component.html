@@ -3,40 +3,42 @@
 
     <hr>
 
+    <!-- dataview that lists all created manuals-->
     <p-dataView #dv [value]="moduleManuals" [paginator]="true" [rows]="5" [sortField]="sortField" [sortOrder]="sortOrder"
     [emptyMessage]="emptyMessage" filterBy="spo.course">
 
-        <!--Data-View Headerleiste-->
+        <!--dataview-header-->
         <ng-template pTemplate="header">
           <div class="d-flex flex-row justify-content-between">
+            <!-- search-input -->
             <span class="p-input-icon-left mb-2 md:mb-0">
               <i class="pi pi-search"></i>
               <input type="search" pInputText placeholder="Studienfach" id="input-search" (input)="dv.filter($event.target.value, 'contains')">
             </span>
+
+            <!-- sort-dropdown -->
             <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortieren nach" id="dropdown-sort"
             (onChange)="onSortChange($event)" [style]="{'min-width':'15em'}"></p-dropdown>
           </div>
         </ng-template>
 
-        <!-- Data-View Modulhandbuch-Liste-->
+        <!-- module-manual-list-->
         <ng-template let-moduleManual let-i="rowIndex" pTemplate="listItem">
             <div class="block p-3">
 
-                <!-- Overlay-Link für ein Listen-Element, umfasst gesamten "inner"-Block -->
+                <!-- overlay-link for the list-element, spans whole ".inner"-block -->
                 <a class="overlay" [routerLink]="['/manual-edit', moduleManual.id]" id="link-manual-{{i}}"></a>
 
                 <div class="inner list-group-item d-flex justify-content-between align-items-start">
                     <div class="me-auto">
 
-                        <!-- MH-Titel -->
+                        <!-- manual-title -->
                         <div class="fw-bold fs-5">{{moduleManual.spo.degree}} {{moduleManual.spo.course}}</div>
 
-                        <!-- MH-Zeitraum -->
-                        <div *ngIf="moduleManual.spo.endDate === null; else endDate" class="fs-6 ms-4">
-                            Gültig für das <i>{{moduleManual.semester}}</i>.
-                            <br>
-                            Für Studienanfänger ab dem <i>{{getGermanDate(moduleManual.spo.startDate)}}</i>
-                        </div>
+                        <!-- manual-timespan -->
+                        <span *ngIf="moduleManual.spo.endDate === null; else endDate" class="fs-6 ms-4">
+                            Gültig für Studienanfänger ab dem <i>{{getGermanDate(moduleManual.spo.startDate)}}</i>
+                        </span>
                         <ng-template #endDate>
                             <div class="fs-6  ms-4">
                               Gültig für das <i>{{moduleManual.semester}}</i>.
@@ -45,25 +47,17 @@
                             </div>
                         </ng-template>
 
-                        <!-- MH-SPO-Link -->
+                        <!-- spo-link-->
                         <a href="{{moduleManual.spo.link}}" class="ms-4 link-secondary d-block" id="link-spo-{{i}}">
                             <i class="bi bi-link-45deg"></i><small>zur Studien- und Prüfungsordnung</small>
                         </a>
                     </div>
 
-                    <!-- MH-Semester-->
-                    <button type="button" class="btn btn-outline-secondary pb-1 pt-1" id="btn-pdf-{{i}}" (click)="onGeneratePdfClick(moduleManual.id)">
-                      <i class="bi bi-filetype-pdf fs-5"></i>
-                      PDF
-                    </button>
+                    <!-- semester-->
+                    <span class="badge bg-success rounded-pill">{{moduleManual.semester}}</span>
                 </div>
             </div>
         </ng-template>
-        <!--<ng-template let-moduleManual pTemplate="gridItem">
-            <div class="col-12 md:col-3">
-                {{moduleManual.spo.course}}
-            </div>
-        </ng-template>-->
     </p-dataView>
 </div>
 

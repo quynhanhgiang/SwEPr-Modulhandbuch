@@ -20,6 +20,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table `module`.
+ */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -72,7 +75,7 @@ public class ModuleEntity {
 	private String certificates;
 
 	@Column(name = "media_type")
-    private String mediaType;
+	private String mediaType;
 
 	@Column(name = "literature")
 	private String literature;
@@ -86,8 +89,8 @@ public class ModuleEntity {
 		name = "prof",
 		joinColumns = @JoinColumn(name = "fk_module_pk_unique_id", nullable = false),
 		inverseJoinColumns = @JoinColumn(name = "fk_college_employee_pk_unique_id", nullable = false))
-    private List<CollegeEmployeeEntity> profs;
+	private List<CollegeEmployeeEntity> profs;
 
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "module")
-    private List<VariationEntity> variations = Collections.emptyList();
+	private List<VariationEntity> variations = Collections.emptyList();
 }

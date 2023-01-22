@@ -5,6 +5,9 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * This class is a data transfer object (DTO) for a module with all fields.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ModuleFullDTO extends ModuleDTO {

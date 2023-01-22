@@ -1,9 +1,17 @@
-<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="hideDialog()"><!--Pop-up dialog for form-->
+<!--Pop-up dialog for creating a new Module-->
+<p-dialog [(visible)]="display" [transitionOptions]="'150ms'" (onHide)="hideDialog()">
+    
+     <!--Header with Heading-->
     <ng-template pTemplate="header">
         <h4>Neues Modul erstellen</h4>
     </ng-template>
+
+     <!--Form for Data input for creating a new Module-->
     <form  (ngSubmit)="onSubmit($event)" [formGroup]="moduleFormGroup" ngNativeValidate>
+        <!--group for general module input fields-->
         <div class="border border-dark">
+
+            <!--input fields for modulename and abbreviation-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start text-start"><label>Modulbezeichnung</label></div>
                 <div class="col-8"><input type="text" class="form-control" required formControlName="moduleName" id="input-create-module-moduleName"></div>
@@ -12,6 +20,8 @@
                 <div class="col-4 text-start"><label>Kürzel</label></div>
                 <div class="col-8"><input type="text" class="form-control" required formControlName="abbreviation" maxlength="7" id="input-create-module-abbreviation"></div>
             </div>
+
+            <!--select for cycle, duration, moduleowner-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Angebotsturnus</label></div>
                 <div class="col-8">
@@ -36,12 +46,16 @@
                     </select>
                 </div>
             </div>
+
+            <!--multiselect for profs-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Dozent(in)</label></div>
                 <div class="col-8">
                     <p-multiSelect [options]="displayProfs" [(ngModel)]="selectedProfs" minlength="1" formControlName="profs" optionLabel="name" id="multiselect-create-module-profs"  placeholder="Dozenten auswählen"></p-multiSelect>
                 </div>
             </div>
+
+            <!--select for language-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Sprache</label></div>
                 <div class="col-8">
@@ -50,6 +64,8 @@
                     </select>
                 </div>
             </div>
+
+            <!--input fields for usage and knowlesgeRequirements-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Nutzung in anderen Studiengängen</label></div>
                 <div class="col-8"><input type="text" class="form-control" formControlName="usage" id="input-create-module-usage"></div>
@@ -58,11 +74,14 @@
                 <div class="col-4 text-start"><label>Inhaltliche Voraussetzung</label></div>
                 <div class="col-8"><input type="text" class="form-control" formControlName="knowledgeRequirements" id="input-create-module-knowledge-requirements"></div>
             </div>
+
+            <!--editor for formatted input for skills-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Qualifikationsziele/Kompetenzen</label></div>
                 <div class="col-8">
                     <p-editor formControlName="skills" id="editor-create-module-skills">
                         <p-header>
+                            <!--enabled formatting option-->
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
                                 <button class="ql-italic" aria-label="Italic"></button>
@@ -74,11 +93,14 @@
                     </p-editor>
                 </div>
             </div>
+
+            <!--editor for formatted input for content-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Lehrinhalte</label></div>
                 <div class="col-8">
                     <p-editor formControlName="content" id="editor-create-module-content">
                         <p-header>
+                            <!--enabled formatting option-->
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
                                 <button class="ql-italic" aria-label="Italic"></button>
@@ -90,6 +112,8 @@
                     </p-editor>
                 </div>
             </div>
+
+             <!--input fields for examType, certificates and mediaType-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Endnotenbildende Studien-/Prüfungsleistungen</label></div>
                 <div class="col-8"><input required type="text" class="form-control" formControlName="examType" id="input-create-module-exam-type"></div>
@@ -102,11 +126,14 @@
                 <div class="col-4 text-start"><label>Medienform</label></div>
                 <div class="col-8"><input type="text" class="form-control" formControlName="mediaType" id="input-create-module-media-type"></div>
             </div>
+
+            <!--editor for formatted input for content-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Literatur</label></div>
                 <div class="col-8">
                     <p-editor formControlName="literature" id="editor-create-module-literature">
                         <p-header>
+                            <!--enabled formatting option-->
                             <span class="ql-formats">
                                 <button class="ql-bold" aria-label="Bold"></button>
                                 <button class="ql-italic" aria-label="Italic"></button>
@@ -118,6 +145,8 @@
                     </p-editor>
                 </div>
             </div>
+
+            <!--select for maternity protectione-->
             <div class="row border-bottom p-2 m-3 align-items-center">
                 <div class="col-4 text-start"><label>Mutterschutz</label></div>
                 <div class="col-8">
@@ -128,12 +157,17 @@
             </div>
         </div>
 
+        <!--group for manual specific input fields-->
         <div class="row p-2">
             <div class="text-center p-4 col"><h4>Felder, sich auf je ein Modulhandbuch beziehen</h4></div>
         </div>
 
+        <!--list of added variations-->
         <ul formGroupName="variations" class="list-group" style="width: 100%;">
+            <!--one entry for each created variation. index i starts at 0-->
             <li *ngFor="let variation of variations.controls;let i = index" [formGroupName]="i" class="border border-dark list-group-item mb-4 border-top brder-bottom">
+                
+                <!--select for module manual-->
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Modulhandbuch</label></div>
                     <div class="col-8">
@@ -142,6 +176,8 @@
                         </select>
                     </div>
                 </div>
+
+                <!--select for moduleType,admissionRequirements and segment. Disabled if no manual is selected -->
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Modulart</label></div>
                     <div class="col-8">
@@ -167,6 +203,8 @@
                         </select>
                     </div>
                 </div>
+
+                <!--input fields for entering sws and ects-->
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Lehrform / SWS</label></div>
                     <div class="col-8"><input type="number" class="form-control" required min="0" max="40" formControlName="sws" id="input-create-module-sws"></div>
@@ -175,11 +213,14 @@
                     <div class="col-4 text-start"><label>Leistungspunkte / ECTS</label></div>
                     <div class="col-8"><input type="number" class="form-control" required min="1" max="30" formControlName="ects" id="input-create-module-ects"></div>
                 </div>
+                
+                <!--editor for formatted input for workload-->
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Arbeitsaufwand</label></div>
                     <div class="col-8">
                         <p-editor formControlName="workLoad" id="editor-create-module-workload"><!--Texteditor based on Quill-->
                             <p-header>
+                                <!--enabled formatting option-->
                                 <span class="ql-formats">
                                     <button class="ql-bold" aria-label="Bold"></button>
                                     <button class="ql-italic" aria-label="Italic"></button>
@@ -191,20 +232,25 @@
                         </p-editor>
                     </div>
                 </div>
+
+                <!--input field for entering semester-->
                 <div class="row border-bottom p-2 m-3 align-items-center">
                     <div class="col-4 text-start"><label>Fachsemester</label></div>
                     <div class="col-8"><input type="number" class="form-control" min="1" max="7" required formControlName="semester" id="input-create-module-semester"></div>
                 </div>
+                <!--button for deleting the current variation-->
                 <div class="row p-2 border-top align-items-center">
                     <button id="btn-remove-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="deleteVariation(i)" type="button">Modulhandbuch entfernen</button>
                 </div>
             </li>
         </ul>
+
+        <!--button for adding a new variation -->
         <div class="row border-bottom p-2 align-items-center">
             <button id="btn-add-variations" style="margin-left: auto; margin-right: auto; width: 50%;" class="btn btn-outline-secondary" (click)="addVariation()" type="button">Neues Modulhandbuch hinzufügen</button>
         </div> 
         
-
+        <!--Buttons for submitting the form-->
         <div>
             <button id="btn-submit-close" class="btn btn-outline-secondary" type="submit">Speichern</button>
             <button id="btn-submit-open" class="btn btn-outline-secondary" type="submit">Speichern und öffnen</button>
@@ -213,6 +259,7 @@
     </form>
 </p-dialog>
 
+<!--button wich makes the pup-up-dialog visible-->
 <div id="div-create-module"><!--Triggers the function showDialog() wich makes the form visible-->
     <button id="btn-create-module" class="btn btn-lg btn-outline-secondary" (click)="showDialog()"><i id="i-plus-symbol" class="pi pi-plus" style="font-size: 2rem"></i>Neues Modul erstellen</button>
 </div>
