@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 import lombok.Data;
 
+/**
+ * This class provides access to the properties of the application.
+ */
 @Data
 @ConfigurationProperties("modulo")
 @ConfigurationPropertiesScan

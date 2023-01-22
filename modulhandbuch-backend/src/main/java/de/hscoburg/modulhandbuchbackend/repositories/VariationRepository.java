@@ -13,6 +13,10 @@ import de.hscoburg.modulhandbuchbackend.model.entities.SegmentEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleTypeEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.VariationEntity;
 
+/**
+ * This class is the interface for the database communication regarding
+ * {@link VariationEntity}.
+ */
 public interface VariationRepository extends JpaRepository<VariationEntity, Integer> {
 	List<VariationEntity> findByModule(ModuleEntity module);
 

@@ -18,12 +18,15 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table `college_employee`.
+ */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "college_employee")
 public class CollegeEmployeeEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")
@@ -46,7 +49,7 @@ public class CollegeEmployeeEntity {
 	private String email;
 
 	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "profs")
-    private List<ModuleEntity> modules;
+	private List<ModuleEntity> modules;
 
 	public String toString() {
 		return String.format("%s %s %s", Objects.toString(this.title, ""), this.firstName, this.lastName).trim();

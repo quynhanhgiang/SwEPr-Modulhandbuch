@@ -17,12 +17,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * This class is the representation of the database table `module_manual`.
+ */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "module_manual")
 public class ModuleManualEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")

@@ -12,6 +12,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.SegmentRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleTypeRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for recuring tasks regarding {@link VariationEntity}.
+ */
 @Data
 @Service
 public class VariationService {
@@ -20,7 +23,13 @@ public class VariationService {
 	private final ModuleRepository moduleRepository;
 	private final SegmentRepository segmentRepository;
 	private final ModuleTypeRepository moduleTypeRepository;
-	
+
+	/**
+	 * This method is used for bringing a variation in a consistent state.
+	 * 
+	 * @param variation The {@link VariationEntity} to be cleaned.
+	 * @return The cleaned {@link VariationEntity}.
+	 */
 	public VariationEntity cleanEntity(VariationEntity variation) {
 		if ((variation.getModule() == null) || (variation.getModule().getId() == null)) {
 			return null;
@@ -28,7 +37,7 @@ public class VariationService {
 
 		Integer moduleId = variation.getModule().getId();
 		variation.setModule(this.moduleRepository.findById(moduleId)
-			.orElseThrow(() -> new ModuleNotFoundException(moduleId)));
+				.orElseThrow(() -> new ModuleNotFoundException(moduleId)));
 
 		if ((variation.getModuleManual() == null) || variation.getModuleManual().getId() == null) {
 			return null;
@@ -36,7 +45,7 @@ public class VariationService {
 
 		Integer moduleManualId = variation.getModuleManual().getId();
 		this.moduleManualRepository.findById(moduleManualId)
-			.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualId));
+				.orElseThrow(() -> new ModuleManualNotFoundException(moduleManualId));
 
 		if ((variation.getModuleType() != null) && (variation.getModuleType().getId() != null)) {
 			Integer typeId = variation.getModuleType().getId();
@@ -51,10 +60,11 @@ public class VariationService {
 		} else {
 			variation.setSegment(null);
 		}
-		
+
 		if ((variation.getAdmissionRequirement() != null) && (variation.getAdmissionRequirement().getId() != null)) {
 			Integer admissionRequirementId = variation.getAdmissionRequirement().getId();
-			variation.setAdmissionRequirement(this.admissionRequirementRepository.findById(admissionRequirementId).orElse(null));
+			variation.setAdmissionRequirement(
+					this.admissionRequirementRepository.findById(admissionRequirementId).orElse(null));
 		} else {
 			variation.setAdmissionRequirement(null);
 		}
