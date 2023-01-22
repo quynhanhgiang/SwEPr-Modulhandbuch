@@ -33,6 +33,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleTypeRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for retrieving and updating the structure of module manual.
+ */
 @Data
 @Service
 public class ModuleManualStructureService {
@@ -158,6 +161,14 @@ public class ModuleManualStructureService {
 		return savedStructure;
 	}
 
+	/**
+	 * This method replaces the segments of a module manual with the passed ones and
+	 * returns the updated segments.
+	 * 
+	 * @param segments The segments to replace the existing ones with.
+	 * @param moduleManualId The id of the module manual the segments belong to.
+	 * @return The updated segments.
+	 */
 	public List<StructureDTO> replaceSegments(List<StructureDTO> segments, Integer moduleManualId) {
 		BiConsumer<ModuleManualEntity, SegmentEntity> moduleManualSetFirstSegment = (moduleManual, segment) -> moduleManual.setFirstSegment(segment);
 
@@ -171,6 +182,14 @@ public class ModuleManualStructureService {
 		return this.replaceStructure(segments, moduleManualId, moduleManualSetFirstSegment, this.segmentRepository, variationSetSegment, variationRepositoryFindBySegment, SegmentEntity.class, duplicateSegmentsInRequestHandler, segmentNotFoundHandler);
 	}
 
+	/**
+	 * This method replaces the module types of a module manual with the passed ones and
+	 * returns the updated module types.
+	 * 
+	 * @param segments The module types to replace the existing ones with.
+	 * @param moduleManualId The id of the module manual the module types belong to.
+	 * @return The updated module tpyes.
+	 */
 	public List<StructureDTO> replaceModuleTypes(@RequestBody List<StructureDTO> moduleTypes, @PathVariable Integer moduleManualId) {
 		BiConsumer<ModuleManualEntity, ModuleTypeEntity> moduleManualSetFirstModuleType = (moduleManual, moduleType) -> moduleManual.setFirstModuleType(moduleType);
 

@@ -16,6 +16,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for recuring tasks regarding {@link ModuleEntity} and {@link de.hscoburg.modulhandbuchbackend.dto.ModuleDTO}.
+ */
 @Data
 @Service
 public class ModuleService {
@@ -25,6 +28,12 @@ public class ModuleService {
 	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 
+	/**
+	 * This method is used for saving a module and its variations.
+	 * 
+	 * @param moduleToSave The module to save.
+	 * @return A saved module.
+	 */
 	public ModuleFullDTO saveModule(ModuleFullDTO moduleToSave) {
 		ModuleEntity moduleEntity = this.modulhandbuchBackendMapper.map(moduleToSave, ModuleEntity.class);
 		List<VariationEntity> newVariations = moduleEntity.getVariations();
@@ -48,6 +57,12 @@ public class ModuleService {
 		return modulhandbuchBackendMapper.map(result, ModuleFullDTO.class);
 	}
 
+	/**
+	 * This method is used for bringing a module in a consistent state.
+	 * 
+	 * @param module The {@link ModuleEntity} to be cleaned.
+	 * @return The cleaned {@link ModuleEntity}.
+	 */
 	public ModuleEntity cleanEntity(ModuleEntity module) {
 		if ((module.getModuleOwner() == null) || (module.getModuleOwner().getId() == null)) {
 			throw new ModuleOwnerRequiredException();

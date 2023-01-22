@@ -25,6 +25,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.GenderRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.LanguageRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.MaternityProtectionRepository;
 
+/**
+ * This class is an extension of {@link ModelMapper} with the addition of custom converters.
+ */
 @Service
 public class ModulhandbuchBackendMapper extends ModelMapper {
 

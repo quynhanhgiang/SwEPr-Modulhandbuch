@@ -12,6 +12,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.SegmentRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.ModuleTypeRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for recuring tasks regarding {@link VariationEntity}.
+ */
 @Data
 @Service
 public class VariationService {
@@ -21,6 +24,12 @@ public class VariationService {
 	private final SegmentRepository segmentRepository;
 	private final ModuleTypeRepository moduleTypeRepository;
 	
+	/**
+	 * This method is used for bringing a variation in a consistent state.
+	 * 
+	 * @param variation The {@link VariationEntity} to be cleaned.
+	 * @return The cleaned {@link VariationEntity}.
+	 */
 	public VariationEntity cleanEntity(VariationEntity variation) {
 		if ((variation.getModule() == null) || (variation.getModule().getId() == null)) {
 			return null;

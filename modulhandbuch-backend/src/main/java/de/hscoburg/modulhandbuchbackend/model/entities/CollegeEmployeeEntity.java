@@ -18,6 +18,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table `college_employee`.
+ */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

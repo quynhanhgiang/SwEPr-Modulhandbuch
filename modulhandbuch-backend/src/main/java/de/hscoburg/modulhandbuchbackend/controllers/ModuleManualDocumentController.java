@@ -23,6 +23,9 @@ import de.hscoburg.modulhandbuchbackend.services.DocumentService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * This class is a REST controller that handles requests for uploading and downloading documents associated with a module manual.
+ */
 @Data
 @AllArgsConstructor
 @RestController
@@ -32,6 +35,14 @@ public class ModuleManualDocumentController {
 	private final DocumentService documentService;
 	private final ServletContext servletContext;
 
+	/**
+	 * This method handles GET requests to the `/module-manuals/{id}/module-plan` endpoint where id is variable integer.
+	 * It then uses the id and the file name to find the mapped file. If it finds one, it returns it as a
+	 * {@link FileInfoDTO}. If it does not find one, it throws a {@link ModuleManualNotFoundException} if the module manual for the given id could not be found or an {@link IOException} wrapped in a {@link RuntimeException} if the module manual is present but there is a problem regarding the document.
+	 * 
+	 * @param id The id of the module manual associated with the file.
+	 * @return A {@link FileInfoDTO} with informations to the file.
+	 */
 	@GetMapping("/module-plan")
 	public FileInfoDTO oneModulePlan(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
@@ -45,6 +56,14 @@ public class ModuleManualDocumentController {
 		}
 	}
 
+	/**
+	 * This method handles GET requests to the `/module-manuals/{id}/preliminary-note` endpoint where id is variable integer.
+	 * It then uses the id and the file name to find the mapped file. If it finds one, it returns it as a
+	 * {@link FileInfoDTO}. If it does not find one, it throws a {@link ModuleManualNotFoundException} if the module manual for the given id could not be found or an {@link IOException} wrapped in a {@link RuntimeException} if the module manual is present but there is a problem regarding the document.
+	 * 
+	 * @param id The id of the module manual associated with the file.
+	 * @return A {@link FileInfoDTO} with informations to the file.
+	 */
 	@GetMapping("/preliminary-note")
 	public FileInfoDTO onePreliminaryNote(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
@@ -80,6 +99,15 @@ public class ModuleManualDocumentController {
 	// 	return this.documentService.getDocumentInfoFromPath(relativePath);
 	// }
 
+	/**
+	 * This method handles PUT requests to the `/module-manuals/{id}/module-plan` endpoint where id is a variable integer. The file in the request body replaces the module plan of a module manual.
+	 * If no module manual with the given id is found, a {@link ModuleManualNotFoundException} is thrown.
+	 * If the file could not be updated an {@link IOException} wrapped in a {@link RuntimeException} is thrown.
+	 * 
+	 * @param id The id of the module manual to replace the module plan for.
+	 * @param modulePlanFile The file that is being uploaded.
+	 * @return A {@link FileInfoDTO} with informations to the file.
+	 */
 	@PutMapping(path = "/module-plan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FileInfoDTO replaceModulePlan(@PathVariable Integer id, @RequestPart MultipartFile modulePlanFile) {
 		Set<MediaType> allowedContentTypes = Set.of(
@@ -106,6 +134,15 @@ public class ModuleManualDocumentController {
 		}
 	}
 
+	/**
+	 * This method handles PUT requests to the `/module-manuals/{id}/preliminary-note` endpoint where id is a variable integer. The file in the request body replaces the preliminary note of a module manual.
+	 * If no module manual with the given id is found, a {@link ModuleManualNotFoundException} is thrown.
+	 * If the file could not be updated an {@link IOException} wrapped in a {@link RuntimeException} is thrown.
+	 * 
+	 * @param id The id of the module manual to replace the preliminary note for.
+	 * @param preliminaryNoteFile The file that is being uploaded.
+	 * @return A {@link FileInfoDTO} with informations to the file.
+	 */
 	@PutMapping(path = "/preliminary-note", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FileInfoDTO replacePreliminaryNote(@PathVariable Integer id, @RequestPart MultipartFile preliminaryNoteFile) {
 		Set<MediaType> allowedContentTypes = Set.of(

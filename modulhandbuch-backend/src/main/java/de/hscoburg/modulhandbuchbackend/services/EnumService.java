@@ -34,6 +34,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.SpoRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for retrieving and updating enum values.
+ */
 @Data
 @Service
 public class EnumService {
@@ -54,26 +57,56 @@ public class EnumService {
 			.collect(Collectors.toSet());
 	}
 
+	/**
+	 * This method returns a set of all the values of the enum `cycle`.
+	 * 
+	 * @return A set of all the values of the enum `cycle`.
+	 */
 	public Set<String> allCycles() {
 		return this.getAllAsStringSet(this.cycleRepository);
 	}
 
+	/**
+	 * This method returns a set of all the values of the enum `degree`.
+	 * 
+	 * @return A set of all the values of the enum `degree`.
+	 */
 	public Set<String> allDegrees() {
 		return this.getAllAsStringSet(this.degreeRepository);
 	}
 
+	/**
+	 * This method returns a set of all the values of the enum `duration`.
+	 * 
+	 * @return A set of all the values of the enum `duration`.
+	 */
 	public Set<String> allDurations() {
 		return this.getAllAsStringSet(this.durationRepository);
 	}
 
+	/**
+	 * This method returns a set of all the values of the enum `gender`.
+	 * 
+	 * @return A set of all the values of the enum `gender`.
+	 */
 	public Set<String> allGenders() {
 		return this.getAllAsStringSet(this.genderRepository);
 	}
 
+	/**
+	 * This method returns a set of all the values of the enum `language`.
+	 * 
+	 * @return A set of all the values of the enum `language`.
+	 */
 	public Set<String> allLanguages() {
 		return this.getAllAsStringSet(this.languageRepository);
 	}
 	
+	/**
+	 * This method returns a set of all the values of the enum `maternityProtection`.
+	 * 
+	 * @return A set of all the values of the enum `maternityProtection`.
+	 */
 	public Set<String> allMaternityProtections() {
 		return this.getAllAsStringSet(this.maternityProtectionRepository);
 	}
@@ -125,6 +158,13 @@ public class EnumService {
 		return newEnum;
 	}
 
+	/**
+	 * This method replaces the values of the enum `cycle` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `cycle` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceCycles(Set<String> newCycles) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
@@ -140,6 +180,13 @@ public class EnumService {
 		return this.replaceEnum(newCycles, this.cycleRepository, repositories, getCycles, setCycles, CycleEntity.class);
 	}
 
+	/**
+	 * This method replaces the values of the enum `degree` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `degree` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceDegrees(Set<String> newDegrees) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
@@ -155,6 +202,13 @@ public class EnumService {
 		return this.replaceEnum(newDegrees, this.degreeRepository, repositories, getDegrees, setDegrees, DegreeEntity.class);
 	}
 
+	/**
+	 * This method replaces the values of the enum `duration` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `duration` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceDuration(Set<String> newDurations) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
@@ -170,6 +224,13 @@ public class EnumService {
 		return this.replaceEnum(newDurations, this.durationRepository, repositories, getDurations, setDurations, DurationEntity.class);
 	}
 
+	/**
+	 * This method replaces the values of the enum `gender` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `gender` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceGenders(Set<String> newGenders) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
@@ -185,6 +246,13 @@ public class EnumService {
 		return this.replaceEnum(newGenders, this.genderRepository, repositories, getGenders, setGenders, GenderEntity.class);
 	}
 
+	/**
+	 * This method replaces the values of the enum `language` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `language` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceLanguages(Set<String> newLanguages) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
@@ -200,6 +268,13 @@ public class EnumService {
 		return this.replaceEnum(newLanguages, this.languageRepository, repositories, getLanguages, setLanguages, LanguageEntity.class);
 	}
 
+	/**
+	 * This method replaces the values of the enum `maternityProtection` with the passed ones and
+	 * returns the updated enum.
+	 * 
+	 * @param newCycles The new values of the enum `maternityProtection` to replace the old ones with.
+	 * @return The updated enum.
+	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceMaternityProtections(Set<String> newMaternityProtections) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(

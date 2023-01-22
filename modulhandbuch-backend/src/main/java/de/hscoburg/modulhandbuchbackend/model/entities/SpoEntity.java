@@ -16,6 +16,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is the representation of the database table `spo`.
+ */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

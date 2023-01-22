@@ -26,6 +26,9 @@ import de.hscoburg.modulhandbuchbackend.repositories.ModuleManualRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 
+/**
+ * This class is a service for retrieving and updating enum values assciated with a module manual.
+ */
 @Data
 @Service
 public class ModuleManualEnumService {
@@ -114,6 +117,14 @@ public class ModuleManualEnumService {
 		return savedEnum;
 	}
 
+	/**
+	 * This method replaces the values of the enum `admissionRequirement` with the passed ones for a specified module manual and
+	 * returns the updated enum.
+	 * 
+	 * @param requirements The new values of the enum `admissionRequirment` to replace the old ones with.
+	 * @param moduleManualId The id of the module manual which the enum is associated with.
+	 * @return The updated enum.
+	 */
 	public List<EnumDTO> replaceRequirements(List<EnumDTO> requirements, Integer moduleManualId) {
 		Consumer<Integer> duplicateAdmissionRequirementsInRequestHandler = duplicateId -> {throw new DuplicateAdmissionRequirementsInRequestException(duplicateId);};
 		Consumer<Integer> admissionRequirmentNotFoundHandler = notFoundId -> {throw new AdmissionRequirementNotFoundException(notFoundId);};

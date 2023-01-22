@@ -29,7 +29,9 @@ import de.hscoburg.modulhandbuchbackend.services.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
+/**
+ * This class is a REST controller that handles requests sent to the `/modules` endpoint.
+ */
 @Data
 @AllArgsConstructor
 @RestController
@@ -42,12 +44,25 @@ public class ModuleManualController {
 	private final VariationService variationService;
 	private final ModulhandbuchBackendMapper modulhandbuchBackendMapper;
 	
+	/**
+	 * This method handles GET requests to the `/module-manuals` endpoint and returns a list of all module manuals.
+	 * 
+	 * @return A list of {@link ModuleManualDTO}.
+	 */
 	@GetMapping("")
 	public List<ModuleManualDTO> allModuleManuals() {
 		List<ModuleManualEntity> result = this.moduleManualRepository.findAll();
 		return result.stream().map(moduleManual -> modulhandbuchBackendMapper.map(moduleManual, ModuleManualDTO.class)).collect(Collectors.toList());
 	}
 
+	/**
+	 * This method handles GET requests to the `/module-manuals/{id}` endpoint where id is variable integer.
+	 * It then uses the id to find the mapped data set in the database. If it finds one, it returns it as a
+	 * {@link ModuleManualDTO}. If it does not find one, it throws a {@link ModuleManualNotFoundException}.
+	 * 
+	 * @param id The id of the module manual to be retrieved.
+	 * @return A {@link ModuleManualDTO} with the found data.
+	 */
 	@GetMapping("/{id}")
 	ModuleManualDTO oneModuleManual(@PathVariable Integer id) {
 		ModuleManualEntity result = this.moduleManualRepository.findById(id)
@@ -55,6 +70,12 @@ public class ModuleManualController {
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
 	}
 
+	/**
+	 * This method handles GET requests to the `/module-manuals/{id}/modules` endpoint where id is variable integer.
+	 * It then uses the id to find the mapped data set in the database. If it finds one, it returns a list of all modules and their variations mapped to this module manual. If it does not find one, it throws a {@link ModuleManualNotFoundException}.
+	 * 
+	 * @return A list of {@link ModuleManualVariationDTO} mapped to the module manual.
+	 */
 	@GetMapping("/{id}/modules")
 	public List<ModuleManualVariationDTO> allAssociatedModules(@PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)
@@ -64,6 +85,13 @@ public class ModuleManualController {
 		return result.stream().map(variation -> modulhandbuchBackendMapper.map(variation, ModuleManualVariationDTO.class)).collect(Collectors.toList());
 	}
 
+	/**
+	 * This method handles POST requests to the `/module-manuals` endpoint and creates a new module manual.
+	 * The data of the newly created module manual is then returned to the caller.
+	 * 
+	 * @param newModuleManual The object that is sent via the POST request.
+	 * @return A {@link ModuleManualDTO} with the data of the created module manual.
+	 */
 	@PostMapping("")
 	ModuleManualDTO newModuleManual(@RequestBody ModuleManualDTO newModuleManual) {
 		if (newModuleManual.getId() != null) {
@@ -91,6 +119,14 @@ public class ModuleManualController {
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
 	}
 
+	/**
+	 * This method handles PUT requests to the `/module-manuals` endpoint and updates an existing module manual.
+	 * The data of the updated module manual is then returned to the caller.
+	 * 
+	 * @param updatedModuleManual The object that is sent via the PUT request.
+	 * @param id The id to identify the module manual to update.
+	 * @return A {@link ModuleManualDTO} with the data of the updated module manual.
+	 */
 	@PutMapping("/{id}")
 	ModuleManualDTO replaceModuleManual(@RequestBody ModuleManualDTO updatedModuleManual, @PathVariable Integer id) {
 		this.moduleManualRepository.findById(id)
@@ -111,6 +147,15 @@ public class ModuleManualController {
 		return modulhandbuchBackendMapper.map(result, ModuleManualDTO.class);
 	}
 
+	/**
+	 * This method handles PUT requests to the `/module-manuals/{id}/modules` endpoint where id is variable integer.
+	 * It then uses the id to find the mapped data set in the database. If it finds one, it updates the mapped modules and their variations to this module manual. If it does not find one, it throws a {@link ModuleManualNotFoundException}.
+	 * The data of the updated module manual is then returned to the caller.
+	 * 
+	 * @param variations The object that is sent via the PUT request.
+	 * @param id The id to identify the module manual for the new mappings.
+	 * @return A list of the updated {@link ModuleManualVariationDTO} mapped to the module manual.
+	 */
 	@PutMapping("/{id}/modules")
 	public List<ModuleManualVariationDTO> replaceVariations(@RequestBody List<ModuleManualVariationDTO> variations, @PathVariable Integer id) {
 		ModuleManualEntity moduleManual = this.moduleManualRepository.findById(id)

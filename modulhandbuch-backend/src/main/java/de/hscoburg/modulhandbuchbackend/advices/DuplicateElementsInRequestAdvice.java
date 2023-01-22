@@ -9,9 +9,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import de.hscoburg.modulhandbuchbackend.exceptions.DuplicateElementsInRequestException;
 
+/**
+ * This class is a controller advice that will be applied to all controllers in the application.
+ */
 @ControllerAdvice
 public class DuplicateElementsInRequestAdvice {
 	
+	/**
+	 * This function will be called whenever an {@link DuplicateElementsInRequestException} is thrown. It will return a 422
+	 * status code and a plain text message with the exception message.
+	 * 
+	 * @param exception The exception that was thrown.
+	 * @return A {@link ResponseEntity} with a status of 422, a content type of text/plain, and a body containing
+	 * the exception message.
+	 */
 	@ExceptionHandler(DuplicateElementsInRequestException.class)
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	public ResponseEntity<String> duplicateElementsInRequestHandler(DuplicateElementsInRequestException exception) {

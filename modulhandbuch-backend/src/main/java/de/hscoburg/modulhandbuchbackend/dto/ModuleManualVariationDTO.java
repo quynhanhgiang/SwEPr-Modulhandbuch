@@ -2,6 +2,9 @@ package de.hscoburg.modulhandbuchbackend.dto;
 
 import lombok.Data;
 
+/**
+ * This class is a data transfer object (DTO) for a variation in a module manual.
+ */
 @Data
 public class ModuleManualVariationDTO {
 	private ModuleFlatDTO module;
