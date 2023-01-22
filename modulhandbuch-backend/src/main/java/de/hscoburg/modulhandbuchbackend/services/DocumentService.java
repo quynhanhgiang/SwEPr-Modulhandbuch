@@ -32,10 +32,10 @@ public class DocumentService {
 	@Getter(value = AccessLevel.NONE)
 	private final ModuloProperties moduloProperties;
 
-
 	/**
 	 * This method returns a {@link FileInfoDTO} object containing
-	 * the file name, the link to the file and the timestamp of the creation time of the file.
+	 * the file name, the link to the file and the timestamp of the creation time of
+	 * the file.
 	 * 
 	 * @param link The relative path to the file.
 	 * @return A {@link FileInfoDTO} object.
@@ -51,9 +51,11 @@ public class DocumentService {
 
 	/**
 	 * This method returns a {@link FileInfoDTO} object containing
-	 * the file name, the link to the file and the timestamp of the creation time of the file.
+	 * the file name, the link to the file and the timestamp of the creation time of
+	 * the file.
 	 * 
-	 * @param relativePathToDocument The path to the file relative to the files directory.
+	 * @param relativePathToDocument The path to the file relative to the files
+	 *                               directory.
 	 * @return A {@link FileInfoDTO} object.
 	 */
 	public FileInfoDTO getDocumentInfoFromPath(Path relativePathToDocument) throws IOException {
@@ -83,9 +85,11 @@ public class DocumentService {
 	}
 
 	/**
-	 * This method validates that the content type of the passed file is in the set of allowed content types. Otherwise throw a {@link UnsupportedMediaTypeStatusException}.
+	 * This method validates that the content type of the passed file is in the set
+	 * of allowed content types. Otherwise throw a
+	 * {@link UnsupportedMediaTypeStatusException}.
 	 * 
-	 * @param file The file for validating the content type. 
+	 * @param file                The file for validating the content type.
 	 * @param allowedContentTypes A set of allowed content types.
 	 */
 	public void validateContentType(MultipartFile file, Set<MediaType> allowedContentTypes) {
@@ -101,9 +105,10 @@ public class DocumentService {
 	}
 
 	/**
-	 * This method is used to save a file at the given path relative to the files directory.
+	 * This method is used to save a file at the given path relative to the files
+	 * directory.
 	 * 
-	 * @param file The file to save.
+	 * @param file         The file to save.
 	 * @param relativePath The path to the file relative to the files directory.
 	 */
 	public void saveDocument(MultipartFile file, Path relativePath) throws IOException {

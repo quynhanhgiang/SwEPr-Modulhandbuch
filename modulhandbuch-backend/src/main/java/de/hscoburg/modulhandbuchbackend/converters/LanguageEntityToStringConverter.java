@@ -8,7 +8,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.LanguageEntity;
  * This class converts a {@link LanguageEntity} to a {@link String}.
  */
 public class LanguageEntityToStringConverter extends AbstractConverter<LanguageEntity, String> {
-	
+
 	/**
 	 * This method converts a {@link LanguageEntity} to a {@link String}.
 	 * 
@@ -20,7 +20,7 @@ public class LanguageEntityToStringConverter extends AbstractConverter<LanguageE
 		if (source == null) {
 			return null;
 		}
-		
+
 		return source.getValue();
 	}
 }

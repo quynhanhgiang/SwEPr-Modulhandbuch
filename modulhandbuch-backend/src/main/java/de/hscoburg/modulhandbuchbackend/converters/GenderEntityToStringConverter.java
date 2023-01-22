@@ -8,7 +8,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.GenderEntity;
  * This class converts a {@link GenderEntity} to a {@link String}.
  */
 public class GenderEntityToStringConverter extends AbstractConverter<GenderEntity, String> {
-	
+
 	/**
 	 * This method converts a {@link GenderEntity} to a {@link String}.
 	 * 
@@ -20,7 +20,7 @@ public class GenderEntityToStringConverter extends AbstractConverter<GenderEntit
 		if (source == null) {
 			return null;
 		}
-		
+
 		return source.getValue();
 	}
 }

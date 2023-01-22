@@ -8,7 +8,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.DurationEntity;
  * This class converts a {@link DurationEntity} to a {@link String}.
  */
 public class DurationEntityToStringConverter extends AbstractConverter<DurationEntity, String> {
-	
+
 	/**
 	 * This method converts a {@link DurationEntity} to a {@link String}.
 	 * 
@@ -20,7 +20,7 @@ public class DurationEntityToStringConverter extends AbstractConverter<DurationE
 		if (source == null) {
 			return null;
 		}
-		
+
 		return source.getValue();
 	}
 }

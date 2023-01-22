@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * types.
  */
 public class DuplicateModuleTypesInRequestException extends DuplicateElementsInRequestException {
-	
+
 	public DuplicateModuleTypesInRequestException(Integer id) {
 		super(id, "Module type");
 	}

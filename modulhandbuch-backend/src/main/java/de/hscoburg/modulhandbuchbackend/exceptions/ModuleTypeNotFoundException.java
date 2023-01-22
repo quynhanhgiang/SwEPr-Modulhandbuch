@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * not found.
  */
 public class ModuleTypeNotFoundException extends ElementNotFoundException {
-	
+
 	public ModuleTypeNotFoundException(Integer id) {
 		super(id, "Module type");
 	}

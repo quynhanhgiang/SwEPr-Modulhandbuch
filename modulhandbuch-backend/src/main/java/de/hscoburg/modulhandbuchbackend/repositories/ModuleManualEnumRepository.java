@@ -10,7 +10,8 @@ import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEntity;
 import de.hscoburg.modulhandbuchbackend.model.entities.ModuleManualEnumEntity;
 
 /**
- * This class is the interface for the database communication regarding enums for a module manual.
+ * This class is the interface for the database communication regarding enums
+ * for a module manual.
  */
 @NoRepositoryBean
 public interface ModuleManualEnumRepository<T extends ModuleManualEnumEntity<T>> extends EnumRepository<T> {

@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * not found.
  */
 public class SegmentNotFoundException extends ElementNotFoundException {
-	
+
 	public SegmentNotFoundException(Integer id) {
 		super(id, "Segment");
 	}

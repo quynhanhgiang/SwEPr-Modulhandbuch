@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToMaternityProtectionEntityConverter extends AbstractConverter<String, MaternityProtectionEntity> {
 	private final MaternityProtectionRepository maternityProtectionRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link MaternityProtectionEntity}.
 	 * 
@@ -23,7 +23,8 @@ public class StringToMaternityProtectionEntityConverter extends AbstractConverte
 	 */
 	@Override
 	public MaternityProtectionEntity convert(String source) {
-		List<MaternityProtectionEntity> maternityProtectionList = this.maternityProtectionRepository.findByValue(source);
+		List<MaternityProtectionEntity> maternityProtectionList = this.maternityProtectionRepository
+				.findByValue(source);
 		if (maternityProtectionList.isEmpty()) {
 			return null;
 		}

@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import de.hscoburg.modulhandbuchbackend.model.entities.CollegeEmployeeEntity;
 
 /**
- * This class is the interface for the database communication regarding {@link CollegeEmployeeEntity}.
+ * This class is the interface for the database communication regarding
+ * {@link CollegeEmployeeEntity}.
  */
 public interface CollegeEmployeeRepository extends JpaRepository<CollegeEmployeeEntity, Integer> {
 	List<CollegeEmployeeEntity> findByEmail(String email);

@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * not found.
  */
 public class SpoNotFoundException extends ElementNotFoundException {
-	
+
 	public SpoNotFoundException(Integer id) {
 		super(id, "Spo");
 	}

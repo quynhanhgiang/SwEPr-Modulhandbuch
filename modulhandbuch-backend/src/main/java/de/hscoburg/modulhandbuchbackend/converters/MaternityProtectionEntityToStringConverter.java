@@ -8,7 +8,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.MaternityProtectionEntity
  * This class converts a {@link MaternityProtectionEntity} to a {@link String}.
  */
 public class MaternityProtectionEntityToStringConverter extends AbstractConverter<MaternityProtectionEntity, String> {
-	
+
 	/**
 	 * This method converts a {@link MaternityProtectionEntity} to a {@link String}.
 	 * 
@@ -20,7 +20,7 @@ public class MaternityProtectionEntityToStringConverter extends AbstractConverte
 		if (source == null) {
 			return null;
 		}
-		
+
 		return source.getValue();
 	}
 }

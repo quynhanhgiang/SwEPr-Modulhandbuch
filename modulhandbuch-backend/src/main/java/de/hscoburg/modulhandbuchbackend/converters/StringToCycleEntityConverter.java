@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToCycleEntityConverter extends AbstractConverter<String, CycleEntity> {
 	private final CycleRepository cycleRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link CycleEntity}.
 	 * 

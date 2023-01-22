@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * not found.
  */
 public class ModuleManualNotFoundException extends ElementNotFoundException {
-	
+
 	public ModuleManualNotFoundException(Integer id) {
 		super(id, "Module manual");
 	}

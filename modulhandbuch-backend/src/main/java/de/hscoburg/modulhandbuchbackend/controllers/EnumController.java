@@ -23,7 +23,8 @@ public class EnumController {
 	private final EnumService enumService;
 
 	/**
-	 * This method handles GET requests to the `/cycles` endpoint and returns a set of strings which represent all the possible values of the enum `cycle`.
+	 * This method handles GET requests to the `/cycles` endpoint and returns a set
+	 * of strings which represent all the possible values of the enum `cycle`.
 	 * 
 	 * @return A set of strings representing the enum `cycle`.
 	 */
@@ -33,7 +34,8 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles GET requests to the `/degrees` endpoint and returns a set of strings which represent all the possible values of the enum `degree`.
+	 * This method handles GET requests to the `/degrees` endpoint and returns a set
+	 * of strings which represent all the possible values of the enum `degree`.
 	 * 
 	 * @return A set of strings representing the enum `degree`.
 	 */
@@ -42,8 +44,10 @@ public class EnumController {
 		return this.enumService.allDegrees();
 	}
 
-		/**
-	 * This method handles GET requests to the `/durations` endpoint and returns a set of strings which represent all the possible values of the enum `duration`.
+	/**
+	 * This method handles GET requests to the `/durations` endpoint and returns a
+	 * set of strings which represent all the possible values of the enum
+	 * `duration`.
 	 * 
 	 * @return A set of strings representing the enum `duration`.
 	 */
@@ -52,8 +56,9 @@ public class EnumController {
 		return this.enumService.allDurations();
 	}
 
-		/**
-	 * This method handles GET requests to the `/genders` endpoint and returns a set of strings which represent all the possible values of the enum `gender`.
+	/**
+	 * This method handles GET requests to the `/genders` endpoint and returns a set
+	 * of strings which represent all the possible values of the enum `gender`.
 	 * 
 	 * @return A set of strings representing the enum `gender`.
 	 */
@@ -63,7 +68,9 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles GET requests to the `/languages` endpoint and returns a set of strings which represent all the possible values of the enum `language`.
+	 * This method handles GET requests to the `/languages` endpoint and returns a
+	 * set of strings which represent all the possible values of the enum
+	 * `language`.
 	 * 
 	 * @return A set of strings representing the enum `language`.
 	 */
@@ -71,9 +78,11 @@ public class EnumController {
 	public Set<String> allLanguages() {
 		return this.enumService.allLanguages();
 	}
-	
+
 	/**
-	 * This method handles GET requests to the `/maternity-protections` endpoint and returns a set of strings which represent all the possible values of the enum `maternityProtection`.
+	 * This method handles GET requests to the `/maternity-protections` endpoint and
+	 * returns a set of strings which represent all the possible values of the enum
+	 * `maternityProtection`.
 	 * 
 	 * @return A set of strings representing the enum `maternityProtection`.
 	 */
@@ -83,9 +92,12 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles PUT requests to the `/cycles` endpoint and replaces the current values of the enum `cycle` with new values. It then returns a set of strings which represent the updated enum.
+	 * This method handles PUT requests to the `/cycles` endpoint and replaces the
+	 * current values of the enum `cycle` with new values. It then returns a set of
+	 * strings which represent the updated enum.
 	 * 
-	 * @param newCycles A set with the new values for enum `cycle` to replace the existing enum with.
+	 * @param newCycles A set with the new values for enum `cycle` to replace the
+	 *                  existing enum with.
 	 * @return A set of strings representing the updated enum `cycle`.
 	 */
 	@PutMapping("/cycles")
@@ -94,9 +106,12 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles PUT requests to the `/degrees` endpoint and replaces the current values of the enum `degree` with new values. It then returns a set of strings which represent the updated enum.
+	 * This method handles PUT requests to the `/degrees` endpoint and replaces the
+	 * current values of the enum `degree` with new values. It then returns a set of
+	 * strings which represent the updated enum.
 	 * 
-	 * @param newDegrees A set with the new values for enum `degree` to replace the existing enum with.
+	 * @param newDegrees A set with the new values for enum `degree` to replace the
+	 *                   existing enum with.
 	 * @return A set of strings representing the updated enum `degree`.
 	 */
 	@PutMapping("/degrees")
@@ -105,9 +120,12 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles PUT requests to the `/durations` endpoint and replaces the current values of the enum `duration` with new values. It then returns a set of strings which represent the updated enum.
+	 * This method handles PUT requests to the `/durations` endpoint and replaces
+	 * the current values of the enum `duration` with new values. It then returns a
+	 * set of strings which represent the updated enum.
 	 * 
-	 * @param newDurations A set with the new values for enum `duration` to replace the existing enum with.
+	 * @param newDurations A set with the new values for enum `duration` to replace
+	 *                     the existing enum with.
 	 * @return A set of strings representing the updated enum `duration`.
 	 */
 	@PutMapping("/durations")
@@ -116,9 +134,12 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles PUT requests to the `/genders` endpoint and replaces the current values of the enum `gender` with new values. It then returns a set of strings which represent the updated enum.
+	 * This method handles PUT requests to the `/genders` endpoint and replaces the
+	 * current values of the enum `gender` with new values. It then returns a set of
+	 * strings which represent the updated enum.
 	 * 
-	 * @param newGenders A set with the new values for enum `gender` to replace the existing enum with.
+	 * @param newGenders A set with the new values for enum `gender` to replace the
+	 *                   existing enum with.
 	 * @return A set of strings representing the updated enum `gender`.
 	 */
 	@PutMapping("/genders")
@@ -127,9 +148,12 @@ public class EnumController {
 	}
 
 	/**
-	 * This method handles PUT requests to the `/languages` endpoint and replaces the current values of the enum `language` with new values. It then returns a set of strings which represent the updated enum.
+	 * This method handles PUT requests to the `/languages` endpoint and replaces
+	 * the current values of the enum `language` with new values. It then returns a
+	 * set of strings which represent the updated enum.
 	 * 
-	 * @param newLanguages A set with the new values for enum `language` to replace the existing enum with.
+	 * @param newLanguages A set with the new values for enum `language` to replace
+	 *                     the existing enum with.
 	 * @return A set of strings representing the updated enum `language`.
 	 */
 	@PutMapping("/languages")
@@ -137,10 +161,14 @@ public class EnumController {
 		return this.enumService.replaceLanguages(newLanguages);
 	}
 
-		/**
-	 * This method handles PUT requests to the `/maternity-protections` endpoint and replaces the current values of the enum `maternityProtection` with new values. It then returns a set of strings which represent the updated enum.
+	/**
+	 * This method handles PUT requests to the `/maternity-protections` endpoint and
+	 * replaces the current values of the enum `maternityProtection` with new
+	 * values. It then returns a set of strings which represent the updated enum.
 	 * 
-	 * @param newMaternityProtections A set with the new values for enum `maternityProtection` to replace the existing enum with.
+	 * @param newMaternityProtections A set with the new values for enum
+	 *                                `maternityProtection` to replace the existing
+	 *                                enum with.
 	 * @return A set of strings representing the updated enum `maternityProtection`.
 	 */
 	@PutMapping("/maternity-protections")

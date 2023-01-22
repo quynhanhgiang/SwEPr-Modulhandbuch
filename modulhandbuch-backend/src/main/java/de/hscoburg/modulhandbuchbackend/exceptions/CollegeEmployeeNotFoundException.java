@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * not found.
  */
 public class CollegeEmployeeNotFoundException extends ElementNotFoundException {
-	
+
 	public CollegeEmployeeNotFoundException(Integer id) {
 		super(id, "College employee");
 	}

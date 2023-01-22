@@ -8,7 +8,7 @@ import de.hscoburg.modulhandbuchbackend.model.entities.DegreeEntity;
  * This class converts a {@link DegreeEntity} to a {@link String}.
  */
 public class DegreeEntityToStringConverter extends AbstractConverter<DegreeEntity, String> {
-	
+
 	/**
 	 * This method converts a {@link DegreeEntity} to a {@link String}.
 	 * 
@@ -20,7 +20,7 @@ public class DegreeEntityToStringConverter extends AbstractConverter<DegreeEntit
 		if (source == null) {
 			return null;
 		}
-		
+
 		return source.getValue();
 	}
 }

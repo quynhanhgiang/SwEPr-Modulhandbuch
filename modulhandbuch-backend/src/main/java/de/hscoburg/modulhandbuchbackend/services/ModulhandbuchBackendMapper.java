@@ -26,12 +26,16 @@ import de.hscoburg.modulhandbuchbackend.repositories.LanguageRepository;
 import de.hscoburg.modulhandbuchbackend.repositories.MaternityProtectionRepository;
 
 /**
- * This class is an extension of {@link ModelMapper} with the addition of custom converters.
+ * This class is an extension of {@link ModelMapper} with the addition of custom
+ * converters.
  */
 @Service
 public class ModulhandbuchBackendMapper extends ModelMapper {
 
-	public ModulhandbuchBackendMapper(AdmissionRequirementRepository admissionRequirementRepository, CycleRepository cycleRepository, DegreeRepository degreeRepository, DurationRepository durationRepository, GenderRepository genderRepository, LanguageRepository languageRepository, MaternityProtectionRepository maternityProtectionRepository) {
+	public ModulhandbuchBackendMapper(AdmissionRequirementRepository admissionRequirementRepository,
+			CycleRepository cycleRepository, DegreeRepository degreeRepository, DurationRepository durationRepository,
+			GenderRepository genderRepository, LanguageRepository languageRepository,
+			MaternityProtectionRepository maternityProtectionRepository) {
 		super();
 		super.addConverter(new AdmissionRequirementEntityToStringConverter());
 		super.addConverter(new CycleEntityToStringConverter());

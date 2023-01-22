@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToDegreeEntityConverter extends AbstractConverter<String, DegreeEntity> {
 	private final DegreeRepository degreeRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link DegreeEntity}.
 	 * 

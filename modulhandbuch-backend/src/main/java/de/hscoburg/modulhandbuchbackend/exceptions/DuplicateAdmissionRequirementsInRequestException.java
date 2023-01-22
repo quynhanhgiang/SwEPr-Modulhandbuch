@@ -5,7 +5,7 @@ package de.hscoburg.modulhandbuchbackend.exceptions;
  * requirements.
  */
 public class DuplicateAdmissionRequirementsInRequestException extends DuplicateElementsInRequestException {
-	
+
 	public DuplicateAdmissionRequirementsInRequestException(Integer id) {
 		super(id, "Admission requirement");
 	}

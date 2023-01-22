@@ -53,8 +53,8 @@ public class EnumService {
 
 	private <T extends EnumEntity<T>> Set<String> getAllAsStringSet(EnumRepository<T> repository) {
 		return repository.findAll().stream()
-			.map(element -> this.modulhandbuchBackendMapper.map(element, String.class))
-			.collect(Collectors.toSet());
+				.map(element -> this.modulhandbuchBackendMapper.map(element, String.class))
+				.collect(Collectors.toSet());
 	}
 
 	/**
@@ -101,9 +101,10 @@ public class EnumService {
 	public Set<String> allLanguages() {
 		return this.getAllAsStringSet(this.languageRepository);
 	}
-	
+
 	/**
-	 * This method returns a set of all the values of the enum `maternityProtection`.
+	 * This method returns a set of all the values of the enum
+	 * `maternityProtection`.
 	 * 
 	 * @return A set of all the values of the enum `maternityProtection`.
 	 */
@@ -117,8 +118,10 @@ public class EnumService {
 		return enumDTO;
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	private <T extends EnumEntity<T>> Set<String> replaceEnum(Set<String> newEnum, EnumRepository<T> enumRepository, Map<Class<?>, JpaRepository> repositories, Map<Class<?>, Function<Object, T>> getEnums, Map<Class<?>, BiConsumer<Object, T>> setEnums, Class<T> enumEntityClass) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private <T extends EnumEntity<T>> Set<String> replaceEnum(Set<String> newEnum, EnumRepository<T> enumRepository,
+			Map<Class<?>, JpaRepository> repositories, Map<Class<?>, Function<Object, T>> getEnums,
+			Map<Class<?>, BiConsumer<Object, T>> setEnums, Class<T> enumEntityClass) {
 		// remove all null values in given list
 		newEnum.removeIf(element -> (element == null));
 
@@ -130,14 +133,17 @@ public class EnumService {
 			BiConsumer<Object, T> setEnumElement = setEnums.get(key);
 
 			List<?> entities = repository.findAll();
-			
+
 			entities.stream()
-				// filter enum entities for deletion
-				.filter(entity -> !newEnum.contains(getEnumElement.apply(entity).getValue()))
-				// remove mapping for enum element
-				.peek(entity -> setEnumElement.accept(entity, null))
-				// TODO error handling: throw custom exception with repository.getClass().getSimpleName() and getEnumElement.apply(entity).getValue() if entity cannot be saved due to null constraint
-				.forEach(entity -> repository.save(entity));
+					// filter enum entities for deletion
+					.filter(entity -> !newEnum.contains(getEnumElement.apply(entity).getValue()))
+					// remove mapping for enum element
+					.peek(entity -> setEnumElement.accept(entity, null))
+					// TODO error handling: throw custom exception with
+					// repository.getClass().getSimpleName() and
+					// getEnumElement.apply(entity).getValue() if entity cannot be saved due to null
+					// constraint
+					.forEach(entity -> repository.save(entity));
 		}
 
 		// delete elements in database which are not in new enum
@@ -147,13 +153,13 @@ public class EnumService {
 				enumRepository.delete(enumElement);
 			}
 		}
-		
+
 		// save all new enum elements
 		newEnum.stream()
-			.filter(element -> !enumRepository.existsByValue(element))
-			.map(element -> this.getEnumDTOFromString(element))
-			.map(element -> this.modulhandbuchBackendMapper.map(element, enumEntityClass))
-			.forEach(element -> enumRepository.save(element));
+				.filter(element -> !enumRepository.existsByValue(element))
+				.map(element -> this.getEnumDTOFromString(element))
+				.map(element -> this.modulhandbuchBackendMapper.map(element, enumEntityClass))
+				.forEach(element -> enumRepository.save(element));
 
 		return newEnum;
 	}
@@ -162,20 +168,18 @@ public class EnumService {
 	 * This method replaces the values of the enum `cycle` with the passed ones and
 	 * returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `cycle` to replace the old ones with.
+	 * @param newCycles The new values of the enum `cycle` to replace the old ones
+	 *                  with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceCycles(Set<String> newCycles) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			ModuleEntity.class, this.moduleRepository
-		);
+				ModuleEntity.class, this.moduleRepository);
 		Map<Class<?>, Function<Object, CycleEntity>> getCycles = Map.of(
-			ModuleEntity.class, module -> ((ModuleEntity) module).getCycle()
-		);
+				ModuleEntity.class, module -> ((ModuleEntity) module).getCycle());
 		Map<Class<?>, BiConsumer<Object, CycleEntity>> setCycles = Map.of(
-			ModuleEntity.class, (module, cycle) -> ((ModuleEntity) module).setCycle(cycle)
-		);
+				ModuleEntity.class, (module, cycle) -> ((ModuleEntity) module).setCycle(cycle));
 
 		return this.replaceEnum(newCycles, this.cycleRepository, repositories, getCycles, setCycles, CycleEntity.class);
 	}
@@ -184,109 +188,106 @@ public class EnumService {
 	 * This method replaces the values of the enum `degree` with the passed ones and
 	 * returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `degree` to replace the old ones with.
+	 * @param newCycles The new values of the enum `degree` to replace the old ones
+	 *                  with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceDegrees(Set<String> newDegrees) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			SpoEntity.class, this.spoRepository
-		);
+				SpoEntity.class, this.spoRepository);
 		Map<Class<?>, Function<Object, DegreeEntity>> getDegrees = Map.of(
-			SpoEntity.class, spo -> ((SpoEntity) spo).getDegree()
-		);
+				SpoEntity.class, spo -> ((SpoEntity) spo).getDegree());
 		Map<Class<?>, BiConsumer<Object, DegreeEntity>> setDegrees = Map.of(
-			SpoEntity.class, (spo, degree) -> ((SpoEntity) spo).setDegree(degree)
-		);
+				SpoEntity.class, (spo, degree) -> ((SpoEntity) spo).setDegree(degree));
 
-		return this.replaceEnum(newDegrees, this.degreeRepository, repositories, getDegrees, setDegrees, DegreeEntity.class);
+		return this.replaceEnum(newDegrees, this.degreeRepository, repositories, getDegrees, setDegrees,
+				DegreeEntity.class);
 	}
 
 	/**
-	 * This method replaces the values of the enum `duration` with the passed ones and
-	 * returns the updated enum.
+	 * This method replaces the values of the enum `duration` with the passed ones
+	 * and returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `duration` to replace the old ones with.
+	 * @param newCycles The new values of the enum `duration` to replace the old
+	 *                  ones with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceDuration(Set<String> newDurations) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			ModuleEntity.class, this.moduleRepository
-		);
+				ModuleEntity.class, this.moduleRepository);
 		Map<Class<?>, Function<Object, DurationEntity>> getDurations = Map.of(
-			ModuleEntity.class, module -> ((ModuleEntity) module).getDuration()
-		);
+				ModuleEntity.class, module -> ((ModuleEntity) module).getDuration());
 		Map<Class<?>, BiConsumer<Object, DurationEntity>> setDurations = Map.of(
-			ModuleEntity.class, (module, duration) -> ((ModuleEntity) module).setDuration(duration)
-		);
+				ModuleEntity.class, (module, duration) -> ((ModuleEntity) module).setDuration(duration));
 
-		return this.replaceEnum(newDurations, this.durationRepository, repositories, getDurations, setDurations, DurationEntity.class);
+		return this.replaceEnum(newDurations, this.durationRepository, repositories, getDurations, setDurations,
+				DurationEntity.class);
 	}
 
 	/**
 	 * This method replaces the values of the enum `gender` with the passed ones and
 	 * returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `gender` to replace the old ones with.
+	 * @param newCycles The new values of the enum `gender` to replace the old ones
+	 *                  with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceGenders(Set<String> newGenders) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			CollegeEmployeeEntity.class, this.collegeEmployeeRepository
-		);
+				CollegeEmployeeEntity.class, this.collegeEmployeeRepository);
 		Map<Class<?>, Function<Object, GenderEntity>> getGenders = Map.of(
-			CollegeEmployeeEntity.class, collegeEmployee -> ((CollegeEmployeeEntity) collegeEmployee).getGender()
-		);
+				CollegeEmployeeEntity.class, collegeEmployee -> ((CollegeEmployeeEntity) collegeEmployee).getGender());
 		Map<Class<?>, BiConsumer<Object, GenderEntity>> setGenders = Map.of(
-			CollegeEmployeeEntity.class, (collegeEmployee, gender) -> ((CollegeEmployeeEntity) collegeEmployee).setGender(gender)
-		);
+				CollegeEmployeeEntity.class,
+				(collegeEmployee, gender) -> ((CollegeEmployeeEntity) collegeEmployee).setGender(gender));
 
-		return this.replaceEnum(newGenders, this.genderRepository, repositories, getGenders, setGenders, GenderEntity.class);
+		return this.replaceEnum(newGenders, this.genderRepository, repositories, getGenders, setGenders,
+				GenderEntity.class);
 	}
 
 	/**
-	 * This method replaces the values of the enum `language` with the passed ones and
-	 * returns the updated enum.
+	 * This method replaces the values of the enum `language` with the passed ones
+	 * and returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `language` to replace the old ones with.
+	 * @param newCycles The new values of the enum `language` to replace the old
+	 *                  ones with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceLanguages(Set<String> newLanguages) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			ModuleEntity.class, this.moduleRepository
-		);
+				ModuleEntity.class, this.moduleRepository);
 		Map<Class<?>, Function<Object, LanguageEntity>> getLanguages = Map.of(
-			ModuleEntity.class, module -> ((ModuleEntity) module).getLanguage()
-		);
+				ModuleEntity.class, module -> ((ModuleEntity) module).getLanguage());
 		Map<Class<?>, BiConsumer<Object, LanguageEntity>> setLanguages = Map.of(
-			ModuleEntity.class, (module, language) -> ((ModuleEntity) module).setLanguage(language)
-		);
+				ModuleEntity.class, (module, language) -> ((ModuleEntity) module).setLanguage(language));
 
-		return this.replaceEnum(newLanguages, this.languageRepository, repositories, getLanguages, setLanguages, LanguageEntity.class);
+		return this.replaceEnum(newLanguages, this.languageRepository, repositories, getLanguages, setLanguages,
+				LanguageEntity.class);
 	}
 
 	/**
-	 * This method replaces the values of the enum `maternityProtection` with the passed ones and
-	 * returns the updated enum.
+	 * This method replaces the values of the enum `maternityProtection` with the
+	 * passed ones and returns the updated enum.
 	 * 
-	 * @param newCycles The new values of the enum `maternityProtection` to replace the old ones with.
+	 * @param newCycles The new values of the enum `maternityProtection` to replace
+	 *                  the old ones with.
 	 * @return The updated enum.
 	 */
 	@SuppressWarnings("rawtypes")
 	public Set<String> replaceMaternityProtections(Set<String> newMaternityProtections) {
 		Map<Class<?>, JpaRepository> repositories = Map.of(
-			ModuleEntity.class, this.moduleRepository
-		);
+				ModuleEntity.class, this.moduleRepository);
 		Map<Class<?>, Function<Object, MaternityProtectionEntity>> getMaternityProtections = Map.of(
-			ModuleEntity.class, module -> ((ModuleEntity) module).getMaternityProtection()
-		);
+				ModuleEntity.class, module -> ((ModuleEntity) module).getMaternityProtection());
 		Map<Class<?>, BiConsumer<Object, MaternityProtectionEntity>> setMaternityProtections = Map.of(
-			ModuleEntity.class, (module, maternityProtection) -> ((ModuleEntity) module).setMaternityProtection(maternityProtection)
-		);
+				ModuleEntity.class,
+				(module, maternityProtection) -> ((ModuleEntity) module).setMaternityProtection(maternityProtection));
 
-		return this.replaceEnum(newMaternityProtections, this.maternityProtectionRepository, repositories, getMaternityProtections, setMaternityProtections, MaternityProtectionEntity.class);
+		return this.replaceEnum(newMaternityProtections, this.maternityProtectionRepository, repositories,
+				getMaternityProtections, setMaternityProtections, MaternityProtectionEntity.class);
 	}
 }

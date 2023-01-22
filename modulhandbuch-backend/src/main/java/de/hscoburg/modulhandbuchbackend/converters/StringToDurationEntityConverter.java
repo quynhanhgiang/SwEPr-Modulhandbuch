@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToDurationEntityConverter extends AbstractConverter<String, DurationEntity> {
 	private final DurationRepository durationRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link DurationEntity}.
 	 * 

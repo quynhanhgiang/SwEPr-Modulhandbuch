@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToGenderEntityConverter extends AbstractConverter<String, GenderEntity> {
 	private final GenderRepository genderRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link GenderEntity}.
 	 * 

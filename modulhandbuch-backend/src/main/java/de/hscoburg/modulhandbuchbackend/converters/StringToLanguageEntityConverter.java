@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StringToLanguageEntityConverter extends AbstractConverter<String, LanguageEntity> {
 	private final LanguageRepository languageRepository;
-	
+
 	/**
 	 * This method converts a {@link String} to a {@link LanguageEntity}.
 	 * 

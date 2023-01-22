@@ -25,7 +25,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "module_manual")
 public class ModuleManualEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_unique_id")

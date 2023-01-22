@@ -15,7 +15,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class is the representation of the database table `module_manual_has_module`.
+ * This class is the representation of the database table
+ * `module_manual_has_module`.
  */
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

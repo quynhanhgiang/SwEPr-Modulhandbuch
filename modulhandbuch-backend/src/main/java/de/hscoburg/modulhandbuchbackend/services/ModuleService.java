@@ -17,7 +17,8 @@ import de.hscoburg.modulhandbuchbackend.repositories.VariationRepository;
 import lombok.Data;
 
 /**
- * This class is a service for recuring tasks regarding {@link ModuleEntity} and {@link de.hscoburg.modulhandbuchbackend.dto.ModuleDTO}.
+ * This class is a service for recuring tasks regarding {@link ModuleEntity} and
+ * {@link de.hscoburg.modulhandbuchbackend.dto.ModuleDTO}.
  */
 @Data
 @Service
@@ -45,11 +46,11 @@ public class ModuleService {
 
 		if (newVariations != null) {
 			List<VariationEntity> newVariationsCleaned = newVariations.stream()
-				.peek(variation -> variation.setModule(result))
-				.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
-				.filter(variationEntity -> (variationEntity != null))
-				.map(variation -> this.variationRepository.save(variation))
-				.collect(Collectors.toList());
+					.peek(variation -> variation.setModule(result))
+					.map(variationEntity -> this.variationService.cleanEntity(variationEntity))
+					.filter(variationEntity -> (variationEntity != null))
+					.map(variation -> this.variationRepository.save(variation))
+					.collect(Collectors.toList());
 
 			result.setVariations(newVariationsCleaned);
 		}
@@ -70,16 +71,15 @@ public class ModuleService {
 
 		Integer moduleOwnerId = module.getModuleOwner().getId();
 		module.setModuleOwner(
-			this.collegeEmployeeRepository.findById(moduleOwnerId)
-				.orElseThrow(() -> new CollegeEmployeeNotFoundException(moduleOwnerId))
-		);
+				this.collegeEmployeeRepository.findById(moduleOwnerId)
+						.orElseThrow(() -> new CollegeEmployeeNotFoundException(moduleOwnerId)));
 
 		if (module.getProfs() != null) {
 			List<CollegeEmployeeEntity> updatedProfs = module.getProfs().stream()
-				.filter(prof -> (prof.getId() != null))
-				.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElse(null))
-				.filter(prof -> (prof != null))
-				.collect(Collectors.toList());
+					.filter(prof -> (prof.getId() != null))
+					.map(prof -> this.collegeEmployeeRepository.findById(prof.getId()).orElse(null))
+					.filter(prof -> (prof != null))
+					.collect(Collectors.toList());
 
 			module.setProfs(updatedProfs);
 		}
